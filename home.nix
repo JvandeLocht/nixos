@@ -23,6 +23,7 @@
      #   # onChange = builtins.readFile ./nvim.sh; 
      # };
      
+     #AstroNvim
      ".config/nvim" = {
       source = pkgs.fetchFromGitHub {
         owner = "AstroNvim";
@@ -33,13 +34,24 @@
       recursive = true;
      };
 
+     #AstroNvim
+     ".config/nvim/lua/user" = {
+      source = pkgs.fetchFromGitHub {
+        owner = "JvandeLocht";
+        repo = "AstroNvimUser";
+        rev = "2af1ed3";
+        sha256 = "iH/QU5+omhsOgmyUxWOYmhFIW06hJj7Bqqa4GXWFhys=";
+      };
+      recursive = true;
+     };
+
    };
 
   # basic configuration of git, please change to your own
   programs.git = {
     enable = true;
     userName = "Jan van de Locht";
-    userEmail = "jan@vandelocht.uk";
+    userEmail = "jan.vandelocht@startmail.com";
   };
 
   # Packages that should be installed to the user profile.
