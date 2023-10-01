@@ -1,0 +1,68 @@
+{
+  "nodes": {
+    "astronvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1696006186,
+        "narHash": "sha256-0AbAs8MEbezmo4hnMHZzpgUWaV1xN55fr8RmSdhUDTA=",
+        "ref": "refs/heads/main",
+        "rev": "16e267c77847e9365f49a0424c758844fec976be",
+        "revCount": 1575,
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/AstroNvim/AstroNvim"
+      },
+      "original": {
+        "submodules": true,
+        "type": "git",
+        "url": "https://github.com/AstroNvim/AstroNvim"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1695108154,
+        "narHash": "sha256-gSg7UTVtls2yO9lKtP0yb66XBHT1Fx5qZSZbGMpSn2c=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "07682fff75d41f18327a871088d20af2710d4744",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "ref": "release-23.05",
+        "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1696092309,
+        "narHash": "sha256-2+LLZ+75W0kqs9jI/X8hBAYcDtmcZUj3aNdlx13HeTA=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "05b4913f8edaa8814b29f51805c564256e77804d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "release-23.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "astronvim": "astronvim",
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
