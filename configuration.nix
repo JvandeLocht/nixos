@@ -13,6 +13,11 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  
+  # Setup keyfile
+  boot.initrd.secrets = {
+"/crypto_keyfile.bin" = null;
+};
 
   networking.hostName = "jans-nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
