@@ -1,7 +1,6 @@
-{
-  config,
-  pkgs,
-  ...
+{ config
+, pkgs
+, ...
 }:
 {
   home.username = "jan";
@@ -13,18 +12,13 @@
     "Xft.dpi" = 172;
   };
 
-   home.file = {
-     ".background-image" = {
-       source = ./nixos_wallpaper.jpg;
-     };
-     # ".config/nvim" = {
-     #   source = ./nvim;
-     #   recursive = true;
-     #   # onChange = builtins.readFile ./nvim.sh; 
-     # };
-     
-     #AstroNvim
-     ".config/nvim" = {
+  home.file = {
+    ".background-image" = {
+      source = ./nixos_wallpaper.jpg;
+    };
+
+    #AstroNvim
+    ".config/nvim" = {
       source = pkgs.fetchFromGitHub {
         owner = "AstroNvim";
         repo = "AstroNvim";
@@ -32,20 +26,14 @@
         sha256 = "0AbAs8MEbezmo4hnMHZzpgUWaV1xN55fr8RmSdhUDTA=";
       };
       recursive = true;
-     };
+    };
 
-     #AstroNvim
-     ".config/nvim/lua/user" = {
-      source = pkgs.fetchFromGitHub {
-        owner = "JvandeLocht";
-        repo = "AstroNvimUser";
-        rev = "2af1ed3";
-        sha256 = "iH/QU5+omhsOgmyUxWOYmhFIW06hJj7Bqqa4GXWFhys=";
-      };
+    ".config/nvim/lua/user" = {
+      source = ./AstroNvimUser;
       recursive = true;
-     };
+    };
 
-   };
+  };
 
   # basic configuration of git, please change to your own
   programs.git = {
@@ -59,6 +47,7 @@
     neofetch
     gnome.dconf-editor
 
+    nextcloud-client
     betterbird
     firefox
     grc #for fish
@@ -70,12 +59,6 @@
     p7zip
 
     tree #Display filetree
-
-    # nix related
-    #
-    # it provides the command `nom` works just like `nix`
-    # with more details log output
-    nix-output-monitor
 
     btop # replacement of htop/nmon
   ]) ++ (with pkgs.gnomeExtensions;[
@@ -99,8 +82,8 @@
       scrolling.multiplier = 5;
       selection.save_to_clipboard = true;
       window = {
-      opacity = 0.9;
-      decorations = "none";
+        opacity = 0.9;
+        decorations = "none";
       };
     };
   };
@@ -110,26 +93,53 @@
   home.sessionPath = [
     "$HOME/.local/bin"
   ];
-  programs.neovim = 
-  let
-    toLua = str: "lua << EOF\n${str}\nEOF\n";
-    toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
-  in
-  {
-    enable = true;
+  programs.neovim =
+    let
+      toLua = str: "lua << EOF\n${str}\nEOF\n";
+      toLuaFile = file: "lua << EOF\n${builtins.readFile file}\nEOF\n";
+    in
+    {
+      enable = true;
 
-    viAlias = true;
-    vimAlias = true;
-    vimdiffAlias = true;
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
 
-    extraPackages = with pkgs; [
-      luajitPackages.lua-lsp
-      nil
-      nodejs_20
-      rustup
-      xclip
-      wl-clipboard
-    ];
+      extraPackages = (with pkgs; [
+        #lua
+        lua-language-server
+
+        #bash
+        nodePackages_latest.bash-language-server
+
+        #python
+        nodePackages_latest.pyright
+        black
+        isort
+
+        #nix
+        rnix-lsp
+
+        #stuff
+        libgccjit #gcc
+        nodejs_20
+        rustup
+        xclip
+        wl-clipboard
+      ]) ++ (with pkgs.vimPlugins;[
+        nvim-treesitter-parsers.python
+        nvim-treesitter-parsers.toml
+        nvim-treesitter-parsers.lua
+        nvim-treesitter-parsers.bash
+        nvim-treesitter-parsers.vim
+        nvim-treesitter-parsers.rust
+        nvim-treesitter-parsers.query
+        nvim-treesitter-parsers.markdown
+        nvim-treesitter-parsers.json
+        nvim-treesitter-parsers.cmake
+        nvim-treesitter-parsers.c
+        nvim-treesitter-parsers.c_sharp
+      ]);
     };
 
 
@@ -152,10 +162,6 @@
       color-scheme = "prefer-dark";
     };
 
-    # "org/gnome/shell/favorite-apps" = { 
-    #  ["org.gnome.Nautilus.desktop", "org.gnome.firefox.desktop", "org.gnome.alacritty.desktop"];
-    # };
-
     # Arcmenu Setting
     "org/gnome/shell/extensions/arcmenu" = {
       hide-overview-on-startup = true;
@@ -164,15 +170,22 @@
 
     "org/gnome/shell" = {
       disable-user-extensions = false;
-      
+
+      favorite-apps = [
+        "org.gnome.Nautilus.desktop"
+        "firefox.desktop"
+        "Alacritty.desktop"
+        "betterbird.desktop"
+      ];
+
       # `gnome-extensions list` for a list
       enabled-extensions = [
-      "arcmenu@arcmenu.com"
-      "caffeine@patapon.info"
-      "forge@jmmaranan.com"
-      "dash-to-dock@micxgx.gmail.com"
-      "space-bar@luchrioh"
-      "drive-menu@gnome-shell-extensions.gcampax.github.com"
+        "arcmenu@arcmenu.com"
+        "caffeine@patapon.info"
+        "forge@jmmaranan.com"
+        "dash-to-dock@micxgx.gmail.com"
+        "space-bar@luchrioh"
+        "drive-menu@gnome-shell-extensions.gcampax.github.com"
       ];
     };
 
