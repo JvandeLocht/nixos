@@ -13,7 +13,7 @@
   };
 
   home.file = {
-    ".background-image" = {
+    ".background-image/nixos_wallpaper.jpg" = {
       source = ./nixos_wallpaper.jpg;
     };
 
@@ -155,11 +155,22 @@
         src = pkgs.fishPlugins.grc.src;
       }
     ];
+    shellAliases = {
+      p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
+      nr = "sudo nixos-rebuild switch --flake ~/.setup
+#jans-nixos";
+    };
   };
 
   dconf.settings = {
     "org/gnome/desktop/interface" = {
       color-scheme = "prefer-dark";
+    };
+
+    # Touchpad
+    "org/gnome/desktop/peripherals/touchpad" = {
+      speed = 1.0;
+      tap-to-click = true;
     };
 
     # Arcmenu Setting
