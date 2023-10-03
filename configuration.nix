@@ -211,8 +211,10 @@
   system.stateVersion = "23.05"; # Did you read the comment?
 
   # Nix Settings
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nix.settings.trusted-users = [ "jan" ]; # Add your own username to the trusted list
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    trusted-users = [ "jan" ]; # Add your own username to the trusted list
+  };
 
   programs.fish.enable = true;
   users.defaultUserShell = pkgs.fish;
@@ -223,6 +225,9 @@
     asusd = {
       enable = true;
       enableUserService = true;
+    };
+    gnome = {
+      gnome-browser-connector.enable = true;
     };
   };
 }

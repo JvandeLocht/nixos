@@ -55,11 +55,27 @@
         "type": "github"
       }
     },
+    "nur": {
+      "locked": {
+        "lastModified": 1696331463,
+        "narHash": "sha256-i92ov2cilL+YRvZgi7Scv6EZOhLRnqhWPrfFPNkdc7U=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "bd44ed1614c8ce18e20114263e98386ec8f04829",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "astronvim": "astronvim",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nur": "nur"
       }
     }
   },
