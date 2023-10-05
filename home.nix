@@ -44,8 +44,13 @@
     gnome.dconf-editor
 
     nextcloud-client
+    bitwarden
+    jameica
     betterbird
-    # firefox
+    steam
+
+    # fish
+    fishPlugins.z
     grc #for fish
 
     # archives
@@ -55,14 +60,16 @@
     p7zip
 
     tree #Display filetree
-
+    ranger
     btop # replacement of htop/nmon
   ]) ++ (with pkgs.gnomeExtensions;[
     arcmenu
     caffeine
-    dash-to-dock
     forge
     space-bar
+    gsconnect
+    appindicator
+    screen-rotate
   ]);
 
   # firefox
@@ -119,12 +126,12 @@
           "media.ffmpeg.vaapi.enabled" = true;
           "widget.dmabuf.force-enabled" = true; # Required in recent Firefoxes
 
-          # Keep the reader button enabled at all times; really don't
-          # care if it doesn't work 20% of the time, most websites are
+          # Keep the reader button enabled at all times; really don"t
+          # care if it doesn"t work 20% of the time, most websites are
           # crap and unreadable without this
           "reader.parse-on-load.force-enabled" = true;
 
-          # Hide the "sharing indicator", it's especially annoying
+          # Hide the "sharing indicator", it"s especially annoying
           # with tiling WMs on wayland
           "privacy.webrtc.legacyGlobalIndicator" = false;
 
@@ -263,6 +270,7 @@
     shellAliases = {
       p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
       nr = "sudo nixos-rebuild switch --flake ~/.setup#jans-nixos";
+      j = "z";
     };
   };
 
@@ -287,25 +295,50 @@
     "org/gnome/shell/extensions/arcmenu" = {
       hide-overview-on-startup = true;
       enable-standlone-runner-menu = true;
-    };
-
-    # dash-to-dock Settings
-    "org/gnome/shell/extensions/dash-to-dock" = {
-      hot-keys = false;
+      search-provider-recent-files = true;
+      search-provider-open-windows = true;
+      arc-menu-icon = 15;
+      pinned-app-list = [
+        "Firefox"
+        "firefox"
+        "firefox.desktop"
+        "Dateien"
+        "org.gnome.Nautilus"
+        "org.gnome.Nautilus.desktop"
+        "Betterbird"
+        "betterbird"
+        "betterbird.desktop"
+        "Alacritty"
+        "Alacritty"
+        "Alacritty.desktop"
+        "Jameica"
+        "jameica"
+        "jameica.desktop"
+      ];
     };
 
     # Space-Bar
     "org/gnome/desktop/wm/keybindings" = {
-      move-to-workspace-1 = "<Super><Shift>1";
-      move-to-workspace-2 = "<Super><Shift>2";
-      move-to-workspace-3 = "<Super><Shift>3";
-      move-to-workspace-4 = "<Super><Shift>4";
-      move-to-workspace-5 = "<Super><Shift>5";
-      move-to-workspace-6 = "<Super><Shift>6";
-      move-to-workspace-7 = "<Super><Shift>7";
-      move-to-workspace-8 = "<Super><Shift>8";
-      move-to-workspace-9 = "<Super><Shift>9";
-      move-to-workspace-10 = "<Super><Shift>10";
+      switch-to-workspace-1 = "<Super>1";
+      switch-to-workspace-2 = "<Super>2";
+      switch-to-workspace-3 = "<Super>3";
+      switch-to-workspace-4 = "<Super>4";
+      switch-to-workspace-5 = "<Super>5";
+      switch-to-workspace-6 = "<Super>6";
+      switch-to-workspace-7 = "<Super>7";
+      switch-to-workspace-8 = "<Super>8";
+      switch-to-workspace-9 = "<Super>9";
+      switch-to-workspace-10 = "<Super>10";
+      move-to-workspace-1 = "<Shift><Super>1";
+      move-to-workspace-2 = "<Shift><Super>2";
+      move-to-workspace-3 = "<Shift><Super>3";
+      move-to-workspace-4 = "<Shift><Super>4";
+      move-to-workspace-5 = "<Shift><Super>5";
+      move-to-workspace-6 = "<Shift><Super>6";
+      move-to-workspace-7 = "<Shift><Super>7";
+      move-to-workspace-8 = "<Shift><Super>8";
+      move-to-workspace-9 = "<Shift><Super>9";
+      move-to-workspace-10 = "<Shift><Super>10";
     };
     "org/gnome/shell/extensions/space-bar/shortcuts" = {
       enable-activate-workspace-shortcuts = true;
@@ -326,9 +359,12 @@
         "arcmenu@arcmenu.com"
         "caffeine@patapon.info"
         "forge@jmmaranan.com"
-        "dash-to-dock@micxgx.gmail.com"
         "space-bar@luchrioh"
         "drive-menu@gnome-shell-extensions.gcampax.github.com"
+        "appindicatorsupport@rgcjonas.gmail.com"
+        "gsconnect@andyholmes.github.io"
+        "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com"
+        "screen-rotate@shyzus.github.io"
       ];
     };
 

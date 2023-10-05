@@ -43,6 +43,7 @@
         system = "x86_64-linux";
         specialArgs = inputs;
         modules = [
+
           # Nix User Repo
           { nixpkgs.overlays = [ nur.overlay ]; }
           ({ pkgs, ... }:
@@ -56,8 +57,10 @@
               services.xraya.enable = true;
             })
 
+          # Classic NixOS Configuration
           ./configuration.nix
 
+          # home-manager
           home-manager.nixosModules.home-manager
           {
             home-manager.useGlobalPkgs = true;
@@ -65,6 +68,7 @@
 
             home-manager.users.jan = import ./home.nix;
           }
+
         ];
       };
     };

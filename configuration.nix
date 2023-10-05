@@ -52,6 +52,8 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+  # Enable Accelerometer
+  hardware.sensor.iio.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -167,6 +169,7 @@
     gnome.gnome-tweaks
     gnome-extension-manager
     nerdfonts
+    gparted
   ];
 
   # Set default editor to vim
