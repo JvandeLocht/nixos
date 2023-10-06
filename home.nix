@@ -1,5 +1,6 @@
 { config
 , pkgs
+, lib
 , ...
 }:
 {
@@ -31,6 +32,10 @@
 
   };
 
+  # home.activation = {
+  #   myActivationAction = lib.hm.dag.entryAfter [ "writeBoundary" ] "./sshfs.sh";
+  # };
+
   # basic configuration of git, please change to your own
   programs.git = {
     enable = true;
@@ -42,12 +47,29 @@
   home.packages = (with pkgs; [
     neofetch
     gnome.dconf-editor
+    gnome-browser-connector
 
     nextcloud-client
     bitwarden
     jameica
     betterbird
     steam
+    spacenavd
+    freecad
+    onlyoffice-bin_7_4
+    schildichat-desktop
+    remmina
+    solaar
+    AusweisApp2
+    antimicrox
+    super-slicer-latest
+    yuzu-mainline
+    waydroid
+    discordo
+    freetube
+    tmux
+
+    evtest # test Input Events (for example LidSwitch)
 
     # fish
     fishPlugins.z
@@ -59,9 +81,12 @@
     unzip
     p7zip
 
+    auto-cpufreq
+    sshfs
     tree #Display filetree
     ranger
     btop # replacement of htop/nmon
+    tldr
   ]) ++ (with pkgs.gnomeExtensions;[
     arcmenu
     caffeine
@@ -69,7 +94,7 @@
     space-bar
     gsconnect
     appindicator
-    screen-rotate
+    # screen-rotate
   ]);
 
   # firefox
@@ -174,8 +199,10 @@
           "privacy.trackingprotection.socialtracking.enabled" = true;
           "layout.forms.reveal-password-context-menu.enabled" = false;
           "signon.autofillForms" = false;
+          "signon.rememberSignons" = false;
           "intl.accept_languages" = "de";
           "browser.translations.automaticallyPopup" = false;
+          "extensions.webextensions.ExtensionStorageIDB.migrated.chrome-gnome-shell@gnome.org" = true;
         };
       };
     };
@@ -271,6 +298,8 @@
       p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
       nr = "sudo nixos-rebuild switch --flake ~/.setup#jans-nixos";
       j = "z";
+      sj = "ssh jan@192.168.178.40";
+      sa = "ssh ae@192.168.178.40";
     };
   };
 
@@ -364,7 +393,7 @@
         "appindicatorsupport@rgcjonas.gmail.com"
         "gsconnect@andyholmes.github.io"
         "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com"
-        "screen-rotate@shyzus.github.io"
+        # "screen-rotate@shyzus.github.io"
       ];
     };
 

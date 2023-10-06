@@ -20,7 +20,7 @@
 
   inputs = {
     # Official NixOS package source, using nixos-unstable branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/release-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/release-unstable";
 
     # Nix User Repo
     nur.url = github:nix-community/NUR;
