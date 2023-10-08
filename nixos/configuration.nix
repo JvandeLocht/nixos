@@ -8,14 +8,17 @@
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
   ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  # Setup keyfile
-  boot.initrd.secrets = {
-    "/crypto_keyfile.bin" = null;
+  boot = {
+    # Bootloader.
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    # Setup keyfile
+    initrd.secrets = {
+      "/crypto_keyfile.bin" = null;
+    };
+    kernelPackages = pkgs.linuxPackages_latest;
   };
 
   networking.hostName = "jans-nixos"; # Define your hostname.
@@ -154,7 +157,7 @@
       enableOffloadCmd = true;
     };
     # Make sure to use the correct Bus ID values for your system!
-    intelBusId = "PCI:10:0:0";
+    amdgpuBusId = "PCI:10:0:0";
     nvidiaBusId = "PCI:1:0:0";
   };
 
@@ -167,6 +170,7 @@
     wget
     curl
     gnome.gnome-tweaks
+    # gnome.mutter
     gnome-extension-manager
     nerdfonts
     gparted

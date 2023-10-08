@@ -1,23 +1,5 @@
 {
   "nodes": {
-    "astronvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1696545727,
-        "narHash": "sha256-r2N4363EC6M6NUjebaOro8uIAruVKNFMHU9e9XKEfU4=",
-        "ref": "refs/heads/main",
-        "rev": "6e9083dcafd1a9d702676a687f631072573e5618",
-        "revCount": 1580,
-        "submodules": true,
-        "type": "git",
-        "url": "https://github.com/AstroNvim/AstroNvim"
-      },
-      "original": {
-        "submodules": true,
-        "type": "git",
-        "url": "https://github.com/AstroNvim/AstroNvim"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -25,43 +7,42 @@
         ]
       },
       "locked": {
-        "lastModified": 1695108154,
-        "narHash": "sha256-gSg7UTVtls2yO9lKtP0yb66XBHT1Fx5qZSZbGMpSn2c=",
+        "lastModified": 1696446489,
+        "narHash": "sha256-xSjMKdNR+q/3hdSPyg/LUMsZT/WIoUi8dcm5zT4SMUQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "07682fff75d41f18327a871088d20af2710d4744",
+        "rev": "68f7d8c0fb0bfc67d1916dd7f06288424360d43a",
         "type": "github"
       },
       "original": {
         "owner": "nix-community",
-        "ref": "release-23.05",
         "repo": "home-manager",
         "type": "github"
       }
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1696524703,
-        "narHash": "sha256-KqzFNzhq0GpT09h1w2r2h7NxYvxDnzU3qOWYbfbAqyw=",
+        "lastModified": 1696375444,
+        "narHash": "sha256-Sv0ICt/pXfpnFhTGYTsX6lUr1SljnuXWejYTI2ZqHa4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ef8e9997fcb37d5c8372dc1349185bd0d31752a6",
+        "rev": "81e8f48ebdecf07aab321182011b067aafc78896",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "release-23.05",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
     },
     "nur": {
       "locked": {
-        "lastModified": 1696566685,
-        "narHash": "sha256-A4g2/SVkFNenwNrlub3FoA3zU4UiNjq/ekx2r5fMNp0=",
+        "lastModified": 1696621524,
+        "narHash": "sha256-2RQ/g/hTbbzn0MaxYSNt7HPW4/lORguM2GcTW80q1gA=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "0061d3950a41e8a84c266949edbdea1aeb7d30f2",
+        "rev": "00ae1fac84d8535fb1accc10f288e93cb771c594",
         "type": "github"
       },
       "original": {
@@ -72,7 +53,6 @@
     },
     "root": {
       "inputs": {
-        "astronvim": "astronvim",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
         "nur": "nur"

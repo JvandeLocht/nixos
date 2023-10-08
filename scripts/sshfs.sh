@@ -9,6 +9,6 @@ fi
 
 # Checks if the directory is allready a mountpoint
 if ! mount | grep $HOME/tank > /dev/null; then
-    sshfs jan@192.168.178.40:/tank $HOME/tank
+    ($pkgs.tmux)/bin  sshfs jan@192.168.178.40:/tank $HOME/tank
 fi
 
