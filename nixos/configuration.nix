@@ -60,6 +60,9 @@
     curl
     nerdfonts
     gparted
+    evtest
+    gnugrep
+    llvmPackages_9.libcxxClang
   ];
 
   # Nix Settings

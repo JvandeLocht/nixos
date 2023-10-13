@@ -8,7 +8,7 @@ if [ ! -d "$DIRECTORY" ]; then
 fi
 
 # Checks if the directory is allready a mountpoint
-if ! mount | grep $HOME/tank > /dev/null; then
-    ($pkgs.tmux)/bin  sshfs jan@192.168.178.40:/tank $HOME/tank
+if ! ${pkgs.mount}/bin/mount | ${pkgs.grep}/bin/grep $HOME/tank > /dev/null; then
+  ${pkgs.sshfs}/bin/sshfs jan@192.168.178.40:/tank $HOME/tank
 fi
 

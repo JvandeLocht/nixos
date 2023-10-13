@@ -33,7 +33,7 @@
         rnix-lsp
 
         #stuff
-        libgccjit #gcc
+        llvmPackages_9.libcxxClang
         nodejs_20
         rustup
         xclip

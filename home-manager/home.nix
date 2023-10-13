@@ -1,4 +1,4 @@
-{ config, pkgs, lib, vars, ... }:
+{ config, pkgs, lib, vars, nixvim, ... }:
 let
   vars = {
     # Variables Used In Flake
@@ -12,8 +12,12 @@ in
 {
   imports = [
     ../modules/home-manager/firefox.nix
-    ../modules/home-manager/neovim.nix
+    ../modules/home-manager/neovim
+    # ../modules/home-manager/neovim.nix
     ../modules/home-manager/fish.nix
+    ../modules/home-manager/dconf.nix
+    ../modules/home-manager/alacritty.nix
+    ../modules/home-manager/services.nix
   ];
 
 
@@ -28,20 +32,20 @@ in
 
   home.file = {
     #AstroNvim
-    ".config/nvim" = {
-      source = pkgs.fetchFromGitHub {
-        owner = "AstroNvim";
-        repo = "AstroNvim";
-        rev = "16e267c";
-        sha256 = "0AbAs8MEbezmo4hnMHZzpgUWaV1xN55fr8RmSdhUDTA=";
-      };
-      recursive = true;
-    };
-
-    ".config/nvim/lua/user" = {
-      source = ../dotfiles/AstroNvimUser;
-      recursive = true;
-    };
+    # ".config/nvim" = {
+    #   source = pkgs.fetchFromGitHub {
+    #     owner = "AstroNvim";
+    #     repo = "AstroNvim";
+    #     rev = "16e267c";
+    #     sha256 = "0AbAs8MEbezmo4hnMHZzpgUWaV1xN55fr8RmSdhUDTA=";
+    #   };
+    #   recursive = true;
+    # };
+    #
+    # ".config/nvim/lua/user" = {
+    #   source = ../dotfiles/AstroNvimUser;
+    #   recursive = true;
+    # };
 
     ".nixos_wallpaper.jpg" = {
       source = ../img/nixos_wallpaper.jpg;
@@ -49,24 +53,6 @@ in
     };
 
   };
-
-  # home.activation = {
-  #   myActivationAction = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-  #     #!/bin/sh
-  #
-  #     DIRECTORY="$HOME/tank"
-  #
-  #     # Checks if the directory allready exists
-  #     if [ ! -d "$DIRECTORY" ]; then
-  #       mkdir -p $HOME/tank
-  #     fi
-  #
-  #     # Checks if the directory is allready a mountpoint
-  #     if ! mount | grep $HOME/tank > /dev/null; then
-  #       ${pkgs.tmux}/bin/tmux ${pkgs.sshfs}/bin/sshfs jan@192.168.178.40:/tank $HOME/tank -o IdentityFile=/etc/ssh/ssh_host_rsa_key.pub
-  #     fi
-  #   '';
-  # };
 
   # basic configuration of git, please change to your own
   programs.git = {
@@ -105,6 +91,9 @@ in
     xz
     unzip
     p7zip
+
+    #programing
+    octaveFull
 
     # CLI
     neofetch

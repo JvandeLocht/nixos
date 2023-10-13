@@ -31,8 +31,16 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
+      # url = "github:nix-community/nixvim/nixos-23.05";
+
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
-  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nur, nixvim, ... }@inputs:
     {
       nixosConfigurations = {
         "jans-nixos" = nixpkgs.lib.nixosSystem {
@@ -59,12 +67,16 @@
             # home-manager
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-
-              home-manager.users.jan = import ./home-manager/home.nix;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.jan.imports =
+                  [
+                    ./home-manager/home.nix
+                  ]
+                  ++ [ nixvim.homeManagerModules.nixvim ];
+              };
             }
-
           ];
         };
       };
