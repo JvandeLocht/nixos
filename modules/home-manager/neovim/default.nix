@@ -20,7 +20,7 @@
     luaLoader.enable = true;
 
     # Highlight and remove extra white spaces
-    highlight.ExtraWhitespace.bg = "red";
+    # highlight.ExtraWhitespace.bg = "red";
     match.ExtraWhitespace = "\\s\\+$";
   };
 }

@@ -8,18 +8,17 @@ let
     terminal = "alacritty";
     editor = "nvim";
   };
-in
-{
+in {
   imports = [
-    ../modules/home-manager/firefox.nix
-    ../modules/home-manager/neovim
+    # ../modules/home-manager/firefox.nix
+    # ../modules/home-manager/neovim
     # ../modules/home-manager/neovim.nix
-    ../modules/home-manager/fish.nix
-    ../modules/home-manager/dconf.nix
-    ../modules/home-manager/alacritty.nix
-    ../modules/home-manager/services.nix
+    # ../modules/home-manager/fish.nix
+    # ../modules/home-manager/dconf.nix
+    # ../modules/home-manager/alacritty.nix
+    # ../modules/home-manager/services.nix
+    ../modules/home-manager
   ];
-
 
   home.username = "${vars.user}";
   home.homeDirectory = "${vars.homeDir}";
@@ -102,11 +101,11 @@ in
     android-tools
     auto-cpufreq
     sshfs
-    tree #Display filetree
+    tree # Display filetree
     ranger
     btop # replacement of htop/nmon
     tldr
-  ]) ++ (with pkgs.gnomeExtensions;[
+  ]) ++ (with pkgs.gnomeExtensions; [
     arcmenu
     caffeine
     forge

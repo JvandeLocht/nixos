@@ -1,8 +1,7 @@
-{ config, pkgs, lib, ... }:
-{
+{ pkgs, ... }: {
   home.packages = (with pkgs; [
     fishPlugins.z
-    grc #for fish
+    grc # for fish
   ]);
 
   programs.fish = {

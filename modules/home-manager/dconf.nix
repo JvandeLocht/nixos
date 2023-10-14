@@ -1,4 +1,3 @@
-{ config, pkgs, lib, ... }:
 let
   vars = {
     # Variables Used In Flake
@@ -8,12 +7,9 @@ let
     terminal = "alacritty";
     editor = "nvim";
   };
-in
-{
+in {
   dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
+    "org/gnome/desktop/interface" = { color-scheme = "prefer-dark"; };
 
     #Wallpaper
     "org/gnome/desktop/background" = {

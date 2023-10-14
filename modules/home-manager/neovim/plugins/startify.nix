@@ -2,17 +2,7 @@
   programs.nixvim.plugins.startify = {
     enable = true;
 
-    # customHeader = [
-    #   "   ██████████████"
-    #   "   █   ██████  ██"
-    #   "   █   ██████  ██"
-    #   "   █   ██   █  ██"
-    #   "   █   █   ██  ██"
-    #   "   █     ████  ██"
-    #   "   █   █   ██████"
-    #   "   █   ██   █  ██"
-    #   "   ██████████████"
-    # ];
+    customHeader = [ "" ];
 
     # When opening a file or bookmark, change to its directory.
     changeToDir = false;
