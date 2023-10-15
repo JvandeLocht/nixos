@@ -16,6 +16,15 @@
       }
       {
         mode = "n";
+        key = "<leader>wa";
+        action = "<cmd>wa<cr>";
+        options = {
+          silent = true;
+          desc = "Save all";
+        };
+      }
+      {
+        mode = "n";
         key = "<esc>";
         action = ":noh<CR>";
         options = {
@@ -47,7 +56,7 @@
         action = "<cmd>vsplit<cr>";
         options = {
           silent = true;
-          desc = "Quit";
+          desc = "Vertical Split";
         };
       }
       {
@@ -56,7 +65,7 @@
         action = "<cmd>split<cr>";
         options = {
           silent = true;
-          desc = "Quit";
+          desc = "Horizontal Split";
         };
       }
       {

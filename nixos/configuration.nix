@@ -18,14 +18,17 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
+    # Enable touchpad support (enabled default in most desktopManager).
+    libinput.enable = true;
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+    # Enable automatic login for the user.
+    displayManager.autoLogin.enable = true;
+    displayManager.autoLogin.user = "jan";
 
-  # Enable automatic login for the user.
-  services.xserver.displayManager.autoLogin.enable = true;
-  services.xserver.displayManager.autoLogin.user = "jan";
+    displayManager.gdm.enable = true;
+  };
 
   # Enable Accelerometer
   hardware.sensor.iio.enable = true;
@@ -66,6 +69,9 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # XDG portal
+  # xdg.portal.enable = true;
+  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

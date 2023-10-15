@@ -30,22 +30,6 @@ in {
   };
 
   home.file = {
-    #AstroNvim
-    # ".config/nvim" = {
-    #   source = pkgs.fetchFromGitHub {
-    #     owner = "AstroNvim";
-    #     repo = "AstroNvim";
-    #     rev = "16e267c";
-    #     sha256 = "0AbAs8MEbezmo4hnMHZzpgUWaV1xN55fr8RmSdhUDTA=";
-    #   };
-    #   recursive = true;
-    # };
-    #
-    # ".config/nvim/lua/user" = {
-    #   source = ../dotfiles/AstroNvimUser;
-    #   recursive = true;
-    # };
-
     ".nixos_wallpaper.jpg" = {
       source = ../img/nixos_wallpaper.jpg;
       recursive = true;

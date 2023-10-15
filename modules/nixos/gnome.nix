@@ -1,13 +1,7 @@
-{ config, pkgs, ... }:
-{
+{ pkgs, ... }: {
   services = {
-    xserver = {
-      displayManager.gdm.enable = true;
-      desktopManager.gnome.enable = true;
-    };
-    gnome = {
-      gnome-browser-connector.enable = true;
-    };
+    xserver = { desktopManager.gnome.enable = true; };
+    gnome = { gnome-browser-connector.enable = true; };
   };
 
   # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229

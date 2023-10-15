@@ -23,7 +23,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Nix User Repo
-    nur.url = github:nix-community/NUR;
+    nur.url = "github:nix-community/NUR";
 
     # home-manager, used for managing user configuration
     home-manager = {
@@ -38,48 +38,41 @@
 
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
   };
-  outputs = { self, nixpkgs, home-manager, nur, nixvim, ... }@inputs:
-    {
-      nixosConfigurations = {
-        "jans-nixos" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = inputs;
-          modules = [
+  outputs = { self, nixpkgs, home-manager, nur, nixvim, ... }@inputs: {
+    nixosConfigurations = {
+      "jans-nixos" = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        specialArgs = inputs;
+        modules = [
 
-            # Nix User Repo
-            { nixpkgs.overlays = [ nur.overlay ]; }
-            ({ pkgs, ... }:
-              let
-                nur-no-pkgs = import nur {
-                  nurpkgs = import nixpkgs { system = "x86_64-linux"; };
-                };
-              in
-              {
-                imports = [ nur-no-pkgs.repos.iopq.modules.xraya ];
-                services.xraya.enable = true;
-              })
-
-            # Classic NixOS Configuration
-            ./nixos/configuration.nix
-
-            # home-manager
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                users.jan.imports =
-                  [
-                    ./home-manager/home.nix
-                  ]
-                  ++ [ nixvim.homeManagerModules.nixvim ];
+          # Nix User Repo
+          { nixpkgs.overlays = [ nur.overlay ]; }
+          ({ pkgs, ... }:
+            let
+              nur-no-pkgs = import nur {
+                nurpkgs = import nixpkgs { system = "x86_64-linux"; };
               };
-            }
-          ];
-        };
+            in {
+              imports = [ nur-no-pkgs.repos.iopq.modules.xraya ];
+              services.xraya.enable = true;
+            })
+
+          # Classic NixOS Configuration
+          ./nixos/configuration.nix
+
+          # home-manager
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users.jan.imports = [ ./home-manager/home.nix ]
+                ++ [ nixvim.homeManagerModules.nixvim ];
+            };
+          }
+        ];
       };
     };
+  };
 }
-
