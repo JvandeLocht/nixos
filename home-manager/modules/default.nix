@@ -6,6 +6,7 @@
     ./fish.nix
     ./kitty.nix
     ./starship.nix
+    ./wofi.nix
     ./neovim
     ./hyperland
   ];

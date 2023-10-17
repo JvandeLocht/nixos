@@ -18,7 +18,7 @@
     #   mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
     # }))
     swww
-    wofi
+    # wofi
   ]);
 
 }
