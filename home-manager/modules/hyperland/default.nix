@@ -1,6 +1,6 @@
 { pkgs, ... }: {
 
-  imports = [ ./config.nix ];
+  imports = [ ./config.nix ./hyprpaper.nix ];
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -13,7 +13,8 @@
     libnotify
     mako
     wl-clipboard
-    waybar
+    hyprpaper
+    # waybar
     # (pkgs.waybar.overrideAttrs (oldAttrs: {
     #   mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
     # }))

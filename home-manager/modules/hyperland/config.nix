@@ -1,7 +1,6 @@
 { config, pkgs, ... }: {
   wayland.windowManager.hyprland.extraConfig = ''
-    exec-once = waybar
-    exec-once = mako
+    exec-once = waybar & mako & hyprpaper & nextcloud
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
     monitor=DP-7, 2560x1440, 0x0,1
@@ -19,7 +18,7 @@
     # source = ~/.config/hypr/myColors.conf
 
     # Some default env vars.
-    env = XCURSOR_SIZE,24
+    env = XCURSOR_SIZE,34
 
     # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
     input {
