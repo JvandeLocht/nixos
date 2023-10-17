@@ -1,4 +1,4 @@
-{ config, pkgs, lib, vars, nixvim, ... }:
+{ config, pkgs, ... }:
 let
   vars = {
     # Variables Used In Flake
@@ -9,16 +9,9 @@ let
     editor = "nvim";
   };
 in {
-  imports = [
-    # ../modules/home-manager/firefox.nix
-    # ../modules/home-manager/neovim
-    # ../modules/home-manager/neovim.nix
-    # ../modules/home-manager/fish.nix
-    # ../modules/home-manager/dconf.nix
-    # ../modules/home-manager/alacritty.nix
-    # ../modules/home-manager/services.nix
-    ../modules/home-manager
-  ];
+  imports = [ ./modules ];
+
+  nixpkgs.config.allowUnfree = true;
 
   home.username = "${vars.user}";
   home.homeDirectory = "${vars.homeDir}";

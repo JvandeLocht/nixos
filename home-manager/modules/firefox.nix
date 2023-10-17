@@ -1,5 +1,4 @@
-{ config, pkgs, lib, ... }:
-{
+{ config, pkgs, lib, ... }: {
   programs.firefox = {
     enable = true;
     package = pkgs.firefox.override {
@@ -25,24 +24,34 @@
               urls = [{
                 template = "https://search.nixos.org/packages";
                 params = [
-                  { name = "type"; value = "packages"; }
-                  { name = "query"; value = "{searchTerms}"; }
+                  {
+                    name = "type";
+                    value = "packages";
+                  }
+                  {
+                    name = "query";
+                    value = "{searchTerms}";
+                  }
                 ];
               }];
 
-              icon = "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
+              icon =
+                "${pkgs.nixos-icons}/share/icons/hicolor/scalable/apps/nix-snowflake.svg";
               definedAliases = [ "@np" ];
             };
 
             "NixOS Wiki" = {
-              urls = [{ template = "https://nixos.wiki/index.php?search={searchTerms}"; }];
+              urls = [{
+                template = "https://nixos.wiki/index.php?search={searchTerms}";
+              }];
               iconUpdateURL = "https://nixos.wiki/favicon.png";
               updateInterval = 24 * 60 * 60 * 1000; # every day
               definedAliases = [ "@nw" ];
             };
 
             "Bing".metaData.hidden = true;
-            "Google".metaData.alias = "@g"; # builtin engines only support specifying one additional alias
+            "Google".metaData.alias =
+              "@g"; # builtin engines only support specifying one additional alias
           };
         };
         settings = {
@@ -60,7 +69,6 @@
           # with tiling WMs on wayland
           "privacy.webrtc.legacyGlobalIndicator" = false;
 
-
           # Actual settings
           "app.shield.optoutstudies.enabled" = false;
           "app.update.auto" = false;
@@ -69,12 +77,17 @@
           "browser.ctrlTab.recentlyUsedOrder" = false;
           "browser.discovery.enabled" = false;
           "browser.laterrun.enabled" = false;
-          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
-          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" =
+            false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" =
+            false;
           "browser.newtabpage.activity-stream.feeds.snippets" = false;
-          "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.havePinned" = "";
-          "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.searchEngines" = "";
-          "browser.newtabpage.activity-stream.section.highlights.includePocket" = false;
+          "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.havePinned" =
+            "";
+          "browser.newtabpage.activity-stream.improvesearch.topSiteSearchShortcuts.searchEngines" =
+            "";
+          "browser.newtabpage.activity-stream.section.highlights.includePocket" =
+            false;
           "browser.newtabpage.activity-stream.showSponsored" = false;
           "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
           "browser.newtabpage.pinned" = false;
@@ -102,10 +115,10 @@
           "signon.rememberSignons" = false;
           "intl.accept_languages" = "de";
           "browser.translations.automaticallyPopup" = false;
-          "extensions.webextensions.ExtensionStorageIDB.migrated.chrome-gnome-shell@gnome.org" = true;
+          "extensions.webextensions.ExtensionStorageIDB.migrated.chrome-gnome-shell@gnome.org" =
+            true;
         };
       };
     };
   };
 }
-

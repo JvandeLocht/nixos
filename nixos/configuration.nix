@@ -4,7 +4,7 @@
 { config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
-    ../modules/nixos
+    ./modules
   ];
   boot = {
     # Bootloader.
@@ -17,6 +17,20 @@
     kernelPackages = pkgs.linuxPackages_latest;
   };
 
+  # stuff for hyperland
+  programs.hyprland.enable = true;
+  environment.sessionVariables = {
+    # If your cursor becomes invisible
+    WLR_NO_HARDWARE_CURSORS = "1";
+    # Hint electron apps to use wayland
+    NIXOS_OZONE_WL = "1";
+  };
+  security.polkit.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+  };
+
   # Enable the X11 windowing system.
   services.xserver = {
     enable = true;
@@ -26,6 +40,7 @@
     # Enable automatic login for the user.
     displayManager.autoLogin.enable = true;
     displayManager.autoLogin.user = "jan";
+    displayManager.defaultSession = "hyprland";
 
     displayManager.gdm.enable = true;
   };
@@ -40,20 +55,19 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # Flakes use Git to pull dependencies from data sources, so Git must be installed first
     git
     neovim
     wget
     curl
     nerdfonts
-    gparted
+    kitty
     evtest
     gnugrep
     llvmPackages_9.libcxxClang
+    lxqt.lxqt-policykit
   ];
+  programs.partition-manager.enable = true;
 
   # Nix Settings
   nix.settings = {
@@ -69,9 +83,6 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # XDG portal
-  # xdg.portal.enable = true;
-  # xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;

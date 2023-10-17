@@ -38,41 +38,49 @@
 
       inputs.nixpkgs.follows = "nixpkgs";
     };
-  };
-  outputs = { self, nixpkgs, home-manager, nur, nixvim, ... }@inputs: {
-    nixosConfigurations = {
-      "jans-nixos" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        specialArgs = inputs;
-        modules = [
 
-          # Nix User Repo
-          { nixpkgs.overlays = [ nur.overlay ]; }
-          ({ pkgs, ... }:
-            let
-              nur-no-pkgs = import nur {
-                nurpkgs = import nixpkgs { system = "x86_64-linux"; };
+    hyprland.url = "github:hyprwm/Hyprland";
+  };
+  outputs =
+    { self, nixpkgs, home-manager, nur, nixvim, hyprland, ... }@inputs: {
+      nixosConfigurations = {
+        "jans-nixos" = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          specialArgs = inputs;
+          modules = [
+
+            # Nix User Repo
+            { nixpkgs.overlays = [ nur.overlay ]; }
+            ({ pkgs, ... }:
+              let
+                nur-no-pkgs = import nur {
+                  nurpkgs = import nixpkgs { system = "x86_64-linux"; };
+                };
+              in {
+                imports = [ nur-no-pkgs.repos.iopq.modules.xraya ];
+                services.xraya.enable = true;
+              })
+
+            # Classic NixOS Configuration
+            ./nixos/configuration.nix
+
+            # home-manager
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                users.jan.imports = [
+                  ./home-manager/home.nix
+                  nixvim.homeManagerModules.nixvim
+                  hyprland.homeManagerModules.default
+                  { wayland.windowManager.hyprland.enable = true; }
+                ];
               };
-            in {
-              imports = [ nur-no-pkgs.repos.iopq.modules.xraya ];
-              services.xraya.enable = true;
-            })
-
-          # Classic NixOS Configuration
-          ./nixos/configuration.nix
-
-          # home-manager
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              users.jan.imports = [ ./home-manager/home.nix ]
-                ++ [ nixvim.homeManagerModules.nixvim ];
-            };
-          }
-        ];
+            }
+          ];
+        };
       };
+
     };
-  };
 }

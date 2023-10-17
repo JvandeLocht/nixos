@@ -5,9 +5,8 @@
     ./firefox.nix
     ./fish.nix
     ./kitty.nix
-    ./services.nix
     ./starship.nix
-    ./eww
     ./neovim
+    ./hyperland
   ];
 }
