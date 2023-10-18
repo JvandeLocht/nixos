@@ -18,7 +18,7 @@
     # source = ~/.config/hypr/myColors.conf
 
     # Some default env vars.
-    env = XCURSOR_SIZE,34
+    env = XCURSOR_SIZE,44
 
     # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
     input {
@@ -112,6 +112,28 @@
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
     $mainMod = SUPER
+
+    # Brightness
+    bind=,XF86MonBrightnessDown,exec,brightnessctl set 5%-
+    bind=,XF86MonBrightnessUp,exec,brightnessctl set +5%
+    bind=,XF86KbdBrightnessDown,exec,brightnessctl -d asus::kbd_backlight set 5%-
+    bind=,XF86KbdBrightnessUp,exec,brightnessctl -d asus::kbd_backlight set +5%
+
+    # volume
+    bindle = , XF86AudioRaiseVolume, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%+
+    bindle = , XF86AudioLowerVolume, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%-
+    bindl = , XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    bindl = , XF86AudioMicMute, exec, wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+    # screenshot
+    # stop animations while screenshotting; makes black border go away
+    $screenshotarea = hyprctl keyword animation "fadeOut,0,0,default"; grimblast --notify copysave area; hyprctl keyword animation "fadeOut,1,4,default"
+    bind = $mainMod, d, exec, $screenshotarea
+    # bind = $mod SHIFT, R, exec, $screenshotarea
+    # bind = CTRL, Print, exec, grimblast --notify --cursor copysave output
+    # bind = $mod SHIFT CTRL, R, exec, grimblast --notify --cursor copysave output
+    # bind = ALT, Print, exec, grimblast --notify --cursor copysave screen
+    # bind = $mod SHIFT ALT, R, exec, grimblast --notify --cursor copysave screen
 
     # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
     bind = $mainMod, Q, exec, kitty

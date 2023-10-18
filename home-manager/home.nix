@@ -44,8 +44,10 @@ in {
 
     nextcloud-client
     bitwarden
+    librewolf
     jameica
     betterbird
+    # mailspring
     steam
     spacenavd
     freecad

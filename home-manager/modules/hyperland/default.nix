@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ config, pkgs, hyprland-contrib, ... }: {
 
   imports = [ ./config.nix ./hyprpaper.nix ];
 
@@ -9,17 +9,7 @@
     enableNvidiaPatches = true;
   };
 
-  home.packages = (with pkgs; [
-    libnotify
-    mako
-    wl-clipboard
-    hyprpaper
-    # waybar
-    # (pkgs.waybar.overrideAttrs (oldAttrs: {
-    #   mesonFlags = oldAttrs.mesonFlags ++ [ "-Dexperimental=true" ];
-    # }))
-    swww
-    # wofi
-  ]);
+  home.packages =
+    (with pkgs; [ libnotify mako wl-clipboard hyprpaper grimblast swww ]);
 
 }

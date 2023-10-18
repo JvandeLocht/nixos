@@ -66,6 +66,8 @@
     gnugrep
     llvmPackages_9.libcxxClang
     lxqt.lxqt-policykit
+    brightnessctl
+    xbindkeys
   ];
   programs.partition-manager.enable = true;
 
