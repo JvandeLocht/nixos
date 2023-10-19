@@ -30,6 +30,7 @@
     enable = true;
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   };
+  security.pam.services.swaylock = { };
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -68,6 +69,8 @@
     lxqt.lxqt-policykit
     brightnessctl
     xbindkeys
+    networkmanagerapplet
+    gnome.gnome-keyring
   ];
   programs.partition-manager.enable = true;
 

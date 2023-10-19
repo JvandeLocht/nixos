@@ -47,7 +47,7 @@ in {
     librewolf
     jameica
     betterbird
-    # mailspring
+    claws-mail
     steam
     spacenavd
     freecad

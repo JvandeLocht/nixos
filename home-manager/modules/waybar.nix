@@ -11,6 +11,7 @@
       # "width"= 1280; # Waybar width
       spacing = 4; # Gaps between modules (4px)
       # Choose the order of the modules
+      mode = "hidden";
       modules-left = [
         "hyprland/workspaces"
         "sway/mode"
@@ -18,12 +19,12 @@
         "custom/media"
         "wlr/taskbar"
       ];
-      modules-center = [ "sway/window" ];
+      modules-center = [ "hyprland/window" ];
       modules-right = [
         "mpd"
         "idle_inhibitor"
         "pulseaudio"
-        "network"
+        # "network"
         # "cpu"
         # "memory"
         # "temperature"

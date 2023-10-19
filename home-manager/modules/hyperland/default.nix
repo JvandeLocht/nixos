@@ -9,7 +9,13 @@
     enableNvidiaPatches = true;
   };
 
-  home.packages =
-    (with pkgs; [ libnotify mako wl-clipboard hyprpaper grimblast swww ]);
-
+  home.packages = (with pkgs; [
+    libnotify
+    mako
+    wl-clipboard
+    hyprpaper
+    grimblast
+    swww
+    blueberry
+  ]);
 }

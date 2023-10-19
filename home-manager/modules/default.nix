@@ -6,6 +6,8 @@
     ./fish.nix
     ./kitty.nix
     ./starship.nix
+    ./swayidle.nix
+    ./swaylock.nix
     ./waybar.nix
     ./wofi.nix
     ./neovim
