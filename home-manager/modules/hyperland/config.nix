@@ -19,7 +19,7 @@
        # source = ~/.config/hypr/myColors.conf
 
        # Some default env vars.
-       env = XCURSOR_SIZE,44
+       env = XCURSOR_SIZE,22
 
        # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
        input {
@@ -117,12 +117,30 @@
        # Lockscreen
        # $lock = swaylock --image ~/.setup/img/nixos_wallpaper.jpg --clock --indicator --indicator-radius 100 --indicator-thickness 7 --effect-blur 7x5 --effect-vignette 0.5:0.5 --grace 2 --fade-in 0.2
        bind = $mainMod, l, exec, swaylock
+
+       # Laptop lid
+       bindl=,switch:off:Lid Switch,exec,hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
+       bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-1, disable"
        # trigger when the switch is toggled
-       bindl=,switch:Lid Switch,exec,swaylock
-       # trigger when the switch is turning on
-       bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-1, 2560x1600, 0x0, 1"
-       # trigger when the switch is turning off
-       bindl=,switch:off:Lid Switch,exec,hyprctl keyword monitor "eDP-1, disable"
+       $lidlock = ${
+         pkgs.writeScript "desktop-mode" ''
+           #!/usr/bin/env bash
+                        if  ${pkgs.hyprland}/bin/hyprctl monitors | grep -q -wi "DP-6"; then
+                            echo "DP-6"
+                        elif ${pkgs.hyprland}/bin/hyprctl monitors | grep -q -wi "DP-7"; then
+                            echo "DP-7"
+                        else
+                            ${pkgs.swaylock-effects}/bin/swaylock
+                        fi
+         ''
+       }
+       bindl=,switch:Lid Switch,exec,$lidlock
+
+       # Mouse
+       # LMB -> 272
+       # RMB -> 273
+       bindm=ALT,mouse:272,movewindow
+
 
        # Brightness
        bind=,XF86MonBrightnessDown,exec,brightnessctl set 5%-
