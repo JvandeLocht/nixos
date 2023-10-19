@@ -39,6 +39,19 @@
         TimeoutStopSec = 10;
       };
     };
+    user.services.waybar = {
+      description = "Waybar";
+      wantedBy = [ "hyprland-session.target" ];
+      wants = [ "hyprland-session.target" ];
+      after = [ "hyprland-session.target" ];
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.waybar}/bin/waybar";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+    };
   };
   services = {
     asusd = {

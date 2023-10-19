@@ -16,12 +16,6 @@ in {
   home.username = "${vars.user}";
   home.homeDirectory = "${vars.homeDir}";
 
-  # set cursor size and dpi for 4k monitor
-  # xresources.properties = {
-  #   "Xcursor.size" = 16;
-  #   "Xft.dpi" = 172;
-  # };
-
   home.file = {
     ".nixos_wallpaper.jpg" = {
       source = ../img/nixos_wallpaper.jpg;
@@ -52,7 +46,7 @@ in {
     spacenavd
     freecad
     onlyoffice-bin_7_4
-    schildichat-desktop
+    # schildichat-desktop
     remmina
     solaar
     AusweisApp2
@@ -63,6 +57,7 @@ in {
     discordo
     freetube
     tmux
+    element-desktop
 
     # archives
     zip

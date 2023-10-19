@@ -9,7 +9,7 @@
     ./starship.nix
     ./swayidle.nix
     ./swaylock.nix
-    ./waybar.nix
+    ./waybar
     ./wofi.nix
     ./neovim
     ./hyperland

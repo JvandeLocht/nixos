@@ -1,15 +1,14 @@
 { pkgs, ... }: {
   programs.waybar = {
     enable = true;
-    style =
-      "\n@define-color base00 #181818;\n@define-color base01 #2b2e37;\n@define-color base02 #3b3e47;\n@define-color base03 #585858;\n@define-color base04 #b8b8b8;\n@define-color base05 #d8d8d8;\n@define-color base06 #e8e8e8;\n@define-color base07 #f8f8f8;\n@define-color base08 #ab4642;\n@define-color base09 #dc9656;\n@define-color base0A #f7ca88;\n@define-color base0B #a1b56c;\n@define-color base0C #86c1b9;\n@define-color base0D #7cafc2;\n@define-color base0E #ba8baf;\n@define-color base0F #a16946;\n\n* {\n  transition: none;\n  box-shadow: none;\n}\n\n#waybar {\n	font-family: 'Source Code Pro', sans-serif;\n	font-size: 1.2em;\n	font-weight: 400;\n  color: @base04;\n  background: @base01;\n}\n\n#workspaces {\n  margin: 0 4px;\n}\n\n#workspaces button {\n  margin: 4px 0;\n  padding: 0 4px;\n  color: @base05;\n}\n\n#workspaces button.visible {\n}\n\n#workspaces button.active {\n  border-radius: 4px;\n  background-color: @base02;\n}\n\n#workspaces button.urgent {\n  color: rgba(238, 46, 36, 1);\n}\n\n#tray {\n  margin: 4px 4px 4px 4px;\n  border-radius: 4px;\n  background-color: @base02;\n}\n\n#tray * {\n  padding: 0 6px;\n  border-left: 1px solid @base00;\n}\n\n#tray *:first-child {\n  border-left: none;\n}\n\n#mode, #battery, #cpu, #memory, #network, #pulseaudio, #idle_inhibitor, #backlight, #custom-storage, #custom-updates, #custom-weather, #custom-mail, #clock, #temperature {\n  margin: 4px 2px;\n  padding: 0 6px;\n  background-color: @base02;\n  border-radius: 4px;\n  min-width: 20px;\n}\n\n#pulseaudio.muted {\n  color: @base0F;\n}\n\n#pulseaudio.bluetooth {\n  color: @base0C;\n}\n\n#clock {\n  margin-left: 0px;\n  margin-right: 4px;\n  background-color: transparent;\n}\n\n#temperature.critical {\n  color: @base0F;\n}\n\n#window {\n  font-size: 0.9em;\n	font-weight: 400;\n	font-family: sans-serif;\n}\n    ";
+    style = ./style.css;
     settings = [{
 
       layer = "top"; # Waybar at top layer
       # "position"= "bottom", # Waybar position (top|bottom|left|right)
       height = 35; # Waybar height (to be removed for auto height)
       # "width"= 1280; # Waybar width
-      spacing = 4; # Gaps between modules (4px)
+      spacing = 10; # Gaps between modules (4px)
       # Choose the order of the modules
       mode = "hidden";
       modules-left = [
@@ -19,21 +18,20 @@
         "custom/media"
         "wlr/taskbar"
       ];
-      modules-center = [ "hyprland/window" ];
+      modules-center = [ "clock" ];
       modules-right = [
-        "mpd"
+        # "mpd"
         "idle_inhibitor"
+        "battery"
+        # "battery#bat2"
         "pulseaudio"
         # "network"
-        # "cpu"
-        # "memory"
+        "cpu"
+        "memory"
         # "temperature"
-        "backlight"
-        "keyboard-state"
-        "sway/language"
-        "battery"
-        "battery#bat2"
-        "clock"
+        # "backlight"
+        # "keyboard-state"
+        # "sway/language"
         "tray"
       ];
       # Modules configuration

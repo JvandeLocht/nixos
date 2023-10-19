@@ -21,6 +21,7 @@
   inputs = {
     # Official NixOS package source, using nixos-unstable branch here
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
 
     # Nix User Repo
     nur.url = "github:nix-community/NUR";
@@ -41,8 +42,8 @@
 
     hyprland.url = "github:hyprwm/Hyprland";
   };
-  outputs =
-    { self, nixpkgs, home-manager, nur, nixvim, hyprland, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, nixvim, hyprland
+    , ... }@inputs: {
       nixosConfigurations = {
         "jans-nixos" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
