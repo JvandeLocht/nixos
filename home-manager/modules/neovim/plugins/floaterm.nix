@@ -2,8 +2,8 @@
   programs.nixvim.plugins.floaterm = {
     enable = true;
 
-    width = 0.8;
-    height = 0.8;
+    width = 0.95;
+    height = 0.95;
 
     title = "";
 
