@@ -70,6 +70,7 @@ in {
 
     # CLI
     neofetch
+    lazygit
     evtest # test Input Events (for example LidSwitch)
     usbutils
     android-tools
