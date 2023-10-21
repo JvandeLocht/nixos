@@ -71,7 +71,6 @@
     brightnessctl
     xbindkeys
     networkmanagerapplet
-    gnome.gnome-keyring
     qt6.qtwayland
     libappindicator-gtk3
     libappindicator
