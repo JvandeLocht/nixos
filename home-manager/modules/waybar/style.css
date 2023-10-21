@@ -1,6 +1,6 @@
 #waybar {
     font-family: "SF Pro Display", Cantarell, Noto Sans, sans-serif;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 #window {
@@ -22,51 +22,18 @@ window#waybar {
     margin: 0 5px;
 }
 
-#workspaces button {
-    padding: 0 8px;
-    color: #565f89;
-    border: 3px solid rgba(9, 85, 225, 0);
-    border-radius: 10px;
-    min-width: 33px;
+#tray {
+    border: none;
+    margin-bottom: 2px;
 }
 
-#workspaces button.visible {
-    color: #a9b1d6;
+#tray > .passive {
+    -gtk-icon-effect: dim;
 }
 
-#workspaces button.focused {
-    border-top: 3px solid #7aa2f7;
-    border-bottom: 3px solid #7aa2f7;
-}
-
-#workspaces button.urgent {
-    background-color: #a96d1f;
-    color: white;
-}
-
-#workspaces button:hover {
-    box-shadow: inherit;
-    border-color: #bb9af7;
-    color: #bb9af7;
-}
-
-/* Repeat style here to ensure properties are overwritten as there's no !important and button:hover above resets the colour */
-
-#workspaces button.focused {
-    color: #7aa2f7;
-}
-#workspaces button.focused:hover {
-    color: #bb9af7;
-}
-
-#pulseaudio {
-    /* font-size: 26px; */
-}
-
-#custom-recorder {
-	font-size: 18px;
-	margin: 2px 7px 0px 7px;
-	color:#ee2e24;
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
 }
 
 #tray,
@@ -88,14 +55,8 @@ window#waybar {
 #custom-mail,
 #custom-media {
     margin: 0px 0px 0px 10px;
-    padding: 0 5px;
-    /* border-top: 3px solid rgba(217, 216, 216, 0.5); */
+    padding: 0 12px;
 }
-
-/* #clock {
-    margin:     0px 16px 0px 10px;
-    min-width:  140px;
-} */
 
 #battery.warning {
     color: rgba(255, 210, 4, 1);
