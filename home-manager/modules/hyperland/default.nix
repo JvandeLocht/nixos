@@ -1,4 +1,4 @@
-{ config, pkgs, hyprland-contrib, ... }: {
+{ config, pkgs, ... }: {
 
   imports = [ ./config.nix ./hyprpaper.nix ];
 
@@ -11,11 +11,16 @@
 
   home.packages = (with pkgs; [
     libnotify
-    mako
+    mpd
+    gnome.gnome-keyring
+    gnome.seahorse
+    libgnome-keyring
+    libsecret
     wl-clipboard
     hyprpaper
+    pavucontrol
     grimblast
-    swww
     blueberry
+    swaynotificationcenter
   ]);
 }

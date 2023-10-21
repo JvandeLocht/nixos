@@ -1,0 +1,93 @@
+#waybar {
+    font-family: "SF Pro Display", Cantarell, Noto Sans, sans-serif;
+    font-size: 20px;
+}
+
+#window {
+    padding: 0 10px;
+}
+
+window#waybar {
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    text-shadow: none;
+    transition-duration: 0s;
+    color: rgba(217, 216, 216, 1);
+    /* background: #1a1b26; */
+    background: shade(alpha(@borders, 0.1), 1.25);
+}
+
+#workspaces {
+    margin: 0 5px;
+}
+
+#tray {
+    /* background-color: #ec7024; */
+    /* color: #282828; */
+    /* font-family: JetBrainsMono Nerd Font, monospace; */
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    /* border-bottom: 8px solid #d05806; */
+    /* border-radius: 5px; */
+    margin-bottom: 2px;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+#tray,
+#mode,
+#battery,
+#temperature,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#idle_inhibitor,
+#sway-language,
+#backlight,
+#custom-storage,
+#custom-cpu_speed,
+#custom-powermenu,
+#custom-spotify,
+#custom-weather,
+#custom-mail,
+#custom-media {
+    margin: 0px 0px 0px 10px;
+    padding: 0 12px;
+}
+
+#battery.warning {
+    color: rgba(255, 210, 4, 1);
+}
+
+#battery.critical {
+    color: rgba(238, 46, 36, 1);
+}
+
+#battery.charging {
+    color: rgba(217, 216, 216, 1);
+}
+
+#custom-storage.warning {
+    color: rgba(255, 210, 4, 1);
+}
+
+#custom-storage.critical {
+    color: rgba(238, 46, 36, 1);
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: black;
+    }
+}

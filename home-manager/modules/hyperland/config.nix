@@ -1,6 +1,7 @@
 { config, pkgs, ... }: {
   wayland.windowManager.hyprland.extraConfig = ''
-    exec-once = mako & hyprpaper & waybar & nextcloud
+    exec-once = swaync & hyprpaper & waybar & nextcloud
+    exec=gnome-keyring-daemon -sd
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
     monitor=DP-7, 2560x1440, 0x0,1
