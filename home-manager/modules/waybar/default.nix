@@ -188,7 +188,7 @@
       };
       "custom/swaync" = {
         "format" = " ";
-        "on-click" = pkgs.writeScript "desktop-mode" ''
+        "on-click" = pkgs.writeScript "swaync" ''
           #!/usr/bin/env bash
 
           sleep 0.1
