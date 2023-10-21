@@ -38,7 +38,7 @@ in {
 
     nextcloud-client
     bitwarden
-    librewolf
+    # librewolf
     jameica
     betterbird
     claws-mail
