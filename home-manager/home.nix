@@ -38,7 +38,6 @@ in {
 
     nextcloud-client
     bitwarden
-    # librewolf
     jameica
     betterbird
     claws-mail
@@ -46,7 +45,7 @@ in {
     spacenavd
     freecad
     onlyoffice-bin_7_4
-    # schildichat-desktop
+    fractal
     remmina
     solaar
     AusweisApp2
@@ -54,10 +53,9 @@ in {
     super-slicer-latest
     yuzu-mainline
     waydroid
-    discordo
     freetube
     tmux
-    element-desktop
+    webcord
 
     # archives
     zip
