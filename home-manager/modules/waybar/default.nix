@@ -188,11 +188,11 @@
       };
       "custom/swaync" = {
         "format" = " ";
-        "on-click" = pkgs.writeScript "swaync" ''
+        "on-click" = pkgs.writeScript "swaync-skript" ''
           #!/usr/bin/env bash
-
           sleep 0.1
-          swaync-client -t &
+          ${pkgs.swaynotificationcenter}/bin/swaync-client -t &
+          disown
         '';
         "on-click-right" = "swaync-client -C";
         "tooltip" = false;
