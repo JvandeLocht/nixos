@@ -24,6 +24,7 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     # Hint electron apps to use wayland
     NIXOS_OZONE_WL = "1";
+    # XDG_CURRENT_DESKTOP = "Unity";
   };
   security.polkit.enable = true;
   xdg.portal = {
@@ -43,7 +44,7 @@
     displayManager.autoLogin.user = "jan";
     displayManager.defaultSession = "hyprland";
 
-    displayManager.gdm.enable = true;
+    # displayManager.gdm.enable = true;
   };
 
   # Enable Accelerometer
@@ -72,6 +73,8 @@
     networkmanagerapplet
     gnome.gnome-keyring
     qt6.qtwayland
+    libappindicator-gtk3
+    libappindicator
   ];
   programs.partition-manager.enable = true;
 

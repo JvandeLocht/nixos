@@ -1,8 +1,9 @@
 {
   imports = [
     ./alacritty.nix
-    ./dconf.nix
+    # ./dconf.nix
     ./gtk.nix
+    # ./ironbar
     ./firefox.nix
     ./fish.nix
     ./kitty.nix
