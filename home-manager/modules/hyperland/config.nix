@@ -9,17 +9,8 @@
     monitor=DP-6, 3440x1440, 2560x0,1
     monitor=,highres,auto,1
 
-
-    # See https://wiki.hyprland.org/Configuring/Keywords/ for more
-
-    # Execute your favorite apps at launch
-    # exec-once = waybar & hyprpaper & firefox
-
     # Source a file (multi-file configs)
     # source = ~/.config/hypr/myColors.conf
-
-    # Some default env vars.
-    env = XCURSOR_SIZE,22
 
     # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
     input {
@@ -115,23 +106,22 @@
     $mainMod = SUPER
 
     # Lockscreen
-    # $lock = swaylock --image ~/.setup/img/nixos_wallpaper.jpg --clock --indicator --indicator-radius 100 --indicator-thickness 7 --effect-blur 7x5 --effect-vignette 0.5:0.5 --grace 2 --fade-in 0.2
     bind = $mainMod, l, exec, swaylock
 
     # Laptop lid
-    bindl=,switch:off:Lid Switch,exec,hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
-    bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-1, disable"
+    bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
+    bindl=,switch:off:Lid Switch,exec,hyprctl keyword monitor "eDP-1, disable"
+
     # trigger when the switch is toggled
     $lidlock = ${
       pkgs.writeScript "desktop-mode" ''
         #!/usr/bin/env bash
-                     if  ${pkgs.hyprland}/bin/hyprctl monitors | grep -q -wi "DP-6"; then
-                         echo "DP-6"
-                     elif ${pkgs.hyprland}/bin/hyprctl monitors | grep -q -wi "DP-7"; then
-                         echo "DP-7"
-                     else
-                         ${pkgs.swaylock-effects}/bin/swaylock
-                     fi
+         count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
+        if  [ $count = 2 ]; then
+             ${pkgs.swaylock-effects}/bin/swaylock
+         else
+             echo "desktop-mode"
+         fi
       ''
     }
     bindl=,switch:Lid Switch,exec,$lidlock
