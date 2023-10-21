@@ -41,13 +41,21 @@
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
+
+    ironbar = {
+      url = "github:JakeStanger/ironbar";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
+
   outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, nixvim, hyprland
-    , ... }@inputs: {
+    , ... }@inputs:
+    let inherit (self) outputs;
+    in {
       nixosConfigurations = {
         "jans-nixos" = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
-          specialArgs = inputs;
+          specialArgs = { inherit inputs outputs; };
           modules = [
 
             # Nix User Repo
@@ -71,11 +79,13 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
+                extraSpecialArgs = { inherit inputs outputs; };
                 users.jan.imports = [
                   ./home-manager/home.nix
                   nixvim.homeManagerModules.nixvim
                   hyprland.homeManagerModules.default
                   { wayland.windowManager.hyprland.enable = true; }
+                  inputs.ironbar.homeManagerModules.default
                 ];
               };
             }
