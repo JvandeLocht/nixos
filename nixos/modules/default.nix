@@ -1,6 +1,5 @@
 {
   imports = [
-    # ./gnome.nix
     ./gaming.nix
     ./locale_keymap.nix
     ./networking.nix

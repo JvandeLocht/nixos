@@ -53,7 +53,6 @@ in {
     yuzu-mainline
     waydroid
     freetube
-    tmux
     webcord
 
     # archives
@@ -66,6 +65,7 @@ in {
     octaveFull
 
     # CLI
+    abduco
     neofetch
     lazygit
     evtest # test Input Events (for example LidSwitch)
@@ -77,14 +77,6 @@ in {
     ranger
     btop # replacement of htop/nmon
     tldr
-  ]) ++ (with pkgs.gnomeExtensions; [
-    arcmenu
-    caffeine
-    forge
-    space-bar
-    gsconnect
-    appindicator
-    screen-rotate
   ]);
 
   # This value determines the home Manager release that your
