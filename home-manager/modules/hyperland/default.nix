@@ -22,5 +22,6 @@
     grimblast
     blueberry
     swaynotificationcenter
+    wlogout
   ]);
 }
