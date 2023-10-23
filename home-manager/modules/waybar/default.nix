@@ -26,6 +26,7 @@
       modules-center = [ "clock" ];
       modules-right = [
         "idle_inhibitor"
+        "bluetooth"
         "custom/swaync"
         "battery"
         "pulseaudio"
@@ -46,14 +47,28 @@
         "tooltip-format" = "{title}";
         "on-click" = "activate";
         "on-click-middle" = "close";
-        # "ignore-list" = [ "Alacritty" ];
-        # "app_ids-mapping" = {
-        #   "firefoxdeveloperedition" = "firefox-developer-edition";
-        # };
-        # "rewrite" = {
-        #   "Firefox Web Browser" = "Firefox";
-        #   "Foot Server" = "Terminal";
-        # };
+      };
+      "bluetooth" = {
+        "format" = " {status}";
+        "format-connected" = " {device_alias}";
+        "format-connected-battery" =
+          " {device_alias} {device_battery_percentage}%";
+        # "format-device-preference"= [ "device1" "device2" ]; # preference list deciding the displayed device
+        "tooltip-format" = ''
+          {controller_alias}	{controller_address}
+
+          {num_connections} connected'';
+        "tooltip-format-connected" = ''
+          {controller_alias}	{controller_address}
+
+          {num_connections} connected
+
+          {device_enumerate}'';
+        "tooltip-format-enumerate-connected" =
+          "{device_alias}	{device_address}";
+        "tooltip-format-enumerate-connected-battery" =
+          "{device_alias}	{device_address}	{device_battery_percentage}%";
+        on-click = "blueberry";
       };
       "keyboard-state" = {
         numlock = true;
