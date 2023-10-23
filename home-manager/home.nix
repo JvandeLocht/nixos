@@ -33,15 +33,14 @@ in {
 
   # Packages that should be installed to the user profile.
   home.packages = (with pkgs; [
-    gnome.dconf-editor
-    gnome-browser-connector
+    # gnome.dconf-editor
+    # gnome-browser-connector
 
     nextcloud-client
     bitwarden
     jameica
     betterbird
     claws-mail
-    steam
     spacenavd
     freecad
     onlyoffice-bin_7_4
