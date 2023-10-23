@@ -2,6 +2,7 @@
   home.packages = (with pkgs; [
     fishPlugins.z
     grc # for fish
+    upower
   ]);
 
   programs.fish = {
