@@ -3,7 +3,7 @@
     ./barbar.nix
     ./comment.nix
     ./floaterm.nix
-    # ./harpoon.nix
+    ./harpoon.nix
     ./lsp.nix
     ./lualine.nix
     ./markdown-preview.nix
@@ -15,7 +15,7 @@
     ./treesitter.nix
     ./vimtex.nix
     ./which-key.nix
-    ./null-ls.nix
+    ./none-ls.nix
     ./cmp.nix
   ];
 

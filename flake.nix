@@ -41,13 +41,6 @@
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
-
-    ironbar = {
-      url = "github:JakeStanger/ironbar";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    gBar.url = "github:scorpion-26/gBar";
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, nixvim, hyprland
@@ -87,8 +80,6 @@
                   nixvim.homeManagerModules.nixvim
                   hyprland.homeManagerModules.default
                   { wayland.windowManager.hyprland.enable = true; }
-                  inputs.ironbar.homeManagerModules.default
-                  inputs.gBar.homeManagerModules.x86_64-linux.default
                 ];
               };
             }
