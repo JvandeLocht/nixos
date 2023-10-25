@@ -35,12 +35,7 @@
 
     supergfxd.enable = true;
 
-    # syncthing = {
-    #
-    #   enable = true;
-    #   # user = "jan";
-    #   openDefaultPorts = true;
-    # };
+    upower.enable = true;
     # spacenavd = {
     #   enable = true;
     #   enableUserService = true;
