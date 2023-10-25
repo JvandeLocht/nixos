@@ -33,9 +33,6 @@ in {
 
   # Packages that should be installed to the user profile.
   home.packages = (with pkgs; [
-    # gnome.dconf-editor
-    # gnome-browser-connector
-
     nextcloud-client
     bitwarden
     jameica
@@ -48,6 +45,7 @@ in {
     remmina
     solaar
     AusweisApp2
+    schildichat-desktop-wayland
     antimicrox
     super-slicer-latest
     yuzu-mainline
