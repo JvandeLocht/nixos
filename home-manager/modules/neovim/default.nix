@@ -8,8 +8,6 @@
     ./todo.nix
   ];
 
-  # home.packages = (with pkgs; [ vimPlugins.telescope-nvim ]);
-
   home.shellAliases.v = "nvim";
 
   programs.nixvim = {
