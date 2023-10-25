@@ -122,6 +122,15 @@
           desc = "resize window right";
         };
       }
+      {
+        mode = "n";
+        key = "<leader>g";
+        action = "<cmd>FloatermNew lazygit<CR>";
+        options = {
+          silent = true;
+          desc = "Lazygit";
+        };
+      }
     ];
   };
 }
