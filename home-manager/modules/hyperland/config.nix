@@ -103,7 +103,7 @@
 
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
-    $mainMod = SUPER
+    $mainMod = ALT
 
     # Lockscreen
     bind = $mainMod, l, exec, swaylock
