@@ -37,7 +37,9 @@
       # Modules configuration
       "hyprland/workspaces" = {
         "disable-scroll" = true;
-        "all-outputs" = true;
+        "max-length" = 200;
+        "seperate-outputs" = true;
+        # "all-outputs" = true;
         "warp-on-scroll" = false;
       };
       "wlr/taskbar" = {
