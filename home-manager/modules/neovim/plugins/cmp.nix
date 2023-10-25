@@ -1,7 +1,7 @@
 {
   programs.nixvim = {
     plugins = {
-      null-ls = {
+      none-ls = {
         enable = true;
         sources.diagnostics.shellcheck.enable = true;
         sources.formatting = {
