@@ -123,6 +123,15 @@
   };
 
   hardware.bluetooth.enable = true;
+
+  nix.optimise.automatic = true;
+  nix.gc = {
+    automatic = true;
+    dates = "weekly";
+    options = "--delete-older-than 30d";
+  };
+  nixpkgs.config.permittedInsecurePackages =
+    [ "electron-24.8.6" "electron-22.3.27" ];
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

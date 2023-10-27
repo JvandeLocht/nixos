@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs-unstable, ... }: {
   imports = [
     ./barbar.nix
     ./comment.nix
@@ -10,17 +10,16 @@
     ./neorg.nix
     ./neo-tree.nix
     ./startify.nix
-    ./tagbar.nix
     ./telescope.nix
     ./treesitter.nix
     ./vimtex.nix
     ./which-key.nix
     ./none-ls.nix
-    ./cmp.nix
+    # ./cmp.nix
   ];
 
   programs.nixvim = {
-    extraPlugins = [ pkgs.vimPlugins.awesome-vim-colorschemes ];
+    extraPlugins = [ pkgs-unstable.vimPlugins.awesome-vim-colorschemes ];
     colorscheme = "onedark";
 
     plugins = {

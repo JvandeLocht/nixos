@@ -39,7 +39,7 @@ in {
     betterbird
     claws-mail
     spacenavd
-    freecad
+    # freecad
     onlyoffice-bin_7_4
     fractal
     remmina
@@ -52,6 +52,9 @@ in {
     waydroid
     freetube
     webcord
+    evince
+    nomacs
+    w3m-nox
 
     # archives
     zip
@@ -63,6 +66,7 @@ in {
     octaveFull
 
     # CLI
+    nnn
     abduco
     neofetch
     lazygit

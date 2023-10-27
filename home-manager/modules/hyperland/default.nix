@@ -1,15 +1,15 @@
-{ config, pkgs, ... }: {
+{ config, pkgs-unstable, ... }: {
 
   imports = [ ./config.nix ./hyprpaper.nix ];
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = pkgs.hyprland;
+    package = pkgs-unstable.hyprland;
     xwayland.enable = true;
     enableNvidiaPatches = true;
   };
 
-  home.packages = (with pkgs; [
+  home.packages = (with pkgs-unstable; [
     libnotify
     mpd
     gnome.gnome-keyring

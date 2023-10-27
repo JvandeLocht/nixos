@@ -1,8 +1,8 @@
-{ pkgs, ... }: {
+{ pkgs-unstable, ... }: {
   imports = [
     ./autocommands.nix
     ./completion.nix
-    ./keymappings.nix
+    # ./keymappings.nix
     ./options.nix
     ./plugins
     ./todo.nix
@@ -12,7 +12,8 @@
 
   programs.nixvim = {
     enable = true;
-    defaultEditor = true;
+    # package = pkgs-unstable.nixvim;
+    # defaultEditor = true;
 
     viAlias = true;
     vimAlias = true;

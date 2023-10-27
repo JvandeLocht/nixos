@@ -20,20 +20,20 @@
 
   inputs = {
     # Official NixOS package source, using nixos-unstable branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Nix User Repo
     nur.url = "github:nix-community/NUR";
 
     # home-manager, used for managing user configuration
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-23.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixvim = {
-      url = "github:nix-community/nixvim";
+      url = "github:nix-community/nixvim/nixos-23.05";
       # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
       # url = "github:nix-community/nixvim/nixos-23.05";
 
@@ -43,14 +43,21 @@
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, nixvim, hyprland
-    , ... }@inputs:
-    let inherit (self) outputs;
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nur, nixvim
+    , hyprland, ... }@inputs:
+    let
+      inherit (self) outputs;
+      system = "x86_64-linux";
     in {
       nixosConfigurations = {
         "jans-nixos" = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          specialArgs = { inherit inputs outputs; };
+          specialArgs = {
+            inherit inputs outputs;
+            pkgs-unstable = import nixpkgs-unstable {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          };
           modules = [
 
             # Nix User Repo
@@ -74,7 +81,13 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                extraSpecialArgs = { inherit inputs outputs; };
+                extraSpecialArgs = {
+                  inherit inputs outputs;
+                  pkgs-unstable = import nixpkgs-unstable {
+                    inherit system;
+                    config.allowUnfree = true;
+                  };
+                };
                 users.jan.imports = [
                   ./home-manager/home.nix
                   nixvim.homeManagerModules.nixvim
