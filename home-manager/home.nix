@@ -55,6 +55,7 @@ in {
     evince
     nomacs
     w3m-nox
+    thunderbird
 
     # archives
     zip

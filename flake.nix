@@ -20,20 +20,20 @@
 
   inputs = {
     # Official NixOS package source, using nixos-unstable branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Nix User Repo
     nur.url = "github:nix-community/NUR";
 
     # home-manager, used for managing user configuration
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.05";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-23.05";
+      url = "github:nix-community/nixvim";
       # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
       # url = "github:nix-community/nixvim/nixos-23.05";
 
@@ -43,7 +43,7 @@
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nur, nixvim
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, nixvim
     , hyprland, ... }@inputs:
     let
       inherit (self) outputs;
@@ -53,7 +53,7 @@
         "jans-nixos" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
-            pkgs-unstable = import nixpkgs-unstable {
+            pkgs-stable = import nixpkgs-stable {
               inherit system;
               config.allowUnfree = true;
             };
@@ -83,7 +83,7 @@
                 useUserPackages = true;
                 extraSpecialArgs = {
                   inherit inputs outputs;
-                  pkgs-unstable = import nixpkgs-unstable {
+                  pkgs-stable = import nixpkgs-stable {
                     inherit system;
                     config.allowUnfree = true;
                   };

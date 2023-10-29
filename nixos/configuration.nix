@@ -53,6 +53,7 @@
     extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   };
   security.pam.services.swaylock = { };
+  programs.dconf.enable = true;
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -124,12 +125,12 @@
 
   hardware.bluetooth.enable = true;
 
-  nix.optimise.automatic = true;
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 30d";
-  };
+  # nix.optimise.automatic = true;
+  # nix.gc = {
+  #   automatic = true;
+  #   dates = "weekly";
+  #   options = "--delete-older-than 30d";
+  # };
   nixpkgs.config.permittedInsecurePackages =
     [ "electron-24.8.6" "electron-22.3.27" ];
   # This value determines the NixOS release from which the default
