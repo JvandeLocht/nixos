@@ -1,26 +1,17 @@
 {
   programs.nixvim = {
     plugins = {
-      nvim-cmp = {
+      none-ls = {
         enable = true;
-        sources = [{ name = "nvim_lsp"; }];
-        mappingPresets = [ "insert" ];
-        mapping = { "<CR>" = "cmp.mapping.confirm({ select = true })"; };
-        formatting.fields = [ "kind" "abbr" "menu" ];
-
-        window.completion = {
-          winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None";
-          colOffset = -4;
-          sidePadding = 0;
-          border = "single";
+        sources.diagnostics.shellcheck.enable = true;
+        sources.formatting = {
+          black.enable = true;
+          fourmolu.enable = true;
+          fnlfmt.enable = true;
+          nixfmt.enable = true;
+          isort.enable = true;
+          prettier.enable = true;
         };
-
-        window.documentation = {
-          winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None";
-          border = "single";
-        };
-
-        snippet.expand = "luasnip";
       };
     };
   };
