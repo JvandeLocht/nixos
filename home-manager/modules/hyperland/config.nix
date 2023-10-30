@@ -1,6 +1,7 @@
 { config, pkgs, ... }: {
   wayland.windowManager.hyprland.extraConfig = ''
-    exec-once = swaync & hyprpaper & waybar & nextcloud
+    exec-once = waybar
+    exec-once = swaync & hyprpaper & nextcloud
     exec=gnome-keyring-daemon -sd
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
