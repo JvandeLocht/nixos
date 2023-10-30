@@ -13,5 +13,6 @@
     ./wofi.nix
     ./neovim
     ./hyperland
+    ./lf
   ];
 }

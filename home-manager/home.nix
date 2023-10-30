@@ -69,7 +69,6 @@ in {
     auto-cpufreq
     sshfs
     tree # Display filetree
-    ranger
     btop # replacement of htop/nmon
     tldr
   ]);
