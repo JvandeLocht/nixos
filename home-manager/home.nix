@@ -36,12 +36,8 @@ in {
     nextcloud-client
     bitwarden
     jameica
-    betterbird
-    claws-mail
     spacenavd
-    # freecad
-    onlyoffice-bin_7_4
-    fractal
+    libreoffice-qt
     remmina
     solaar
     AusweisApp2
@@ -63,11 +59,7 @@ in {
     unzip
     p7zip
 
-    #programing
-    octaveFull
-
     # CLI
-    nnn
     abduco
     neofetch
     lazygit
