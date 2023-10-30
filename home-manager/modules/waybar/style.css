@@ -21,6 +21,9 @@ window#waybar {
 #workspaces {
     margin: 0 5px;
 }
+#workspaces button.active {
+    background-color: #2a2a2a;
+}
 
 #tray {
     border: none;
