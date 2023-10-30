@@ -48,9 +48,7 @@ in {
     waydroid
     freetube
     webcord
-    evince
-    nomacs
-    w3m-nox
+    evince # pdf viewer
     thunderbird
 
     # archives
