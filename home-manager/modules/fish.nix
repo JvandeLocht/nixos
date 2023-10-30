@@ -3,6 +3,7 @@
     fishPlugins.z
     grc # for fish
     upower
+    nix-output-monitor
   ]);
 
   programs.fish = {
@@ -19,7 +20,8 @@
     ];
     shellAliases = {
       p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
-      nr = "sudo nixos-rebuild switch --flake ~/.setup#jans-nixos";
+      nr =
+        "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#jans-nixos &| nom --json";
       j = "z";
       sj = "ssh jan@192.168.178.40";
       sa = "ssh ae@192.168.178.40";
