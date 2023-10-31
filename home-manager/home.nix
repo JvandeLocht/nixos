@@ -50,6 +50,10 @@ in {
     webcord
     evince # pdf viewer
     thunderbird
+    qownnotes
+    obs-studio
+    vlc
+    nomacs # image viewer
 
     # archives
     zip
