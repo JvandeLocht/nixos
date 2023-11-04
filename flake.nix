@@ -43,8 +43,8 @@
     hyprland.url = "github:hyprwm/Hyprland";
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, nixvim
-    , hyprland, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, nixvim, hyprland
+    , ... }@inputs:
     let
       inherit (self) outputs;
       system = "x86_64-linux";
