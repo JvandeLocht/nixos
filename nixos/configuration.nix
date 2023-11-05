@@ -15,6 +15,10 @@
     # Setup keyfile
     initrd.secrets = { "/crypto_keyfile.bin" = null; };
     kernelPackages = pkgs.linuxPackages_latest;
+    kernelPatches = [{
+      name = "amd-tablet-sfh";
+      patch = ../kernel/patch/amd-tablet-sfh.patch;
+    }];
   };
 
   # stuff for hyperland
