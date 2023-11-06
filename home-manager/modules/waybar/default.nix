@@ -1,4 +1,4 @@
-{pkgs, ... }: {
+{ pkgs, ... }: {
   programs.waybar = {
     package = pkgs.waybar.overrideAttrs (oa: {
       mesonFlags = (oa.mesonFlags or [ ]) ++ [ "-Dexperimental=true" ];
@@ -32,6 +32,7 @@
         "pulseaudio"
         "cpu"
         "memory"
+        "custom/wvkbd"
         "tray"
       ];
       # Modules configuration
@@ -212,6 +213,18 @@
           disown
         '';
         "on-click-right" = "swaync-client -C";
+        "tooltip" = false;
+      };
+      "custom/wvkbd" = {
+        "format" = " ";
+        "on-click" = pkgs.writeScript "wvkbd-skript" ''
+          #!/usr/bin/env bash
+          if ${pkgs.toybox}/bin/pgrep -x 'wvkbd-mobintl' > /dev/null; then
+            ${pkgs.killall}/bin/killall wvkbd-mobintl
+          else
+            ${pkgs.wvkbd}/bin/wvkbd-mobintl -L 300
+          fi
+        '';
         "tooltip" = false;
       };
     }];

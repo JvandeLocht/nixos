@@ -24,5 +24,6 @@
     swaynotificationcenter
     wlogout
     (callPackage ../../../pkgs/iio-hyprland.nix { })
+    wvkbd
   ]);
 }
