@@ -73,6 +73,7 @@ in {
     tree # Display filetree
     btop # replacement of htop/nmon
     tldr
+    killall
   ]);
 
   services.syncthing.enable = true;
