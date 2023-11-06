@@ -23,5 +23,6 @@
     blueberry
     swaynotificationcenter
     wlogout
+    (callPackage ../../../pkgs/iio-hyprland.nix { })
   ]);
 }

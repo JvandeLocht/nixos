@@ -150,6 +150,10 @@
     }
     bindl=,switch:Lid Switch,exec,$lidlock
 
+    # Tablet mode
+    bindl=,switch:on:Asus WMI hotkeys,exec,iio-hyprland
+    bindl=,switch:off:Asus WMI hotkeys,exec,killall iio-hyprland
+
     # Mouse
     # LMB -> 272
     # RMB -> 273
