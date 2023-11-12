@@ -101,6 +101,7 @@
     qt6.qtwayland
     libappindicator-gtk3
     libappindicator
+    powertop
   ];
   programs.partition-manager.enable = true;
 
@@ -126,6 +127,8 @@
       thunar-media-tags-plugin
     ];
   };
+  services.gvfs.enable = true; # Mount, trash, and other functionalities
+  services.tumbler.enable = true; # Thumbnail support for images
 
   programs.kdeconnect.enable = true;
 
