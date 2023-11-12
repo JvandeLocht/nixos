@@ -41,6 +41,10 @@
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
+    hyprgrass = {
+      url = "github:horriblename/hyprgrass";
+      inputs.hyprland.follows = "hyprland"; # IMPORTANT
+    };
   };
 
   outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, nixvim, hyprland
