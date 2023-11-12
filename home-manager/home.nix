@@ -54,6 +54,8 @@ in {
     obs-studio
     vlc
     nomacs # image viewer
+    gnome.nautilus
+    gnome.sushi
 
     # archives
     zip
@@ -62,7 +64,7 @@ in {
     p7zip
 
     # CLI
-    abduco
+    abduco # Allows programs to be run independently from its controlling terminal
     neofetch
     lazygit
     evtest # test Input Events (for example LidSwitch)
