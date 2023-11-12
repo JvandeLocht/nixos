@@ -4,9 +4,9 @@
 
   wayland.windowManager.hyprland = {
     enable = true;
-    package = pkgs.hyprland;
     xwayland.enable = true;
     enableNvidiaPatches = true;
+    plugins = [ inputs.hyprgrass.packages.${pkgs.system}.default ];
   };
 
   home.packages = (with pkgs; [
@@ -24,6 +24,7 @@
     swaynotificationcenter
     wlogout
     (callPackage ../../../pkgs/iio-hyprland.nix { })
-    wvkbd
+    wvkbd # On screen keyboard
+    fractal # Matrix client
   ]);
 }

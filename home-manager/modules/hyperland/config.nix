@@ -10,6 +10,10 @@
     monitor=DP-6, 3440x1440, 2560x0,1
     monitor=,highres,auto,1
 
+    # Power
+    env = WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
+    misc:vfr = true
+
     # Source a file (multi-file configs)
     # source = ~/.config/hypr/myColors.conf
 
@@ -48,12 +52,12 @@
         rounding = 10
 
         blur {
-            enabled = true
+            enabled = false
             size = 3
             passes = 1
         }
 
-        drop_shadow = yes
+        drop_shadow = no
         shadow_range = 4
         shadow_render_power = 3
         col.shadow = rgba(1a1a1aee)
@@ -86,14 +90,25 @@
     }
 
     gestures {
-        # See https://wiki.hyprland.org/Configuring/Variables/ for more
-        workspace_swipe = on
+      workspace_swipe = on
+      workspace_swipe_cancel_ratio = 0.15
     }
 
     # Example per-device config
     # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
     device:epic-mouse-v1 {
         sensitivity = -0.5
+    }
+
+    plugin {
+      touch_gestures {
+        # default sensitivity is probably too low on tablet screens,
+        # I recommend turning it up to 4.0
+        sensitivity = 10.0
+
+        # must be >= 3
+        workspace_swipe_fingers = 3
+      }
     }
 
     # Example windowrule v1
@@ -232,5 +247,21 @@
 
     # Wlogout
     bind = $mainMod, e, exec, wlogout
+
+    # swipe left from right edge
+    bind = , edge:r:l, exec, notify-send "berührt."
+
+    # swipe up from bottom edge
+    bind = , edge:d:u, exec, librewolf
+
+    # swipe down from left edge
+    bind = , edge:l:d, exec, pactl set-sink-volume @DEFAULT_SINK@ -4%
+
+    # swipe down with 4 fingers
+    bind = , swipe:4:d, killactive
+
+    # swipe diagonally leftwards and downwards with 3 fingers
+    # l (or r) must come before d and u
+    bind = , swipe:3:ld, exec, foot
   '';
 }
