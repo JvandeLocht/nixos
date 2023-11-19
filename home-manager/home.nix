@@ -56,6 +56,8 @@ in {
     nomacs # image viewer
     gnome.nautilus
     gnome.sushi
+    zoom-us
+    signal-desktop
 
     # archives
     zip
