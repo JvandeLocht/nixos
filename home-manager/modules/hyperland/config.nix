@@ -1,7 +1,7 @@
 { config, pkgs, ... }: {
   wayland.windowManager.hyprland.extraConfig = ''
     exec-once = waybar
-    exec-once = swaync & hyprpaper & nextcloud
+    exec-once = swaync & hyprpaper & nextcloud & kdeconnect-indicator
     exec=gnome-keyring-daemon -sd
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
@@ -249,13 +249,14 @@
     bind = $mainMod, e, exec, wlogout
 
     # swipe left from right edge
-    bind = , edge:r:l, exec, notify-send "berührt."
+    bind = , swipe:2:l, exec, wlogout
 
     # swipe up from bottom edge
-    bind = , edge:d:u, exec, librewolf
+    bind = , swipe:4:u, exec, librewolf
 
     # swipe down from left edge
-    bind = , edge:l:d, exec, pactl set-sink-volume @DEFAULT_SINK@ -4%
+    bind = , edge:l:u, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%+
+    bind = , edge:l:d, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%-
 
     # swipe down with 4 fingers
     bind = , swipe:4:d, killactive
