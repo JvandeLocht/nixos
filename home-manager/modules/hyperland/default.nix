@@ -5,8 +5,7 @@
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
-    enableNvidiaPatches = true;
-    plugins = [ inputs.hyprgrass.packages.${pkgs.system}.default ];
+    # plugins = [ inputs.hyprgrass.packages.${pkgs.system}.default ];
   };
 
   home.packages = (with pkgs; [

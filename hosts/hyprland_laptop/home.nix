@@ -9,7 +9,7 @@ let
     editor = "nvim";
   };
 in {
-  imports = [ ./modules ];
+  imports = [ ../../home-manager/modules ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -18,7 +18,7 @@ in {
 
   home.file = {
     ".nixos_wallpaper.jpg" = {
-      source = ../img/nixos_wallpaper.jpg;
+      source = ../../img/nixos_wallpaper.jpg;
       recursive = true;
     };
 
@@ -41,7 +41,7 @@ in {
     remmina
     solaar
     AusweisApp2
-    schildichat-desktop-wayland
+    # schildichat-desktop-wayland
     antimicrox
     super-slicer-latest
     yuzu-mainline

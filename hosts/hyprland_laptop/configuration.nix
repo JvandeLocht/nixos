@@ -4,7 +4,7 @@
 { config, pkgs, ... }: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
-    ./modules
+    ../../nixos/modules
   ];
   boot = {
     # Bootloader.
@@ -17,7 +17,7 @@
     kernelPackages = pkgs.linuxPackages_latest;
     kernelPatches = [{
       name = "amd-tablet-sfh";
-      patch = ../kernel/patch/amd-tablet-sfh.patch;
+      patch = ../../kernel/patch/amd-tablet-sfh.patch;
     }];
   };
 

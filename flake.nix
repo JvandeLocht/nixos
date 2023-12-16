@@ -54,7 +54,7 @@
       system = "x86_64-linux";
     in {
       nixosConfigurations = {
-        "jans-nixos" = nixpkgs.lib.nixosSystem {
+        "hyprland_laptop" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
             pkgs-stable = import nixpkgs-stable {
@@ -77,7 +77,7 @@
               })
 
             # Classic NixOS Configuration
-            ./nixos/configuration.nix
+            ./hosts/hyprland_laptop/configuration.nix
 
             # home-manager
             home-manager.nixosModules.home-manager
@@ -93,10 +93,56 @@
                   };
                 };
                 users.jan.imports = [
-                  ./home-manager/home.nix
+                  ./hosts/hyprland_laptop/home.nix
                   nixvim.homeManagerModules.nixvim
                   hyprland.homeManagerModules.default
                   { wayland.windowManager.hyprland.enable = true; }
+                ];
+              };
+            }
+          ];
+        };
+        "gnome_laptop" = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs outputs;
+            pkgs-stable = import nixpkgs-stable {
+              inherit system;
+              config.allowUnfree = true;
+            };
+          };
+          modules = [
+
+            # Nix User Repo
+            { nixpkgs.overlays = [ nur.overlay ]; }
+            ({ pkgs, ... }:
+              let
+                nur-no-pkgs = import nur {
+                  nurpkgs = import nixpkgs { system = "x86_64-linux"; };
+                };
+              in {
+                imports = [ nur-no-pkgs.repos.iopq.modules.xraya ];
+                services.xraya.enable = true;
+              })
+
+            # Classic NixOS Configuration
+            ./hosts/gnome_laptop/configuration.nix
+
+            # home-manager
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit inputs outputs;
+                  pkgs-stable = import nixpkgs-stable {
+                    inherit system;
+                    config.allowUnfree = true;
+                  };
+                };
+                users.jan.imports = [
+                  ./hosts/gnome_laptop/home.nix
+                  nixvim.homeManagerModules.nixvim
                 ];
               };
             }

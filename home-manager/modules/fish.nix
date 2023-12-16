@@ -20,8 +20,10 @@
     ];
     shellAliases = {
       p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
-      nr =
-        "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#jans-nixos &| nom --json";
+      nh =
+        "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#hyprland_laptop &| nom --json";
+      ng =
+        "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#hyprland_laptop &| nom --json";
       j = "z";
       sj = "ssh jan@192.168.178.40";
       sa = "ssh ae@192.168.178.40";
