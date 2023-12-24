@@ -47,6 +47,9 @@
   # Enable Accelerometer
   hardware.sensor.iio.enable = true;
 
+  # Needed for Solaar to see Logitech devices.
+  hardware.logitech.wireless.enable = true;
+
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jan = {
     isNormalUser = true;
