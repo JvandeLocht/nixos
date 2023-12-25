@@ -9,86 +9,10 @@ let
     editor = "nvim";
   };
 in {
-  imports = [
-    ../../home-manager/modules/alacritty.nix
-    ../../home-manager/modules/desktop.nix
-    ../../home-manager/modules/dconf.nix
-    ../../home-manager/modules/firefox.nix
-    ../../home-manager/modules/fish.nix
-    ../../home-manager/modules/kitty.nix
-    ../../home-manager/modules/starship.nix
-    ../../home-manager/modules/neovim
-    ../../home-manager/modules/lf
-  ];
-
-  nixpkgs.config.allowUnfree = true;
-
-  home.username = "${vars.user}";
-  home.homeDirectory = "${vars.homeDir}";
-
-  home.file = {
-    ".nixos_wallpaper.jpg" = {
-      source = ../../img/nixos_wallpaper.jpg;
-      recursive = true;
-    };
-
-  };
-
-  # basic configuration of git, please change to your own
-  programs.git = {
-    enable = true;
-    userName = "Jan van de Locht";
-    userEmail = "jan.vandelocht@startmail.com";
-  };
+  imports = [ ../../home-manager/modules/dconf.nix ../common/home.nix ];
 
   # Packages that should be installed to the user profile.
-  home.packages = (with pkgs; [
-    nextcloud-client
-    bitwarden
-    jameica
-    spacenavd
-    libreoffice-qt
-    remmina
-    solaar
-    AusweisApp2
-    # schildichat-desktop-wayland
-    antimicrox
-    super-slicer-latest
-    yuzu-mainline
-    waydroid
-    freetube
-    webcord
-    evince # pdf viewer
-    thunderbird
-    qownnotes
-    obs-studio
-    vlc
-    nomacs # image viewer
-    gnome.nautilus
-    gnome.sushi
-    zoom-us
-    signal-desktop
-
-    # archives
-    zip
-    xz
-    unzip
-    p7zip
-
-    # CLI
-    abduco # Allows programs to be run independently from its controlling terminal
-    neofetch
-    lazygit
-    evtest # test Input Events (for example LidSwitch)
-    usbutils
-    android-tools
-    auto-cpufreq
-    sshfs
-    tree # Display filetree
-    btop # replacement of htop/nmon
-    tldr
-    killall
-  ]) ++ (with pkgs.gnomeExtensions; [
+  home.packages = (with pkgs; [ ]) ++ (with pkgs.gnomeExtensions; [
     arcmenu
     caffeine
     forge

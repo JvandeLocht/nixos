@@ -23,7 +23,7 @@
       nh =
         "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#hyprland_laptop &| nom --json";
       ng =
-        "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#hyprland_laptop &| nom --json";
+        "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
       j = "z";
       sj = "ssh jan@192.168.178.40";
       sa = "ssh ae@192.168.178.40";

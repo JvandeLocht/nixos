@@ -9,7 +9,16 @@ let
     editor = "nvim";
   };
 in {
-  imports = [ ../../home-manager/modules ];
+  imports = [
+    ../../home-manager/modules/alacritty.nix
+    ../../home-manager/modules/desktop.nix
+    ../../home-manager/modules/firefox.nix
+    ../../home-manager/modules/fish.nix
+    ../../home-manager/modules/kitty.nix
+    ../../home-manager/modules/starship.nix
+    ../../home-manager/modules/neovim
+    ../../home-manager/modules/lf
+  ];
 
   nixpkgs.config.allowUnfree = true;
 
@@ -21,6 +30,14 @@ in {
     enable = true;
     userName = "Jan van de Locht";
     userEmail = "jan.vandelocht@startmail.com";
+  };
+
+  home.file = {
+    ".nixos_wallpaper.jpg" = {
+      source = ../../img/nixos_wallpaper.jpg;
+      recursive = true;
+    };
+
   };
 
   # Packages that should be installed to the user profile.
@@ -45,11 +62,12 @@ in {
     qownnotes
     obs-studio
     vlc
-    nomacs # image viewer
-    gnome.nautilus
-    gnome.sushi
+    # nomacs # image viewer
+    # gnome.nautilus
+    # gnome.sushi
     zoom-us
     signal-desktop
+    xournalpp
 
     # archives
     zip
