@@ -9,6 +9,13 @@ let
   };
 in {
   dconf.settings = {
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
+      {
+        binding = "<Alt>q";
+        command = "alacritty";
+        name = "Alacritty";
+      };
+
     "org/gnome/desktop/interface" = { color-scheme = "prefer-dark"; };
 
     #Wallpaper
@@ -30,16 +37,11 @@ in {
       search-provider-recent-files = true;
       search-provider-open-windows = true;
       arc-menu-icon = 15;
+      runner-menu-custom-hotkey = [ "<Alt>r" ];
       pinned-app-list = [
-        "Firefox"
-        "firefox"
-        "firefox.desktop"
         "Dateien"
         "org.gnome.Nautilus"
         "org.gnome.Nautilus.desktop"
-        "Betterbird"
-        "betterbird"
-        "betterbird.desktop"
         "Alacritty"
         "Alacritty"
         "Alacritty.desktop"
@@ -50,41 +52,44 @@ in {
     };
 
     # # Space-Bar
-    # "org/gnome/desktop/wm/keybindings" = {
-    #   switch-to-workspace-1 = "<Super>1";
-    #   switch-to-workspace-2 = "<Super>2";
-    #   switch-to-workspace-3 = "<Super>3";
-    #   switch-to-workspace-4 = "<Super>4";
-    #   switch-to-workspace-5 = "<Super>5";
-    #   switch-to-workspace-6 = "<Super>6";
-    #   switch-to-workspace-7 = "<Super>7";
-    #   switch-to-workspace-8 = "<Super>8";
-    #   switch-to-workspace-9 = "<Super>9";
-    #   switch-to-workspace-10 = "<Super>10";
-    #   move-to-workspace-1 = "<Shift><Super>1";
-    #   move-to-workspace-2 = "<Shift><Super>2";
-    #   move-to-workspace-3 = "<Shift><Super>3";
-    #   move-to-workspace-4 = "<Shift><Super>4";
-    #   move-to-workspace-5 = "<Shift><Super>5";
-    #   move-to-workspace-6 = "<Shift><Super>6";
-    #   move-to-workspace-7 = "<Shift><Super>7";
-    #   move-to-workspace-8 = "<Shift><Super>8";
-    #   move-to-workspace-9 = "<Shift><Super>9";
-    #   move-to-workspace-10 = "<Shift><Super>10";
-    # };
-    # "org/gnome/shell/extensions/space-bar/shortcuts" = {
-    #   enable-activate-workspace-shortcuts = true;
-    # };
+    "org/gnome/desktop/wm/keybindings" = {
+      switch-to-workspace-1 = "<Super>1";
+      switch-to-workspace-2 = "<Super>2";
+      switch-to-workspace-3 = "<Super>3";
+      switch-to-workspace-4 = "<Super>4";
+      switch-to-workspace-5 = "<Super>5";
+      switch-to-workspace-6 = "<Super>6";
+      switch-to-workspace-7 = "<Super>7";
+      switch-to-workspace-8 = "<Super>8";
+      switch-to-workspace-9 = "<Super>9";
+      switch-to-workspace-10 = "<Super>10";
+      move-to-workspace-1 = [ "<Super><Shift>1" ];
+      move-to-workspace-2 = [ "<Super><Shift>2" ];
+      move-to-workspace-3 = [ "<Super><Shift>3" ];
+      move-to-workspace-4 = [ "<Super><Shift>4" ];
+      move-to-workspace-5 = [ "<Super><Shift>5" ];
+      move-to-workspace-6 = [ "<Super><Shift>6" ];
+      move-to-workspace-7 = [ "<Super><Shift>7" ];
+      move-to-workspace-8 = [ "<Super><Shift>8" ];
+      move-to-workspace-9 = [ "<Super><Shift>9" ];
+      move-to-workspace-10 = [ "<Super><Shift>0" ];
+      close = [ "<Alt>c" ];
+    };
+    "org/gnome/shell/extensions/space-bar/shortcuts" = {
+      enable-activate-workspace-shortcuts = true;
+    };
 
     "org/gnome/shell" = {
       disable-user-extensions = false;
 
-      # favorite-apps = [
-      #   "org.gnome.Nautilus.desktop"
-      #   "firefox.desktop"
-      #   "Alacritty.desktop"
-      #   "betterbird.desktop"
-      # ];
+      show-screenshot-ui = [ "<Super>d" ];
+
+      favorite-apps = [
+        "org.gnome.Nautilus.desktop"
+        "firefox.desktop"
+        "Alacritty.desktop"
+        "betterbird.desktop"
+      ];
 
       # `gnome-extensions list` for a list
       enabled-extensions = [
