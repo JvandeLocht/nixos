@@ -40,7 +40,7 @@ in {
       ];
     };
 
-    Install = { WantedBy = [ "network.target" ]; };
+    Install = { WantedBy = [ "graphical-session.target" ]; };
   };
 
   # This value determines the home Manager release that your
