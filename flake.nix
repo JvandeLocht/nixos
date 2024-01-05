@@ -20,8 +20,8 @@
 
   inputs = {
     # Official NixOS package source, using nixos-unstable branch here
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Nix User Repo
     nur.url = "github:nix-community/NUR";
@@ -37,7 +37,7 @@
       # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
       # url = "github:nix-community/nixvim/nixos-23.05";
 
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     hyprland.url = "github:hyprwm/Hyprland";
@@ -47,8 +47,8 @@
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-stable, home-manager, nur, nixvim, hyprland
-    , ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nur, nixvim
+    , hyprland, ... }@inputs:
     let
       inherit (self) outputs;
       system = "x86_64-linux";
@@ -57,7 +57,7 @@
         "hyprland_laptop" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
-            pkgs-stable = import nixpkgs-stable {
+            pkgs-stable = import nixpkgs {
               inherit system;
               config.allowUnfree = true;
             };
@@ -87,7 +87,7 @@
                 useUserPackages = true;
                 extraSpecialArgs = {
                   inherit inputs outputs;
-                  pkgs-stable = import nixpkgs-stable {
+                  pkgs-stable = import nixpkgs {
                     inherit system;
                     config.allowUnfree = true;
                   };
@@ -105,7 +105,7 @@
         "gnome_laptop" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
-            pkgs-stable = import nixpkgs-stable {
+            pkgs-stable = import nixpkgs {
               inherit system;
               config.allowUnfree = true;
             };
@@ -135,7 +135,7 @@
                 useUserPackages = true;
                 extraSpecialArgs = {
                   inherit inputs outputs;
-                  pkgs-stable = import nixpkgs-stable {
+                  pkgs-stable = import nixpkgs {
                     inherit system;
                     config.allowUnfree = true;
                   };
@@ -151,7 +151,7 @@
         "kde_laptop" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
-            pkgs-stable = import nixpkgs-stable {
+            pkgs-stable = import nixpkgs {
               inherit system;
               config.allowUnfree = true;
             };
@@ -181,7 +181,7 @@
                 useUserPackages = true;
                 extraSpecialArgs = {
                   inherit inputs outputs;
-                  pkgs-stable = import nixpkgs-stable {
+                  pkgs-stable = import nixpkgs {
                     inherit system;
                     config.allowUnfree = true;
                   };

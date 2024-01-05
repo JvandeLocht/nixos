@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs-unstable, ... }: {
   imports = [
     ./autocommands.nix
     ./completion.nix
@@ -12,7 +12,7 @@
 
   programs.nixvim = {
     enable = true;
-    # package = pkgs-unstable.nixvim;
+    package = pkgs-unstable.nixvim;
     # defaultEditor = true;
 
     viAlias = true;
