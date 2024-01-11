@@ -20,99 +20,47 @@
 
   inputs = {
     # Official NixOS package source, using nixos-unstable branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+#    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    #nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # Nix User Repo
     nur.url = "github:nix-community/NUR";
 
     # home-manager, used for managing user configuration
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixvim = {
-      url = "github:nix-community/nixvim";
+#    nixvim = {
+#      url = "github:nix-community/nixvim";
       # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
       # url = "github:nix-community/nixvim/nixos-23.05";
 
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
+#      inputs.nixpkgs.follows = "nixpkgs";
+#    };
 
-    hyprland.url = "github:hyprwm/Hyprland";
-    hyprgrass = {
-      url = "github:horriblename/hyprgrass";
-      inputs.hyprland.follows = "hyprland"; # IMPORTANT
-    };
+#    hyprland.url = "github:hyprwm/Hyprland";
+#    hyprgrass = {
+#      url = "github:horriblename/hyprgrass";
+#      inputs.hyprland.follows = "hyprland"; # IMPORTANT
+#    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, nur, nixvim
-    , hyprland, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, nur, ... }@inputs:
     let
       inherit (self) outputs;
       system = "x86_64-linux";
     in {
       nixosConfigurations = {
-        "hyprland_laptop" = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-            pkgs-stable = import nixpkgs {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          };
-          modules = [
-
-            # Nix User Repo
-            { nixpkgs.overlays = [ nur.overlay ]; }
-            ({ pkgs, ... }:
-              let
-                nur-no-pkgs = import nur {
-                  nurpkgs = import nixpkgs { system = "x86_64-linux"; };
-                };
-              in {
-                imports = [ nur-no-pkgs.repos.iopq.modules.xraya ];
-                services.xraya.enable = true;
-              })
-
-            # Classic NixOS Configuration
-            ./hosts/hyprland_laptop/configuration.nix
-
-            # home-manager
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = {
-                  inherit inputs outputs;
-                  pkgs-stable = import nixpkgs {
-                    inherit system;
-                    config.allowUnfree = true;
-                  };
-                };
-                users.jan.imports = [
-                  ./hosts/hyprland_laptop/home.nix
-                  nixvim.homeManagerModules.nixvim
-                  hyprland.homeManagerModules.default
-                  { wayland.windowManager.hyprland.enable = true; }
-                ];
-              };
-            }
-          ];
-        };
         "gnome_laptop" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs outputs;
-            pkgs-stable = import nixpkgs {
-              inherit system;
-              config.allowUnfree = true;
-            };
           };
           modules = [
 
-            # Nix User Repo
+	    # Nix User Repo
             { nixpkgs.overlays = [ nur.overlay ]; }
             ({ pkgs, ... }:
               let
@@ -135,60 +83,10 @@
                 useUserPackages = true;
                 extraSpecialArgs = {
                   inherit inputs outputs;
-                  pkgs-stable = import nixpkgs {
-                    inherit system;
-                    config.allowUnfree = true;
-                  };
                 };
                 users.jan.imports = [
                   ./hosts/gnome_laptop/home.nix
-                  nixvim.homeManagerModules.nixvim
-                ];
-              };
-            }
-          ];
-        };
-        "kde_laptop" = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs outputs;
-            pkgs-stable = import nixpkgs {
-              inherit system;
-              config.allowUnfree = true;
-            };
-          };
-          modules = [
-
-            # Nix User Repo
-            { nixpkgs.overlays = [ nur.overlay ]; }
-            ({ pkgs, ... }:
-              let
-                nur-no-pkgs = import nur {
-                  nurpkgs = import nixpkgs { system = "x86_64-linux"; };
-                };
-              in {
-                imports = [ nur-no-pkgs.repos.iopq.modules.xraya ];
-                services.xraya.enable = true;
-              })
-
-            # Classic NixOS Configuration
-            ./hosts/kde_laptop/configuration.nix
-
-            # home-manager
-            home-manager.nixosModules.home-manager
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = {
-                  inherit inputs outputs;
-                  pkgs-stable = import nixpkgs {
-                    inherit system;
-                    config.allowUnfree = true;
-                  };
-                };
-                users.jan.imports = [
-                  ./hosts/kde_laptop/home.nix
-                  nixvim.homeManagerModules.nixvim
+#                  nixvim.homeManagerModules.nixvim
                 ];
               };
             }

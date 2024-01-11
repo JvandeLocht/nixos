@@ -1,7 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
     ../../nixos/modules/gaming.nix
@@ -19,12 +23,14 @@
       efi.canTouchEfiVariables = true;
     };
     # Setup keyfile
-    initrd.secrets = { "/crypto_keyfile.bin" = null; };
+    initrd.secrets = {"/crypto_keyfile.bin" = null;};
     kernelPackages = pkgs.linuxPackages_latest;
-    kernelPatches = [{
-      name = "amd-tablet-sfh";
-      patch = ../../kernel/patch/amd-tablet-sfh.patch;
-    }];
+    kernelPatches = [
+      {
+        name = "amd-tablet-sfh";
+        patch = ../../kernel/patch/amd-tablet-sfh.patch;
+      }
+    ];
   };
 
   # Enable the X11 windowing system.
@@ -48,7 +54,7 @@
   users.users.jan = {
     isNormalUser = true;
     description = "Jan";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = ["networkmanager" "wheel"];
   };
 
   environment.systemPackages = with pkgs; [
@@ -68,8 +74,8 @@
 
   # Nix Settings
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "jan" ]; # Add your own username to the trusted list
+    experimental-features = ["nix-command" "flakes"];
+    trusted-users = ["jan"]; # Add your own username to the trusted list
   };
 
   # Set default editor to vim
@@ -90,8 +96,7 @@
   #   dates = "weekly";
   #   options = "--delete-older-than 30d";
   # };
-  nixpkgs.config.permittedInsecurePackages =
-    [ "electron-24.8.6" "electron-22.3.27" ];
+  nixpkgs.config.permittedInsecurePackages = ["electron-24.8.6" "electron-22.3.27"];
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

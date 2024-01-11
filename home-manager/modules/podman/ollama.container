@@ -1,0 +1,17 @@
+[Unit]
+Description=Ollama
+
+[Container]
+Image=quay.io/ollama/ollama:latest
+Volume=/home/jan/podman/ollama/:/root/.ollama
+Publish=11434:11434
+
+[Service]
+# Restart service when sleep finishes
+Restart=always
+# Extend Timeout to allow time to pull the image
+TimeoutStartSec=900
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target
