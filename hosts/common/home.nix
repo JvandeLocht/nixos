@@ -29,7 +29,7 @@ in {
   programs.git = {
     enable = true;
     userName = "Jan van de Locht";
-    userEmail = "jan.vandelocht@startmail.com";
+    userEmail = "jan@vandelocht.uk";
   };
 
   home.file = {
