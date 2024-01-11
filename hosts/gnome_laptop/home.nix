@@ -9,7 +9,11 @@ let
     editor = "nvim";
   };
 in {
-  imports = [ ../../home-manager/modules/dconf.nix ../common/home.nix ];
+  imports = [
+    ../../home-manager/modules/dconf.nix
+    ../../home-manager/modules/podman
+    ../common/home.nix
+  ];
 
   # Packages that should be installed to the user profile.
   home.packages = (with pkgs; [ ]) ++ (with pkgs.gnomeExtensions; [

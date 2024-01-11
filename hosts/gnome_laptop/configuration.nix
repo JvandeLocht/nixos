@@ -5,6 +5,7 @@
   imports = [
     ../../nixos/modules/services.nix
     ../../nixos/modules/gnome.nix
+    ../../nixos/modules/podman
     ../common/configuration.nix
   ];
   # Enable the X11 windowing system.
