@@ -33,6 +33,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix.url = "github:Mic92/sops-nix";
+
+    nixneovimplugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
+
     #    nixvim = {
     #      url = "github:nix-community/nixvim";
     # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
@@ -54,6 +57,7 @@
     home-manager,
     nur,
     sops-nix,
+    nixneovimplugins,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -75,6 +79,12 @@
             imports = [nur-no-pkgs.repos.iopq.modules.xraya];
             services.xraya.enable = true;
           })
+
+          {
+            nixpkgs.overlays = [
+              inputs.nixneovimplugins.overlays.default
+            ];
+          }
 
           # Classic NixOS Configuration
           ./hosts/gnome_laptop/configuration.nix
