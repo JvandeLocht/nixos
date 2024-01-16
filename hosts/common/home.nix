@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   vars = {
     # Variables Used In Flake
     user = "jan";
@@ -37,11 +40,10 @@ in {
       source = ../../img/nixos_wallpaper.jpg;
       recursive = true;
     };
-
   };
 
   # Packages that should be installed to the user profile.
-  home.packages = (with pkgs; [
+  home.packages = with pkgs; [
     nextcloud-client
     bitwarden
     jameica
@@ -68,6 +70,7 @@ in {
     zoom-us
     signal-desktop
     xournalpp
+    floorp
 
     # archives
     zip
@@ -88,7 +91,7 @@ in {
     btop # replacement of htop/nmon
     tldr
     killall
-  ]);
+  ];
 
   services.syncthing.enable = true;
 
