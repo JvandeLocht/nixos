@@ -29,6 +29,7 @@
       plenary-nvim
       markdown-preview-nvim # Markdown Preview
     ];
+
     extraConfig =
       /*
       vim
@@ -79,12 +80,14 @@
         vim.keymap.set('n', '<C-Up>', ':resize -2<CR>', { desc = 'Resize Window upwards' })
         vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', { desc = 'Resize Window downwards' })
         vim.keymap.set('n', '<leader>g', '<cmd>FloatermNew lazygit<CR>', { desc = 'Open Lazygit in new Floaterm Window' })
-        vim.opt.undodir = '/home/jan/.config/nvim/.undo//'
-        vim.opt.backupdir = '/home/jan/.config/nvim/.backup//'
-        vim.opt.directory = '/home/jan/.config/nvim/.swp//'
+        -- vim.opt.undodir = '/home/jan/.config/nvim/.undo//'
+        -- vim.opt.backupdir = '/home/jan/.config/nvim/.backup//'
+        -- vim.opt.directory = '/home/jan/.config/nvim/.swp//'
+        vim.o.undofile = true
       '';
     extraPackages = with pkgs; [
       ripgrep # Requirement for telescope
+      wl-clipboard
     ];
   };
 }
