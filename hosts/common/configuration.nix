@@ -4,6 +4,7 @@
 {
   config,
   pkgs,
+  lib,
   ...
 }: {
   imports = [
@@ -19,12 +20,30 @@
   boot = {
     # Bootloader.
     loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
+      #      systemd-boot.enable = true;
+      #      efi.canTouchEfiVariables = true;
+      grub = {
+        enable = true;
+        zfsSupport = true;
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+        mirroredBoots = [
+          {
+            devices = ["nodev"];
+            path = "/boot";
+          }
+        ];
+      };
     };
     # Setup keyfile
-    initrd.secrets = {"/crypto_keyfile.bin" = null;};
-    kernelPackages = pkgs.linuxPackages_latest;
+    #    initrd.secrets = {"/crypto_keyfile.bin" = null;};
+    #    kernelPackages = pkgs.linuxPackages_latest;
+    initrd.postDeviceCommands = lib.mkAfter ''
+      zfs rollback -r rpool/local/root@blank
+    '';
+    zfs.requestEncryptionCredentials = true;
+    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+    kernelParams = ["nohibernate"];
     kernelPatches = [
       {
         name = "amd-tablet-sfh";
@@ -32,6 +51,8 @@
       }
     ];
   };
+  services.zfs.autoScrub.enable = true;
+  networking.hostId = "e4f8879e";
 
   # Enable the X11 windowing system.
   services.xserver = {
@@ -54,6 +75,7 @@
   users.users.jan = {
     isNormalUser = true;
     description = "Jan";
+    initialPassword = "pw321";
     extraGroups = ["networkmanager" "wheel"];
   };
 

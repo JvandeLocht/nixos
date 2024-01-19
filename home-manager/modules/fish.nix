@@ -1,10 +1,10 @@
-{ pkgs, ... }: {
-  home.packages = (with pkgs; [
+{pkgs, ...}: {
+  home.packages = with pkgs; [
     fishPlugins.z
     grc # for fish
     upower
     nix-output-monitor
-  ]);
+  ];
 
   programs.fish = {
     enable = true;
@@ -20,14 +20,11 @@
     ];
     shellAliases = {
       p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
-      nh =
-        "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#hyprland_laptop &| nom --json";
-      ng =
-        "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
+      nh = "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#hyprland_laptop &| nom --json";
+      ng = "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
       j = "z";
       sj = "ssh jan@192.168.178.40";
       sa = "ssh ae@192.168.178.40";
     };
   };
-
 }
