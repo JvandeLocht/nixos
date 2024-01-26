@@ -9,14 +9,13 @@ let
   };
 in {
   dconf.settings = {
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" =
-      {
-        binding = "<Alt>q";
-        command = "alacritty";
-        name = "Alacritty";
-      };
+    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+      binding = "<Alt>q";
+      command = "alacritty";
+      name = "Alacritty";
+    };
 
-    "org/gnome/desktop/interface" = { color-scheme = "prefer-dark"; };
+    "org/gnome/desktop/interface" = {color-scheme = "prefer-dark";};
 
     #Wallpaper
     "org/gnome/desktop/background" = {
@@ -37,7 +36,7 @@ in {
       search-provider-recent-files = true;
       search-provider-open-windows = true;
       arc-menu-icon = 15;
-      runner-menu-custom-hotkey = [ "<Alt>r" ];
+      runner-menu-custom-hotkey = ["<Alt>r"];
       pinned-app-list = [
         "Dateien"
         "org.gnome.Nautilus"
@@ -49,6 +48,19 @@ in {
         "jameica"
         "jameica.desktop"
       ];
+    };
+    #Needed for switch to workspace
+    "org/gnome/shell/keybindings" = {
+      switch-to-application-1 = [];
+      switch-to-application-2 = [];
+      switch-to-application-3 = [];
+      switch-to-application-4 = [];
+      switch-to-application-5 = [];
+      switch-to-application-6 = [];
+      switch-to-application-7 = [];
+      switch-to-application-8 = [];
+      switch-to-application-9 = [];
+      switch-to-application-10 = [];
     };
 
     # # Space-Bar
@@ -63,32 +75,38 @@ in {
       switch-to-workspace-8 = "<Super>8";
       switch-to-workspace-9 = "<Super>9";
       switch-to-workspace-10 = "<Super>10";
-      move-to-workspace-1 = [ "<Super><Shift>1" ];
-      move-to-workspace-2 = [ "<Super><Shift>2" ];
-      move-to-workspace-3 = [ "<Super><Shift>3" ];
-      move-to-workspace-4 = [ "<Super><Shift>4" ];
-      move-to-workspace-5 = [ "<Super><Shift>5" ];
-      move-to-workspace-6 = [ "<Super><Shift>6" ];
-      move-to-workspace-7 = [ "<Super><Shift>7" ];
-      move-to-workspace-8 = [ "<Super><Shift>8" ];
-      move-to-workspace-9 = [ "<Super><Shift>9" ];
-      move-to-workspace-10 = [ "<Super><Shift>0" ];
-      close = [ "<Alt>c" ];
+      move-to-workspace-1 = ["<Super><Shift>1"];
+      move-to-workspace-2 = ["<Super><Shift>2"];
+      move-to-workspace-3 = ["<Super><Shift>3"];
+      move-to-workspace-4 = ["<Super><Shift>4"];
+      move-to-workspace-5 = ["<Super><Shift>5"];
+      move-to-workspace-6 = ["<Super><Shift>6"];
+      move-to-workspace-7 = ["<Super><Shift>7"];
+      move-to-workspace-8 = ["<Super><Shift>8"];
+      move-to-workspace-9 = ["<Super><Shift>9"];
+      move-to-workspace-10 = ["<Super><Shift>0"];
+      close = ["<Alt>c"];
     };
     "org/gnome/shell/extensions/space-bar/shortcuts" = {
       enable-activate-workspace-shortcuts = true;
     };
 
+    "org/gnome/shell/extensions/forge" = {
+      focus-border-toggle = false;
+    };
     "org/gnome/shell" = {
       disable-user-extensions = false;
 
-      show-screenshot-ui = [ "<Super>d" ];
+      show-screenshot-ui = ["<Super>d"];
 
       favorite-apps = [
         "org.gnome.Nautilus.desktop"
-        "firefox.desktop"
         "Alacritty.desktop"
-        "betterbird.desktop"
+        "floorp.desktop"
+        "freetube.desktop"
+        "jameica.desktop"
+        "thunderbird.desktop"
+        "com.github.xournalpp.xournalpp.desktop"
       ];
 
       # `gnome-extensions list` for a list
@@ -102,12 +120,13 @@ in {
         "gsconnect@andyholmes.github.io"
         "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com"
         "screen-rotate@shyzus.github.io"
+        "dash-to-dock@micxgx.gmail.com"
       ];
     };
 
     # Enable fractional scaling
     "org/gnome/mutter" = {
-      experimental-features = [ "scale-monitor-framebuffer" ];
+      experimental-features = ["scale-monitor-framebuffer"];
       dynamic-workspaces = true;
     };
   };
