@@ -16,6 +16,7 @@
     ../../nixos/modules/printing.nix
     ../../nixos/modules/sound.nix
     ../../nixos/modules/services.nix
+    # sops-nix/modules/sops
   ];
   boot = {
     # Bootloader.
@@ -71,11 +72,24 @@
   # Needed for Solaar to see Logitech devices.
   hardware.logitech.wireless.enable = true;
 
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  # This will automatically import SSH keys as age keys
+  sops.age.sshKeyPaths = ["/home/jan/.ssh/id_ed25519"];
+  # This is the actual specification of the secrets.
+  sops.secrets = {
+    github = {
+      owner = "jan";
+      group = "users";
+    };
+    login_jan = {neededForUsers = true;};
+  };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.jan = {
     isNormalUser = true;
     description = "Jan";
-    initialPassword = "pw321";
+    # initialPassword = "pw321";
+    # password = "${pkgs.coreutils-full}/bin/cat /run/secrets-for-users/login_jan";
+    # hashedPasswordFile = config.sops.secrets.login_jan.path;
     extraGroups = ["networkmanager" "wheel"];
   };
 
@@ -91,6 +105,7 @@
     llvmPackages_9.libcxxClang
     powertop
     protonmail-bridge
+    sops
   ];
   programs.partition-manager.enable = true;
 
