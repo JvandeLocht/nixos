@@ -1,7 +1,11 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{ config, pkgs, ... }: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
     ../../nixos/modules
@@ -41,13 +45,13 @@
   security.polkit.enable = true;
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
+    extraPortals = [pkgs.xdg-desktop-portal-hyprland];
   };
-  security.pam.services.swaylock = { };
+  security.pam.services.swaylock = {};
   programs.dconf.enable = true;
 
   # Enable the X11 windowing system.
-  services.xserver = { displayManager.defaultSession = "hyprland"; };
+  services.xserver = {displayManager.defaultSession = "hyprland";};
 
   environment.systemPackages = with pkgs; [
     lxqt.lxqt-policykit
@@ -74,9 +78,9 @@
   systemd = {
     user.services.lxqt-policykit-agent = {
       description = "lxqt-policykit-agent";
-      wantedBy = [ "hyprland-session.target" ];
-      wants = [ "hyprland-session.target" ];
-      after = [ "hyprland-session.target" ];
+      wantedBy = ["hyprland-session.target"];
+      wants = ["hyprland-session.target"];
+      after = ["hyprland-session.target"];
       serviceConfig = {
         Type = "simple";
         ExecStart = "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent";
@@ -85,19 +89,19 @@
         TimeoutStopSec = 10;
       };
     };
-    user.services.nmapplet = {
-      description = "Networkmanger";
-      wantedBy = [ "hyprland-session.target" ];
-      wants = [ "hyprland-session.target" ];
-      after = [ "hyprland-session.target" ];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.networkmanagerapplet}/bin/nm-applet";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-      };
-    };
+    # user.services.nmapplet = {
+    #   description = "Networkmanger";
+    #   wantedBy = [ "hyprland-session.target" ];
+    #   wants = [ "hyprland-session.target" ];
+    #   after = [ "hyprland-session.target" ];
+    #   serviceConfig = {
+    #     Type = "simple";
+    #     ExecStart = "${pkgs.networkmanagerapplet}/bin/nm-applet";
+    #     Restart = "on-failure";
+    #     RestartSec = 1;
+    #     TimeoutStopSec = 10;
+    #   };
+    # };
   };
 
   supergfxd.enable = true;
