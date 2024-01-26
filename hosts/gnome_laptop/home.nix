@@ -1,5 +1,8 @@
-{ config, pkgs, ... }:
-let
+{
+  config,
+  pkgs,
+  ...
+}: let
   vars = {
     # Variables Used In Flake
     user = "jan";
@@ -16,35 +19,47 @@ in {
   ];
 
   # Packages that should be installed to the user profile.
-  home.packages = (with pkgs; [ ]) ++ (with pkgs.gnomeExtensions; [
-    arcmenu
-    caffeine
-    forge
-    space-bar
-    gsconnect
-    appindicator
-    screen-rotate
-  ]);
+  home.packages =
+    (with pkgs; [])
+    ++ (with pkgs.gnomeExtensions; [
+      arcmenu
+      caffeine
+      forge
+      space-bar
+      gsconnect
+      appindicator
+      screen-rotate
+      dash-to-dock
+    ]);
 
   services.syncthing.enable = true;
 
-  systemd.user.services.protonmail-bridge = {
-    Unit = {
-      Description = "Protonmail Bridge";
-      # Requires = [ "pass-secret-service.service" "gpg-agent.service" ];
+  systemd.user.services = {
+    protonmail-bridge = {
+      Unit = {
+        Description = "Protonmail Bridge";
+      };
+      Service = {
+        Restart = "always";
+        ExecStart = "${pkgs.protonmail-bridge}/bin/protonmail-bridge --no-window --noninteractive";
+        Environment = [
+          "PATH=${pkgs.gnome3.gnome-keyring}/bin:${pkgs.pass}/bin"
+          "PASSWORD_STORE_DIR=/home/jan/.local/share/password-store"
+        ];
+      };
+      Install = {WantedBy = ["graphical-session.target"];};
     };
 
-    Service = {
-      Restart = "always";
-      ExecStart =
-        "${pkgs.protonmail-bridge}/bin/protonmail-bridge --no-window --noninteractive";
-      Environment = [
-        "PATH=${pkgs.gnome3.gnome-keyring}/bin:${pkgs.pass}/bin"
-        "PASSWORD_STORE_DIR=/home/jan/.local/share/password-store"
-      ];
+    keyboard_light = {
+      Unit = {
+        Description = "Set keyboard light to 1";
+      };
+      Service = {
+        Restart = "never";
+        ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='asus::kbd_backlight' set 1";
+      };
+      Install = {WantedBy = ["graphical-session.target"];};
     };
-
-    Install = { WantedBy = [ "graphical-session.target" ]; };
   };
 
   # This value determines the home Manager release that your
