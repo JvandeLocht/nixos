@@ -71,6 +71,7 @@ in {
     signal-desktop
     xournalpp
     floorp
+    ollama
 
     # archives
     zip

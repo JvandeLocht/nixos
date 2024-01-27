@@ -60,6 +60,16 @@ in {
       };
       Install = {WantedBy = ["graphical-session.target"];};
     };
+    ollama = {
+      Unit = {
+        Description = "start ollama server";
+      };
+      Service = {
+        Restart = "always";
+        ExecStart = "${pkgs.ollama}/bin/ollama serve";
+      };
+      Install = {WantedBy = ["graphical-session.target"];};
+    };
   };
 
   # This value determines the home Manager release that your
