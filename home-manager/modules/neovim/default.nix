@@ -1,6 +1,7 @@
 {pkgs, ...}: {
   imports = [
     ./autopairs.nix
+    ./gen.nix
     ./bufferline.nix
     ./comment.nix
     ./completion.nix
