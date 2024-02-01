@@ -106,6 +106,8 @@
     powertop
     protonmail-bridge
     sops
+    smartmontools
+    nvtop-nvidia
   ];
   programs.partition-manager.enable = true;
 
