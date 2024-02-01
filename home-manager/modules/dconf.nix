@@ -38,15 +38,12 @@ in {
       arc-menu-icon = 15;
       runner-menu-custom-hotkey = ["<Alt>r"];
       pinned-app-list = [
-        "Dateien"
-        "org.gnome.Nautilus"
-        "org.gnome.Nautilus.desktop"
-        "Alacritty"
-        "Alacritty"
-        "Alacritty.desktop"
-        "Jameica"
-        "jameica"
+        "kitty.desktop"
+        "floorp.desktop"
+        "freetube.desktop"
         "jameica.desktop"
+        "thunderbird.desktop"
+        "com.github.xournalpp.xournalpp.desktop"
       ];
     };
     #Needed for switch to workspace
@@ -87,10 +84,13 @@ in {
       move-to-workspace-10 = ["<Super><Shift>0"];
       close = ["<Alt>c"];
     };
+    "org/gnome/shell/extensions/dash-to-dock" = {
+      hot-keys = false;
+    };
+
     "org/gnome/shell/extensions/space-bar/shortcuts" = {
       enable-activate-workspace-shortcuts = true;
     };
-
     "org/gnome/shell/extensions/forge" = {
       focus-border-toggle = false;
     };
