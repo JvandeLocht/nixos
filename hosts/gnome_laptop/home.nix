@@ -32,8 +32,6 @@ in {
       dash-to-dock
     ]);
 
-  xdg.configFile."wluma/config.toml".source = ../../dotfiles/wluma/config.toml;
-
   services.syncthing.enable = true;
 
   systemd.user.services = {
