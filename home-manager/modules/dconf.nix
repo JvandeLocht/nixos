@@ -85,7 +85,7 @@ in {
       close = ["<Alt>c"];
     };
     "org/gnome/shell/extensions/dash-to-dock" = {
-      hot-keys = false;
+      hot-keys = true;
     };
 
     "org/gnome/shell/extensions/space-bar/shortcuts" = {
@@ -100,8 +100,7 @@ in {
       show-screenshot-ui = ["<Super>d"];
 
       favorite-apps = [
-        "org.gnome.Nautilus.desktop"
-        "Alacritty.desktop"
+        "kitty.desktop"
         "floorp.desktop"
         "freetube.desktop"
         "jameica.desktop"

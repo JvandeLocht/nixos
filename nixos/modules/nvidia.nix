@@ -9,8 +9,9 @@
     driSupport = true;
     driSupport32Bit = true;
   };
-  environment.systemPackages = with pkgs; [
-    cudaPackages.cudatoolkit
+  environment.systemPackages = with pkgs.cudaPackages; [
+    cudatoolkit
+    cudnn
   ];
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = ["nvidia"];

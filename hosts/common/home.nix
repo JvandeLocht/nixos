@@ -70,8 +70,8 @@ in {
     zoom-us
     signal-desktop
     xournalpp
-    floorp
-    ollama
+    # floorp
+    # ollama
 
     # archives
     zip

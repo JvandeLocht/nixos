@@ -3,20 +3,13 @@
 
   nixConfig = {
     experimental-features = ["nix-command" "flakes"];
-    #    substituters = [
-    #      # Replace the official cache with a mirror located in China
-    #      "https://mirrors.ustc.edu.cn/nix-channels/store"
-    #      "https://cache.nixos.org/"
-    #  ];
 
     extra-substituters = [
       # Nix community's cache server
       "https://nix-community.cachix.org"
-      # "https://app.cachix.org/cache/cuda-maintainers"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      # "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
     ];
   };
 
@@ -26,22 +19,12 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     #nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    # Nix User Repo
-    nur.url = "github:nix-community/NUR";
-
     # home-manager, used for managing user configuration
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix.url = "github:Mic92/sops-nix";
-
-    nixneovimplugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
-
-    #    nixvim = {
-    #      url = "github:nix-community/nixvim";
-    # If you are not running an unstable channel of nixpkgs, select the corresponding branch of nixvim.
-    # url = "github:nix-community/nixvim/nixos-23.05";
 
     #      inputs.nixpkgs.follows = "nixpkgs";
     #    };
@@ -59,7 +42,6 @@
     home-manager,
     nur,
     sops-nix,
-    nixneovimplugins,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -82,12 +64,6 @@
             services.xraya.enable = true;
           })
 
-          {
-            nixpkgs.overlays = [
-              inputs.nixneovimplugins.overlays.default
-            ];
-          }
-
           # Classic NixOS Configuration
           ./hosts/gnome_laptop/configuration.nix
 
@@ -105,7 +81,6 @@
               };
               users.jan.imports = [
                 ./hosts/gnome_laptop/home.nix
-                #                  nixvim.homeManagerModules.nixvim
               ];
             };
           }

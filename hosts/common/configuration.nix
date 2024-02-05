@@ -18,6 +18,7 @@
     ../../nixos/modules/services.nix
     # sops-nix/modules/sops
   ];
+
   boot = {
     # Bootloader.
     loader = {
@@ -90,8 +91,12 @@
     # initialPassword = "pw321";
     # password = "${pkgs.coreutils-full}/bin/cat /run/secrets-for-users/login_jan";
     # hashedPasswordFile = config.sops.secrets.login_jan.path;
-    extraGroups = ["networkmanager" "wheel"];
+    extraGroups = ["networkmanager" "wheel" "video"];
   };
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
+    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/leds/asus::kbd_backlight/brightness"
+  '';
 
   environment.systemPackages = with pkgs; [
     git

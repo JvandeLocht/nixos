@@ -32,6 +32,8 @@ in {
       dash-to-dock
     ]);
 
+  xdg.configFile."wluma/config.toml".source = ../../dotfiles/wluma/config.toml;
+
   services.syncthing.enable = true;
 
   systemd.user.services = {
@@ -60,13 +62,23 @@ in {
       };
       Install = {WantedBy = ["graphical-session.target"];};
     };
+    backlight = {
+      Unit = {
+        Description = "Set keyboard light to 1";
+      };
+      Service = {
+        Restart = "never";
+        ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='amdgpu_bl1' set 20";
+      };
+      Install = {WantedBy = ["graphical-session.target"];};
+    };
     ollama = {
       Unit = {
         Description = "start ollama server";
       };
       Service = {
         Restart = "always";
-        ExecStart = "${pkgs.ollama}/bin/ollama serve";
+        ExecStart = "${pkgs.nix}/bin/nix run github:havaker/ollama-nix serve";
       };
       Install = {WantedBy = ["graphical-session.target"];};
     };
