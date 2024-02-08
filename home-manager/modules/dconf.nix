@@ -85,7 +85,7 @@ in {
       close = ["<Alt>c"];
     };
     "org/gnome/shell/extensions/dash-to-dock" = {
-      hot-keys = true;
+      hot-keys = false;
     };
 
     "org/gnome/shell/extensions/space-bar/shortcuts" = {
