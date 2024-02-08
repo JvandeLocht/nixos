@@ -19,6 +19,7 @@
   systemd = {
     tmpfiles.rules = [
       "L /run/secrets - - - - /persist/run/secrets"
+      "L /var/lib/bluetooth - - - - /persist/var/lib/bluetooth"
       "L /run/secrets-for-users - - - - /persist/run/secrets-for-users"
       "L /root/.local/share/nix/trusted-settings.json - - - - /persist/root/.local/share/nix/trusted-settings.json"
     ];
