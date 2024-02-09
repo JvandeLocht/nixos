@@ -21,13 +21,28 @@
         "type": "github"
       }
     },
+    "impermanence": {
+      "locked": {
+        "lastModified": 1706639736,
+        "narHash": "sha256-CaG4j9+UwBDfinxxvJMo6yOonSmSo0ZgnbD7aj2Put0=",
+        "owner": "nix-community",
+        "repo": "impermanence",
+        "rev": "cd13c2917eaa68e4c49fea0ff9cada45440d7045",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "impermanence",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1707091808,
-        "narHash": "sha256-LahKBAfGbY836gtpVNnWwBTIzN7yf/uYM/S0g393r0Y=",
+        "lastModified": 1707347730,
+        "narHash": "sha256-0etC/exQIaqC9vliKhc3eZE2Mm2wgLa0tj93ZF/egvM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "9f2ee8c91ac42da3ae6c6a1d21555f283458247e",
+        "rev": "6832d0d99649db3d65a0e15fa51471537b2c56a6",
         "type": "github"
       },
       "original": {
@@ -86,6 +101,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "impermanence": "impermanence",
         "nixpkgs": "nixpkgs",
         "nur": "nur",
         "sops-nix": "sops-nix"

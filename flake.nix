@@ -16,29 +16,18 @@
   inputs = {
     # Official NixOS package source, using nixos-unstable branch here
     #    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
     impermanence.url = "github:nix-community/impermanence";
 
     # home-manager, used for managing user configuration
     home-manager = {
-      # url = "github:nix-community/home-manager/release-23.11";
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-23.11";
+      # url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix.url = "github:Mic92/sops-nix";
-
-    microvm.url = "github:astro/microvm.nix";
-    microvm.inputs.nixpkgs.follows = "nixpkgs";
-
-    #      inputs.nixpkgs.follows = "nixpkgs";
-    #    };
-
-    #    hyprland.url = "github:hyprwm/Hyprland";
-    #    hyprgrass = {
-    #      url = "github:horriblename/hyprgrass";
-    #      inputs.hyprland.follows = "hyprland"; # IMPORTANT
-    #    };
   };
 
   outputs = {
@@ -47,7 +36,6 @@
     home-manager,
     nur,
     sops-nix,
-    # microvm,
     impermanence,
     ...
   } @ inputs: let
@@ -70,9 +58,6 @@
             imports = [nur-no-pkgs.repos.iopq.modules.xraya];
             services.xraya.enable = true;
           })
-
-          # microvm.nixosModules.host
-
           # Classic NixOS Configuration
           ./hosts/gnome_laptop/configuration.nix
 
@@ -80,6 +65,7 @@
           sops-nix.nixosModules.sops
 
           impermanence.nixosModules.impermanence
+
           # home-manager
           home-manager.nixosModules.home-manager
           {

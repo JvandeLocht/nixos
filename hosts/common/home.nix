@@ -52,7 +52,6 @@ in {
     remmina
     solaar
     AusweisApp2
-    # schildichat-desktop-wayland
     antimicrox
     super-slicer-latest
     yuzu-mainline
@@ -64,14 +63,9 @@ in {
     qownnotes
     obs-studio
     vlc
-    # nomacs # image viewer
-    # gnome.nautilus
-    # gnome.sushi
     zoom-us
     signal-desktop
     xournalpp
-    # floorp
-    # ollama
     logseq
 
     # archives
