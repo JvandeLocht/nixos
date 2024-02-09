@@ -120,6 +120,7 @@ in {
         "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com"
         "screen-rotate@shyzus.github.io"
         "dash-to-dock@micxgx.gmail.com"
+        "syncthing@gnome.2nv2u.com"
       ];
     };
 

@@ -30,6 +30,7 @@ in {
       appindicator
       screen-rotate
       dash-to-dock
+      syncthing-indicator
     ]);
 
   services.syncthing.enable = true;
