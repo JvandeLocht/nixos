@@ -72,6 +72,7 @@ in {
     xournalpp
     # floorp
     # ollama
+    logseq
 
     # archives
     zip
