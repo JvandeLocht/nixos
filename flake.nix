@@ -18,6 +18,7 @@
     #    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
     # nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    impermanence.url = "github:nix-community/impermanence";
 
     # home-manager, used for managing user configuration
     home-manager = {
@@ -47,6 +48,7 @@
     nur,
     sops-nix,
     # microvm,
+    impermanence,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -77,6 +79,7 @@
           # Secret Managment
           sops-nix.nixosModules.sops
 
+          impermanence.nixosModules.impermanence
           # home-manager
           home-manager.nixosModules.home-manager
           {
