@@ -106,6 +106,7 @@ in {
         "jameica.desktop"
         "thunderbird.desktop"
         "com.github.xournalpp.xournalpp.desktop"
+        "logseq.desktop"
       ];
 
       # `gnome-extensions list` for a list
