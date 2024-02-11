@@ -67,6 +67,7 @@ in {
     signal-desktop
     xournalpp
     logseq
+    zellij
 
     # archives
     zip
