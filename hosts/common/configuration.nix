@@ -16,6 +16,8 @@
     ../../nixos/modules/printing.nix
     ../../nixos/modules/sound.nix
     ../../nixos/modules/services.nix
+    ../../nixos/modules/virtualization
+    ../../nixos/modules/microvm
     # sops-nix/modules/sops
   ];
 
@@ -85,13 +87,14 @@
     login_jan = {neededForUsers = true;};
   };
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.jan = {
-    isNormalUser = true;
-    description = "Jan";
-    # initialPassword = "pw321";
-    # password = "${pkgs.coreutils-full}/bin/cat /run/secrets-for-users/login_jan";
-    # hashedPasswordFile = config.sops.secrets.login_jan.path;
-    extraGroups = ["networkmanager" "wheel" "video"];
+  users.users = {
+    jan = {
+      isNormalUser = true;
+      description = "Jan";
+      initialPassword = "pw321";
+      passwordFile = "/persist/passwords/user";
+      extraGroups = ["networkmanager" "wheel" "video"];
+    };
   };
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
@@ -113,6 +116,7 @@
     sops
     smartmontools
     nvtop-nvidia
+    tmux
   ];
   programs.partition-manager.enable = true;
 
