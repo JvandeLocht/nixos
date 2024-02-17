@@ -15,16 +15,19 @@
 
   inputs = {
     # Official NixOS package source, using nixos-unstable branch here
-    #    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    # nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+    microvm.url = "github:astro/microvm.nix";
+    microvm.inputs.nixpkgs.follows = "nixpkgs";
 
     impermanence.url = "github:nix-community/impermanence";
 
     # home-manager, used for managing user configuration
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
-      # url = "github:nix-community/home-manager";
+      # url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix.url = "github:Mic92/sops-nix";
@@ -37,6 +40,7 @@
     nur,
     sops-nix,
     impermanence,
+    microvm,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -60,6 +64,8 @@
           })
           # Classic NixOS Configuration
           ./hosts/gnome_laptop/configuration.nix
+
+          microvm.nixosModules.host
 
           # Secret Managment
           sops-nix.nixosModules.sops
