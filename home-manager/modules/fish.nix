@@ -24,8 +24,8 @@
       ngt = "sudo nixos-rebuild test --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
       j = "z";
       t = "zellij";
-      sj = "kitten ssh jan@192.168.178.40";
-      sa = "kitten ssh ae@192.168.178.40";
+      sj = "ssh jan@192.168.178.40";
+      sa = "ssh ae@192.168.178.40";
       sk = "kitten ssh";
     };
   };
