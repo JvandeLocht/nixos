@@ -13,6 +13,8 @@
       "/var/log"
       "/var/lib/bluetooth"
       "/var/lib/nixos"
+      "/var/lib/libvirt"
+      "/var/cache/libvirt"
       "/var/lib/systemd/coredump"
       "/etc/NetworkManager/system-connections"
       "/etc/asusd"
