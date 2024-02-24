@@ -134,6 +134,7 @@ in {
     "org/gnome/mutter" = {
       experimental-features = ["scale-monitor-framebuffer"];
       dynamic-workspaces = true;
+      workspaces-only-on-primary = true;
     };
   };
 }
