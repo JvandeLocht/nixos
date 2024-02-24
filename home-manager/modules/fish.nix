@@ -26,6 +26,7 @@
       t = "zellij";
       sj = "kitten ssh jan@192.168.178.40";
       sa = "kitten ssh ae@192.168.178.40";
+      sk = "kitten ssh";
     };
   };
 }
