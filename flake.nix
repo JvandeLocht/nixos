@@ -88,6 +88,47 @@
           }
         ];
       };
+
+      "server" = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs;
+        };
+        modules = [
+          # Nix User Repo
+          {nixpkgs.overlays = [nur.overlay];}
+          ({pkgs, ...}: let
+            nur-no-pkgs = import nur {
+              nurpkgs = import nixpkgs {system = "x86_64-linux";};
+            };
+          in {
+            imports = [nur-no-pkgs.repos.iopq.modules.xraya];
+            services.xraya.enable = true;
+          })
+          # Classic NixOS Configuration
+          ./hosts/server/configuration.nix
+
+          # Secret Managment
+          # sops-nix.nixosModules.sops
+
+          # impermanence.nixosModules.impermanence
+
+          # home-manager
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = {
+                inherit inputs outputs;
+              };
+              users.test.imports = [
+                ./hosts/server/home.nix
+              ];
+            };
+          }
+        ];
+      };
+
     };
   };
 }
