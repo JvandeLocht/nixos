@@ -9,7 +9,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    #    ../common/configuration.nix
+    ../common/configuration.nix
   ];
   networking.useNetworkd = true;
   # systemd.network.enable = true;
@@ -124,6 +124,10 @@
     ];
   };
 
+  nix.settings = {
+    experimental-features = ["nix-command" "flakes"];
+    trusted-users = ["test"]; # Add your own username to the trusted list
+  };
   # Enable automatic login for the user.
   services.xserver.displayManager.autoLogin.enable = true;
   services.xserver.displayManager.autoLogin.user = "test";
@@ -169,5 +173,4 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.11"; # Did you read the comment?
 }

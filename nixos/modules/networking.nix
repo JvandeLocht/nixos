@@ -3,7 +3,6 @@
   pkgs,
   ...
 }: {
-  networking.hostName = "jans-nixos"; # Define your hostname.
   # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -15,7 +14,7 @@
   networking.networkmanager = {
     enable = true;
   };
-  sops.secrets."NashornGucken_psk" = {};
+  # sops.secrets."NashornGucken_psk" = {};
 
   # Open ports in the firewall.
   networking.firewall = {

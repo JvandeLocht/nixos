@@ -2,16 +2,7 @@
   config,
   pkgs,
   ...
-}: let
-  vars = {
-    # Variables Used In Flake
-    user = "jan";
-    homeDir = "/home/jan";
-    location = "$HOME/.setup";
-    terminal = "alacritty";
-    editor = "nvim";
-  };
-in {
+}: {
   imports = [
     ../../home-manager/modules/alacritty.nix
     ../../home-manager/modules/desktop.nix
@@ -25,9 +16,6 @@ in {
   ];
 
   nixpkgs.config.allowUnfree = true;
-
-  home.username = "${vars.user}";
-  home.homeDirectory = "${vars.homeDir}";
 
   # basic configuration of git, please change to your own
   programs.git = {

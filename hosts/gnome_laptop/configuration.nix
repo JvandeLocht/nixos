@@ -7,14 +7,90 @@
   ...
 }: {
   imports = [
+    ./hardware-configuration.nix # Include the results of the hardware scan.
     ../../nixos/modules/services.nix
     ../../nixos/modules/gnome.nix
     ../../nixos/modules/podman
     ../common/configuration.nix
     ./opt-in.nix
   ];
+  services.zfs.autoScrub.enable = true;
+  services.udev.extraRules = ''
+    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
+    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/leds/asus::kbd_backlight/brightness"
+  '';
+  boot = {
+    # Bootloader.
+    loader = {
+      #      systemd-boot.enable = true;
+      #      efi.canTouchEfiVariables = true;
+      grub = {
+        enable = true;
+        zfsSupport = true;
+        efiSupport = true;
+        efiInstallAsRemovable = true;
+        mirroredBoots = [
+          {
+            devices = ["nodev"];
+            path = "/boot";
+          }
+        ];
+      };
+    };
+    # Setup keyfile
+    #    initrd.secrets = {"/crypto_keyfile.bin" = null;};
+    #    kernelPackages = pkgs.linuxPackages_latest;
+    initrd.postDeviceCommands = lib.mkAfter ''
+      zfs rollback -r rpool/local/root@blank
+    '';
+    zfs.requestEncryptionCredentials = true;
+    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+    kernelParams = ["nohibernate"];
+    kernelPatches = [
+      {
+        name = "amd-tablet-sfh";
+        patch = ../../kernel/patch/amd-tablet-sfh.patch;
+      }
+    ];
+  };
+  networking.hostId = "e4f8879e";
+  networking.hostName = "jans-nixos"; # Define your hostname.
+  nix.settings = {
+    experimental-features = ["nix-command" "flakes"];
+    trusted-users = ["jan"]; # Add your own username to the trusted list
+  };
+  # Enable Accelerometer
+  hardware.sensor.iio.enable = true;
+
+  sops.defaultSopsFile = ../../secrets/secrets.yaml;
+  # This will automatically import SSH keys as age keys
+  sops.age.sshKeyPaths = ["/home/jan/.ssh/id_ed25519"];
+  # This is the actual specification of the secrets.
+  sops.secrets = {
+    github = {
+      owner = "jan";
+      group = "users";
+    };
+    login_jan = {neededForUsers = true;};
+  };
+  users.users = {
+    jan = {
+      isNormalUser = true;
+      description = "Jan";
+      initialPassword = "pw321";
+      passwordFile = "/persist/passwords/user";
+      extraGroups = ["networkmanager" "wheel" "video" "libvirtd"];
+    };
+  };
   # Enable the X11 windowing system.
   services.xserver = {
+    enable = true;
+    # Enable touchpad support (enabled default in most desktopManager).
+    libinput.enable = true;
+
+    # Enable automatic login for the user.
+    displayManager.autoLogin.enable = true;
+    displayManager.autoLogin.user = "jan";
     displayManager = {
       defaultSession = "gnome";
       gdm.enable = true;

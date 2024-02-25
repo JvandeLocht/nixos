@@ -2,36 +2,31 @@
   config,
   pkgs,
   ...
-}: let
-  vars = {
-    # Variables Used In Flake
-    user = "jan";
-    homeDir = "/home/jan";
-    location = "$HOME/.setup";
-    terminal = "alacritty";
-    editor = "nvim";
-  };
-in {
+}: {
   imports = [
     ../../home-manager/modules/dconf.nix
     ../../home-manager/modules/podman
     ../common/home.nix
   ];
 
-  # Packages that should be installed to the user profile.
-  home.packages =
-    (with pkgs; [])
-    ++ (with pkgs.gnomeExtensions; [
-      arcmenu
-      caffeine
-      forge
-      space-bar
-      gsconnect
-      appindicator
-      screen-rotate
-      dash-to-dock
-      syncthing-indicator
-    ]);
+  home = {
+    home.username = "jan";
+    home.homeDirectory = "/home/jan";
+    # Packages that should be installed to the user profile.
+    home.packages =
+      (with pkgs; [])
+      ++ (with pkgs.gnomeExtensions; [
+        arcmenu
+        caffeine
+        forge
+        space-bar
+        gsconnect
+        appindicator
+        screen-rotate
+        dash-to-dock
+        syncthing-indicator
+      ]);
+  };
 
   services.syncthing.enable = true;
 
