@@ -10,10 +10,10 @@
   ];
 
   home = {
-    home.username = "jan";
-    home.homeDirectory = "/home/jan";
+    username = "jan";
+    homeDirectory = "/home/jan";
     # Packages that should be installed to the user profile.
-    home.packages =
+    packages =
       (with pkgs; [])
       ++ (with pkgs.gnomeExtensions; [
         arcmenu
