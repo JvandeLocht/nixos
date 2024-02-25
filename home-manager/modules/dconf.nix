@@ -105,7 +105,7 @@ in {
       show-screenshot-ui = ["<Super>d"];
 
       favorite-apps = [
-        "kitty.desktop"
+        "org.wezfurlong.wezterm.desktop"
         "floorp.desktop"
         "freetube.desktop"
         "jameica.desktop"
