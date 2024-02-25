@@ -74,7 +74,7 @@
     auto-cpufreq
     sshfs
     tree # Display filetree
-    btop # replacement of htop/nmon
+    htop
     tldr
     killall
   ];
