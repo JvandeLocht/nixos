@@ -107,6 +107,7 @@
           # Classic NixOS Configuration
           ./hosts/server/configuration.nix
 
+          microvm.nixosModules.host
           # Secret Managment
           # sops-nix.nixosModules.sops
 
@@ -128,7 +129,6 @@
           }
         ];
       };
-
     };
   };
 }

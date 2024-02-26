@@ -11,34 +11,6 @@
     ./hardware-configuration.nix
     ../common/configuration.nix
   ];
-  networking.useNetworkd = true;
-  # systemd.network.enable = true;
-
-  systemd.network.networks."10-lan" = {
-    matchConfig.Name = ["enp*" "vm-*"];
-    networkConfig = {
-      Bridge = "br0";
-    };
-  };
-
-  systemd.network.netdevs."br0" = {
-    netdevConfig = {
-      Name = "br0";
-      Kind = "bridge";
-    };
-  };
-
-  systemd.network.networks."10-lan-bridge" = {
-    matchConfig.Name = "br0";
-    # networkConfig = {
-    #   Address = ["192.168.1.2/24" "2001:db8::a/64"];
-    #   Gateway = "192.168.1.1";
-    #   DNS = ["192.168.1.1"];
-    #   IPv6AcceptRA = true;
-    # };
-    networkConfig.DHCP = "ipv4";
-    linkConfig.RequiredForOnline = "routable";
-  };
 
   nixpkgs.config.permittedInsecurePackages = ["electron-24.8.6" "electron-22.3.27" "electron-25.9.0"];
   # Bootloader.
