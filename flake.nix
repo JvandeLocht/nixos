@@ -30,7 +30,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs = {
@@ -38,7 +37,6 @@
     nixpkgs,
     home-manager,
     nur,
-    sops-nix,
     impermanence,
     microvm,
     ...
@@ -66,9 +64,6 @@
           ./hosts/gnome_laptop/configuration.nix
 
           microvm.nixosModules.host
-
-          # Secret Managment
-          sops-nix.nixosModules.sops
 
           impermanence.nixosModules.impermanence
 
@@ -108,8 +103,6 @@
           ./hosts/server/configuration.nix
 
           microvm.nixosModules.host
-          # Secret Managment
-          # sops-nix.nixosModules.sops
 
           # impermanence.nixosModules.impermanence
 

@@ -14,7 +14,6 @@
   networking.networkmanager = {
     enable = true;
   };
-  # sops.secrets."NashornGucken_psk" = {};
 
   # Open ports in the firewall.
   networking.firewall = {

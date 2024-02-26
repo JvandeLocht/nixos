@@ -63,17 +63,6 @@
   # Enable Accelerometer
   hardware.sensor.iio.enable = true;
 
-  sops.defaultSopsFile = ../../secrets/secrets.yaml;
-  # This will automatically import SSH keys as age keys
-  sops.age.sshKeyPaths = ["/home/jan/.ssh/id_ed25519"];
-  # This is the actual specification of the secrets.
-  sops.secrets = {
-    github = {
-      owner = "jan";
-      group = "users";
-    };
-    login_jan = {neededForUsers = true;};
-  };
   users.users = {
     jan = {
       isNormalUser = true;

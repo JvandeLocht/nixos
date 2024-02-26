@@ -17,7 +17,6 @@
     ../../nixos/modules/services.nix
     ../../nixos/modules/virtualization
     ../../nixos/modules/microvm
-    # sops-nix/modules/sops
   ];
 
   # Needed for Solaar to see Logitech devices.
@@ -35,7 +34,6 @@
     llvmPackages_9.libcxxClang
     powertop
     protonmail-bridge
-    sops
     smartmontools
     nvtop-nvidia
     tmux
