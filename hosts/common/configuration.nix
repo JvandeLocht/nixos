@@ -16,7 +16,6 @@
     ../../nixos/modules/sound.nix
     ../../nixos/modules/services.nix
     ../../nixos/modules/virtualization
-    ../../nixos/modules/microvm
   ];
 
   # Needed for Solaar to see Logitech devices.

@@ -10,6 +10,7 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../common/configuration.nix
+    ../../nixos/modules/microvm
   ];
 
   nixpkgs.config.permittedInsecurePackages = ["electron-24.8.6" "electron-22.3.27" "electron-25.9.0"];
