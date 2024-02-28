@@ -10,7 +10,7 @@
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
-  networking.enableIPv6 = false;
+  networking.enableIPv6 = true;
   networking.networkmanager = {
     enable = true;
   };

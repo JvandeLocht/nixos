@@ -6,15 +6,23 @@ in
     microvm,
     ...
   }: {
+    systemd.network = {
+      networks."11-microvm" = {
+        matchConfig.Name = "vm-*";
+        # Attach to the bridge that was configured above
+        networkConfig.Bridge = "microvm";
+      };
+    };
+
     microvm.vms.${name} = {
       config = {
         networking.hostName = name;
         # networking.firewall.enable = false;
-        # services.openssh = {
-        #   enable = true;
-        #   settings.PermitEmptyPasswords = "yes";
-        #   settings.PermitRootLogin = "yes";
-        # };
+        services.openssh = {
+          enable = true;
+          settings.PermitEmptyPasswords = "yes";
+          settings.PermitRootLogin = "yes";
+        };
         users.users.root.password = "";
 
         microvm.hypervisor = "cloud-hypervisor";

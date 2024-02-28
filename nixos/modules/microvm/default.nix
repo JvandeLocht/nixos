@@ -2,31 +2,38 @@
   imports = [./microvm.nix];
 
   networking.useNetworkd = true;
-  # systemd.network.enable = true;
-
-  systemd.network.networks."10-lan" = {
-    matchConfig.Name = ["enp*" "vm-*"];
-    networkConfig = {
-      Bridge = "br0";
-    };
+  networking.nat = {
+    enable = true;
+    enableIPv6 = true;
+    # Change this to the interface with upstream Internet access
+    externalInterface = "enp*";
+    internalInterfaces = ["microvm"];
   };
 
-  systemd.network.netdevs."br0" = {
-    netdevConfig = {
-      Name = "br0";
+  systemd.network = {
+    netdevs."10-microvm".netdevConfig = {
       Kind = "bridge";
+      Name = "microvm";
     };
-  };
-
-  systemd.network.networks."10-lan-bridge" = {
-    matchConfig.Name = "br0";
-    # networkConfig = {
-    #   Address = ["192.168.1.2/24" "2001:db8::a/64"];
-    #   Gateway = "192.168.1.1";
-    #   DNS = ["192.168.1.1"];
-    #   IPv6AcceptRA = true;
-    # };
-    networkConfig.DHCP = "ipv4";
-    linkConfig.RequiredForOnline = "routable";
+    networks."10-microvm" = {
+      matchConfig.Name = "microvm";
+      networkConfig = {
+        DHCPServer = true;
+        IPv6SendRA = true;
+      };
+      addresses = [
+        {
+          addressConfig.Address = "10.0.0.1/24";
+        }
+        {
+          addressConfig.Address = "fd12:3456:789a::1/64";
+        }
+      ];
+      ipv6Prefixes = [
+        {
+          ipv6PrefixConfig.Prefix = "fd12:3456:789a::/64";
+        }
+      ];
+    };
   };
 }
