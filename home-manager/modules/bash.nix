@@ -3,9 +3,9 @@
     upower
     nix-output-monitor
   ];
-
+  programs.zellij.enableBashIntegration = true;
   programs.bash = {
-    blesh.enable = true;
+    initExtra = ''eval "$(starship init bash)"'';
     shellAliases = {
       p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
       ng = "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";

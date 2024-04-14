@@ -36,6 +36,7 @@
     smartmontools
     nvtop-nvidia
     tmux
+    pika-backup
   ];
   programs.partition-manager.enable = true;
 
@@ -47,7 +48,9 @@
 
   # Set default editor to vim
   environment.variables.EDITOR = "nvim";
-  users.defaultUserShell = pkgs.bash;
+  programs.bash.blesh.enable = true;
+  programs.fish.enable = true;
+  users.defaultUserShell = pkgs.fish;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
