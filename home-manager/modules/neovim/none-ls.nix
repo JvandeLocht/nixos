@@ -17,9 +17,6 @@
                     null_ls.builtins.formatting.alejandra.with({
                         command = "${pkgs.alejandra}/bin/alejandra"
                     }),
-                    null_ls.builtins.formatting.lua_format.with({
-                        command = "${pkgs.luaformatter}/bin/lua-format"
-                    }),
                     null_ls.builtins.formatting.google_java_format.with({
                         command = "${pkgs.google-java-format}/bin/google-java-format"
                     }),

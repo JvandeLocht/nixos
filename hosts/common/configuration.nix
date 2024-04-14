@@ -47,8 +47,7 @@
 
   # Set default editor to vim
   environment.variables.EDITOR = "nvim";
-  programs.fish.enable = true;
-  users.defaultUserShell = pkgs.fish;
+  users.defaultUserShell = pkgs.bash;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
