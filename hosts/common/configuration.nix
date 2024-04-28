@@ -15,7 +15,6 @@
     ../../nixos/modules/printing.nix
     ../../nixos/modules/sound.nix
     ../../nixos/modules/services.nix
-    ../../nixos/modules/virtualization
   ];
 
   # Needed for Solaar to see Logitech devices.
