@@ -15,6 +15,7 @@
     ../../nixos/modules/printing.nix
     ../../nixos/modules/sound.nix
     ../../nixos/modules/services.nix
+    # ../../nixos/modules/virtualization
   ];
 
   # Needed for Solaar to see Logitech devices.
@@ -29,7 +30,7 @@
     kitty
     evtest
     gnugrep
-    llvmPackages_9.libcxxClang
+    # llvmPackages_9.libcxxClang
     powertop
     protonmail-bridge
     smartmontools
