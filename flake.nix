@@ -16,18 +16,18 @@
   inputs = {
     # Official NixOS package source, using nixos-unstable branch here
     # nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    microvm.url = "github:astro/microvm.nix";
-    microvm.inputs.nixpkgs.follows = "nixpkgs";
+    # microvm.url = "github:astro/microvm.nix";
+    # microvm.inputs.nixpkgs.follows = "nixpkgs";
 
     impermanence.url = "github:nix-community/impermanence";
 
     # home-manager, used for managing user configuration
     home-manager = {
-      # url = "github:nix-community/home-manager/release-23.11";
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-23.11";
+      # url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -38,7 +38,7 @@
     home-manager,
     nur,
     impermanence,
-    microvm,
+    # microvm,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -63,7 +63,7 @@
           # Classic NixOS Configuration
           ./hosts/gnome_laptop/configuration.nix
 
-          microvm.nixosModules.host
+          # microvm.nixosModules.host
 
           impermanence.nixosModules.impermanence
 
@@ -102,7 +102,7 @@
           # Classic NixOS Configuration
           ./hosts/server/configuration.nix
 
-          microvm.nixosModules.host
+          # microvm.nixosModules.host
 
           # impermanence.nixosModules.impermanence
 
