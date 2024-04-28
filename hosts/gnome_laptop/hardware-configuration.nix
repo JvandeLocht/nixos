@@ -27,6 +27,11 @@
     fsType = "vfat";
   };
 
+  fileSystems."/backup" = {
+    device = "/dev/disk/by-uuid/6b13d440-eba1-44ef-b58f-7d3101042803";
+    fsType = "ext4";
+  };
+
   fileSystems."/nix" = {
     device = "rpool/local/nix";
     fsType = "zfs";
