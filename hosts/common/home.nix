@@ -43,8 +43,9 @@
     solaar
     AusweisApp2
     antimicrox
+    octaveFull
     # super-slicer-latest
- #   yuzu-mainline
+    #   yuzu-mainline
     waydroid
     freetube
     webcord
