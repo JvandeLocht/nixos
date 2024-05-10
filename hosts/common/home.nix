@@ -59,6 +59,9 @@
     xournalpp
     logseq
     zellij
+    talosctl
+    kubectl
+    kubernetes-helm
 
     # archives
     zip
