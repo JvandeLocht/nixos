@@ -23,6 +23,7 @@
       ng = "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
       ngt = "sudo nixos-rebuild test --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
       j = "z";
+      k = "kubectl";
       t = "zellij";
       st = "ssh admin@192.168.178.40";
     };

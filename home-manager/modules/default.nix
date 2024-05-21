@@ -11,6 +11,7 @@
     ./swaylock.nix
     ./waybar
     ./wofi.nix
+    ./zsh.nix
     ./neovim
     ./hyperland
     ./lf

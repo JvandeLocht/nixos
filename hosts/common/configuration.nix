@@ -50,7 +50,8 @@
   environment.variables.EDITOR = "nvim";
   programs.bash.blesh.enable = true;
   programs.fish.enable = true;
-  users.defaultUserShell = pkgs.fish;
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

@@ -8,6 +8,7 @@
     ../../home-manager/modules/desktop.nix
     ../../home-manager/modules/firefox.nix
     ../../home-manager/modules/fish.nix
+    ../../home-manager/modules/zsh.nix
     ../../home-manager/modules/bash.nix
     ../../home-manager/modules/kitty.nix
     ../../home-manager/modules/wezterm.nix
