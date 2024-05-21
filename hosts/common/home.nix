@@ -59,6 +59,7 @@
     signal-desktop
     xournalpp
     logseq
+    onlyoffice-bin
 
     # archives
     zip
