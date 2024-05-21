@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   programs.firefox = {
     enable = true;
-    package = pkgs.floorp;
+    package = pkgs.librewolf;
     profiles = {
       "main" = {
         extensions = with pkgs.nur.repos.rycee.firefox-addons; [
