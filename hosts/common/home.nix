@@ -59,10 +59,6 @@
     signal-desktop
     xournalpp
     logseq
-    zellij
-    talosctl
-    kubectl
-    kubernetes-helm
 
     # archives
     zip
@@ -71,6 +67,15 @@
     p7zip
 
     # CLI
+    yq-go
+    kubeconform
+    kustomize
+    zellij
+    talosctl
+    kubectl
+    kubernetes-helm
+    k9s
+    fluxcd
     abduco # Allows programs to be run independently from its controlling terminal
     neofetch
     lazygit
