@@ -60,6 +60,7 @@
     xournalpp
     logseq
     onlyoffice-bin
+    appimage-run
 
     # archives
     zip
