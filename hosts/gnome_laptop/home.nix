@@ -68,7 +68,7 @@
     };
     backlight = {
       Unit = {
-        Description = "Set keyboard light to 1";
+        Description = "Set display brightness";
       };
       Service = {
         Restart = "never";
