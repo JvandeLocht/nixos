@@ -86,6 +86,16 @@
       };
       Install = {WantedBy = ["graphical-session.target"];};
     };
+    filen = {
+      Unit = {
+        Description = "start filen";
+      };
+      Service = {
+        Restart = "always";
+        ExecStart = "${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage";
+      };
+      Install = {WantedBy = ["graphical-session.target"];};
+    };
   };
 
   # This value determines the home Manager release that your
