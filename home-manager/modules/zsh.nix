@@ -9,6 +9,7 @@
       enable = true;
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
+      # initExtra = "zellij";
       shellAliases = {
         p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
         ng = "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
