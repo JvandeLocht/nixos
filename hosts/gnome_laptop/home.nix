@@ -56,6 +56,16 @@
       };
       Install = {WantedBy = ["graphical-session.target"];};
     };
+    keyboard_color = {
+      Unit = {
+        Description = "Set keyboard color";
+      };
+      Service = {
+        Restart = "never";
+        ExecStart = "${pkgs.asusctl}/bin/asusctl led-mode static -c 00ff00";
+      };
+      Install = {WantedBy = ["graphical-session.target"];};
+    };
     backlight = {
       Unit = {
         Description = "Set keyboard light to 1";
