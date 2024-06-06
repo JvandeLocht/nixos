@@ -30,11 +30,11 @@
     kitty
     evtest
     gnugrep
-    llvmPackages_9.libcxxClang
+    # llvmPackages_9.libcxxClang
     powertop
     protonmail-bridge
     smartmontools
-    nvtop-nvidia
+    nvtopPackages.nvidia
     tmux
     pika-backup
   ];

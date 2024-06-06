@@ -1,15 +1,16 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   # imports = [ ./ollama.nix ];
-  environment.systemPackages = [ pkgs.nvidia-podman ];
-
+  environment.systemPackages = [pkgs.nvidia-podman];
+  virtualisation.containers.cdi.dynamic.nvidia.enable = true;
   virtualisation = {
     oci-containers.backend = "podman";
     podman = {
       enable = true;
-      enableNvidia = true;
-
       # Create a `docker` alias for podman, to use it as a drop-in replacement
       dockerCompat = true;
 

@@ -67,23 +67,25 @@
     jan = {
       isNormalUser = true;
       description = "Jan";
-      initialPassword = "pw321";
-      passwordFile = "/persist/passwords/user";
+      hashedPasswordFile = "/persist/passwords/user";
       extraGroups = ["networkmanager" "wheel" "video" "libvirtd"];
     };
   };
   # Enable the X11 windowing system.
-  services.xserver = {
-    enable = true;
+  services = {
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
-
-    # Enable automatic login for the user.
-    displayManager.autoLogin.enable = true;
-    displayManager.autoLogin.user = "jan";
     displayManager = {
       defaultSession = "gnome";
-      gdm.enable = true;
+      # Enable automatic login for the user.
+      autoLogin = {
+        enable = true;
+        user = "jan";
+      };
+    };
+    xserver = {
+      enable = true;
+      displayManager.gdm.enable = true;
     };
   };
   programs.dconf.enable = true;
