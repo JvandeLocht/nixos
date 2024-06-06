@@ -12,12 +12,12 @@
       # initExtra = "zellij";
       shellAliases = {
         p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
-        ng = "sudo nixos-rebuild switch --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
+        ng = "sudo nixos-rebuild switch --flake ~/.setup#gnome_laptop";
         ngt = "sudo nixos-rebuild test --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
-        j = "z";
-        k = "kubectl";
+        # j = "z";
+        # k = "kubectl";
         t = "zellij";
-        st = "ssh admin@192.168.178.40";
+        sp = "ssh root@192.168.178.40";
       };
       oh-my-zsh = {
         enable = true;
