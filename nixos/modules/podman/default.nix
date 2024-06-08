@@ -6,7 +6,7 @@
 }: {
   # imports = [ ./ollama.nix ];
   environment.systemPackages = [pkgs.nvidia-podman];
-  virtualisation.containers.cdi.dynamic.nvidia.enable = true;
+  hardware.nvidia-container-toolkit.enable = true;
   virtualisation = {
     oci-containers.backend = "podman";
     podman = {
