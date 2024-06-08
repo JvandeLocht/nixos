@@ -105,11 +105,10 @@ in {
       show-screenshot-ui = ["<Super>d"];
 
       favorite-apps = [
-        "org.wezfurlong.wezterm.desktop"
+        "Alacritty.desktop"
+        "proton-mail.desktop"
         "librewolf.desktop"
         "freetube.desktop"
-        # "jameica.desktop"
-        "thunderbird.desktop"
         "com.github.xournalpp.xournalpp.desktop"
         "logseq.desktop"
       ];
