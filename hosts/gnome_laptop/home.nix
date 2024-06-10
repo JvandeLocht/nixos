@@ -66,6 +66,16 @@
       };
       Install = {WantedBy = ["graphical-session.target"];};
     };
+    charge_limit = {
+      Unit = {
+        Description = "Set charge limit to 80%";
+      };
+      Service = {
+        Restart = "never";
+        ExecStart = "${pkgs.asusctl}/bin/asusctl -c 80";
+      };
+      Install = {WantedBy = ["graphical-session.target"];};
+    };
     backlight = {
       Unit = {
         Description = "Set display brightness";
