@@ -62,6 +62,7 @@
     logseq
     onlyoffice-bin
     appimage-run
+    element-desktop
 
     # archives
     zip
@@ -79,6 +80,7 @@
     kubernetes-helm
     k9s
     fluxcd
+    kompose
 
     sops
     age
