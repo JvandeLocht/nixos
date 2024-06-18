@@ -82,7 +82,7 @@
       };
       Service = {
         Restart = "never";
-        ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='amdgpu_bl1' set 20";
+        ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='amdgpu_bl2' set 15";
       };
       Install = {WantedBy = ["graphical-session.target"];};
     };
