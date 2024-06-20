@@ -17,7 +17,7 @@
     # Official NixOS package source, using nixos-unstable branch here
     # nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
-    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     # microvm.url = "github:astro/microvm.nix";
     # microvm.inputs.nixpkgs.follows = "nixpkgs";
@@ -35,6 +35,7 @@
   outputs = {
     self,
     nixpkgs,
+    nixpkgs-unstable,
     home-manager,
     nur,
     impermanence,
@@ -60,6 +61,7 @@
             imports = [nur-no-pkgs.repos.iopq.modules.xraya];
             services.xraya.enable = true;
           })
+          {_module.args = {inherit inputs;};}
           # Classic NixOS Configuration
           ./hosts/gnome_laptop/configuration.nix
 

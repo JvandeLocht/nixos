@@ -4,9 +4,14 @@
 {
   config,
   pkgs,
+  inputs,
   lib,
   ...
-}: {
+}: let
+  unstable = import inputs.nixpkgs-unstable {
+    localSystem = pkgs.system;
+  };
+in {
   imports = [
     ../../nixos/modules/gaming.nix
     ../../nixos/modules/locale_keymap.nix
@@ -21,23 +26,28 @@
   # Needed for Solaar to see Logitech devices.
   hardware.logitech.wireless.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    git
-    neovim
-    wget
-    curl
-    nerdfonts
-    kitty
-    evtest
-    gnugrep
-    # llvmPackages_9.libcxxClang
-    powertop
-    protonmail-bridge
-    smartmontools
-    nvtopPackages.nvidia
-    tmux
-    pika-backup
-  ];
+  environment.systemPackages = with pkgs;
+    [
+      git
+      neovim
+      wget
+      curl
+      nerdfonts
+      kitty
+      evtest
+      gnugrep
+      # llvmPackages_9.libcxxClang
+      powertop
+      protonmail-bridge
+      smartmontools
+      nvtopPackages.nvidia
+      tmux
+      pika-backup
+    ]
+    ++ (with unstable; [
+      proton-pass
+    ]);
+
   programs.partition-manager.enable = true;
 
   # # Nix Settings
