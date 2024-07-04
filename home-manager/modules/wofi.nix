@@ -1,53 +1,63 @@
 {
-  programs.wofi = {
-    enable = true;
-    style = ''
-      * {
-      	font-family: "Hack", monospace;
-      }
+  lib,
+  config,
+}: {
+  options = {
+    wofi.enable =
+      lib.mkEnableOption "enables wofi with custom config";
+  };
 
-      window {
-      	background-color: #3B4252;
-      }
+  config = lib.mkIf config.wofi.enable {
+    programs.wofi = {
+      enable = true;
+      style = ''
+        * {
+        	font-family: "Hack", monospace;
+        }
 
-      #input {
-      	margin: 5px;
-      	border-radius: 0px;
-      	border: none;
-      	background-color: #3B4252;
-      	color: white;
-      }
+        window {
+        	background-color: #3B4252;
+        }
 
-      #inner-box {
-      	background-color: #383C4A;
-      }
+        #input {
+        	margin: 5px;
+        	border-radius: 0px;
+        	border: none;
+        	background-color: #3B4252;
+        	color: white;
+        }
 
-      #outer-box {
-      	margin: 2px;
-      	padding: 10px;
-      	background-color: #383C4A;
-      }
+        #inner-box {
+        	background-color: #383C4A;
+        }
 
-      #scroll {
-      	margin: 5px;
-      }
+        #outer-box {
+        	margin: 2px;
+        	padding: 10px;
+        	background-color: #383C4A;
+        }
 
-      #text {
-      	padding: 4px;
-      	color: white;
-      }
+        #scroll {
+        	margin: 5px;
+        }
 
-      #entry:nth-child(even){
-      	background-color: #404552;
-      }
+        #text {
+        	padding: 4px;
+        	color: white;
+        }
 
-      #entry:selected {
-      	background-color: #4C566A;
-      }
+        #entry:nth-child(even){
+        	background-color: #404552;
+        }
 
-      #text:selected {
-      	background: transparent;
-      }
-    '';
+        #entry:selected {
+        	background-color: #4C566A;
+        }
+
+        #text:selected {
+        	background: transparent;
+        }
+      '';
+    };
   };
 }
