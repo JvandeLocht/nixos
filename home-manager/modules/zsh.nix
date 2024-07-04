@@ -12,7 +12,7 @@
       # initExtra = "zellij";
       shellAliases = {
         p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
-        ng = "sudo nixos-rebuild switch --flake ~/.setup#gnome_laptop";
+        ng = "sudo nixos-rebuild switch --flake ~/.setup#gnome_laptop --log-format internal-json -v |& nom --json";
         ngt = "sudo nixos-rebuild test --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
         # j = "z";
         # k = "kubectl";
