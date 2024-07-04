@@ -87,6 +87,10 @@
       enable = true;
       displayManager.gdm.enable = true;
     };
+    ollama = {
+      enable = true;
+      acceleration = "cuda";
+    };
   };
   programs.dconf.enable = true;
 }

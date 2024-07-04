@@ -86,16 +86,16 @@
       };
       Install = {WantedBy = ["graphical-session.target"];};
     };
-    ollama = {
-      Unit = {
-        Description = "start ollama server";
-      };
-      Service = {
-        Restart = "always";
-        ExecStart = "${pkgs.nix}/bin/nix run github:havaker/ollama-nix serve";
-      };
-      Install = {WantedBy = ["graphical-session.target"];};
-    };
+    # ollama = {
+    #   Unit = {
+    #     Description = "start ollama server";
+    #   };
+    #   Service = {
+    #     Restart = "always";
+    #     ExecStart = "${pkgs.nix}/bin/nix run github:havaker/ollama-nix serve";
+    #   };
+    #   Install = {WantedBy = ["graphical-session.target"];};
+    # };
     filen = {
       Unit = {
         Description = "start filen";
