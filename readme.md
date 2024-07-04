@@ -40,6 +40,11 @@ And now safely erasing the root dataset on each boot is very easy: after devices
 
 The selection of data that should persist across reboots is done by using the Nix Module [impermanence](https://github.com/nix-community/impermanence)
 
+To see what your are about to loose you can run this command:
+```
+sudo zfs diff rpool/local/root@blank
+```
+
 Filestructure:
 ```
 ├── dotfiles
