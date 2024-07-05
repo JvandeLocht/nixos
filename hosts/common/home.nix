@@ -19,7 +19,12 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # kitty.enable = true;
+  alacritty.enable = true;
+  firefox.enable = true;
+  zsh.enable = true;
+  dconf.enable = true;
+  lf.enable = true;
+
   # basic configuration of git, please change to your own
   programs.git = {
     enable = true;
