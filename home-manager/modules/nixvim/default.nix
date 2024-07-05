@@ -1,27 +1,38 @@
-{ pkgs, ... }: {
-  imports = [
-    ./autocommands.nix
-    ./completion.nix
-    ./keymappings.nix
-    ./options.nix
-    ./plugins
-    ./todo.nix
-  ];
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  options.nixvim = {
+    enable = lib.mkEnableOption "Custom Neovim (nixvim) configuration";
+  };
 
-  home.shellAliases.v = "nvim";
+  config = lib.mkIf config.nixvim.enable {
+    imports = [
+      ./autocommands.nix
+      ./completion.nix
+      ./keymappings.nix
+      ./options.nix
+      ./plugins
+      ./todo.nix
+    ];
 
-  programs.nixvim = {
-    enable = true;
-    # package = pkgs-unstable.nixvim;
-    # defaultEditor = true;
+    home.shellAliases.v = "nvim";
 
-    viAlias = true;
-    vimAlias = true;
+    programs.nixvim = {
+      enable = true;
+      # package = pkgs-unstable.nixvim;
+      # defaultEditor = true;
 
-    luaLoader.enable = true;
+      viAlias = true;
+      vimAlias = true;
 
-    # Highlight and remove extra white spaces
-    # highlight.ExtraWhitespace.bg = "red";
-    match.ExtraWhitespace = "\\s\\+$";
+      luaLoader.enable = true;
+
+      # Highlight and remove extra white spaces
+      # highlight.ExtraWhitespace.bg = "red";
+      match.ExtraWhitespace = "\\s\\+$";
+    };
   };
 }
