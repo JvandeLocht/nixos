@@ -1,4 +1,8 @@
-let
+{
+  lib,
+  config,
+  ...
+}: let
   vars = {
     # Variables Used In Flake
     user = "jan";
@@ -8,132 +12,136 @@ let
     editor = "nvim";
   };
 in {
-  dconf.settings = {
-    "org/virt-manager/virt-manager/connections" = {
-      autoconnect = ["qemu:///system"];
-      uris = ["qemu:///system"];
-    };
+  options.dconfSettings = {
+    enable = lib.mkEnableOption "Custom dconf settings";
+  };
 
-    "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
-      binding = "<Alt>q";
-      command = "alacritty";
-      name = "Alacritty";
-    };
+  config = lib.mkIf config.dconfSettings.enable {
+    dconf.settings = {
+      "org/virt-manager/virt-manager/connections" = {
+        autoconnect = ["qemu:///system"];
+        uris = ["qemu:///system"];
+      };
 
-    "org/gnome/desktop/interface" = {color-scheme = "prefer-dark";};
+      "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+        binding = "<Alt>q";
+        command = "alacritty";
+        name = "Alacritty";
+      };
 
-    #Wallpaper
-    "org/gnome/desktop/background" = {
-      picture-uri = "${vars.homeDir}/.nixos_wallpaper.jpg";
-      picture-uri-dark = "${vars.homeDir}/.nixos_wallpaper.jpg";
-    };
+      "org/gnome/desktop/interface" = {color-scheme = "prefer-dark";};
 
-    # Touchpad
-    "org/gnome/desktop/peripherals/touchpad" = {
-      speed = 1.0;
-      tap-to-click = true;
-    };
+      #Wallpaper
+      "org/gnome/desktop/background" = {
+        picture-uri = "${vars.homeDir}/.nixos_wallpaper.jpg";
+        picture-uri-dark = "${vars.homeDir}/.nixos_wallpaper.jpg";
+      };
 
-    # Arcmenu Setting
-    "org/gnome/shell/extensions/arcmenu" = {
-      hide-overview-on-startup = true;
-      enable-standlone-runner-menu = true;
-      search-provider-recent-files = true;
-      search-provider-open-windows = true;
-      arc-menu-icon = 15;
-      runner-menu-custom-hotkey = ["<Alt>r"];
-      pinned-app-list = [
-        "kitty.desktop"
-        "floorp.desktop"
-        "freetube.desktop"
-        "jameica.desktop"
-        "thunderbird.desktop"
-        "com.github.xournalpp.xournalpp.desktop"
-      ];
-    };
-    #Needed for switch to workspace
-    "org/gnome/shell/keybindings" = {
-      switch-to-application-1 = [];
-      switch-to-application-2 = [];
-      switch-to-application-3 = [];
-      switch-to-application-4 = [];
-      switch-to-application-5 = [];
-      switch-to-application-6 = [];
-      switch-to-application-7 = [];
-      switch-to-application-8 = [];
-      switch-to-application-9 = [];
-      switch-to-application-10 = [];
-    };
+      # Touchpad
+      "org/gnome/desktop/peripherals/touchpad" = {
+        speed = 1.0;
+        tap-to-click = true;
+      };
 
-    # # Space-Bar
-    "org/gnome/desktop/wm/keybindings" = {
-      switch-to-workspace-1 = "<Super>1";
-      switch-to-workspace-2 = "<Super>2";
-      switch-to-workspace-3 = "<Super>3";
-      switch-to-workspace-4 = "<Super>4";
-      switch-to-workspace-5 = "<Super>5";
-      switch-to-workspace-6 = "<Super>6";
-      switch-to-workspace-7 = "<Super>7";
-      switch-to-workspace-8 = "<Super>8";
-      switch-to-workspace-9 = "<Super>9";
-      switch-to-workspace-10 = "<Super>10";
-      move-to-workspace-1 = ["<Super><Shift>1"];
-      move-to-workspace-2 = ["<Super><Shift>2"];
-      move-to-workspace-3 = ["<Super><Shift>3"];
-      move-to-workspace-4 = ["<Super><Shift>4"];
-      move-to-workspace-5 = ["<Super><Shift>5"];
-      move-to-workspace-6 = ["<Super><Shift>6"];
-      move-to-workspace-7 = ["<Super><Shift>7"];
-      move-to-workspace-8 = ["<Super><Shift>8"];
-      move-to-workspace-9 = ["<Super><Shift>9"];
-      move-to-workspace-10 = ["<Super><Shift>0"];
-      close = ["<Alt>c"];
-    };
-    "org/gnome/shell/extensions/dash-to-dock" = {
-      hot-keys = false;
-    };
+      # Arcmenu Setting
+      "org/gnome/shell/extensions/arcmenu" = {
+        hide-overview-on-startup = true;
+        enable-standlone-runner-menu = true;
+        search-provider-recent-files = true;
+        search-provider-open-windows = true;
+        arc-menu-icon = 15;
+        runner-hotkey = ["<Alt>r"];
+        pinned-app-list = [
+          "Alacritty.desktop"
+          "proton-mail.desktop"
+          "freetube.desktop"
+          "jameica.desktop"
+        ];
+      };
 
-    "org/gnome/shell/extensions/space-bar/shortcuts" = {
-      enable-activate-workspace-shortcuts = true;
-    };
-    "org/gnome/shell/extensions/forge" = {
-      focus-border-toggle = false;
-    };
-    "org/gnome/shell" = {
-      disable-user-extensions = false;
+      #Needed for switch to workspace
+      "org/gnome/shell/keybindings" = {
+        switch-to-application-1 = [];
+        switch-to-application-2 = [];
+        switch-to-application-3 = [];
+        switch-to-application-4 = [];
+        switch-to-application-5 = [];
+        switch-to-application-6 = [];
+        swrtch-to-application-7 = [];
+        switch-to-application-8 = [];
+        switch-to-application-9 = [];
+        switch-to-application-10 = [];
+      };
 
-      show-screenshot-ui = ["<Super>d"];
+      # Space-Bar
+      "org/gnome/desktop/wm/keybindings" = {
+        switch-to-workspace-1 = "<Super>1";
+        switch-to-workspace-2 = "<Super>2";
+        switch-to-workspace-3 = "<Super>3";
+        switch-to-workspace-4 = "<Super>4";
+        switch-to-workspace-5 = "<Super>5";
+        switch-to-workspace-6 = "<Super>6";
+        switch-to-workspace-7 = "<Super>7";
+        switch-to-workspace-8 = "<Super>8";
+        switch-to-workspace-9 = "<Super>9";
+        switch-to-workspace-10 = "<Super>10";
+        move-to-workspace-1 = ["<Super><Shift>1"];
+        move-to-workspace-2 = ["<Super><Shift>2"];
+        move-to-workspace-3 = ["<Super><Shift>3"];
+        move-to-workspace-4 = ["<Super><Shift>4"];
+        move-to-workspace-5 = ["<Super><Shift>5"];
+        move-to-workspace-6 = ["<Super><Shift>6"];
+        move-to-workspace-7 = ["<Super><Shift>7"];
+        move-to-workspace-8 = ["<Super><Shift>8"];
+        move-to-workspace-9 = ["<Super><Shift>9"];
+        move-to-workspace-10 = ["<Super><Shift>0"];
+        close = ["<Alt>c"];
+      };
 
-      favorite-apps = [
-        "Alacritty.desktop"
-        "proton-mail.desktop"
-        "librewolf.desktop"
-        "freetube.desktop"
-        "com.github.xournalpp.xournalpp.desktop"
-        "logseq.desktop"
-      ];
+      "org/gnome/shell/extensions/dash-to-dock" = {
+        hot-keys = false;
+      };
 
-      # `gnome-extensions list` for a list
-      enabled-extensions = [
-        "arcmenu@arcmenu.com"
-        "caffeine@patapon.info"
-        "forge@jmmaranan.com"
-        "space-bar@luchrioh"
-        "drive-menu@gnome-shell-extensions.gcampax.github.com"
-        "appindicatorsupport@rgcjonas.gmail.com"
-        "gsconnect@andyholmes.github.io"
-        "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com"
-        "screen-rotate@shyzus.github.io"
-        "dash-to-dock@micxgx.gmail.com"
-        "syncthing@gnome.2nv2u.com"
-      ];
-    };
+      "org/gnome/shell/extensions/space-bar/shortcuts" = {
+        enable-activate-workspace-shortcuts = true;
+      };
 
-    # Enable fractional scaling
-    "org/gnome/mutter" = {
-      experimental-features = ["scale-monitor-framebuffer"];
-      dynamic-workspaces = true;
-      workspaces-only-on-primary = true;
+      "org/gnome/shell/extensions/forge" = {
+        focus-border-toggle = false;
+      };
+
+      "org/gnome/shell" = {
+        disable-user-extensions = false;
+        show-screenshot-ui = ["<Super>d"];
+        favorite-apps = [
+          "Alacritty.desktop"
+          "proton-mail.desktop"
+          "librewolf.desktop"
+          "freetube.desktop"
+          "com.github.xournalpp.xournalpp.desktop"
+          "logseq.desktop"
+        ];
+        enabled-extensions = [
+          "arcmenu@arcmenu.com"
+          "caffeine@patapon.info"
+          "forge@jmmaranan.com"
+          "space-bar@luchrioh"
+          "drive-menu@gnome-shell-extensions.gcampax.github.com"
+          "appindicatorsupport@rgcjonas.gmail.com"
+          "gsconnect@andyholmes.github.io"
+          "screenshot-window-sizer@gnome-shell-extensions.gcampax.github.com"
+          "screen-rotate@shyzus.github.io"
+          "dash-to-dock@micxgx.gmail.com"
+          "syncthing@gnome.2nv2u.com"
+        ];
+      };
+
+      # Enable fractional scaling
+      "org/gnome/mutter" = {
+        experimental-features = ["scale-monitor-framebuffer"];
+        dynamic-workspaces = true;
+        workspaces-only-on-primary = true;
+      };
     };
   };
 }
