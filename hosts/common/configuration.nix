@@ -33,7 +33,6 @@ in {
       wget
       curl
       nerdfonts
-      kitty
       evtest
       gnugrep
       # llvmPackages_9.libcxxClang
