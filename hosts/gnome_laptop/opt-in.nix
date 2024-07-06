@@ -16,8 +16,7 @@
       "/var/lib/libvirt"
       "/var/cache/libvirt"
       "/var/lib/systemd/coredump"
-      "/var/lib/private/ollama"
-      "/var/lib/ollama"
+      "/var/lib/ollama/models"
       "/etc/NetworkManager/system-connections"
       "/etc/asusd"
       {
