@@ -4,20 +4,20 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ./autocommands.nix
+    ./completion.nix
+    ./keymappings.nix
+    ./options.nix
+    ./plugins
+    ./todo.nix
+  ];
+
   options.nixvim = {
     enable = lib.mkEnableOption "Custom Neovim (nixvim) configuration";
   };
 
   config = lib.mkIf config.nixvim.enable {
-    imports = [
-      ./autocommands.nix
-      ./completion.nix
-      ./keymappings.nix
-      ./options.nix
-      ./plugins
-      ./todo.nix
-    ];
-
     home.shellAliases.v = "nvim";
 
     programs.nixvim = {

@@ -5,13 +5,13 @@
   inputs,
   ...
 }: {
+  imports = [./config.nix ./hyprpaper.nix];
+
   options.hyprlandConfig = {
     enable = lib.mkEnableOption "Custom Hyprland configuration";
   };
 
   config = lib.mkIf config.hyprlandConfig.enable {
-    imports = [./config.nix ./hyprpaper.nix];
-
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
