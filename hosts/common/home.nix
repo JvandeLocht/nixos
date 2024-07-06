@@ -4,17 +4,7 @@
   ...
 }: {
   imports = [
-    ../../home-manager/modules/alacritty.nix
-    ../../home-manager/modules/desktop.nix
-    ../../home-manager/modules/firefox.nix
-    ../../home-manager/modules/fish.nix
-    ../../home-manager/modules/zsh.nix
-    ../../home-manager/modules/bash.nix
-    ../../home-manager/modules/kitty.nix
-    ../../home-manager/modules/wezterm.nix
-    ../../home-manager/modules/starship.nix
-    ../../home-manager/modules/neovim
-    ../../home-manager/modules/lf
+    ../../home-manager/modules
   ];
 
   nixpkgs.config.allowUnfree = true;
