@@ -1,14 +1,24 @@
-{pkgs, ...}: {
-  programs.neovim = {
-    plugins = with pkgs.vimPlugins; [
-      {
-        plugin = nvim-lspconfig;
-        type = "lua";
-        config =
-          /*
-          lua
-          */
-          ''
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}: {
+  options.neovim.lspconfig = {
+    enable = lib.mkEnableOption "nvim-lspconfig plugin for Neovim";
+  };
+
+  config = lib.mkIf config.neovim.lspconfig.enable {
+    programs.neovim = {
+      plugins = with pkgs.vimPlugins; [
+        {
+          plugin = nvim-lspconfig;
+          type = "lua";
+          config =
+            /*
+            lua
+            */
+            ''
               require('lspconfig').nil_ls.setup({
                 cmd = { "${pkgs.nil}/bin/nil" }
               })
@@ -27,17 +37,18 @@
               require('lspconfig').pyright.setup({
                 cmd = { "${pkgs.nodePackages.pyright}/bin/pyright" },
               })
-            vim.diagnostic.config({
-              virtual_text = false,
-              float = {
-                focusable = false,
-                border = "rounded",
-                source = "always",
-              },
-            })
-            vim.o.updatetime = 250
-          '';
-      }
-    ];
+              vim.diagnostic.config({
+                virtual_text = false,
+                float = {
+                  focusable = false,
+                  border = "rounded",
+                  source = "always",
+                },
+              })
+              vim.o.updatetime = 250
+            '';
+        }
+      ];
+    };
   };
 }
