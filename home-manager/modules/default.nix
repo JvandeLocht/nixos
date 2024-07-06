@@ -1,19 +1,24 @@
 {
   imports = [
+    ./hyperland
+    ./lf
+    ./neovim
+    # ./nixvim
+    ./podman
+    ./waybar
     ./alacritty.nix
-    ./gtk.nix
+    ./bash.nix
+    ./dconf.nix
     ./desktop.nix
     ./firefox.nix
     ./fish.nix
+    ./gtk.nix
     ./kitty.nix
     ./starship.nix
     ./swayidle.nix
     ./swaylock.nix
-    ./waybar
+    ./wezterm.nix
     ./wofi.nix
     ./zsh.nix
-    ./neovim
-    ./hyperland
-    ./lf
   ];
 }
