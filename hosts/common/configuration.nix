@@ -13,14 +13,7 @@
   };
 in {
   imports = [
-    ../../nixos/modules/gaming.nix
-    ../../nixos/modules/locale_keymap.nix
-    ../../nixos/modules/networking.nix
-    ../../nixos/modules/nvidia.nix
-    ../../nixos/modules/printing.nix
-    ../../nixos/modules/sound.nix
-    ../../nixos/modules/services.nix
-    # ../../nixos/modules/virtualization
+    ../../nixos/modules
   ];
 
   # Needed for Solaar to see Logitech devices.

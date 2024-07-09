@@ -9,12 +9,26 @@
 }: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
-    ../../nixos/modules/services.nix
-    ../../nixos/modules/gnome.nix
-    ../../nixos/modules/podman
     ../common/configuration.nix
     ./opt-in.nix
   ];
+
+  #enable custom modules
+  podman = {
+    enable = true;
+    openWebUI.enable = true;
+  };
+  virtSupport.enable = true;
+  gaming.enable = true;
+  gnome.enable = true;
+  locale.enable = true;
+  networking.enable = true;
+  nvidia.enable = true;
+  power.enable = true;
+  printing.enable = true;
+  services.enable = true;
+  soundConfig.enable = true;
+
   services.zfs.autoScrub.enable = true;
   services.udev.extraRules = ''
     ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
