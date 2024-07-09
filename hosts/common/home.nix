@@ -100,6 +100,9 @@
     sops
     age
 
+    rclone-browser
+    rclone
+
     abduco # Allows programs to be run independently from its controlling terminal
     neofetch
     lazygit
