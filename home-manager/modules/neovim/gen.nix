@@ -31,11 +31,12 @@ in {
             ''
               require('gen').setup({
                 opts = {
-                  model = "dolphin-mistral:latest", -- The default model to use.
-                  display_mode = "split", -- The display mode. Can be "float" or "split".
-                  show_prompt = true, -- Shows the Prompt submitted to Ollama.
-                  show_model = true, -- Displays which model you are using at the beginning of your chat session.
-                  no_auto_close = false, -- Never closes the window automatically.
+                  model = "dolphin-mistral", -- The default model to use.
+                  host = "127.0.0.1", -- The host running the Ollama service.
+                  port = "11434", -- The port on which the Ollama service is listening.
+                  quit_map = "q", -- set keymap for close the response window
+                  retry_map = "<c-r>", -- set keymap to re-send the current prompt
+                  init = function(options) pcall(io.popen, "ollama serve > /dev/null 2>&1 &") end,
                   -- Function to initialize Ollama
                   command = function(options)
                       local body = {model = options.model, stream = true}
