@@ -25,10 +25,9 @@
         autosuggestion.enable = true;
         syntaxHighlighting.enable = true;
         initExtra = ''
-          if [[ -z "$ZELLIJ" ]]; then
-            if command -v zellij >/dev/null 2>&1; then
-              zellij attach -c
-            fi
+          if [ -z "$TMUX" ]
+          then
+              tmux new-session -A -s main
           fi
         '';
         shellAliases = {
@@ -37,7 +36,8 @@
           ngt = "sudo nixos-rebuild test --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
           # j = "z";
           # k = "kubectl";
-          t = "zellij";
+          t = "tmux";
+          y = "yazi";
           sp = "ssh root@192.168.178.40";
         };
         oh-my-zsh = {
