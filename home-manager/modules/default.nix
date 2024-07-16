@@ -22,5 +22,6 @@
     ./zsh.nix
     ./yazi.nix
     ./foot.nix
+    ./tmux.nix
   ];
 }
