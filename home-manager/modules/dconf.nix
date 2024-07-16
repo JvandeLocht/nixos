@@ -114,7 +114,7 @@ in {
         disable-user-extensions = false;
         show-screenshot-ui = ["<Super>F6"];
         favorite-apps = [
-          "Alacritty.desktop"
+          "kitty.desktop"
           "proton-mail.desktop"
           "librewolf.desktop"
           "freetube.desktop"
