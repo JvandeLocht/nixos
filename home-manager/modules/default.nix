@@ -20,5 +20,7 @@
     ./wezterm.nix
     ./wofi.nix
     ./zsh.nix
+    ./yazi.nix
+    ./foot.nix
   ];
 }
