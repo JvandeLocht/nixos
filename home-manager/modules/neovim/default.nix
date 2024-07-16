@@ -95,6 +95,12 @@
           vim.keymap.set('n', '<C-Down>', ':resize +2<CR>', { desc = 'Resize Window downwards' })
           vim.keymap.set('n', '<leader>g', '<cmd>FloatermNew lazygit<CR>', { desc = 'Open Lazygit in new Floaterm Window' })
           vim.o.undofile = true
+
+          vim.opt.expandtab = true
+          vim.opt.shiftwidth = 4
+          vim.opt.softtabstop = 4
+          vim.keymap.set('v', '<Tab>', '>gv', { desc = 'indent in visual' })
+          vim.keymap.set('v', '<S-Tab>', '<gv', { desc = 'unindent in visual' })
         '';
 
       extraPackages = with pkgs; [
