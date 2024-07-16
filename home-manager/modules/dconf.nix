@@ -112,7 +112,7 @@ in {
 
       "org/gnome/shell" = {
         disable-user-extensions = false;
-        show-screenshot-ui = ["<Super>d"];
+        show-screenshot-ui = ["<Super>F6"];
         favorite-apps = [
           "Alacritty.desktop"
           "proton-mail.desktop"
