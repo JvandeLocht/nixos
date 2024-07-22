@@ -30,7 +30,6 @@
     nixpkgs,
     nixpkgs-unstable,
     home-manager,
-    nur,
     impermanence,
     ...
   } @ inputs: let
@@ -40,15 +39,6 @@
       nixpkgs.lib.nixosSystem {
         system = system;
         modules = [
-          {nixpkgs.overlays = [nur.overlay];}
-          ({pkgs, ...}: let
-            nur-no-pkgs = import nur {
-              nurpkgs = import nixpkgs {system = system;};
-            };
-          in {
-            imports = [nur-no-pkgs.repos.iopq.modules.xraya];
-            services.xraya.enable = true;
-          })
           {_module.args = {inherit inputs;};}
           ./hosts/${name}/configuration.nix
           impermanence.nixosModules.impermanence
