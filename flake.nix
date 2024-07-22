@@ -19,6 +19,8 @@
 
     impermanence.url = "github:nix-community/impermanence";
 
+    nixvim-config.url = "github:JvandeLocht/nixvim-config";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -31,6 +33,7 @@
     nixpkgs-unstable,
     home-manager,
     impermanence,
+    nixvim-config,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -39,6 +42,13 @@
       nixpkgs.lib.nixosSystem {
         system = system;
         modules = [
+          {
+            nixpkgs.overlays = [
+              (final: _prev: {
+                nixvim = nixvim-config.packages.${_prev.system}.default;
+              })
+            ];
+          }
           {_module.args = {inherit inputs;};}
           ./hosts/${name}/configuration.nix
           impermanence.nixosModules.impermanence

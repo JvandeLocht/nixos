@@ -14,25 +14,6 @@
   zsh.enable = true;
   dconf.enable = true;
   lf.enable = true;
-  neovim = {
-    enable = true;
-
-    nvimAutopairs.enable = true;
-    bufferline.enable = true;
-    comment.enable = true;
-    cmp.enable = true;
-    floaterm.enable = true;
-    lspconfig.enable = true;
-    lualine.enable = true;
-    metals.enable = true;
-    nonels.enable = true;
-    onedark.enable = true;
-    telescope.enable = true;
-    treesitter.enable = true;
-    webDevicons.enable = true;
-    whichKey.enable = true;
-    gen.enable = true;
-  };
 
   # basic configuration of git, please change to your own
   programs.git = {
@@ -96,6 +77,7 @@
     k9s
     fluxcd
     kompose
+    nixvim
 
     sops
     age
