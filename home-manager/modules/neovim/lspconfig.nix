@@ -37,6 +37,9 @@
               require('lspconfig').pyright.setup({
                 cmd = { "${pkgs.nodePackages.pyright}/bin/pyright" },
               })
+              require("lspconfig").dockerls.setup ({
+                cmd = { "${pkgs.dockerfile-language-server-nodejs}/bin/docker-langserver" },
+              })
               vim.diagnostic.config({
                 virtual_text = false,
                 float = {

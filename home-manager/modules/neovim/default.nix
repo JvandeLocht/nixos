@@ -16,6 +16,7 @@
     ./metals.nix
     ./none-ls.nix
     ./onedark.nix
+    ./catppuccin.nix
     ./telescope.nix
     ./treesitter.nix
     ./web-devicons.nix
