@@ -33,8 +33,8 @@ in {
       protonmail-bridge
       smartmontools
       nvtopPackages.nvidia
-      tmux
       pika-backup
+      zellij
     ]
     ++ (with unstable; [
       proton-pass

@@ -12,6 +12,10 @@
   alacritty.enable = true;
   firefox.enable = true;
   zsh.enable = true;
+  yazi.enable = true;
+  foot.enable = true;
+  tmux.enable = true;
+  kitty.enable = true;
   dconf.enable = true;
   lf.enable = true;
 
@@ -70,7 +74,7 @@
     yq-go
     kubeconform
     kustomize
-    zellij
+    # zellij
     talosctl
     kubectl
     kubernetes-helm
