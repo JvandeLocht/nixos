@@ -2,7 +2,7 @@
   description = "Jans's NixOS Flake";
 
   nixConfig = {
-    experimental-features = ["nix-command" "flakes"];
+    experimental-features = [ "nix-command" "flakes" ];
 
     extra-substituters = [
       # Nix community's cache server
@@ -27,46 +27,49 @@
     };
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-    nixpkgs-unstable,
-    home-manager,
-    impermanence,
-    nixvim-config,
-    ...
-  } @ inputs: let
-    inherit (self) outputs;
-    system = "x86_64-linux";
-    mkNixosConfig = name: user:
-      nixpkgs.lib.nixosSystem {
-        system = system;
-        modules = [
-          {
-            nixpkgs.overlays = [
-              (final: _prev: {
-                nixvim = nixvim-config.packages.${_prev.system}.default;
-              })
-            ];
-          }
-          {_module.args = {inherit inputs;};}
-          ./hosts/${name}/configuration.nix
-          impermanence.nixosModules.impermanence
-          home-manager.nixosModules.home-manager
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              useUserPackages = true;
-              extraSpecialArgs = {inherit inputs outputs;};
-              users.${user}.imports = [./hosts/${name}/home.nix];
-            };
-          }
-        ];
+  outputs =
+    { self
+    , nixpkgs
+    , nixpkgs-unstable
+    , home-manager
+    , impermanence
+    , nixvim-config
+    , ...
+    } @ inputs:
+    let
+      inherit (self) outputs;
+      system = "x86_64-linux";
+      mkNixosConfig = name: user:
+        nixpkgs.lib.nixosSystem {
+          system = system;
+          modules = [
+            {
+              nixpkgs.overlays = [
+                (final: _prev: {
+                  nixvim = nixvim-config.packages.${_prev.system}.default;
+                })
+              ];
+            }
+            { _module.args = { inherit inputs; }; }
+            ./hosts/${name}/configuration.nix
+            impermanence.nixosModules.impermanence
+            home-manager.nixosModules.home-manager
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = { inherit inputs outputs; };
+                users.${user}.imports = [ ./hosts/${name}/home.nix ];
+                backupFileExtension = "backup";
+              };
+            }
+          ];
+        };
+    in
+    {
+      nixosConfigurations = {
+        gnome_laptop = mkNixosConfig "gnome_laptop" "jan";
+        server = mkNixosConfig "server" "test";
       };
-  in {
-    nixosConfigurations = {
-      gnome_laptop = mkNixosConfig "gnome_laptop" "jan";
-      server = mkNixosConfig "server" "test";
     };
-  };
 }
