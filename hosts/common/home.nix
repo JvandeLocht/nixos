@@ -1,11 +1,15 @@
-{
-  config,
-  pkgs,
-  ...
+{ config
+, pkgs
+, osConfig
+, ...
 }: {
   imports = [
     ../../home-manager/modules
   ];
+
+  # Your Home Manager configuration
+  home.file."hostname-file".text = osConfig.networking.hostName;
+
 
   nixpkgs.config.allowUnfree = true;
 
@@ -63,6 +67,10 @@
     onlyoffice-bin
     appimage-run
     element-desktop
+    zathura
+    pdf4qt
+    dbeaver-bin
+    brave
 
     # archives
     zip
@@ -71,6 +79,8 @@
     p7zip
 
     # CLI
+    typst
+    pandoc
     yq-go
     kubeconform
     kustomize
