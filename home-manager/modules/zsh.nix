@@ -32,6 +32,7 @@
           p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
           ng = "nh os switch -H gnome_laptop ~/.setup";
           t = "tmux";
+          v = "nvim";
           y = "yazi";
           sp = "ssh root@192.168.178.40";
         };
