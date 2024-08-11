@@ -1,7 +1,6 @@
-{
-  config,
-  pkgs,
-  ...
+{ config
+, pkgs
+, ...
 }: {
   imports = [
     ../../home-manager/modules/dconf.nix
@@ -14,7 +13,7 @@
     homeDirectory = "/home/jan";
     # Packages that should be installed to the user profile.
     packages =
-      (with pkgs; [])
+      (with pkgs; [ ])
       ++ (with pkgs.gnomeExtensions; [
         arcmenu
         caffeine
@@ -52,7 +51,7 @@
           "PASSWORD_STORE_DIR=/home/jan/.local/share/password-store"
         ];
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = { WantedBy = [ "graphical-session.target" ]; };
     };
 
     keyboard_light = {
@@ -63,7 +62,7 @@
         Restart = "never";
         ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='asus::kbd_backlight' set 1";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = { WantedBy = [ "graphical-session.target" ]; };
     };
     keyboard_color = {
       Unit = {
@@ -73,7 +72,7 @@
         Restart = "never";
         ExecStart = "${pkgs.asusctl}/bin/asusctl led-mode static -c 00ff00";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = { WantedBy = [ "graphical-session.target" ]; };
     };
     charge_limit = {
       Unit = {
@@ -83,7 +82,7 @@
         Restart = "never";
         ExecStart = "${pkgs.asusctl}/bin/asusctl -c 80";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = { WantedBy = [ "graphical-session.target" ]; };
     };
     backlight = {
       Unit = {
@@ -93,7 +92,7 @@
         Restart = "never";
         ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='amdgpu_bl2' set 15";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = { WantedBy = [ "graphical-session.target" ]; };
     };
     # ollama = {
     #   Unit = {
@@ -113,7 +112,7 @@
         Restart = "always";
         ExecStart = "${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = { WantedBy = [ "graphical-session.target" ]; };
     };
   };
 
