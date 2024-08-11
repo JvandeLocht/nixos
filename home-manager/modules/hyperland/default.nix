@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  osConfig,
   pkgs,
   inputs,
   ...
@@ -11,7 +12,7 @@
     enable = lib.mkEnableOption "Custom Hyprland configuration";
   };
 
-  config = lib.mkIf config.hyprlandConfig.enable {
+  config = lib.mkIf osConfig.programs.hyprland.enable {
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
