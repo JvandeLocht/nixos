@@ -1,17 +1,16 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }: {
-  imports = [./ollama-webui.nix];
+  imports = [ ./ollama-webui.nix ];
 
   options.podman = {
     enable = lib.mkEnableOption "Set up containerization environment";
   };
 
   config = lib.mkIf config.podman.enable {
-    environment.systemPackages = [pkgs.nvidia-podman];
+    environment.systemPackages = with pkgs;[ nvidia-podman docker-compose ];
 
     hardware.nvidia-container-toolkit.enable = true;
 
