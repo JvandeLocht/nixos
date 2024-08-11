@@ -26,16 +26,6 @@
         syncthing-indicator
       ]);
   };
-  programs.atuin = {
-    enable = true;
-    settings = {
-      auto_sync = true;
-      sync_frequency = "5m";
-      sync_address = "https://api.atuin.sh";
-      keymap_mode = "vim-insert";
-    };
-  };
-
   services.syncthing.enable = true;
 
   systemd.user.services = {
