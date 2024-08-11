@@ -1,23 +1,24 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
-}: let
+{ lib
+, config
+, pkgs
+, ...
+}:
+let
   tmux-which-key =
     pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-which-key";
-      version = "2024-07-15";
-      src = pkgs.fetchFromGitHub {
-        owner = "alexwforsythe";
-        repo = "tmux-which-key";
-        rev = "1f419775caf136a60aac8e3a269b51ad10b51eb6";
-        sha256 = "sha256-X7FunHrAexDgAlZfN+JOUJvXFZeyVj9yu6WRnxMEA8E=";
+      {
+        pluginName = "tmux-which-key";
+        version = "2024-07-15";
+        src = pkgs.fetchFromGitHub {
+          owner = "alexwforsythe";
+          repo = "tmux-which-key";
+          rev = "1f419775caf136a60aac8e3a269b51ad10b51eb6";
+          sha256 = "sha256-X7FunHrAexDgAlZfN+JOUJvXFZeyVj9yu6WRnxMEA8E=";
+        };
+        rtpFilePath = "plugin.sh.tmux";
       };
-      rtpFilePath = "plugin.sh.tmux";
-    };
-in {
+in
+{
   options = {
     tmux.enable =
       lib.mkEnableOption "enables preconfigured tmux";
@@ -25,16 +26,19 @@ in {
 
   config = lib.mkIf config.tmux.enable {
     xdg.configFile = {
-      "tmux/plugins/tmux-which-key/config.yaml".text = lib.generators.toYAML {} {
+      "tmux/plugins/tmux-which-key/config.yaml".text = lib.generators.toYAML { } {
         command_alias_start_index = 200;
         # rest of config here
       };
     };
+
     programs.tmux = {
       enable = true;
       terminal = "xterm-kitty";
       extraConfig = ''
         set-option -g status-position top
+        set-option -g status-style "bg=black,fg=green"
+        set -g status-right ""
 
         # split panes using | and -
         bind | split-window -h
@@ -61,13 +65,6 @@ in {
       '';
       plugins = with pkgs; [
         {
-          plugin = tmuxPlugins.cpu;
-        }
-        {
-          plugin = tmuxPlugins.onedark-theme;
-          extraConfig = "set -g @onedark_widgets '#{cpu_bg_color} CPU: #{cpu_icon} #{cpu_percentage}'";
-        }
-        {
           plugin = tmuxPlugins.resurrect;
           extraConfig = "set -g @resurrect-strategy-nvim 'session'";
         }
@@ -78,12 +75,12 @@ in {
             set -g @continuum-save-interval '60' # minutes
           '';
         }
-        {
-          plugin = tmux-which-key;
-          extraConfig = ''
-            set -g @tmux-which-key-xdg-enable 1;
-          '';
-        }
+        # {
+        #   plugin = tmux-which-key;
+        #   extraConfig = ''
+        #     set -g @tmux-which-key-xdg-enable 1;
+        #   '';
+        # }
       ];
     };
   };
