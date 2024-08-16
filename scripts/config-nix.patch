@@ -1,11 +1,12 @@
---- /home/nixos/configuration.nix	2024-08-16 08:05:32.340286262 +0000
-+++ /mnt/etc/nixos/configuration.nix	2024-08-16 08:42:23.664063006 +0000
+--- configuration.nix	2024-08-16 12:08:39.856491846 +0000
++++ /mnt/etc/nixos/configuration.nix	2024-08-16 12:21:37.473561228 +0000
 @@ -12,6 +12,10 @@
  
    # Use the GRUB 2 boot loader.
    boot.loader.grub.enable = true;
 +  boot.supportedFilesystems = [ "zfs" ];
 +  boot.loader.grub.device = "/dev/sda";  # replace `${DISK}` with the actual disk name, eg /dev/nvme0n1
++  boot.loader.grub.useOSProber = true;
 +  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
 +
    # boot.loader.grub.efiSupport = true;
@@ -15,7 +16,7 @@
    # boot.loader.grub.device = "/dev/sda"; # or "nodev" for efi only
  
    # networking.hostName = "nixos"; # Define your hostname.
-+  networking.hostId = "1f14e9b8";
++  networking.hostId = "383b4640";
    # Pick only one of the below networking options.
    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 -  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -27,17 +28,17 @@
  
    # Configure network proxy if necessary
    # networking.proxy.default = "http://user:password@proxy:port/";
-@@ -74,13 +79,29 @@
+@@ -74,13 +79,53 @@
    #     tree
    #   ];
    # };
 +  services.openssh.enable = true;  # If using VPS
 +
 +  security.sudo.wheelNeedsPassword = false;
-+  users.users."<your username>" = {
++  users.users."jan" = {
 +    isNormalUser = true;
 +      password = "password";  # Change this once your computer is set up!
-+        home = "/home/<your username>";
++        home = "/home/jan";
 +          extraGroups = [ "wheel" "networkmanager" ];
 +            openssh.authorizedKeys.keys = [ "<your ssh key>" ];  # If using VPS
 +            };
@@ -46,6 +47,30 @@
 +      experimental-features = ["nix-command" "flakes"];
 +          trusted-users = ["jan"]; # Add your own username to the trusted list
 +            };
++    # Select internationalisation properties.
++    i18n.defaultLocale = "de_DE.UTF-8";
++
++    i18n.extraLocaleSettings = {
++      LC_ADDRESS = "de_DE.UTF-8";
++      LC_IDENTIFICATION = "de_DE.UTF-8";
++      LC_MEASUREMENT = "de_DE.UTF-8";
++      LC_MONETARY = "de_DE.UTF-8";
++      LC_NAME = "de_DE.UTF-8";
++      LC_NUMERIC = "de_DE.UTF-8";
++      LC_PAPER = "de_DE.UTF-8";
++      LC_TELEPHONE = "de_DE.UTF-8";
++      LC_TIME = "de_DE.UTF-8";
++    };
++
++    # Configure keymap in X11
++    services.xserver.xkb = {
++      layout = "de";
++      variant = "";
++    };
++
++    # Configure console keymap
++    console.keyMap = "de";
++
  
    # List packages installed in system profile. To search, run:
    # $ nix search wget
