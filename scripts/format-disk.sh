@@ -143,9 +143,8 @@ networking.networkmanager.wifi.scanRandMacAddress = false;
 EOF
 
 
-#
-#       # Perform NixOS installation
-#       nixos-install --verbose --no-root-password
+echo "Performing NixOS installation"
+nixos-install --verbose --no-root-password
 #
 #       # Move NixOS configuration into persistent storage and enable wipe-on-boot
 #       mkdir -p /per/etc
