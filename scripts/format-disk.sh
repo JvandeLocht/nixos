@@ -96,9 +96,16 @@ nixos-generate-config --root /mnt
 
 echo "-----"
 echo "Edit configuration.nix"
-# read -p "Enter your host ID: " HOST_ID
 read -p "Enter your username: " USERNAME
-HOST_ID=head -c4 /dev/urandom | od -t x4 | cut -c9-16
+# Prompt for host ID with an option to generate one
+read -p "Enter your host ID (or type 'generate' to create a random one): " HOST_ID_INPUT
+
+if [ "$HOST_ID_INPUT" == "generate" ]; then
+  HOST_ID=$(head -c4 /dev/urandom | od -t x4 | awk '{print $2}')
+    echo "Generated host ID: $HOST_ID"
+    else
+      HOST_ID=$HOST_ID_INPUT
+      fi
 
 cat <<EOF > /mnt/etc/nixos/configuration.nix
 ## Boot stuff ##
