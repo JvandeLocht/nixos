@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
-# SSH_KEY="<your ssh key>"
-DISK="/dev/sda"
-PART_SIZE="25G"
-# HOST_ID="<your host id>"
-# USERNAME="<your username>"
-# SSH_KEY="<your ssh key>"
+# Prompt user for necessary variables
+# read -p "Enter your SSH key: " SSH_KEY
+# read -p "Enter your host ID: " HOST_ID
+# read -p "Enter your username: " USERNAME
 #
 # # Add SSH key (optional)
 # mkdir -p /home/nixos/.ssh
@@ -17,7 +15,10 @@ PART_SIZE="25G"
 # # Become root
 # sudo su
 #
-# Check if the system is UEFI or BIOS
+echo "Checking if the system is UEFI or BIOS"
+
+echo "-----"
+
 if [ -d /sys/firmware/efi ]; then
   echo "UEFI detected"
   BOOT_TYPE="UEFI"
@@ -26,22 +27,34 @@ else
   BOOT_TYPE="BIOS"
 fi
 
+echo "-----"
 # List partitions
 lsblk
+
+echo "-----"
+
+read -p "Enter the disk name (e.g., /dev/sda): " DISK
+read -p "Enter the desired partition size (e.g., 150G): " PART_SIZE
 #
-# # Create boot table and root & swap partitions
-# if [ "$BOOT_TYPE" == "BIOS" ]; then
-#   parted $DISK mklabel msdos
-#   parted $DISK mkpart primary 2M $PART_SIZE
-#   parted $DISK mkpart primary linux-swap $PART_SIZE 100%
-# else
-#   parted $DISK mklabel gpt
-#   parted $DISK mkpart primary 512MB $PART_SIZE
-#   parted $DISK mkpart primary linux-swap $PART_SIZE 100%
-#   parted $DISK mkpart ESP fat32 1MB 512MB
-#   parted $DISK set 3 esp on
-#   mkfs.fat -F32 -n boot ${DISK}3
-# fi
+echo "-----"
+echo "Creating boot table and root & swap partitions"
+echo "-----"
+if [ "$BOOT_TYPE" == "BIOS" ]; then
+  parted $DISK mklabel msdos
+  parted $DISK mkpart primary 2M $PART_SIZE
+  parted $DISK mkpart primary linux-swap $PART_SIZE 100%
+else
+  parted $DISK mklabel gpt
+  parted $DISK mkpart primary 512MB $PART_SIZE
+  parted $DISK mkpart primary linux-swap $PART_SIZE 100%
+  parted $DISK mkpart ESP fat32 1MB 512MB
+  parted $DISK set 3 esp on
+  mkfs.fat -F32 -n boot ${DISK}3
+fi
+
+lsblk
+
+echo "-----"
 #
 # Initialize swap
 # mkswap -L swap ${DISK}2
