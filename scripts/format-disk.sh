@@ -47,7 +47,7 @@ else
   parted $DISK mkpart primary 512MB $PART_SIZE
   parted $DISK mkpart primary linux-swap $PART_SIZE 100%
   parted $DISK mkpart ESP fat32 1MB 512MB
-  read -p "Specify the swap partition (should be 3 or p3): " BOOT
+  read -p "Specify the boot partition (should be 3 or p3): " BOOT
   parted $DISK set ${BOOT} esp on
   mkfs.fat -F32 -n boot ${DISK}${BOOT}
 fi
@@ -63,34 +63,40 @@ echo ""
 mkswap -L swap ${DISK}${SWAP}
 
 echo "-----"
-echo "Creating ZFS root pool"
-read -p "Specify the root partition (should be 1 or p1): " ROOT
-echo ""
-zpool create -f rpool ${DISK}${ROOT}
-zfs set compression=on rpool
-
-echo "-----"
-echo "Creating ZFS datasets and mount them"
-zfs create -p -o mountpoint=legacy rpool/eyd/root
-zfs set xattr=sa rpool/eyd/root
-zfs set acltype=posixacl rpool/eyd/root
-zfs snapshot rpool/eyd/root@blank
-zfs create -p -o mountpoint=legacy rpool/eyd/nix
-zfs create -p -o mountpoint=legacy rpool/eyd/per
+echo "Creating root pool, enabling compression"
 mkdir -p /mnt
-mount -t zfs rpool/eyd/root /mnt
-mkdir -p /mnt/{nix,boot,per}
-mount -t zfs rpool/eyd/nix /mnt/nix
-mount -t zfs rpool/eyd/per /mnt/per
+read -p "Specify the root partition (should be 1 or p1): " ROOT
+zfs create -p -o -f mountpoint=legacy rpool/local/root ${DISK}${ROOT}
+echo "Creating initial snapshot"
+zfs snapshot rpool/local/root@blank
+echo "Mounting root pool"
+mount -t zfs rpool/local/root /mnt
+echo "Creating dataset for the nix store"
+zfs create -p -o mountpoint=legacy rpool/local/nix
+mkdir /mnt/nix
+echo "Mounting dataset"
+mount -t zfs rpool/local/nix /mnt/nix
+echo "Creating dataset for the home folder"
+zfs create -p -o mountpoint=legacy rpool/safe/home
+echo "Mounting dataset"
+mount -t zfs rpool/safe/home /mnt/home
+echo "Creating dataset for persistent data"
+zfs create -p -o mountpoint=legacy rpool/safe/persist
+echo "Mounting dataset"
+mkdir /mnt/persist
+mount -t zfs rpool/safe/persist /mnt/persist
 
 if [ "$BOOT_TYPE" == "BIOS" ]; then
 echo "-----"
-  zfs create -p -o mountpoint=legacy rpool/eyd/boot
-  mount -t zfs rpool/eyd/boot /mnt/boot
+  zfs create -p -o mountpoint=legacy rpool/safe/boot
+  mount -t zfs rpool/safe/boot /mnt/boot
 else
 echo "-----"
+  mkdir /mnt/boot
   mount ${DISK}${BOOT} /mnt/boot
 fi
+
+zfs list
 
 echo "-----"
 echo "Generate NixOS configuration file"
@@ -205,7 +211,7 @@ patch /mnt/etc/nixos/configuration.nix < /mnt/etc/nixos/configuration.patch
 echo "Patching complete"
 
 echo "Performing NixOS installation"
-nixos-install --verbose --no-root-password
+# nixos-install --verbose --no-root-password
 #
 #       # Move NixOS configuration into persistent storage and enable wipe-on-boot
 #       mkdir -p /per/etc
