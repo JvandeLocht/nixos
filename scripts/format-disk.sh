@@ -47,6 +47,7 @@ else
   parted $DISK mkpart primary 512MB $PART_SIZE
   parted $DISK mkpart primary linux-swap $PART_SIZE 100%
   parted $DISK mkpart ESP fat32 1MB 512MB
+  lsblk
   read -p "Specify the boot partition (should be 3 or p3): " BOOT
   parted $DISK set ${BOOT} esp on
   mkfs.fat -F32 -n boot ${DISK}${BOOT}
@@ -241,7 +242,7 @@ cat <<EOF > /mnt/etc/nixos/configuration.patch
 +    };
 +    };
 +services.zfs.autoScrub.enable = true;
-+initrd.postDeviceCommands = lib.mkAfter ''
++boot.initrd.postDeviceCommands = lib.mkAfter ''
 +      zfs rollback -r rpool/local/root@blank
 +          '';
  
@@ -294,6 +295,7 @@ cat <<EOF > /mnt/etc/nixos/configuration.patch
    # Some programs need SUID wrappers, can be configured further or are
    # started in user sessions.
 EOF
+fi
 
 patch /mnt/etc/nixos/configuration.nix < /mnt/etc/nixos/configuration.patch
 echo "Patching complete"
