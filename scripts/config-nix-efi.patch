@@ -1,0 +1,81 @@
+--- /mnt/etc/nixos/configuration.bak	2024-08-17 14:00:09.853114055 +0000
++++ /mnt/etc/nixos/configuration.nix	2024-08-17 16:23:22.828340569 +0000
+@@ -10,17 +10,38 @@
+       ./hardware-configuration.nix
+     ];
+ 
+-  # Use the systemd-boot EFI boot loader.
+-  boot.loader.systemd-boot.enable = true;
+-  boot.loader.efi.canTouchEfiVariables = true;
++boot = {
++    # Bootloader.
++    loader = {
++      #      systemd-boot.enable = true;
++      #      efi.canTouchEfiVariables = true;
++      grub = {
++        enable = true;
++        zfsSupport = true;
++        efiSupport = true;
++        efiInstallAsRemovable = true;
++        mirroredBoots = [
++          {
++            devices = ["nodev"];
++            path = "/boot";
++          }
++        ];
++      };
++    };
++    };
++services.zfs.autoScrub.enable = true;
++initrd.postDeviceCommands = lib.mkAfter ''
++      zfs rollback -r rpool/local/root@blank
++          '';
+ 
+   # networking.hostName = "nixos"; # Define your hostname.
++  networking.hostId = "03dc271d";
+   # Pick only one of the below networking options.
+   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
++  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+ 
+   # Set your time zone.
+-  # time.timeZone = "Europe/Amsterdam";
++  time.timeZone = "Europe/Amsterdam";
+ 
+   # Configure network proxy if necessary
+   # networking.proxy.default = "http://user:password@proxy:port/";
+@@ -70,13 +91,30 @@
+   #     tree
+   #   ];
+   # };
++  services.openssh.enable = true;  # If using VPS
++
++  security.sudo.wheelNeedsPassword = false;
++  users.users."jan" = {
++    isNormalUser = true;
++      password = "password";  # Change this once your computer is set up!
++        home = "/home/jan";
++          extraGroups = [ "wheel" "networkmanager" ];
++            openssh.authorizedKeys.keys = [ "<your ssh key>" ];  # If using VPS
++            };
++    
++  nix.settings = {
++      experimental-features = ["nix-command" "flakes"];
++          trusted-users = ["jan"]; # Add your own username to the trusted list
++            };
++
+ 
+   # List packages installed in system profile. To search, run:
+   # $ nix search wget
+-  # environment.systemPackages = with pkgs; [
+-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+-  #   wget
+-  # ];
++  environment.systemPackages = with pkgs; [
++    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
++    wget
++    git
++  ];
+ 
+   # Some programs need SUID wrappers, can be configured further or are
+   # started in user sessions.
