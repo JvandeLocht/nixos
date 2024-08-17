@@ -116,7 +116,7 @@ cat <<EOF > /mnt/etc/nixos/configuration.patch
    # Use the GRUB 2 boot loader.
    boot.loader.grub.enable = true;
 +  boot.supportedFilesystems = [ "zfs" ];
-+  boot.loader.grub.device = "${DISK}${ROOT}";  # replace  with the actual disk name, eg /dev/nvme0n1
++  boot.loader.grub.device = "${DISK}";  # replace  with the actual disk name, eg /dev/nvme0n1
 +  boot.kernelPackages = pkgs.zfs.latestCompatibleLinuxPackages;
 +
    # boot.loader.grub.efiSupport = true;
