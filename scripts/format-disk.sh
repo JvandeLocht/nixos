@@ -66,7 +66,9 @@ echo "-----"
 echo "Creating root pool, enabling compression"
 mkdir -p /mnt
 read -p "Specify the root partition (should be 1 or p1): " ROOT
-zfs create -p -o -f mountpoint=legacy rpool/local/root ${DISK}${ROOT}
+zpool create -f rpool ${DISK}${ROOT}
+zfs set compression=on rpool
+zfs create -p -o mountpoint=legacy rpool/local/root
 echo "Creating initial snapshot"
 zfs snapshot rpool/local/root@blank
 echo "Mounting root pool"
@@ -79,6 +81,7 @@ mount -t zfs rpool/local/nix /mnt/nix
 echo "Creating dataset for the home folder"
 zfs create -p -o mountpoint=legacy rpool/safe/home
 echo "Mounting dataset"
+mkdir /mnt/home
 mount -t zfs rpool/safe/home /mnt/home
 echo "Creating dataset for persistent data"
 zfs create -p -o mountpoint=legacy rpool/safe/persist
