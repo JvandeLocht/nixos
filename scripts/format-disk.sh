@@ -94,7 +94,10 @@ fi
 
 echo "-----"
 echo "Generate NixOS configuration file"
+rm /mnt/etc/nixos/*
 nixos-generate-config --root /mnt
+echo "Backing up old config to /mnt/etc/nixos/configuration.bak"
+cp /mnt/etc/nixos/configuration.nix /mnt/etc/nixos/configuration.bak
 
 echo "-----"
 echo "Edit configuration.nix"
@@ -199,6 +202,7 @@ cat <<EOF > /mnt/etc/nixos/configuration.patch
 EOF
 
 patch /mnt/etc/nixos/configuration.nix < /mnt/etc/nixos/configuration.patch
+echo "Patching complete"
 
 echo "Performing NixOS installation"
 nixos-install --verbose --no-root-password
