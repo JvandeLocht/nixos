@@ -120,6 +120,7 @@ if [ "$HOST_ID_INPUT" == "" ]; then
       HOST_ID=$HOST_ID_INPUT
       fi
 
+if [ "$BOOT_TYPE" == "BIOS" ]; then
 cat <<EOF > /mnt/etc/nixos/configuration.patch
 --- configuration.nix	2024-08-16 12:08:39.856491846 +0000
 +++ /mnt/etc/nixos/configuration.nix	2024-08-16 12:21:37.473561228 +0000
@@ -167,7 +168,7 @@ cat <<EOF > /mnt/etc/nixos/configuration.patch
 +    
 +  nix.settings = {
 +      experimental-features = ["nix-command" "flakes"];
-+          trusted-users = ["jan"]; # Add your own username to the trusted list
++          trusted-users = ["$USERNAME"]; # Add your own username to the trusted list
 +            };
 +    # Select internationalisation properties.
 +    i18n.defaultLocale = "de_DE.UTF-8";
@@ -209,11 +210,95 @@ cat <<EOF > /mnt/etc/nixos/configuration.patch
    # Some programs need SUID wrappers, can be configured further or are
    # started in user sessions.
 EOF
+else
+cat <<EOF > /mnt/etc/nixos/configuration.patch
+--- /mnt/etc/nixos/configuration.bak	2024-08-17 14:00:09.853114055 +0000
++++ /mnt/etc/nixos/configuration.nix	2024-08-17 16:23:22.828340569 +0000
+@@ -10,17 +10,38 @@
+       ./hardware-configuration.nix
+     ];
+ 
+-  # Use the systemd-boot EFI boot loader.
+-  boot.loader.systemd-boot.enable = true;
+-  boot.loader.efi.canTouchEfiVariables = true;
++boot = {
++    # Bootloader.
++    loader = {
++      #      systemd-boot.enable = true;
++      #      efi.canTouchEfiVariables = true;
++      grub = {
++        enable = true;
++        zfsSupport = true;
++        efiSupport = true;
++        efiInstallAsRemovable = true;
++        mirroredBoots = [
++          {
++            devices = ["nodev"];
++            path = "/boot";
++          }
++        ];
++      };
++    };
++    };
++services.zfs.autoScrub.enable = true;
++initrd.postDeviceCommands = lib.mkAfter ''
++      zfs rollback -r rpool/local/root@blank
++          '';
+ 
+   # networking.hostName = "nixos"; # Define your hostname.
++  networking.hostId = "$HOST_ID";
+   # Pick only one of the below networking options.
+   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+-  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
++  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+ 
+   # Set your time zone.
+-  # time.timeZone = "Europe/Amsterdam";
++  time.timeZone = "Europe/Amsterdam";
+ 
+   # Configure network proxy if necessary
+   # networking.proxy.default = "http://user:password@proxy:port/";
+@@ -70,13 +91,30 @@
+   #     tree
+   #   ];
+   # };
++  services.openssh.enable = true;  # If using VPS
++
++  security.sudo.wheelNeedsPassword = false;
++  users.users."$USERNAME" = {
++    isNormalUser = true;
++      password = "password";  # Change this once your computer is set up!
++        home = "/home/$USERNAME";
++          extraGroups = [ "wheel" "networkmanager" ];
++            openssh.authorizedKeys.keys = [ "<your ssh key>" ];  # If using VPS
++            };
++    
++  nix.settings = {
++      experimental-features = ["nix-command" "flakes"];
++          trusted-users = ["$USERNAME"]; # Add your own username to the trusted list
++            };
++
+ 
+   # List packages installed in system profile. To search, run:
+   # $ nix search wget
+-  # environment.systemPackages = with pkgs; [
+-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+-  #   wget
+-  # ];
++  environment.systemPackages = with pkgs; [
++    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
++    wget
++    git
++  ];
+ 
+   # Some programs need SUID wrappers, can be configured further or are
+   # started in user sessions.
+EOF
 
 patch /mnt/etc/nixos/configuration.nix < /mnt/etc/nixos/configuration.patch
 echo "Patching complete"
 
-echo "Performing NixOS installation"
+# echo "Performing NixOS installation"
 # nixos-install --verbose --no-root-password
 #
 #       # Move NixOS configuration into persistent storage and enable wipe-on-boot
