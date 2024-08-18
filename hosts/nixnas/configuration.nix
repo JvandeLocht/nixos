@@ -43,7 +43,7 @@
   };
   services.zfs.autoScrub.enable = true;
 
-  networking.hostName = "nix_nas"; # Define your hostname.
+  networking.hostName = "nixnas"; # Define your hostname.
   networking.hostId = "3901c199";
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

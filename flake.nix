@@ -69,7 +69,7 @@
     {
       nixosConfigurations = {
         gnome_laptop = mkNixosConfig "gnome_laptop" "jan";
-        nix_nas = mkNixosConfig "nix_nas" "jan";
+        nixnas = mkNixosConfig "nixnas" "jan";
       };
     };
 }
