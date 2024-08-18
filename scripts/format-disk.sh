@@ -67,8 +67,7 @@ echo "-----"
 echo "Creating root pool, enabling compression"
 mkdir -p /mnt
 read -p "Specify the root partition (should be 1 or p1): " ROOT
-zpool create -f rpool ${DISK}${ROOT}
-zfs set compression=on rpool
+zpool create -O encryption=on -O keyformat=passphrase -O keylocation=prompt -O compression=on -f rpool ${DISK}${ROOT}
 zfs create -p -o mountpoint=legacy rpool/local/root
 echo "Creating initial snapshot"
 zfs snapshot rpool/local/root@blank
