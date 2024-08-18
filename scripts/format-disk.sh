@@ -306,28 +306,3 @@ cp -r /mnt/etc/nixos /persist/etc/
 echo "Performing NixOS installation"
 nixos-install --verbose --no-root-password
 #
-#       # Move NixOS configuration into persistent storage and enable wipe-on-boot
-#       mkdir -p /per/etc
-#       mv /etc/nixos /per/etc
-#
-#       # Edit configuration for persistent storage
-#       cat <<EOF >> /per/etc/nixos/configuration.nix
-#       # Make NixOS read config from /per
-#       environment.etc = { nixos.source = /per/etc/nixos; };
-#
-#       # Enables wipe-on-boot
-#       boot.initrd.postDeviceCommands = lib.mkBefore ''
-#         zfs rollback -r rpool/eyd/root@blank
-#         '';
-#         EOF
-#
-#         # Activate the new config
-#         nixos-rebuild -I nixos-config=/per/etc/nixos/configuration.nix switch
-#
-#         # Test persistence
-#         touch /per/hello
-#         touch /etc/hello
-#
-#         echo "Installation complete. Please reboot the machine and verify persistence."
-#       '
-# }
