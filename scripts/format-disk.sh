@@ -299,6 +299,10 @@ fi
 patch /mnt/etc/nixos/configuration.nix < /mnt/etc/nixos/configuration.patch
 echo "Patching complete"
 
+echo "Move NixOS configuration into persistent storage"
+mkdir -p /persist/etc
+cp -r /mnt/etc/nixos /persist/etc/
+
 echo "Performing NixOS installation"
 nixos-install --verbose --no-root-password
 #
