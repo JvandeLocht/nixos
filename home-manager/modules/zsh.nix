@@ -31,6 +31,7 @@
         shellAliases = {
           p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
           ng = "nh os switch -H gnome_laptop ~/.setup";
+          nn = "nh os switch -H nix_nas ~/.setup";
           t = "tmux";
           v = "nvim";
           y = "yazi";

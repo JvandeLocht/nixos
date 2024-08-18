@@ -13,7 +13,43 @@
     homeDirectory = "/home/jan";
     # Packages that should be installed to the user profile.
     packages =
-      (with pkgs; [ ])
+      (with pkgs; [
+        protonmail-desktop
+        nextcloud-client
+        bitwarden
+        jameica
+        spacenavd
+        libreoffice-qt
+        remmina
+        solaar
+        AusweisApp2
+        antimicrox
+        octaveFull
+        # super-slicer-latest
+        #   yuzu-mainline
+        waydroid
+        freetube
+        webcord
+        evince # pdf viewer
+        thunderbird
+        qownnotes
+        obs-studio
+        vlc
+        zoom-us
+        signal-desktop
+        xournalpp
+        logseq
+        onlyoffice-bin
+        appimage-run
+        element-desktop
+        zathura
+        pdf4qt
+        dbeaver-bin
+        brave
+
+        rclone-browser
+        rclone
+      ])
       ++ (with pkgs.gnomeExtensions; [
         arcmenu
         caffeine
