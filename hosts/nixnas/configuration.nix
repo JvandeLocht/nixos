@@ -13,6 +13,21 @@
       ./opt-in.nix
     ];
 
+
+  services.minio = {
+    enable = true;
+    browser = true;
+  };
+  networking.firewall = {
+    enable = true;
+    allowedTCPPortRanges = [
+      {
+        from = 9000;
+        to = 9001;
+      }
+    ];
+  };
+
   services.qemuGuest.enable = true;
   programs.dconf.enable = true;
 

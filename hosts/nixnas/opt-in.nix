@@ -17,6 +17,7 @@
       "/var/lib/containers/storage"
       "/var/lib/systemd/coredump"
       "/var/lib/ollama/models"
+      "/var/lib/minio"
       "/etc/NetworkManager/system-connections"
       "/etc/asusd"
       "/etc/ssh"
