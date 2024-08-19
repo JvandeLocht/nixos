@@ -13,6 +13,7 @@
       ./opt-in.nix
     ];
 
+  services.qemuGuest.enable = true;
 
   programs.nh = {
     enable = true;
