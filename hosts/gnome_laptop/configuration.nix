@@ -1,11 +1,10 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
-{
-  config,
-  pkgs,
-  lib,
-  ...
+{ config
+, pkgs
+, lib
+, ...
 }: {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
@@ -46,7 +45,7 @@
         efiInstallAsRemovable = true;
         mirroredBoots = [
           {
-            devices = ["nodev"];
+            devices = [ "nodev" ];
             path = "/boot";
           }
         ];
@@ -60,7 +59,7 @@
     '';
     zfs.requestEncryptionCredentials = true;
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    kernelParams = ["nohibernate"];
+    kernelParams = [ "nohibernate" ];
     kernelPatches = [
       {
         name = "amd-tablet-sfh";
@@ -71,8 +70,8 @@
   networking.hostId = "e4f8879e";
   networking.hostName = "jans-nixos"; # Define your hostname.
   nix.settings = {
-    experimental-features = ["nix-command" "flakes"];
-    trusted-users = ["jan"]; # Add your own username to the trusted list
+    experimental-features = [ "nix-command" "flakes" ];
+    trusted-users = [ "jan" ]; # Add your own username to the trusted list
   };
   # Enable Accelerometer
   hardware.sensor.iio.enable = true;
@@ -82,7 +81,7 @@
       isNormalUser = true;
       description = "Jan";
       hashedPasswordFile = "/persist/passwords/user";
-      extraGroups = ["networkmanager" "wheel" "video" "libvirtd"];
+      extraGroups = [ "networkmanager" "wheel" "video" "libvirtd" ];
     };
   };
   # Enable the X11 windowing system.
@@ -107,4 +106,6 @@
     };
   };
   programs.dconf.enable = true;
+  nixpkgs.config.permittedInsecurePackages = [ "electron-24.8.6" "electron-22.3.27" "electron-25.9.0" ];
+  hardware.bluetooth.enable = true;
 }
