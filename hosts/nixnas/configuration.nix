@@ -28,6 +28,9 @@
     ];
   };
 
+  services.samba.enable = true;
+  services.samba.openFirewall = true;
+
   services.qemuGuest.enable = true;
   programs.dconf.enable = true;
 
