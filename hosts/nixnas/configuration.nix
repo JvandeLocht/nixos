@@ -14,6 +14,7 @@
     ];
 
   services.qemuGuest.enable = true;
+  programs.dconf.enable = true;
 
   programs.nh = {
     enable = true;

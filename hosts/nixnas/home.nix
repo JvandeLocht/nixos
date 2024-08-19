@@ -9,6 +9,20 @@
   home = {
     username = "jan";
     homeDirectory = "/home/jan";
+    packages =
+      (with pkgs; [
+      ])
+      ++ (with pkgs.gnomeExtensions; [
+        arcmenu
+        caffeine
+        forge
+        space-bar
+        gsconnect
+        appindicator
+        screen-rotate
+        dash-to-dock
+        syncthing-indicator
+      ]);
   };
   # Packages that should be installed to the user profile.
   services.syncthing.enable = true;
