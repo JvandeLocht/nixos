@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 {
   imports =
@@ -12,11 +12,17 @@
       ../common/configuration.nix
       ./opt-in.nix
     ];
-
-
+  age.secrets = {
+    minio = {
+      file = ../../secrets/minio.age;
+      path = "/persist/secrets/minio";
+      symlink = false;
+    };
+  };
   services.minio = {
     enable = true;
     browser = true;
+    rootCredentialsFile = config.age.secrets.minio.path;
   };
   networking.firewall = {
     enable = true;
@@ -141,12 +147,14 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = (with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
     git
     nixvim
-  ];
+  ]) ++ (with inputs;[
+    agenix.packages.x86_64-linux.default
+  ]);
 
 
   # This option defines the first version of NixOS you have installed on this particular machine,

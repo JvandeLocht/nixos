@@ -21,6 +21,8 @@
 
     nixvim-config.url = "github:JvandeLocht/nixvim-config";
 
+    agenix.url = "github:ryantm/agenix";
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,6 +36,7 @@
     , home-manager
     , impermanence
     , nixvim-config
+    , agenix
     , ...
     } @ inputs:
     let
@@ -54,6 +57,7 @@
             ./hosts/${name}/configuration.nix
             impermanence.nixosModules.impermanence
             home-manager.nixosModules.home-manager
+            agenix.nixosModules.default
             {
               home-manager = {
                 useGlobalPkgs = true;
