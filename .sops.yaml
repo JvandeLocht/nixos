@@ -1,7 +1,0 @@
-keys:
-  - &jan age1up9rwj4mn5dqvqmls3uss2p3crdqm4uf8sgpwmn7a8egwha6savq5x5e0y
-creation_rules:
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini|sops)$
-    key_groups:
-      - age:
-          - *jan
