@@ -12,13 +12,22 @@
       ../common/configuration.nix
       ./opt-in.nix
     ];
+
+
   age.secrets = {
     minio = {
       file = ../../secrets/minio.age;
       path = "/persist/secrets/minio";
       symlink = false;
     };
+    jan-nixnas = {
+      file = ../../secrets/jan-nixnas.age;
+      path = "/persist/secrets/jan-nixnas";
+      symlink = false;
+    };
   };
+
+
   services.minio = {
     enable = true;
     browser = true;
@@ -100,13 +109,13 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
-
   services.openssh.enable = true; # If using VPS
 
   security.sudo.wheelNeedsPassword = false;
   users.users."jan" = {
     isNormalUser = true;
-    password = "password"; # Change this once your computer is set up!
+    # password = "password"; # Change this once your computer is set up!
+    hashedPasswordFile = config.age.secrets.jan-nixnas.path;
     home = "/home/jan";
     extraGroups = [ "wheel" "networkmanager" ];
     openssh.authorizedKeys.keys = [ "<your ssh key>" ]; # If using VPS

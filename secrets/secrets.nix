@@ -8,4 +8,5 @@ let
 in
 {
   "minio.age".publicKeys = users ++ systems;
+  "jan-nixnas.age".publicKeys = users ++ systems;
 }
