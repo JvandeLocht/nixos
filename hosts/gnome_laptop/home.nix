@@ -8,6 +8,7 @@
     ../common/home.nix
   ];
 
+  tmux.enable = true;
   home = {
     username = "jan";
     homeDirectory = "/home/jan";

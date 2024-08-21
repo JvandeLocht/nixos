@@ -18,7 +18,6 @@
   zsh.enable = true;
   yazi.enable = true;
   foot.enable = true;
-  tmux.enable = true;
   kitty.enable = true;
   dconf.enable = true;
   dconfSettings.enable = true;

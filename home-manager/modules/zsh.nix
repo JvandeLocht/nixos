@@ -22,12 +22,6 @@
         enable = true;
         autosuggestion.enable = true;
         syntaxHighlighting.enable = true;
-        initExtra = ''
-          if [ -z "$TMUX" ]
-          then
-              tmux new-session -A -s main
-          fi
-        '';
         shellAliases = {
           p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
           ng = "nh os switch -H gnome_laptop ~/.setup";
