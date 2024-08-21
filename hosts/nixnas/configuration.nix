@@ -17,6 +17,8 @@
     enable = true;
     browser = true;
     rootCredentialsFile = config.age.secrets.minio.path;
+    dataDir = [ "/mnt/data/minio" ];
+    region = "EEUR";
   };
   networking.firewall = {
     enable = true;
@@ -27,7 +29,8 @@
       }
     ];
   };
-
+  services.gvfs.enable = true;
+  services.udisks2.enable = true;
   services.samba.enable = true;
   services.samba.openFirewall = true;
 
