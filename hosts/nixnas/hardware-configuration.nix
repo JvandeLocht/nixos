@@ -50,7 +50,7 @@
     {
       device = "/dev/disk/by-uuid/5040-CB09";
       fsType = "vfat";
-      options = [ "users" "uid=1000" "gid=1000" "dmask=007" "fmask=117" "nofail" ];
+      options = [ "uid=1000" "gid=100" "dmask=007" "fmask=117" "nofail" ];
       # options = [ "fmask=0022" "dmask=0022" "users" "rw" "uid=1000" "gid=1000" "dmask=007" "fmask=117" ];
     };
 
