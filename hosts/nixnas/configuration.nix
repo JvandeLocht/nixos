@@ -33,6 +33,9 @@
   services.gvfs.enable = true;
   services.udisks2.enable = true;
   services.samba.enable = true;
+  services.spice-vdagentd.enable = true;
+  services.spice-autorandr.enable = true;
+  services.spice-webdavd.enable = true;
   services.samba.openFirewall = true;
 
   services.qemuGuest.enable = true;
