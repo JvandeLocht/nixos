@@ -17,7 +17,8 @@
     enable = true;
     browser = true;
     rootCredentialsFile = config.age.secrets.minio.path;
-    dataDir = [ "/mnt/data/minio" ];
+    dataDir = [ "/mnt/data/minio/data" ];
+    configDir = "/mnt/data/minio/config";
     region = "EEUR";
   };
   networking.firewall = {
