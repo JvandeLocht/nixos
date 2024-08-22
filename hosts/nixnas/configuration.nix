@@ -87,14 +87,20 @@
   services.openssh.enable = true; # If using VPS
 
   security.sudo.wheelNeedsPassword = false;
-  users.users."jan" = {
-    isNormalUser = true;
-    # password = "password"; # Change this once your computer is set up!
-    hashedPasswordFile = config.age.secrets.jan-nixnas.path;
-    home = "/home/jan";
-    extraGroups = [ "wheel" "networkmanager" ];
-    openssh.authorizedKeys.keys = [ "<your ssh key>" ]; # If using VPS
+  users.users = {
+    "jan" = {
+      isNormalUser = true;
+      # password = "password"; # Change this once your computer is set up!
+      hashedPasswordFile = config.age.secrets.jan-nixnas.path;
+      home = "/home/jan";
+      extraGroups = [ "wheel" "networkmanager" "users" ];
+    };
+    "minio" = {
+      isNormalUser = false;
+      extraGroups = [ "users" ];
+    };
   };
+
 
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
