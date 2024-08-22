@@ -108,8 +108,8 @@ in
       };
 
       "org/gnome/shell/extensions/forge" = {
-        focus-border-toggle = true;
-        focus-border-colour = "rgba(157, 245, 140, 0.8)";
+        focus-border-toggle = false;
+        # focus-border-colour = "rgba(157, 245, 140, 0.8)";
       };
 
       "org/gnome/shell" = {
