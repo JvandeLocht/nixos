@@ -3,7 +3,6 @@
     ./hyperland
     ./lf
     ./neovim
-    # ./nixvim
     ./podman
     ./waybar
     ./alacritty.nix
