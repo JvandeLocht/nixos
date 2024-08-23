@@ -7,6 +7,7 @@ let
   systems = [ groot nixnas ];
 in
 {
-  "minio.age".publicKeys = users ++ systems;
+  "minio-accessKey.age".publicKeys = users ++ systems;
+  "minio-secretKey.age".publicKeys = users ++ systems;
   "jan-nixnas.age".publicKeys = users ++ systems;
 }

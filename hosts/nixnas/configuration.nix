@@ -13,14 +13,10 @@
       ./opt-in.nix
     ];
 
-  services.minio = {
+  podman = {
     enable = true;
-    browser = true;
-    rootCredentialsFile = config.age.secrets.minio.path;
-    dataDir = [ "/mnt/data/minio/data" ];
-    configDir = "/mnt/data/minio/config";
-    region = "EEUR";
   };
+
   networking.firewall = {
     enable = true;
     allowedTCPPortRanges = [
@@ -98,10 +94,6 @@
       hashedPasswordFile = config.age.secrets.jan-nixnas.path;
       home = "/home/jan";
       extraGroups = [ "wheel" "networkmanager" "users" ];
-    };
-    "minio" = {
-      isNormalUser = false;
-      extraGroups = [ "users" ];
     };
   };
 
