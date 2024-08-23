@@ -63,7 +63,9 @@
                 useGlobalPkgs = true;
                 useUserPackages = true;
                 extraSpecialArgs = { inherit inputs outputs; };
-                users.${user}.imports = [ ./hosts/${name}/home.nix ];
+                users.${user} = {
+                  imports = [ ./hosts/${name}/home.nix ];
+                };
                 backupFileExtension = "backup";
               };
             }
