@@ -3,7 +3,7 @@
 , pkgs
 , ...
 }: {
-  imports = [ ./ollama-webui.nix ];
+  imports = [ ./ollama-webui.nix ./minio.nix ];
 
   options.podman = {
     enable = lib.mkEnableOption "Set up containerization environment";

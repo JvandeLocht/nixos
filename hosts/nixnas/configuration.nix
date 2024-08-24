@@ -15,17 +15,9 @@
 
   podman = {
     enable = true;
+    minio.enable = true;
   };
 
-  networking.firewall = {
-    enable = true;
-    allowedTCPPortRanges = [
-      {
-        from = 9000;
-        to = 9001;
-      }
-    ];
-  };
   services.gvfs.enable = true;
   services.udisks2.enable = true;
   services.samba.enable = true;
