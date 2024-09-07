@@ -11,7 +11,7 @@
     # Create directories and run scripts for the containers
     system.activationScripts = {
       script.text = ''
-        mkdir -p /mnt/data/minio
+        mkdir -p /persist/data/minio
         if ! ${pkgs.podman}/bin/podman secret exists minio_root_user; then
           ${pkgs.podman}/bin/podman secret create minio_root_user ${config.age.secrets.minio-accessKey.path}
         fi
@@ -29,34 +29,34 @@
         }
       ];
     };
-    systemd.services = {
-      podman-usb-mount = {
-        enable = true;
-        after = [ "network.target" ];
-        wantedBy = [ "default.target" ];
-        description = "wait for usb mount";
-        serviceConfig = {
-          Type = "simple";
-          Restart = "on-failure";
-          RestartSec = 5;
-          # ExecCondition = "${pkgs.busybox}/bin/mountpoint -q /mnt/data";
-          ExecStart = "${pkgs.busybox}/bin/mountpoint -q /mnt/data";
-          # ExecStart = "${pkgs.busybox}/bin/echo done.";
-        };
-      };
-    };
+    # systemd.services = {
+    #   podman-usb-mount = {
+    #     enable = true;
+    #     after = [ "network.target" ];
+    #     wantedBy = [ "default.target" ];
+    #     description = "wait for usb mount";
+    #     serviceConfig = {
+    #       Type = "simple";
+    #       Restart = "on-failure";
+    #       RestartSec = 5;
+    #       # ExecCondition = "${pkgs.busybox}/bin/mountpoint -q /mnt/data";
+    #       ExecStart = "${pkgs.busybox}/bin/mountpoint -q /mnt/data";
+    #       # ExecStart = "${pkgs.busybox}/bin/echo done.";
+    #     };
+    #   };
+    # };
     virtualisation.oci-containers.containers = {
       minio = {
         image = "quay.io/minio/minio";
 
-        dependsOn = [ "usb-mount" ];
+        # dependsOn = [ "usb-mount" ];
 
         environment = {
           "TZ" = "Europe/Amsterdam";
         };
 
         volumes = [
-          "/mnt/data/minio:/data"
+          "/persist/data/minio:/data"
         ];
 
         ports = [
