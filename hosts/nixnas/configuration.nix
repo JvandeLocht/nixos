@@ -18,6 +18,7 @@
     minio.enable = true;
   };
 
+  locale.enable = true;
   services.gvfs.enable = true;
   services.udisks2.enable = true;
   services.samba.enable = true;
@@ -28,13 +29,6 @@
 
   services.qemuGuest.enable = true;
   programs.dconf.enable = true;
-
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
-
-  services.xrdp.enable = true;
-  services.xrdp.defaultWindowManager = "startplasma-x11";
-  services.xrdp.openFirewall = true;
 
   programs.nh = {
     enable = true;
@@ -83,6 +77,23 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  services = {
+    # Enable touchpad support (enabled default in most desktopManager).
+    libinput.enable = true;
+    displayManager = {
+      defaultSession = "gnome";
+      # Enable automatic login for the user.
+      autoLogin = {
+        enable = true;
+        user = "jan";
+      };
+    };
+  };
+
+  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+  systemd.services."getty@tty1".enable = false;
+  systemd.services."autovt@tty1".enable = false;
+
   services.openssh.enable = true; # If using VPS
 
   security.sudo.wheelNeedsPassword = false;
@@ -110,6 +121,7 @@
     wget
     git
     nixvim
+    spice
   ]) ++ (with inputs;[
     agenix.packages.x86_64-linux.default
   ]);

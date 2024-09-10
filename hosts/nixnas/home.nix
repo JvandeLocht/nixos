@@ -15,6 +15,7 @@
     homeDirectory = "/home/jan";
     packages =
       (with pkgs; [
+        zathura
       ])
       ++ (with pkgs.gnomeExtensions; [
         arcmenu
