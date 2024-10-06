@@ -23,7 +23,7 @@
         autosuggestion.enable = true;
         syntaxHighlighting.enable = true;
         shellAliases = {
-          p = "upower -i /org/freedesktop/UPower/devices/battery_BAT0";
+          p = "watch upower -i /org/freedesktop/UPower/devices/battery_BAT0";
           ng = "nh os switch -H gnome_laptop ~/.setup";
           nn = "nh os switch -H nixnas ~/.setup";
           t = "tmux";
