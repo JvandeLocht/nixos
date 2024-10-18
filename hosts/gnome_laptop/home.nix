@@ -15,9 +15,9 @@
     # Packages that should be installed to the user profile.
     packages =
       (with pkgs; [
+        # prusa-slicer
         protonmail-desktop
         nextcloud-client
-        bitwarden
         jameica
         spacenavd
         libreoffice-qt
@@ -26,8 +26,7 @@
         AusweisApp2
         antimicrox
         octaveFull
-        # super-slicer-latest
-        #   yuzu-mainline
+        super-slicer-latest
         waydroid
         freetube
         webcord
@@ -47,6 +46,7 @@
         pdf4qt
         dbeaver-bin
         brave
+        mullvad-browser
 
         rclone-browser
         rclone

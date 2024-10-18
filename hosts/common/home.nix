@@ -51,7 +51,6 @@
     yq-go
     kubeconform
     kustomize
-    # zellij
     talosctl
     kubectl
     kubernetes-helm
@@ -59,6 +58,8 @@
     fluxcd
     kompose
     nixvim
+    minio-client
+    velero
 
     sops
     age

@@ -106,6 +106,6 @@
     };
   };
   programs.dconf.enable = true;
-  nixpkgs.config.permittedInsecurePackages = [ "electron-24.8.6" "electron-22.3.27" "electron-25.9.0" ];
+  nixpkgs.config.permittedInsecurePackages = [ "electron-24.8.6" "electron-22.3.27" "electron-25.9.0" "electron-27.3.11" ];
   hardware.bluetooth.enable = true;
 }
