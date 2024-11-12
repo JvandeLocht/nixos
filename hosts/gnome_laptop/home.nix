@@ -50,6 +50,7 @@
 
         rclone-browser
         rclone
+        python313
       ])
       ++ (with pkgs.gnomeExtensions; [
         arcmenu
