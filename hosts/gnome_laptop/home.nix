@@ -1,7 +1,14 @@
 { config
 , pkgs
+, inputs
 , ...
-}: {
+}:
+let
+  unstable = import inputs.nixpkgs-unstable {
+    localSystem = pkgs.system;
+  };
+in
+{
   imports = [
     ../../home-manager/modules/dconf.nix
     ../../home-manager/modules/podman
@@ -62,7 +69,13 @@
         screen-rotate
         dash-to-dock
         syncthing-indicator
+      ])
+      ++ (with unstable; [
+        freecad-wayland
       ]);
+
+
+
   };
   services.syncthing.enable = true;
 
