@@ -24,7 +24,7 @@
         update_check_interval = 0;
       };
       extraConfig = ''
-        hide_window_decorations yes
+        # hide_window_decorations yes
         background_opacity 0.8
       '';
     };
