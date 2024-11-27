@@ -39,7 +39,25 @@
     flake = "/home/jan/.setup";
   };
 
+
+  systemd.services = {
+    tank-usb-mount = {
+      enable = true;
+      after = [ "network.target" ];
+      wantedBy = [ "default.target" ];
+      description = "Import zfs pool tank";
+      serviceConfig = {
+        Type = "simple";
+        Restart = "on-failure";
+        RestartSec = 30;
+        ExecStart = "${pkgs.zfs}/bin/zpool import tank";
+      };
+    };
+  };
+
+
   boot = {
+    # zfs.extraPools = [ "tank" ];
     # Bootloader.
     loader = {
       #      systemd-boot.enable = true;
