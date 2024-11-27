@@ -16,6 +16,7 @@
   podman = {
     enable = true;
     minio.enable = true;
+    proxmox-backup-server.enable = true;
   };
 
   gaming.enable = true;
