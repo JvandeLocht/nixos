@@ -18,6 +18,7 @@
     minio.enable = true;
   };
 
+  gaming.enable = true;
   locale.enable = true;
   services.gvfs.enable = true;
   services.udisks2.enable = true;
