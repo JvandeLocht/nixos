@@ -3,7 +3,7 @@
 , pkgs
 , ...
 }: {
-  imports = [ ./ollama-webui.nix ./minio.nix ];
+  imports = [ ./ollama-webui.nix ./minio.nix ./proxmox-backup-server.nix ];
 
   options.podman = {
     enable = lib.mkEnableOption "Set up containerization environment";
