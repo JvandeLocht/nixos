@@ -22,7 +22,7 @@ in
     # Packages that should be installed to the user profile.
     packages =
       (with pkgs; [
-        # prusa-slicer
+        prusa-slicer
         protonmail-desktop
         nextcloud-client
         jameica
