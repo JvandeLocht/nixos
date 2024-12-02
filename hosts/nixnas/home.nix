@@ -1,8 +1,16 @@
 { config
+, inputs
 , pkgs
 , osConfig
 , ...
-}: {
+}:
+let
+  unstable = import inputs.nixpkgs-unstable {
+    localSystem = pkgs.system;
+  };
+in
+
+{
   imports = [
     ../common/home.nix
   ];
@@ -17,7 +25,6 @@
         zathura
       ])
       ++ (with pkgs.gnomeExtensions; [
-        arcmenu
         caffeine
         forge
         space-bar
@@ -26,6 +33,9 @@
         screen-rotate
         dash-to-dock
         syncthing-indicator
+      ])
+      ++ (with unstable; [
+        gnomeExtensions.arcmenu
       ]);
   };
   # Packages that should be installed to the user profile.

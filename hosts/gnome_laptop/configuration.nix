@@ -5,7 +5,23 @@
 , pkgs
 , lib
 , ...
-}: {
+}:
+let
+  zfsCompatibleKernelPackages = lib.filterAttrs
+    (
+      name: kernelPackages:
+        (builtins.match "linux_[0-9]+_[0-9]+" name) != null
+        && (builtins.tryEval kernelPackages).success
+        && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
+    )
+    pkgs.linuxKernel.packages;
+  latestKernelPackage = lib.last (
+    lib.sort (a: b: (lib.versionOlder a.kernel.version b.kernel.version)) (
+      builtins.attrValues zfsCompatibleKernelPackages
+    )
+  );
+in
+{
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
     ../common/configuration.nix
@@ -16,6 +32,7 @@
   podman = {
     enable = true;
     openWebUI.enable = true;
+    nvidia = true;
   };
   virtSupport.enable = true;
   gaming.enable = true;
@@ -28,11 +45,6 @@
   services.enable = true;
   soundConfig.enable = true;
 
-  services.zfs.autoScrub.enable = true;
-  services.udev.extraRules = ''
-    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
-    ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/leds/asus::kbd_backlight/brightness"
-  '';
   boot = {
     # Bootloader.
     loader = {
@@ -54,11 +66,13 @@
     # Setup keyfile
     #    initrd.secrets = {"/crypto_keyfile.bin" = null;};
     #    kernelPackages = pkgs.linuxPackages_latest;
-    initrd.postDeviceCommands = lib.mkAfter ''
+    initrd.postMountCommands = lib.mkAfter ''
       zfs rollback -r rpool/local/root@blank
     '';
     zfs.requestEncryptionCredentials = true;
-    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+    # Note this might jump back and forth as kernels are added or removed.
+    kernelPackages = latestKernelPackage;
+    # kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [ "nohibernate" ];
     kernelPatches = [
       {
@@ -67,8 +81,12 @@
       }
     ];
   };
-  networking.hostId = "e4f8879e";
-  networking.hostName = "jans-nixos"; # Define your hostname.
+
+  networking = {
+    hostId = "e4f8879e";
+    hostName = "jans-nixos"; # Define your hostname.
+  };
+
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     trusted-users = [ "jan" ]; # Add your own username to the trusted list
@@ -79,6 +97,7 @@
     sensor.iio.enable = true;
     # Needed for Solaar to see Logitech devices.
     logitech.wireless.enable = true;
+    bluetooth.enable = true;
   };
 
   users.users = {
@@ -109,10 +128,13 @@
       enable = true;
       acceleration = "cuda";
     };
+    zfs.autoScrub.enable = true;
+    udev.extraRules = ''
+      ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
+      ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/leds/asus::kbd_backlight/brightness"
+    '';
   };
-  programs.dconf.enable = true;
   nixpkgs.config.permittedInsecurePackages = [ "electron-24.8.6" "electron-22.3.27" "electron-25.9.0" "electron-27.3.11" ];
-  hardware.bluetooth.enable = true;
   # This value determines the NixOS rele se from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

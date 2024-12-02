@@ -16,7 +16,7 @@
         package = pkgs.nerdfonts;
         name = "MesloLGM Nerd Font Mono";
       };
-      theme = "One Dark";
+      themeFile = "OneDark";
       shellIntegration.enableFishIntegration = true;
       settings = {
         scrollback_lines = 10000;
