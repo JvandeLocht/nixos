@@ -3,11 +3,9 @@
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
 { config, lib, pkgs, inputs, ... }:
-
 {
   imports =
     [
-      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../common/configuration.nix
       ./opt-in.nix
@@ -21,15 +19,7 @@
 
   gaming.enable = true;
   locale.enable = true;
-  services.gvfs.enable = true;
-  services.udisks2.enable = true;
-  services.samba.enable = true;
-  services.spice-vdagentd.enable = true;
-  services.spice-autorandr.enable = true;
-  services.spice-webdavd.enable = true;
-  services.samba.openFirewall = true;
   gnome.enable = true;
-  services.qemuGuest.enable = true;
 
   programs.nh = {
     enable = true;
@@ -37,7 +27,6 @@
     clean.extraArgs = "--keep-since 4d --keep 3";
     flake = "/home/jan/.setup";
   };
-
 
   systemd.services = {
     tank-usb-mount = {
@@ -52,15 +41,15 @@
         ExecStart = "${pkgs.zfs}/bin/zpool import tank";
       };
     };
+    # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
+    "getty@tty1".enable = false;
+    "autovt@tty1".enable = false;
+
   };
 
-
   boot = {
-    # zfs.extraPools = [ "tank" ];
     # Bootloader.
     loader = {
-      #      systemd-boot.enable = true;
-      #      efi.canTouchEfiVariables = true;
       grub = {
         enable = true;
         zfsSupport = true;
@@ -78,18 +67,12 @@
       zfs rollback -r rpool/local/root@blank
     '';
   };
-  services.zfs.autoScrub.enable = true;
 
-  networking.hostName = "nixnas"; # Define your hostname.
-  networking.hostId = "3901c199";
-  # Pick only one of the below networking options.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-
-  # Set your time zone.
-  time.timeZone = "Europe/Berlin";
-
-
+  networking = {
+    hostName = "nixnas"; # Define your hostname.
+    hostId = "3901c199";
+    networkmanager.enable = true;
+  };
 
   services = {
     # Enable touchpad support (enabled default in most desktopManager).
@@ -102,13 +85,19 @@
         user = "jan";
       };
     };
+    samba = {
+      enable = true;
+      openFirewall = true;
+    };
+    openssh.enable = true;
+    zfs.autoScrub.enable = true;
+    gvfs.enable = true;
+    udisks2.enable = true;
+    spice-vdagentd.enable = true;
+    spice-autorandr.enable = true;
+    spice-webdavd.enable = true;
+    qemuGuest.enable = true;
   };
-
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
-
-  services.openssh.enable = true; # If using VPS
 
   security.sudo.wheelNeedsPassword = false;
   users.users = {
@@ -121,12 +110,10 @@
     };
   };
 
-
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     trusted-users = [ "jan" ]; # Add your own username to the trusted list
   };
-
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

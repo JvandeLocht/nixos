@@ -9,7 +9,6 @@
 
   tmux.enable = false;
 
-
   home = {
     username = "jan";
     homeDirectory = "/home/jan";

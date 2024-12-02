@@ -73,8 +73,13 @@
     experimental-features = [ "nix-command" "flakes" ];
     trusted-users = [ "jan" ]; # Add your own username to the trusted list
   };
-  # Enable Accelerometer
-  hardware.sensor.iio.enable = true;
+
+  hardware = {
+    # Enable Accelerometer
+    sensor.iio.enable = true;
+    # Needed for Solaar to see Logitech devices.
+    logitech.wireless.enable = true;
+  };
 
   users.users = {
     jan = {
