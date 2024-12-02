@@ -1,15 +1,13 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
+{ config
+, lib
+, pkgs
+, ...
 }: {
   options.soundConfig = {
     enable = lib.mkEnableOption "Custom audio setup with PipeWire";
   };
 
   config = lib.mkIf config.soundConfig.enable {
-    sound.enable = true;
     hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {

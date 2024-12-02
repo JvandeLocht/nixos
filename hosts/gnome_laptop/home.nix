@@ -60,7 +60,6 @@ in
         python313
       ])
       ++ (with pkgs.gnomeExtensions; [
-        arcmenu
         caffeine
         forge
         space-bar
@@ -72,6 +71,7 @@ in
       ])
       ++ (with unstable; [
         freecad-wayland
+        gnomeExtensions.arcmenu
       ]);
 
 
@@ -88,7 +88,7 @@ in
         Restart = "always";
         ExecStart = "${pkgs.protonmail-bridge}/bin/protonmail-bridge --no-window --noninteractive";
         Environment = [
-          "PATH=${pkgs.gnome3.gnome-keyring}/bin:${pkgs.pass}/bin"
+          "PATH=${pkgs.gnome-keyring}/bin:${pkgs.pass}/bin"
           "PASSWORD_STORE_DIR=/home/jan/.local/share/password-store"
         ];
       };

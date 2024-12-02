@@ -5,7 +5,23 @@
 , pkgs
 , lib
 , ...
-}: {
+}:
+let
+  zfsCompatibleKernelPackages = lib.filterAttrs
+    (
+      name: kernelPackages:
+        (builtins.match "linux_[0-9]+_[0-9]+" name) != null
+        && (builtins.tryEval kernelPackages).success
+        && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
+    )
+    pkgs.linuxKernel.packages;
+  latestKernelPackage = lib.last (
+    lib.sort (a: b: (lib.versionOlder a.kernel.version b.kernel.version)) (
+      builtins.attrValues zfsCompatibleKernelPackages
+    )
+  );
+in
+{
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
     ../common/configuration.nix
@@ -54,11 +70,13 @@
     # Setup keyfile
     #    initrd.secrets = {"/crypto_keyfile.bin" = null;};
     #    kernelPackages = pkgs.linuxPackages_latest;
-    initrd.postDeviceCommands = lib.mkAfter ''
+    initrd.postMountCommands = lib.mkAfter ''
       zfs rollback -r rpool/local/root@blank
     '';
     zfs.requestEncryptionCredentials = true;
-    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
+    # Note this might jump back and forth as kernels are added or removed.
+    kernelPackages = latestKernelPackage;
+    # kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [ "nohibernate" ];
     kernelPatches = [
       {
