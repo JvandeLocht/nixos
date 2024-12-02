@@ -32,9 +32,10 @@ in
     proxmox-backup-server.enable = true;
   };
 
-  gaming.enable = true;
+  gaming.enable = false;
   locale.enable = true;
   gnome.enable = true;
+  nvidia.enable = false;
 
   programs.nh = {
     enable = true;

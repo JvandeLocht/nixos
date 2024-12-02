@@ -1,8 +1,7 @@
-{
-  pkgs,
-  lib,
-  config,
-  ...
+{ pkgs
+, lib
+, config
+, ...
 }: {
   options.gaming = {
     enable = lib.mkEnableOption "Set up gaming environment";
