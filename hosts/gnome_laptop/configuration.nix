@@ -40,7 +40,7 @@ in
   locale.enable = true;
   networking.enable = true;
   nvidia.enable = true;
-  power.enable = true;
+  # power.enable = true;
   printing.enable = true;
   services.enable = true;
   soundConfig.enable = true;
@@ -48,8 +48,6 @@ in
   boot = {
     # Bootloader.
     loader = {
-      #      systemd-boot.enable = true;
-      #      efi.canTouchEfiVariables = true;
       grub = {
         enable = true;
         zfsSupport = true;
@@ -63,9 +61,6 @@ in
         ];
       };
     };
-    # Setup keyfile
-    #    initrd.secrets = {"/crypto_keyfile.bin" = null;};
-    #    kernelPackages = pkgs.linuxPackages_latest;
     initrd.postMountCommands = lib.mkAfter ''
       zfs rollback -r rpool/local/root@blank
     '';
@@ -119,10 +114,6 @@ in
         enable = true;
         user = "jan";
       };
-    };
-    xserver = {
-      enable = true;
-      displayManager.gdm.enable = true;
     };
     ollama = {
       enable = true;
