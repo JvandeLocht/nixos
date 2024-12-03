@@ -32,7 +32,7 @@ in
   podman = {
     enable = true;
     openWebUI.enable = true;
-    nvidia = true;
+    nvidia.enable = false;
   };
   virtSupport.enable = true;
   gaming.enable = true;
