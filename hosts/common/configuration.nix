@@ -22,7 +22,6 @@ in
         neovim
         wget
         curl
-        nerdfonts
         evtest
         gnugrep
         powertop
@@ -54,6 +53,13 @@ in
       };
       flake = "/home/jan/.setup";
     };
+  };
+
+  fonts = {
+    fontDir.enable = true;
+    packages = with pkgs; [
+      fira-code
+    ];
   };
 
   # Allow unfree packages

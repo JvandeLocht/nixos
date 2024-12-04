@@ -23,6 +23,11 @@
 
     agenix.url = "github:ryantm/agenix";
 
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,6 +39,7 @@
     , nixpkgs
     , nixpkgs-unstable
     , home-manager
+    , home-manager-unstable
     , impermanence
     , nixvim-config
     , agenix
@@ -43,7 +49,7 @@
       inherit (self) outputs;
       system = "x86_64-linux";
       mkNixosConfig = name: user:
-        nixpkgs.lib.nixosSystem {
+        nixpkgs-unstable.lib.nixosSystem {
           system = system;
           modules = [
             {
@@ -56,7 +62,7 @@
             { _module.args = { inherit inputs; }; }
             ./hosts/${name}/configuration.nix
             impermanence.nixosModules.impermanence
-            home-manager.nixosModules.home-manager
+            home-manager-unstable.nixosModules.home-manager
             agenix.nixosModules.default
             {
               home-manager = {

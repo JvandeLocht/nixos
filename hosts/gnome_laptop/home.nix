@@ -33,7 +33,7 @@ in
         AusweisApp2
         antimicrox
         octaveFull
-        super-slicer-latest
+        # super-slicer-latest
         waydroid
         freetube
         webcord
