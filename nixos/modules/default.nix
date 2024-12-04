@@ -2,6 +2,7 @@
   imports = [
     ./gaming.nix
     ./gnome.nix
+    ./hyprland.nix
     ./locale_keymap.nix
     ./networking.nix
     ./nvidia.nix
@@ -12,6 +13,6 @@
     ./virtualization
     ./podman
     ./secrets.nix
-    # ./specialisation.nix
+    ./specialisation.nix
   ];
 }

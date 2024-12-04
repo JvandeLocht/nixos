@@ -3,6 +3,9 @@
 , ...
 }: {
   specialisation = {
+    gnome.configuration = {
+      gnome.enable = lib.mkForce true;
+    };
     hyprland.configuration = {
       programs.hyprland = {
         # Install the packages from nixpkgs
@@ -122,5 +125,4 @@
 
     # gnome.sushi.enable = true;
   };
-};
 }

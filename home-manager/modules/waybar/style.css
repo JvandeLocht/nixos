@@ -21,8 +21,14 @@ window#waybar {
 #workspaces {
     margin: 0 5px;
 }
+
 #workspaces button.active {
-    background-color: #2a2a2a;
+    background-color: #9E9E9E;
+}
+
+#workspaces button {
+    color: rgba(217, 216, 216, 1);
+    background-color: #272822;
 }
 
 #tray {
@@ -30,11 +36,11 @@ window#waybar {
     margin-bottom: 2px;
 }
 
-#tray > .passive {
+#tray>.passive {
     -gtk-icon-effect: dim;
 }
 
-#tray > .needs-attention {
+#tray>.needs-attention {
     -gtk-icon-effect: highlight;
     background-color: #eb4d4b;
 }

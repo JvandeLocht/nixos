@@ -1,12 +1,11 @@
-{
-  lib,
-  config,
-  osConfig,
-  pkgs,
-  inputs,
-  ...
+{ lib
+, config
+, osConfig
+, pkgs
+, inputs
+, ...
 }: {
-  imports = [./config.nix ./hyprpaper.nix];
+  imports = [ ./config.nix ./hyprpaper.nix ];
 
   options.hyprlandConfig = {
     enable = lib.mkEnableOption "Custom Hyprland configuration";
@@ -19,23 +18,34 @@
       # plugins = [ inputs.hyprgrass.packages.${pkgs.system}.default ];
     };
 
+    waybar.enable = true;
+    wofi.enable = true;
+    gtkThemes.enable = true;
+    services = {
+      swaync.enable = true;
+      gnome-keyring.enable = true;
+    };
+
     home.packages = with pkgs; [
       libnotify
       mpd
-      gnome.gnome-keyring
-      gnome.seahorse
+      gnome-keyring
+      seahorse
       libgnome-keyring
       libsecret
       wl-clipboard
       hyprpaper
-      pavucontrol
       grimblast
       blueberry
       swaynotificationcenter
       wlogout
-      (callPackage ../../../pkgs/iio-hyprland.nix {})
+      networkmanagerapplet
+      libsForQt5.kdeconnect-kde
+      # (callPackage ../../../pkgs/iio-hyprland.nix { })
+      iio-hyprland
       wvkbd # On screen keyboard
       fractal # Matrix client
+      qimgv # image viewer
     ];
   };
 }

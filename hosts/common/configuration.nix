@@ -59,6 +59,9 @@ in
     fontDir.enable = true;
     packages = with pkgs; [
       fira-code
+      cantarell-fonts
+      notonoto
+      meslo-lgs-nf
     ];
   };
 

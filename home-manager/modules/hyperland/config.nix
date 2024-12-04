@@ -1,14 +1,22 @@
 { config, pkgs, ... }: {
   wayland.windowManager.hyprland.extraConfig = ''
     exec-once = waybar
-    exec-once = swaync & hyprpaper & nextcloud & kdeconnect-indicator
-    exec=gnome-keyring-daemon -sd
+    exec-once = ${pkgs.libsForQt5.plasma-workspace}/bin/xembedsniproxy
+    exec-once = hyprctl setcursor catppuccin-mocha-sapphire-cursors 15
+    exec-once = hyprpaper & kdeconnect-indicator & nm-applet
+    # exec=gnome-keyring-daemon -sd
+    exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
     monitor=DP-7, 2560x1440, 0x0,1
     monitor=eDP-1, 2560x1600, 1280x1440,1.25
     monitor=DP-6, 3440x1440, 2560x0,1
     monitor=,highres,auto,1
+    xwayland {
+        force_zero_scaling = true
+    }
+    env = GDK_SCALE,1.25
+    env = XCURSOR_SIZE,15
 
     # Power
     env = WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
@@ -56,11 +64,6 @@
             size = 3
             passes = 1
         }
-
-        drop_shadow = no
-        shadow_range = 4
-        shadow_render_power = 3
-        col.shadow = rgba(1a1a1aee)
     }
 
     animations {
@@ -84,21 +87,16 @@
         preserve_split = yes # you probably want this
     }
 
-    master {
-        # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-        new_is_master = true
-    }
-
     gestures {
       workspace_swipe = on
       workspace_swipe_cancel_ratio = 0.15
     }
 
-    # Example per-device config
-    # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
-    device:epic-mouse-v1 {
-        sensitivity = -0.5
-    }
+    # # Example per-device config
+    # # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
+    # device:epic-mouse-v1 {
+    #     sensitivity = -0.5
+    # }
 
     plugin {
       touch_gestures {
