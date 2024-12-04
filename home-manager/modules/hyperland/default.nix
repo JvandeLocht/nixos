@@ -21,6 +21,8 @@
     waybar.enable = true;
     wofi.enable = true;
     gtkThemes.enable = true;
+    swayidle.enable = true;
+    swaylock.enable = true;
     services = {
       swaync.enable = true;
       gnome-keyring.enable = true;
