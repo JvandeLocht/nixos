@@ -121,6 +121,18 @@
     windowrulev2 = workspace special:Filen,class:Filen
     bind = $mainMod, F, togglespecialworkspace,Filen
 
+    windowrulev2 = workspace special:Signal,class:signal
+    bind = $mainMod, S, exec,${
+      pkgs.writeScript "signal" ''
+        #!/usr/bin/env bash
+          if ! pgrep -x "signal-desktop" > /dev/null; then
+              ${pkgs.signal-desktop}/bin/signal-desktop &
+          fi
+
+          hyprctl dispatch togglespecialworkspace Signal
+      ''
+    }
+
 
 
     # Lockscreen
