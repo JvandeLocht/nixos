@@ -34,6 +34,8 @@ in
       };
     };
 
+    # hardware.opentabletdriver.enable = true;
+
     environment.variables.XCURSOR_SIZE = "15";
     environment.sessionVariables = {
       # If your cursor becomes invisible

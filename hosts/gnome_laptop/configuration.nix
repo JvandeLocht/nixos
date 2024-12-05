@@ -36,7 +36,6 @@ in
   };
   virtSupport.enable = true;
   gaming.enable = true;
-  # gnome.enable = true;
   hyprland.enable = true;
   locale.enable = true;
   networking.enable = true;

@@ -1,5 +1,6 @@
 { lib
 , config
+, osConfig
 , ...
 }:
 let
@@ -13,11 +14,11 @@ let
   };
 in
 {
-  options.dconfSettings = {
-    enable = lib.mkEnableOption "Custom dconf settings";
-  };
+  # options.dconfSettings = {
+  #   enable = lib.mkEnableOption "Custom dconf settings";
+  # };
 
-  config = lib.mkIf config.dconfSettings.enable {
+  config = lib.mkIf osConfig.gnome.enable {
     dconf.settings = {
       "org/virt-manager/virt-manager/connections" = {
         autoconnect = [ "qemu:///system" ];
