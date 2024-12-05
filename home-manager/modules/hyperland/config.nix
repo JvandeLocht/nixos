@@ -122,8 +122,6 @@
     bind = $mainMod, F, togglespecialworkspace,Filen
 
 
-    # See https://wiki.hyprland.org/Configuring/Keywords/ for more
-    $mainMod = ALT
 
     # Lockscreen
     bind = $mainMod, l, exec, hyprlock
