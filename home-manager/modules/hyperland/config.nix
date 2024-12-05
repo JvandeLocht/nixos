@@ -126,7 +126,7 @@
     $mainMod = ALT
 
     # Lockscreen
-    bind = $mainMod, l, exec, swaylock
+    bind = $mainMod, l, exec, hyprlock
 
     # Laptop lid
     # bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
@@ -161,7 +161,7 @@
         #!/usr/bin/env bash
          count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
         if  [ $count = 2 ]; then
-             ${pkgs.swaylock-effects}/bin/swaylock
+             ${pkgs.hyprlock}/bin/hyprlock
          else
              echo "desktop-mode"
          fi
