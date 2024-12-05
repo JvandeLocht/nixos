@@ -28,6 +28,22 @@
       gnome-keyring.enable = true;
     };
 
+    systemd.user.services = {
+      hideFilen = {
+        Unit = {
+          Description = "hide filen";
+          After = "filen.service";
+        };
+        Service = {
+          Restart = "never";
+          ExecStartPre = "${pkgs.toybox}/bin/sleep 5";
+
+          ExecStart = "${pkgs.hyprland}/bin/hyprctl dispatch togglespecialworkspace Filen";
+        };
+        Install = { WantedBy = [ "graphical-session.target" ]; };
+      };
+    };
+
     home.packages = with pkgs; [
       libnotify
       mpd

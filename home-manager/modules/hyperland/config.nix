@@ -118,6 +118,8 @@
     # Example windowrule v2
     # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
     # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
+    windowrulev2 = workspace special:Filen,class:Filen
+    bind = $mainMod, F, togglespecialworkspace,Filen
 
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
