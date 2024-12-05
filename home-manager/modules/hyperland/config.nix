@@ -96,11 +96,14 @@
       workspace_swipe_cancel_ratio = 0.15
     }
 
-    # # Example per-device config
-    # # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
-    # device:epic-mouse-v1 {
-    #     sensitivity = -0.5
-    # }
+    # Asus pen
+    device {
+      name = elan9008:00-04f3:2fc3-stylus
+      sensitivity = 1.0
+      transform = 0
+      output = eDP-1
+    }
+
 
     plugin {
       touch_gestures {
