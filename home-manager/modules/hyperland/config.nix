@@ -18,6 +18,10 @@
     env = GDK_SCALE,1.25
     env = XCURSOR_SIZE,15
 
+
+    # See https://wiki.hyprland.org/Configuring/Keywords/ for more
+    $mainMod = ALT
+
     # Power
     env = WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
     misc:vfr = true
