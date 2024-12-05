@@ -110,6 +110,23 @@
 
         # must be >= 3
         workspace_swipe_fingers = 3
+
+        # resize windows by long-pressing on window borders and gaps.
+        # If general:resize_on_border is enabled, general:extend_border_grab_area is used for floating
+        # windows
+        resize_on_border_long_press = true
+
+        # swipe up from bottom edge
+        hyprgrass-bind = , edge:d:u, exec, ${
+          pkgs.writeScript "wvkbd-skript" ''
+            #!/usr/bin/env bash
+              if ${pkgs.toybox}/bin/pgrep -x 'wvkbd-mobintl' > /dev/null; then
+                ${pkgs.killall}/bin/killall wvkbd-mobintl
+              else
+                ${pkgs.wvkbd}/bin/wvkbd-mobintl -L 300
+              fi
+          ''
+        }
       }
     }
 
