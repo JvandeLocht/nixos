@@ -130,6 +130,25 @@
               fi
           ''
         }
+
+        # swipe down with 4 fingers
+        hyprgrass-bind = , swipe:4:d, killactive
+
+        # swipe down with 3 fingers
+        hyprgrass-bind = , swipe:3:d, exec, wlogout
+
+        # Audio swipe up and down from left edge
+        hyprgrass-bind = , edge:l:u, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%+
+        hyprgrass-bind = , edge:l:d, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%-
+
+        # Brightness swipe up and down from right edge
+        hyprgrass-bind = , edge:r:u, exec, brightnessctl set +5%
+        hyprgrass-bind = , edge:r:d, exec, brightnessctl set 5%-
+
+        # tap with 3 fingers
+        hyprgrass-bind = , tap:3, exec, wofi --show drun
+
+        hyprgrass-bindm = , longpress:2, movewindow
       }
     }
 
@@ -282,21 +301,5 @@
     # Wlogout
     bind = $mainMod, e, exec, wlogout
 
-    # swipe left from right edge
-    bind = , swipe:2:l, exec, wlogout
-
-    # swipe up from bottom edge
-    bind = , swipe:4:u, exec, librewolf
-
-    # swipe down from left edge
-    bind = , edge:l:u, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%+
-    bind = , edge:l:d, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%-
-
-    # swipe down with 4 fingers
-    bind = , swipe:4:d, killactive
-
-    # swipe diagonally leftwards and downwards with 3 fingers
-    # l (or r) must come before d and u
-    bind = , swipe:3:ld, exec, foot
   '';
 }
