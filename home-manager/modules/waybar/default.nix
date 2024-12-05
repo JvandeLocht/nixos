@@ -84,6 +84,7 @@
             "max-length" = 200;
             "seperate-outputs" = true;
             "warp-on-scroll" = false;
+            "ignore-workspaces" = [ "Filen" ];
           };
           "idle_inhibitor" = {
             "format" = "{icon}";
@@ -99,6 +100,7 @@
             "tooltip-format" = "{title}";
             "on-click" = "activate";
             "on-click-middle" = "close";
+            "ignore-list" = [ "Filen" ];
           };
           "bluetooth" = {
             "format" = " {status}";
