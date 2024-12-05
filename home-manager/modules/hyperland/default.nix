@@ -22,7 +22,7 @@
     wofi.enable = true;
     gtkThemes.enable = true;
     hyprlock.enable = true;
-    # hypridle.enable = true;
+    hypridle.enable = true;
     services = {
       swaync.enable = true;
       gnome-keyring.enable = true;
