@@ -12,7 +12,6 @@
       "/var/lib/ollama/models"
       "/var/lib/minio"
       "/etc/NetworkManager/system-connections"
-      "/etc/asusd"
       "/etc/ssh"
       {
         directory = "/var/lib/colord";
