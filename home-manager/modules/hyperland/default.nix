@@ -63,6 +63,7 @@
       iio-hyprland
       fractal # Matrix client
       qimgv # image viewer
+      jq
     ];
   };
 }
