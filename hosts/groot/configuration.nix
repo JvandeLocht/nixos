@@ -84,7 +84,7 @@ in
 
   networking = {
     hostId = "e4f8879e";
-    hostName = "jans-nixos"; # Define your hostname.
+    hostName = "groot"; # Define your hostname.
   };
 
   nix.settings = {

@@ -85,7 +85,7 @@
     in
     {
       nixosConfigurations = {
-        gnome_laptop = mkNixosConfig "gnome_laptop" "jan";
+        groot = mkNixosConfig "groot" "jan";
         nixnas = mkNixosConfig "nixnas" "jan";
       };
     };
