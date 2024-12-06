@@ -77,7 +77,7 @@ in
     kernelPatches = [
       {
         name = "amd-tablet-sfh";
-        patch = ../../kernel/patch/amd-tablet-sfh.patch;
+        patch = ../../patches/amd-tablet-sfh.patch;
       }
     ];
   };
