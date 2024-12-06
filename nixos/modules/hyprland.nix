@@ -34,6 +34,14 @@ in
       };
     };
 
+    nixpkgs.overlays = [
+      (final: prev: {
+        wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
+          patches = (oldAttrs.patches or [ ]) ++ [ ../../patches/switchYandZ.patch ];
+        });
+      })
+    ];
+
     # hardware.opentabletdriver.enable = true;
 
     environment.variables.XCURSOR_SIZE = "15";

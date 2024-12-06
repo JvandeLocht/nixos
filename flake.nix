@@ -32,6 +32,11 @@
       url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    fcitx-virtual-keyboard-adapter = {
+      url = "github:horriblename/fcitx-virtualkeyboard-adapter";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs =

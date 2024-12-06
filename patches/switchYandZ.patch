@@ -1,0 +1,76 @@
+diff --git a/layout.mobintl.h b/layout.mobintl.h
+index a848a04..e2f5f03 100644
+--- a/layout.mobintl.h
++++ b/layout.mobintl.h
+@@ -202,7 +202,7 @@ static struct key keys_full[] = {
+   {"e", "E", 1.0, Code, KEY_E, &layouts[ComposeE]},
+   {"r", "R", 1.0, Code, KEY_R, &layouts[ComposeR]},
+   {"t", "T", 1.0, Code, KEY_T, &layouts[ComposeT]},
+-  {"y", "Y", 1.0, Code, KEY_Y, &layouts[ComposeY]},
++  {"z", "Z", 1.0, Code, KEY_Z, &layouts[ComposeZ]},
+   {"u", "U", 1.0, Code, KEY_U, &layouts[ComposeU]},
+   {"i", "I", 1.0, Code, KEY_I, &layouts[ComposeI]},
+   {"o", "O", 1.0, Code, KEY_O, &layouts[ComposeO]},
+@@ -223,7 +223,7 @@ static struct key keys_full[] = {
+   {"", "", 0.0, EndRow},
+ 
+   {"⇧", "⇫", 1.5, Mod, Shift, .scheme = 1},
+-  {"z", "Z", 1.0, Code, KEY_Z, &layouts[ComposeZ]},
++  {"y", "Y", 1.0, Code, KEY_Y, &layouts[ComposeY]},
+   {"x", "X", 1.0, Code, KEY_X, &layouts[ComposeX]},
+   {"c", "C", 1.0, Code, KEY_C, &layouts[ComposeC]},
+   {"v", "V", 1.0, Code, KEY_V, &layouts[ComposeV]},
+@@ -276,7 +276,7 @@ static struct key keys_full_wide[] = {
+   {"e", "E", 1.0, Code, KEY_E, &layouts[ComposeE]},
+   {"r", "R", 1.0, Code, KEY_R, &layouts[ComposeR]},
+   {"t", "T", 1.0, Code, KEY_T, &layouts[ComposeT]},
+-  {"y", "Y", 1.0, Code, KEY_Y, &layouts[ComposeY]},
++  {"z", "Z", 1.0, Code, KEY_Z, &layouts[ComposeZ]},
+   {"u", "U", 1.0, Code, KEY_U, &layouts[ComposeU]},
+   {"i", "I", 1.0, Code, KEY_I, &layouts[ComposeI]},
+   {"o", "O", 1.0, Code, KEY_O, &layouts[ComposeO]},
+@@ -297,7 +297,7 @@ static struct key keys_full_wide[] = {
+   {"", "", 0.0, EndRow},
+ 
+   {"⇧", "⇫", 1.5, Mod, Shift, .scheme = 1},
+-  {"z", "Z", 1.0, Code, KEY_Z, &layouts[ComposeZ]},
++  {"y", "Y", 1.0, Code, KEY_Y, &layouts[ComposeY]},
+   {"x", "X", 1.0, Code, KEY_X, &layouts[ComposeX]},
+   {"c", "C", 1.0, Code, KEY_C, &layouts[ComposeC]},
+   {"v", "V", 1.0, Code, KEY_V, &layouts[ComposeV]},
+@@ -435,7 +435,7 @@ static struct key keys_simple[] = {
+   {"e", "E", 1.0, Code, KEY_E, &layouts[ComposeE]},
+   {"r", "R", 1.0, Code, KEY_R, &layouts[ComposeR]},
+   {"t", "T", 1.0, Code, KEY_T, &layouts[ComposeT]},
+-  {"y", "Y", 1.0, Code, KEY_Y, &layouts[ComposeY]},
++  {"z", "Z", 1.0, Code, KEY_Z, &layouts[ComposeZ]},
+   {"u", "U", 1.0, Code, KEY_U, &layouts[ComposeU]},
+   {"i", "I", 1.0, Code, KEY_I, &layouts[ComposeI]},
+   {"o", "O", 1.0, Code, KEY_O, &layouts[ComposeO]},
+@@ -456,7 +456,7 @@ static struct key keys_simple[] = {
+   {"", "", 0.0, EndRow},
+ 
+   {"⇧", "⇫", 1.5, Mod, Shift, .scheme = 1},
+-  {"z", "Z", 1.0, Code, KEY_Z, &layouts[ComposeZ]},
++  {"y", "Y", 1.0, Code, KEY_Y, &layouts[ComposeY]},
+   {"x", "X", 1.0, Code, KEY_X, &layouts[ComposeX]},
+   {"c", "C", 1.0, Code, KEY_C, &layouts[ComposeC]},
+   {"v", "V", 1.0, Code, KEY_V, &layouts[ComposeV]},
+@@ -1109,7 +1109,7 @@ static struct key keys_landscape[] = {
+   {"e", "E", 1.0, Code, KEY_E, &layouts[ComposeE]},
+   {"r", "R", 1.0, Code, KEY_R, &layouts[ComposeR]},
+   {"t", "T", 1.0, Code, KEY_T, &layouts[ComposeT]},
+-  {"y", "Y", 1.0, Code, KEY_Y, &layouts[ComposeY]},
++  {"z", "Z", 1.0, Code, KEY_Z, &layouts[ComposeZ]},
+   {"u", "U", 1.0, Code, KEY_U, &layouts[ComposeU]},
+   {"i", "I", 1.0, Code, KEY_I, &layouts[ComposeI]},
+   {"o", "O", 1.0, Code, KEY_O, &layouts[ComposeO]},
+@@ -1137,7 +1137,7 @@ static struct key keys_landscape[] = {
+   {"←", "←", 0.75, Code, KEY_LEFT, .scheme = 1},
+   {"→", "→", 0.75, Code, KEY_RIGHT, .scheme = 1},
+   {"⇧", "⇫", 1.5, Mod, Shift, .scheme = 1},
+-  {"z", "Z", 1.0, Code, KEY_Z, &layouts[ComposeZ]},
++  {"y", "Y", 1.0, Code, KEY_Y, &layouts[ComposeY]},
+   {"x", "X", 1.0, Code, KEY_X, &layouts[ComposeX]},
+   {"c", "C", 1.0, Code, KEY_C, &layouts[ComposeC]},
+   {"v", "V", 1.0, Code, KEY_V, &layouts[ComposeV]},

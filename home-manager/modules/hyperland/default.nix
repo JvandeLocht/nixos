@@ -5,7 +5,7 @@
 , inputs
 , ...
 }: {
-  imports = [ ./config.nix ./hyprpaper.nix ];
+  imports = [ ./config.nix ./hyprpaper.nix ./touch.nix ];
 
   options.hyprlandConfig = {
     enable = lib.mkEnableOption "Custom Hyprland configuration";
@@ -61,7 +61,6 @@
       libsForQt5.kdeconnect-kde
       # (callPackage ../../../pkgs/iio-hyprland.nix { })
       iio-hyprland
-      wvkbd # On screen keyboard
       fractal # Matrix client
       qimgv # image viewer
     ];

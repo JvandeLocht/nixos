@@ -1,4 +1,4 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   wayland.windowManager.hyprland.extraConfig = ''
     exec-once = waybar
     exec-once = ${pkgs.libsForQt5.plasma-workspace}/bin/xembedsniproxy
@@ -220,7 +220,9 @@
 
     # Tablet mode
     bindl=,switch:on:Asus WMI hotkeys,exec,iio-hyprland
+    bindl=,switch:on:Asus WMI hotkeys,exec, systemctl start --user wvkbd.service
     bindl=,switch:off:Asus WMI hotkeys,exec,killall iio-hyprland
+    bindl=,switch:off:Asus WMI hotkeys,exec,systemctl stop --user wvkbd.service
 
     # Mouse
     # LMB -> 272
@@ -303,3 +305,7 @@
 
   '';
 }
+
+
+
+

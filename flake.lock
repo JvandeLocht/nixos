@@ -65,6 +65,26 @@
         "type": "github"
       }
     },
+    "fcitx-virtual-keyboard-adapter": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1730255698,
+        "narHash": "sha256-B9mOaEzxKZzJJyIpYPxfrgmU+Z/7XB0r0ETWtVppBEA=",
+        "owner": "horriblename",
+        "repo": "fcitx-virtualkeyboard-adapter",
+        "rev": "35d018b830acb1da934835c431273be352f670bc",
+        "type": "github"
+      },
+      "original": {
+        "owner": "horriblename",
+        "repo": "fcitx-virtualkeyboard-adapter",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "locked": {
         "lastModified": 1696426674,
@@ -538,6 +558,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "fcitx-virtual-keyboard-adapter": "fcitx-virtual-keyboard-adapter",
         "home-manager": "home-manager_2",
         "home-manager-unstable": "home-manager-unstable",
         "impermanence": "impermanence",
