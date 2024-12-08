@@ -12,6 +12,7 @@
     ./firefox.nix
     ./fish.nix
     ./gtk.nix
+    ./gnome.nix
     ./hyprlock.nix
     ./hypridle.nix
     ./kitty.nix

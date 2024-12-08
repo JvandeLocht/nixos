@@ -24,22 +24,22 @@ in
       (with pkgs; [
         prusa-slicer
         protonmail-desktop
-        nextcloud-client
+        # nextcloud-client
         jameica
         spacenavd
         libreoffice-qt
-        remmina
+        # remmina
         solaar
         AusweisApp2
         antimicrox
-        octaveFull
+        # octaveFull
         # super-slicer-latest
         waydroid
         freetube
         webcord
         evince # pdf viewer
-        thunderbird
-        qownnotes
+        # thunderbird
+        # qownnotes
         obs-studio
         vlc
         zoom-us
@@ -59,19 +59,8 @@ in
         rclone
         python313
       ])
-      ++ (with pkgs.gnomeExtensions; [
-        caffeine
-        forge
-        space-bar
-        gsconnect
-        appindicator
-        screen-rotate
-        dash-to-dock
-        syncthing-indicator
-      ])
       ++ (with unstable; [
         freecad-wayland
-        gnomeExtensions.arcmenu
       ]);
 
 
