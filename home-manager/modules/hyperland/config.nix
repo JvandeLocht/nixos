@@ -183,12 +183,13 @@
     bindl=,switch:on:Lid Switch,exec,${
       pkgs.writeScript "desktop-mode" ''
         #!/usr/bin/env bash
-         count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
-        if  [ $count = 2 ]; then
-             hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
-         else
-             hyprctl keyword monitor "eDP-1, disable"
-         fi
+        count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
+        if  [ $count = 1 ]; then
+          hyprlock
+          systemctl suspend
+        else
+          hyprctl keyword monitor "eDP-1, disable"
+        fi
       ''
     }
 
@@ -196,28 +197,15 @@
     bindl=,switch:off:Lid Switch,exec,${
       pkgs.writeScript "desktop-mode" ''
         #!/usr/bin/env bash
-         count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
-        if  [ $count = 2 ]; then
-             hyprctl keyword monitor "eDP-1, disable"
-         else
-             hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
-         fi
+        count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
+        if  [ $count = 1 ]; then
+          echo "lid opened"
+        else
+          hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
+        fi
       ''
     }
 
-    # trigger when the switch is toggled
-    $lidlock = ${
-      pkgs.writeScript "desktop-mode" ''
-        #!/usr/bin/env bash
-         count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
-        if  [ $count = 2 ]; then
-             ${pkgs.hyprlock}/bin/hyprlock
-         else
-             echo "desktop-mode"
-         fi
-      ''
-    }
-    bindl=,switch:Lid Switch,exec,$lidlock
 
     # Tablet mode
     bindl=,switch:on:Asus WMI hotkeys,exec,iio-hyprland
