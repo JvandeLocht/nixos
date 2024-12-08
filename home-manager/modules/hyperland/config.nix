@@ -6,6 +6,7 @@
     exec-once = hyprpaper & kdeconnect-indicator & nm-applet
     # exec=gnome-keyring-daemon -sd
     exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
+    exec-once = ${pkgs.ulauncher}/bin/ulauncher --hide-window
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
     monitor=DP-7, 2560x1440, 0x0,1
@@ -146,7 +147,7 @@
         hyprgrass-bind = , edge:r:d, exec, brightnessctl set 5%-
 
         # tap with 3 fingers
-        hyprgrass-bind = , tap:3, exec, wofi --show drun
+        hyprgrass-bind = , tap:3, exec, ulauncher-toggle
 
         hyprgrass-bindm = , longpress:2, movewindow
       }
@@ -258,7 +259,7 @@
     bind = $mainMod, M, exit,
     bind = $mainMod, E, exec, dolphin
     bind = $mainMod, V, togglefloating,
-    bind = $mainMod, R, exec, wofi --show drun
+    bind = $mainMod, R, exec, ulauncher-toggle
     bind = $mainMod, P, pseudo, # dwindle
     bind = $mainMod, J, togglesplit, # dwindle
 

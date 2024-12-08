@@ -64,6 +64,7 @@
       fractal # Matrix client
       qimgv # image viewer
       jq
+      ulauncher
     ];
   };
 }
