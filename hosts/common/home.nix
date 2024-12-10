@@ -19,7 +19,6 @@
   yazi.enable = true;
   foot.enable = true;
   kitty.enable = true;
-  dconfSettings.enable = true;
   lf.enable = true;
 
   # basic configuration of git, please change to your own

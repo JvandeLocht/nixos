@@ -1,8 +1,7 @@
-{
-  lib,
-  config,
-  pkgs,
-  ...
+{ lib
+, config
+, pkgs
+, ...
 }: {
   options.gtkThemes = {
     enable = lib.mkEnableOption "Custom pointer cursor and GTK theme configuration";
@@ -13,8 +12,8 @@
       gtk.enable = true;
       x11.enable = true;
       package = pkgs.bibata-cursors;
-      name = "Bibata-Modern-Amber";
-      size = 20;
+      name = "Bibata-Modern-Classic";
+      size = 15;
     };
 
     gtk = {
@@ -28,7 +27,7 @@
         name = "breeze-dark";
       };
       font = {
-        name = "Sans";
+        name = "Fira Code";
         size = 11;
       };
     };

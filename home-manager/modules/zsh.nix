@@ -24,7 +24,7 @@
         syntaxHighlighting.enable = true;
         shellAliases = {
           p = "watch upower -i /org/freedesktop/UPower/devices/battery_BAT0";
-          ng = "nh os switch -H gnome_laptop ~/.setup";
+          ng = "nh os switch -H groot ~/.setup";
           nn = "nh os switch -H nixnas ~/.setup";
           t = "tmux";
           v = "nvim";

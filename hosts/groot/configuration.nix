@@ -31,12 +31,12 @@ in
   #enable custom modules
   podman = {
     enable = true;
-    openWebUI.enable = true;
+    openWebUI.enable = false;
     nvidia.enable = false;
   };
   virtSupport.enable = true;
   gaming.enable = true;
-  gnome.enable = true;
+  hyprland.enable = true;
   locale.enable = true;
   networking.enable = true;
   nvidia.enable = true;
@@ -72,14 +72,14 @@ in
     kernelPatches = [
       {
         name = "amd-tablet-sfh";
-        patch = ../../kernel/patch/amd-tablet-sfh.patch;
+        patch = ../../patches/amd-tablet-sfh.patch;
       }
     ];
   };
 
   networking = {
     hostId = "e4f8879e";
-    hostName = "jans-nixos"; # Define your hostname.
+    hostName = "groot"; # Define your hostname.
   };
 
   nix.settings = {
@@ -108,7 +108,7 @@ in
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
     displayManager = {
-      defaultSession = "gnome";
+      # defaultSession = "gnome";
       # Enable automatic login for the user.
       autoLogin = {
         enable = true;
@@ -116,7 +116,7 @@ in
       };
     };
     ollama = {
-      enable = true;
+      enable = false;
       acceleration = "cuda";
     };
     zfs.autoScrub.enable = true;

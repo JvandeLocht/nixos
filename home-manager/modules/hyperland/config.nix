@@ -1,14 +1,27 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, lib, ... }: {
   wayland.windowManager.hyprland.extraConfig = ''
     exec-once = waybar
-    exec-once = swaync & hyprpaper & nextcloud & kdeconnect-indicator
-    exec=gnome-keyring-daemon -sd
+    exec-once = ${pkgs.libsForQt5.plasma-workspace}/bin/xembedsniproxy
+    exec-once = hyprctl setcursor catppuccin-mocha-sapphire-cursors 15
+    exec-once = hyprpaper & kdeconnect-indicator & nm-applet
+    # exec=gnome-keyring-daemon -sd
+    exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
+    exec-once = ${pkgs.ulauncher}/bin/ulauncher --hide-window
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
     monitor=DP-7, 2560x1440, 0x0,1
     monitor=eDP-1, 2560x1600, 1280x1440,1.25
     monitor=DP-6, 3440x1440, 2560x0,1
     monitor=,highres,auto,1
+    xwayland {
+        force_zero_scaling = true
+    }
+    env = GDK_SCALE,1.25
+    env = XCURSOR_SIZE,15
+
+
+    # See https://wiki.hyprland.org/Configuring/Keywords/ for more
+    $mainMod = ALT
 
     # Power
     env = WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
@@ -56,11 +69,6 @@
             size = 3
             passes = 1
         }
-
-        drop_shadow = no
-        shadow_range = 4
-        shadow_render_power = 3
-        col.shadow = rgba(1a1a1aee)
     }
 
     animations {
@@ -84,21 +92,19 @@
         preserve_split = yes # you probably want this
     }
 
-    master {
-        # See https://wiki.hyprland.org/Configuring/Master-Layout/ for more
-        new_is_master = true
-    }
-
     gestures {
       workspace_swipe = on
       workspace_swipe_cancel_ratio = 0.15
     }
 
-    # Example per-device config
-    # See https://wiki.hyprland.org/Configuring/Keywords/#executing for more
-    device:epic-mouse-v1 {
-        sensitivity = -0.5
+    # Asus pen
+    device {
+      name = elan9008:00-04f3:2fc3-stylus
+      sensitivity = 1.0
+      transform = 0
+      output = eDP-1
     }
+
 
     plugin {
       touch_gestures {
@@ -108,6 +114,42 @@
 
         # must be >= 3
         workspace_swipe_fingers = 3
+
+        # resize windows by long-pressing on window borders and gaps.
+        # If general:resize_on_border is enabled, general:extend_border_grab_area is used for floating
+        # windows
+        resize_on_border_long_press = true
+
+        # swipe up from bottom edge
+        hyprgrass-bind = , edge:d:u, exec, ${
+          pkgs.writeScript "wvkbd-skript" ''
+            #!/usr/bin/env bash
+              if ${pkgs.toybox}/bin/pgrep -x 'wvkbd-mobintl' > /dev/null; then
+                ${pkgs.killall}/bin/killall wvkbd-mobintl
+              else
+                ${pkgs.wvkbd}/bin/wvkbd-mobintl -L 300
+              fi
+          ''
+        }
+
+        # swipe down with 4 fingers
+        hyprgrass-bind = , swipe:4:d, killactive
+
+        # swipe down with 3 fingers
+        hyprgrass-bind = , swipe:3:d, exec, wlogout
+
+        # Audio swipe up and down from left edge
+        hyprgrass-bind = , edge:l:u, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%+
+        hyprgrass-bind = , edge:l:d, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%-
+
+        # Brightness swipe up and down from right edge
+        hyprgrass-bind = , edge:r:u, exec, brightnessctl set +5%
+        hyprgrass-bind = , edge:r:d, exec, brightnessctl set 5%-
+
+        # tap with 3 fingers
+        hyprgrass-bind = , tap:3, exec, ulauncher-toggle
+
+        hyprgrass-bindm = , longpress:2, movewindow
       }
     }
 
@@ -116,25 +158,38 @@
     # Example windowrule v2
     # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
     # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
+    windowrulev2 = workspace special:Filen,class:Filen
+    bind = $mainMod, F, togglespecialworkspace,Filen
+
+    windowrulev2 = workspace special:Signal,class:signal
+    bind = $mainMod, S, exec,${
+      pkgs.writeScript "signal" ''
+        #!/usr/bin/env bash
+          if ! pgrep -x "signal-desktop" > /dev/null; then
+              ${pkgs.signal-desktop}/bin/signal-desktop &
+          fi
+
+          hyprctl dispatch togglespecialworkspace Signal
+      ''
+    }
 
 
-    # See https://wiki.hyprland.org/Configuring/Keywords/ for more
-    $mainMod = ALT
 
     # Lockscreen
-    bind = $mainMod, l, exec, swaylock
+    bind = $mainMod, l, exec, hyprlock
 
     # Laptop lid
     # bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
     bindl=,switch:on:Lid Switch,exec,${
       pkgs.writeScript "desktop-mode" ''
         #!/usr/bin/env bash
-         count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
-        if  [ $count = 2 ]; then
-             hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
-         else
-             hyprctl keyword monitor "eDP-1, disable"
-         fi
+        count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
+        if  [ $count = 1 ]; then
+          hyprlock
+          systemctl suspend
+        else
+          hyprctl keyword monitor "eDP-1, disable"
+        fi
       ''
     }
 
@@ -142,32 +197,21 @@
     bindl=,switch:off:Lid Switch,exec,${
       pkgs.writeScript "desktop-mode" ''
         #!/usr/bin/env bash
-         count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
-        if  [ $count = 2 ]; then
-             hyprctl keyword monitor "eDP-1, disable"
-         else
-             hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
-         fi
+        count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
+        if  [ $count = 1 ]; then
+          echo "lid opened"
+        else
+          hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
+        fi
       ''
     }
 
-    # trigger when the switch is toggled
-    $lidlock = ${
-      pkgs.writeScript "desktop-mode" ''
-        #!/usr/bin/env bash
-         count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
-        if  [ $count = 2 ]; then
-             ${pkgs.swaylock-effects}/bin/swaylock
-         else
-             echo "desktop-mode"
-         fi
-      ''
-    }
-    bindl=,switch:Lid Switch,exec,$lidlock
 
     # Tablet mode
     bindl=,switch:on:Asus WMI hotkeys,exec,iio-hyprland
+    bindl=,switch:on:Asus WMI hotkeys,exec, systemctl start --user wvkbd.service
     bindl=,switch:off:Asus WMI hotkeys,exec,killall iio-hyprland
+    bindl=,switch:off:Asus WMI hotkeys,exec,systemctl stop --user wvkbd.service
 
     # Mouse
     # LMB -> 272
@@ -203,7 +247,7 @@
     bind = $mainMod, M, exit,
     bind = $mainMod, E, exec, dolphin
     bind = $mainMod, V, togglefloating,
-    bind = $mainMod, R, exec, wofi --show drun
+    bind = $mainMod, R, exec, ulauncher-toggle
     bind = $mainMod, P, pseudo, # dwindle
     bind = $mainMod, J, togglesplit, # dwindle
 
@@ -248,21 +292,9 @@
     # Wlogout
     bind = $mainMod, e, exec, wlogout
 
-    # swipe left from right edge
-    bind = , swipe:2:l, exec, wlogout
-
-    # swipe up from bottom edge
-    bind = , swipe:4:u, exec, librewolf
-
-    # swipe down from left edge
-    bind = , edge:l:u, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%+
-    bind = , edge:l:d, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%-
-
-    # swipe down with 4 fingers
-    bind = , swipe:4:d, killactive
-
-    # swipe diagonally leftwards and downwards with 3 fingers
-    # l (or r) must come before d and u
-    bind = , swipe:3:ld, exec, foot
   '';
 }
+
+
+
+
