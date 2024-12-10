@@ -3,7 +3,7 @@ let
   users = [ jan ];
 
   nixnas = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGL4k+0jwQGQyhIgEht3P+J4sCbVNdhnmAAzSqyuYY0t";
-  groot = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILQZs0W714LLPTGtKXdekCxrJfHxxB3XlMi45rOAspRu";
+  groot = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGxH8LRSNnFDsZ516bzdADxRR6MY2UZOrvh/7inTe2NH";
   systems = [ groot nixnas ];
 in
 {
@@ -13,4 +13,5 @@ in
   "jan-nixnas-borg.age".publicKeys = users ++ systems;
   "rclone-config.age".publicKeys = users ++ systems;
   "jan-nixnas-restic.age".publicKeys = users ++ systems;
+  "jan-groot-restic.age".publicKeys = users ++ systems;
 }

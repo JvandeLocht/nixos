@@ -32,6 +32,9 @@ in
         borgbackup
         rclone
       ]
+      ++ (with inputs;[
+        agenix.packages.x86_64-linux.default
+      ])
       ++ (with unstable; [
         proton-pass
       ]);

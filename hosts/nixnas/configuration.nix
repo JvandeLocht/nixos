@@ -163,7 +163,7 @@ in
     nixvim
     spice
   ]) ++ (with inputs;[
-    agenix.packages.x86_64-linux.default
+    # agenix.packages.x86_64-linux.default
   ]);
 
 

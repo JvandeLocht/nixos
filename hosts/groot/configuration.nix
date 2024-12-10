@@ -105,6 +105,19 @@ in
   };
   # Enable the X11 windowing system.
   services = {
+    restic = {
+      backups.groot = {
+        initialize = true;
+        repository = "rclone:filen:Backups/restic/groot";
+        paths = [ "/home/jan" "/persist" ];
+        passwordFile = "${config.age.secrets.jan-groot-restic.path}";
+        rcloneConfigFile = "${config.age.secrets.rclone-config.path}";
+        pruneOpts = [
+          "--keep-weekly 4"
+          "--keep-monthly 3"
+        ];
+      };
+    };
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
     displayManager = {

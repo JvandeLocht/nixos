@@ -36,5 +36,10 @@
       path = "/persist/secrets/jan-nixnas-restic";
       symlink = false;
     };
+    jan-groot-restic = {
+      file = ../../secrets/jan-groot-restic.age;
+      path = "/persist/secrets/jan-groot-restic";
+      symlink = false;
+    };
   };
 }
