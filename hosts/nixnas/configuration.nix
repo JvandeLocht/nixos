@@ -123,6 +123,19 @@ in
         startAt = "daily";
       };
     };
+    restic = {
+      backups.nixnas = {
+        initialize = true;
+        repository = "rclone:filen:Backups/restic/nixnas";
+        paths = [ "/home/jan" "/persist" ];
+        passwordFile = "${config.age.secrets.jan-nixnas-restic.path}";
+        rcloneConfigFile = "${config.age.secrets.rclone-config.path}";
+        pruneOpts = [
+          "--keep-weekly 4"
+          "--keep-monthly 3"
+        ];
+      };
+    };
   };
 
   # security.sudo.wheelNeedsPassword = false;
@@ -174,4 +187,5 @@ in
   system.stateVersion = "24.05"; # Did you read the comment?
 
 }
+
 

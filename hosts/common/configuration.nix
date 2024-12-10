@@ -30,6 +30,7 @@ in
         nvtopPackages.nvidia
         pika-backup
         borgbackup
+        rclone
       ]
       ++ (with unstable; [
         proton-pass

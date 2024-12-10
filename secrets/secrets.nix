@@ -11,4 +11,6 @@ in
   "minio-secretKey.age".publicKeys = users ++ systems;
   "jan-nixnas.age".publicKeys = users ++ systems;
   "jan-nixnas-borg.age".publicKeys = users ++ systems;
+  "rclone-config.age".publicKeys = users ++ systems;
+  "jan-nixnas-restic.age".publicKeys = users ++ systems;
 }

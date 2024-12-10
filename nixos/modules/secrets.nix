@@ -26,5 +26,15 @@
       path = "/persist/secrets/jan-nixnas-borg";
       symlink = false;
     };
+    rclone-config = {
+      file = ../../secrets/rclone-config.age;
+      path = "/persist/secrets/rclone-config";
+      symlink = false;
+    };
+    jan-nixnas-restic = {
+      file = ../../secrets/jan-nixnas-restic.age;
+      path = "/persist/secrets/jan-nixnas-restic";
+      symlink = false;
+    };
   };
 }
