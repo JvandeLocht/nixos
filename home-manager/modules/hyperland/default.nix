@@ -65,6 +65,7 @@
       qimgv # image viewer
       jq
       ulauncher
+      zip
     ];
   };
 }
