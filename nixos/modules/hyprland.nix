@@ -91,6 +91,8 @@ in
       qt5.qtwayland
       qt6.qtwayland
       file-roller
+      nautilus
+      nautilus-open-any-terminal
     ];
 
     programs.thunar = {
