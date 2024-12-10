@@ -90,6 +90,7 @@ in
       xbindkeys
       qt5.qtwayland
       qt6.qtwayland
+      xarchiver
     ];
 
     programs.thunar = {
