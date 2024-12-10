@@ -21,5 +21,10 @@
       path = "/persist/secrets/jan-nixnas";
       symlink = false;
     };
+    jan-nixnas-borg = {
+      file = ../../secrets/jan-nixnas-borg.age;
+      path = "/persist/secrets/jan-nixnas-borg";
+      symlink = false;
+    };
   };
 }

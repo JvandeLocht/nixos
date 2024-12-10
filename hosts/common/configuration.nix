@@ -29,6 +29,7 @@ in
         smartmontools
         nvtopPackages.nvidia
         pika-backup
+        borgbackup
       ]
       ++ (with unstable; [
         proton-pass

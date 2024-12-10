@@ -10,4 +10,5 @@ in
   "minio-accessKey.age".publicKeys = users ++ systems;
   "minio-secretKey.age".publicKeys = users ++ systems;
   "jan-nixnas.age".publicKeys = users ++ systems;
+  "jan-nixnas-borg.age".publicKeys = users ++ systems;
 }
