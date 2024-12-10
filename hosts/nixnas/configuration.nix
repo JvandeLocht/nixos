@@ -81,7 +81,7 @@ in
         ];
       };
     };
-    initrd.postDeviceCommands = lib.mkAfter ''
+    initrd.postMountCommands = lib.mkAfter ''
       zfs rollback -r rpool/local/root@blank
     '';
   };

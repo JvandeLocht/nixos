@@ -16,8 +16,6 @@
 
     programs.gamemode.enable = true;
 
-    hardware.opengl.driSupport32Bit = true;
-
     environment.systemPackages = with pkgs; [
       lutris
       wineWowPackages.waylandFull

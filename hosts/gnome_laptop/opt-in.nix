@@ -1,14 +1,7 @@
 {
-  # environment.etc = {
-  #   "group".source = "/nix/persist/etc/group";
-  #   "passwd".source = "/nix/persist/etc/passwd";
-  #   "shadow".source = "/nix/persist/etc/shadow";
-  # };
   environment.persistence."/persist" = {
     hideMounts = true;
     directories = [
-      # "/run/secrets"
-      # "/run/secrets-for-users"
       "/root/.local/share/nix"
       "/var/log"
       "/var/lib/bluetooth"
@@ -29,11 +22,9 @@
     ];
     files = [
       "/etc/machine-id"
-      # "/etc/passwd"
-      # "/etc/shadow"
       {
         file = "/var/keys/secret_file";
-        parentDirectory = {mode = "u=rwx,g=,o=";};
+        parentDirectory = { mode = "u=rwx,g=,o="; };
       }
     ];
   };

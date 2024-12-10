@@ -10,8 +10,6 @@ let
 in
 {
   imports = [
-    ../../home-manager/modules/dconf.nix
-    ../../home-manager/modules/podman
     ../common/home.nix
   ];
 
@@ -135,16 +133,6 @@ in
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
-    # ollama = {
-    #   Unit = {
-    #     Description = "start ollama server";
-    #   };
-    #   Service = {
-    #     Restart = "always";
-    #     ExecStart = "${pkgs.nix}/bin/nix run github:havaker/ollama-nix serve";
-    #   };
-    #   Install = {WantedBy = ["graphical-session.target"];};
-    # };
     filen = {
       Unit = {
         Description = "start filen";
