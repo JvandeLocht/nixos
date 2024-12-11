@@ -39,7 +39,10 @@ in
         proton-pass
       ]);
     # Set default editor to vim
-    variables.EDITOR = "nvim";
+    variables = {
+      EDITOR = "nvim";
+      RESTIC_PROGRESS_FPS = "1";
+    };
   };
 
   users.defaultUserShell = pkgs.zsh;
