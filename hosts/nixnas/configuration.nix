@@ -111,18 +111,6 @@ in
     spice-autorandr.enable = true;
     spice-webdavd.enable = true;
     qemuGuest.enable = true;
-    borgbackup.jobs = {
-      nixnas = {
-        paths = [ "/home/jan" "/persist" ];
-        encryption = {
-          mode = "repokey-blake2";
-          passCommand = "${pkgs.toybox}/bin/cat ${config.age.secrets.jan-nixnas-borg.path}";
-        };
-        repo = "/tank/BorgBackup/nixnas";
-        compression = "auto,zstd";
-        startAt = "daily";
-      };
-    };
     restic = {
       backups.nixnas = {
         initialize = true;
