@@ -20,7 +20,7 @@
 
         background = [
           {
-            path = "screenshot";
+            path = "~/.setup/img/nixos_wallpaper.jpg";
             blur_passes = 3;
             blur_size = 8;
           }
