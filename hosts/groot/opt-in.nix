@@ -13,6 +13,7 @@
       "/var/lib/ollama/models"
       "/etc/NetworkManager/system-connections"
       "/etc/asusd"
+      "/etc/ssh"
       {
         directory = "/var/lib/colord";
         user = "colord";
