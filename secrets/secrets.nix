@@ -3,7 +3,7 @@ let
   users = [ jan ];
 
   nixnas = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGL4k+0jwQGQyhIgEht3P+J4sCbVNdhnmAAzSqyuYY0t";
-  groot = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINyXHDJCiXxi67n/I/yC0AeWwQxjHRQlHCC/0PzLzjj2";
+  groot = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE7rAX3mGpyCpMpAt6uCxKWhcc5Z0S7e6ayrKfppRfj0";
   systems = [ groot nixnas ];
 in
 {
