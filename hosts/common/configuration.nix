@@ -31,6 +31,7 @@ in
         pika-backup
         borgbackup
         rclone
+        restic
       ]
       ++ (with inputs;[
         agenix.packages.x86_64-linux.default
