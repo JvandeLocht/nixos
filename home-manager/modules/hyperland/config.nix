@@ -289,6 +289,12 @@
     bindm = $mainMod, mouse:272, movewindow
     bindm = $mainMod, mouse:273, resizewindow
 
+    # Move/resize windows with mainMod + arrow-keys
+    bind = $mainMod, right, resizeactive, 10 0
+    bind = $mainMod, left, resizeactive, -10 0
+    bind = $mainMod, up, resizeactive, 0 -10
+    bind = $mainMod, down, resizeactive, 0 10
+
     # Wlogout
     bind = $mainMod, e, exec, wlogout
 
