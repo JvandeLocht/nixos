@@ -108,8 +108,10 @@ in
     restic = {
       backups.groot = {
         initialize = true;
+        inhibitsSleep = true;
         repository = "rclone:filen:Backups/restic/groot";
         paths = [ "/home/jan" "/persist" ];
+        exclude = [ "/var/cache" "/home/*/.cache" "/home/*/.local/share" "/home/*/Bilder" "/persist/var/lib/ollama" "/persist/var/lib/ollama" "/persist/var/lib/libvirt" "/persist/var/lib/containers" "/persist/var/lib/systemd" ];
         passwordFile = "${config.age.secrets.jan-groot-restic.path}";
         rcloneConfigFile = "${config.age.secrets.rclone-config.path}";
         pruneOpts = [
