@@ -8,6 +8,7 @@
       "/var/lib/nixos"
       "/var/lib/libvirt"
       "/var/cache/libvirt"
+      "/var/cache/restic-backups-groot"
       "/var/lib/containers/storage"
       "/var/lib/systemd/coredump"
       "/var/lib/ollama/models"
