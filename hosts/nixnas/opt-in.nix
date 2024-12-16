@@ -8,6 +8,7 @@
       "/var/lib/libvirt"
       "/var/cache/libvirt"
       "/var/lib/containers/storage"
+      "/var/cache/restic-backups-nixnas"
       "/var/lib/systemd/coredump"
       "/var/lib/ollama/models"
       "/var/lib/minio"
