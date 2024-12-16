@@ -32,6 +32,7 @@ in
         borgbackup
         rclone
         restic
+        zellij
       ]
       ++ (with inputs;[
         agenix.packages.x86_64-linux.default
