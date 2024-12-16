@@ -26,6 +26,7 @@
           p = "watch upower -i /org/freedesktop/UPower/devices/battery_BAT0";
           ng = "nh os switch -H groot ~/.setup";
           nn = "nh os switch -H nixnas ~/.setup";
+          ns = "nh os switch";
           t = "tmux";
           v = "nvim";
           y = "yazi";
