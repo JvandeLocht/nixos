@@ -116,6 +116,7 @@ in
         initialize = true;
         repository = "rclone:filen:Backups/restic/nixnas";
         paths = [ "/home/jan" "/persist" "/apps" ];
+        exclude = [ "/var/cache" "/home/*/.cache" "/home/*/.local/share" "/home/*/Bilder" "/persist/var/lib/ollama" "/persist/var/lib/ollama" "/persist/var/lib/libvirt" "/persist/var/lib/containers" "/persist/var/lib/systemd" ];
         passwordFile = "${config.age.secrets.jan-nixnas-restic.path}";
         rcloneConfigFile = "${config.age.secrets.rclone-config.path}";
         pruneOpts = [
