@@ -33,6 +33,7 @@ in
         rclone
         restic
         zellij
+        backrest
       ]
       ++ (with inputs;[
         agenix.packages.x86_64-linux.default
@@ -47,6 +48,15 @@ in
     };
   };
 
+  networking.firewall = {
+    allowedTCPPortRanges = [
+      # for backrest
+      {
+        from = 9898;
+        to = 9898;
+      }
+    ];
+  };
   users.defaultUserShell = pkgs.zsh;
 
   programs = {

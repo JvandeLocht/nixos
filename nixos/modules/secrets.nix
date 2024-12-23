@@ -21,14 +21,14 @@
       path = "/persist/secrets/jan-nixnas";
       symlink = false;
     };
-    jan-nixnas-borg = {
-      file = ../../secrets/jan-nixnas-borg.age;
-      path = "/persist/secrets/jan-nixnas-borg";
-      symlink = false;
-    };
     rclone-config = {
       file = ../../secrets/rclone-config.age;
       path = "/persist/secrets/rclone-config";
+      symlink = false;
+    };
+    rclone-config-root = {
+      file = ../../secrets/rclone-config.age;
+      path = "/persist/secrets/rclone.conf";
       symlink = false;
     };
     jan-nixnas-restic = {
@@ -39,6 +39,11 @@
     jan-groot-restic = {
       file = ../../secrets/jan-groot-restic.age;
       path = "/persist/secrets/jan-groot-restic";
+      symlink = false;
+    };
+    backrest-nixnas = {
+      file = ../../secrets/backrest-nixnas.age;
+      path = "/persist/secrets/backrest-nixnas";
       symlink = false;
     };
   };

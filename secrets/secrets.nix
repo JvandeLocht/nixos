@@ -7,11 +7,11 @@ let
   systems = [ groot nixnas ];
 in
 {
-  "minio-accessKey.age".publicKeys = users ++ systems;
-  "minio-secretKey.age".publicKeys = users ++ systems;
-  "jan-nixnas.age".publicKeys = users ++ systems;
-  "jan-nixnas-borg.age".publicKeys = users ++ systems;
+  "minio-accessKey.age".publicKeys = users ++ nixnas;
+  "minio-secretKey.age".publicKeys = users ++ nixnas;
+  "jan-nixnas.age".publicKeys = users ++ nixnas;
   "rclone-config.age".publicKeys = users ++ systems;
-  "jan-nixnas-restic.age".publicKeys = users ++ systems;
-  "jan-groot-restic.age".publicKeys = users ++ systems;
+  "jan-nixnas-restic.age".publicKeys = users ++ nixnas;
+  "jan-groot-restic.age".publicKeys = users ++ groot;
+  "backrest-nixnas.age".publicKeys = users ++ nixnas;
 }

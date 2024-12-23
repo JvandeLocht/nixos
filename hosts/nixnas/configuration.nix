@@ -57,6 +57,22 @@ in
         ExecStart = "${pkgs.zfs}/bin/zpool import tank";
       };
     };
+    backrest = {
+      enable = true;
+      environment = {
+        HOME = "/root";
+      };
+
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      description = "Run backrest";
+      serviceConfig = {
+        Type = "simple";
+        Restart = "on-failure";
+        RestartSec = 30;
+        ExecStart = "${pkgs.backrest}/bin/backrest -bind-address 0.0.0.0:9898";
+      };
+    };
   };
 
   boot = {
@@ -111,20 +127,20 @@ in
     spice-autorandr.enable = true;
     spice-webdavd.enable = true;
     qemuGuest.enable = true;
-    restic = {
-      backups.nixnas = {
-        initialize = true;
-        repository = "rclone:filen:Backups/restic/nixnas";
-        paths = [ "/home/jan" "/persist" "/apps" ];
-        exclude = [ "/var/cache" "/home/*/.cache" "/home/*/.local/share" "/home/*/Bilder" "/persist/var/lib/ollama" "/persist/var/lib/ollama" "/persist/var/lib/libvirt" "/persist/var/lib/containers" "/persist/var/lib/systemd" ];
-        passwordFile = "${config.age.secrets.jan-nixnas-restic.path}";
-        rcloneConfigFile = "${config.age.secrets.rclone-config.path}";
-        pruneOpts = [
-          "--keep-weekly 4"
-          "--keep-monthly 3"
-        ];
-      };
-    };
+    # restic = {
+    #   backups.nixnas = {
+    #     initialize = true;
+    #     repository = "rclone:filen:Backups/restic/nixnas";
+    #     paths = [ "/home/jan" "/persist" "/apps" ];
+    #     exclude = [ "/var/cache" "/home/*/.cache" "/home/*/.local/share" "/home/*/Bilder" "/persist/var/lib/ollama" "/persist/var/lib/ollama" "/persist/var/lib/libvirt" "/persist/var/lib/containers" "/persist/var/lib/systemd" ];
+    #     passwordFile = "${config.age.secrets.jan-nixnas-restic.path}";
+    #     rcloneConfigFile = "${config.age.secrets.rclone-config.path}";
+    #     pruneOpts = [
+    #       "--keep-weekly 4"
+    #       "--keep-monthly 3"
+    #     ];
+    #   };
+    # };
   };
 
   # security.sudo.wheelNeedsPassword = false;
@@ -135,6 +151,7 @@ in
       hashedPasswordFile = config.age.secrets.jan-nixnas.path;
       home = "/home/jan";
       extraGroups = [ "wheel" "networkmanager" "users" ];
+      linger = true;
     };
   };
 
@@ -142,6 +159,12 @@ in
     experimental-features = [ "nix-command" "flakes" ];
     trusted-users = [ "jan" ]; # Add your own username to the trusted list
   };
+
+  systemd.tmpfiles.rules = [
+    "L /root/.config/rclone/rclone.conf - - - - ${config.age.secrets.rclone-config.path}"
+    "L /root/.config/backrest/config.json - - - - ${config.age.secrets.backrest-nixnas.path}"
+  ];
+
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -155,7 +178,6 @@ in
   ]) ++ (with inputs;[
     # agenix.packages.x86_64-linux.default
   ]);
-
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
