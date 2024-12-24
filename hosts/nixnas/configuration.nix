@@ -62,6 +62,7 @@ in
       environment = {
         HOME = "/root";
       };
+      path = with pkgs; [ rclone busybox bash curl ];
 
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
