@@ -21,20 +21,20 @@
       path = "/persist/secrets/jan-nixnas";
       symlink = false;
     };
-    rclone-config = {
-      file = ../../secrets/rclone-config.age;
-      path = "/persist/secrets/rclone-config";
-      symlink = false;
-    };
-    backrest-nixnas = {
-      file = ../../secrets/backrest-nixnas.age;
-      path = "/persist/secrets/backrest-nixnas";
-      symlink = false;
-    };
-    backrest-groot = {
-      file = ../../secrets/backrest-groot.age;
-      path = "/persist/secrets/backrest-groot";
-      symlink = false;
-    };
+    # rclone-config = {
+    #   file = ../../secrets/rclone-config.age;
+    #   path = "/persist/secrets/rclone-config";
+    #   symlink = false;
+    # };
+    # backrest-nixnas = {
+    #   file = ../../secrets/backrest-nixnas.age;
+    #   path = "/persist/secrets/backrest-nixnas";
+    #   symlink = false;
+    # };
+    # backrest-groot = {
+    #   file = ../../secrets/backrest-groot.age;
+    #   path = "/persist/secrets/backrest-groot";
+    #   symlink = false;
+    # };
   };
 }
