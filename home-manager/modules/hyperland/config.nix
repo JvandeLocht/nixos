@@ -19,6 +19,8 @@
     env = GDK_SCALE,1.25
     env = XCURSOR_SIZE,15
 
+    misc:disable_hyprland_qtutils_check = true
+
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
     $mainMod = ALT
