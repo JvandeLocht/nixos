@@ -1,5 +1,6 @@
 {
   imports = [
+    ./backrest.nix
     ./gaming.nix
     ./gnome.nix
     ./hyprland.nix

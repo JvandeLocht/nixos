@@ -32,10 +32,10 @@ in
     proxmox-backup-server.enable = true;
   };
 
-  gaming.enable = false;
   locale.enable = true;
   gnome.enable = true;
   nvidia.enable = false;
+  gaming.enable = false;
 
   programs.nh = {
     enable = true;
@@ -55,23 +55,6 @@ in
         Restart = "on-failure";
         RestartSec = 30;
         ExecStart = "${pkgs.zfs}/bin/zpool import tank";
-      };
-    };
-    backrest = {
-      enable = true;
-      environment = {
-        HOME = "/root";
-      };
-      path = with pkgs; [ rclone busybox bash curl ];
-
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      description = "Run backrest";
-      serviceConfig = {
-        Type = "simple";
-        Restart = "on-failure";
-        RestartSec = 30;
-        ExecStart = "${pkgs.backrest}/bin/backrest -bind-address 0.0.0.0:9898";
       };
     };
   };
@@ -128,6 +111,13 @@ in
     spice-autorandr.enable = true;
     spice-webdavd.enable = true;
     qemuGuest.enable = true;
+    backrest = {
+      enable = true;
+      bindAddress = "0.0.0.0";
+      port = 9898;
+      configSecret = "backrest-nixnas";
+    };
+
     # restic = {
     #   backups.nixnas = {
     #     initialize = true;
@@ -160,12 +150,6 @@ in
     experimental-features = [ "nix-command" "flakes" ];
     trusted-users = [ "jan" ]; # Add your own username to the trusted list
   };
-
-  systemd.tmpfiles.rules = [
-    "L /root/.config/rclone/rclone.conf - - - - ${config.age.secrets.rclone-config.path}"
-    "L /root/.config/backrest/config.json - - - - ${config.age.secrets.backrest-nixnas.path}"
-  ];
-
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
