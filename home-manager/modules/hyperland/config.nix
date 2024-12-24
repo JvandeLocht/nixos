@@ -246,7 +246,7 @@
     # bind = $mod SHIFT ALT, R, exec, grimblast --notify --cursor copysave screen
 
     # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
-    bind = $mainMod, Q, exec, kitty
+    bind = $mainMod, Q, exec, blackbox
     bind = $mainMod, C, killactive,
     bind = $mainMod, M, exit,
     bind = $mainMod, E, exec, dolphin
