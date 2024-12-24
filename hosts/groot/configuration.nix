@@ -95,26 +95,6 @@ in
     bluetooth.enable = true;
   };
 
-  systemd.services = {
-    backrest = {
-      enable = true;
-      environment = {
-        HOME = "/root";
-      };
-      path = with pkgs; [ rclone busybox bash curl ];
-
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
-      description = "Run backrest";
-      serviceConfig = {
-        Type = "simple";
-        Restart = "on-failure";
-        RestartSec = 30;
-        ExecStart = "${pkgs.backrest}/bin/backrest -bind-address 127.0.0.1:9898";
-      };
-    };
-  };
-
   users.users = {
     jan = {
       isNormalUser = true;
