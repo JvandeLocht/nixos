@@ -20,6 +20,8 @@ in
     # Packages that should be installed to the user profile.
     packages =
       (with pkgs; [
+        (blackbox-terminal.override { sixelSupport = true; })
+        chafa
         prusa-slicer
         protonmail-desktop
         # nextcloud-client
