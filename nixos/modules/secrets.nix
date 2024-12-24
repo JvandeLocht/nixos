@@ -46,5 +46,10 @@
       path = "/persist/secrets/backrest-nixnas";
       symlink = false;
     };
+    backrest-groot = {
+      file = ../../secrets/backrest-groot.age;
+      path = "/persist/secrets/backrest-groot";
+      symlink = false;
+    };
   };
 }

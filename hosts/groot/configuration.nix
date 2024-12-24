@@ -95,6 +95,31 @@ in
     bluetooth.enable = true;
   };
 
+
+  systemd.tmpfiles.rules = [
+    "L /root/.config/rclone/rclone.conf - - - - ${config.age.secrets.rclone-config.path}"
+    "L /root/.config/backrest/config.json - - - - ${config.age.secrets.backrest-groot.path}"
+  ];
+  systemd.services = {
+    backrest = {
+      enable = true;
+      environment = {
+        HOME = "/root";
+      };
+      path = with pkgs; [ rclone busybox bash curl ];
+
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      description = "Run backrest";
+      serviceConfig = {
+        Type = "simple";
+        Restart = "on-failure";
+        RestartSec = 30;
+        ExecStart = "${pkgs.backrest}/bin/backrest -bind-address 127.0.0.1:9898";
+      };
+    };
+  };
+
   users.users = {
     jan = {
       isNormalUser = true;
@@ -105,21 +130,21 @@ in
   };
   # Enable the X11 windowing system.
   services = {
-    restic = {
-      backups.groot = {
-        initialize = true;
-        inhibitsSleep = true;
-        repository = "rclone:filen:Backups/restic/groot";
-        paths = [ "/home/jan" "/persist" ];
-        exclude = [ "/var/cache" "/home/*/.cache" "/home/*/.local/share" "/home/*/Bilder" "/persist/var/lib/ollama" "/persist/var/lib/ollama" "/persist/var/lib/libvirt" "/persist/var/lib/containers" "/persist/var/lib/systemd" ];
-        passwordFile = "${config.age.secrets.jan-groot-restic.path}";
-        rcloneConfigFile = "${config.age.secrets.rclone-config.path}";
-        pruneOpts = [
-          "--keep-weekly 4"
-          "--keep-monthly 3"
-        ];
-      };
-    };
+    # restic = {
+    #   backups.groot = {
+    #     initialize = true;
+    #     inhibitsSleep = true;
+    #     repository = "rclone:filen:Backups/restic/groot";
+    #     paths = [ "/home/jan" "/persist" ];
+    #     exclude = [ "/var/cache" "/home/*/.cache" "/home/*/.local/share" "/home/*/Bilder" "/persist/var/lib/ollama" "/persist/var/lib/ollama" "/persist/var/lib/libvirt" "/persist/var/lib/containers" "/persist/var/lib/systemd" ];
+    #     passwordFile = "${config.age.secrets.jan-groot-restic.path}";
+    #     rcloneConfigFile = "${config.age.secrets.rclone-config.path}";
+    #     pruneOpts = [
+    #       "--keep-weekly 4"
+    #       "--keep-monthly 3"
+    #     ];
+    #   };
+    # };
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
     displayManager = {
