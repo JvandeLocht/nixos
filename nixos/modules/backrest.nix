@@ -23,6 +23,12 @@ in
       type = types.str;
       description = "The name of the age secret for Backrest configuration.";
     };
+
+    additionalPath = mkOption {
+      type = types.listOf types.package;
+      default = [ ];
+      description = "Additional packages to add to the PATH of the Backrest service.";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -50,7 +56,7 @@ in
       environment = {
         HOME = "/root";
       };
-      path = with pkgs; [ rclone busybox bash curl ];
+      path = with pkgs; [ rclone busybox bash curl ] ++ cfg.additionalPath;
 
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
