@@ -66,6 +66,7 @@
       jq
       ulauncher
       zip
+      udiskie
     ];
   };
 }

@@ -7,6 +7,7 @@
     # exec=gnome-keyring-daemon -sd
     exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
     exec-once = ${pkgs.ulauncher}/bin/ulauncher --hide-window
+    exec-once = ${pkgs.udiskie}/bin/udiskie -t
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
     monitor=DP-7, 2560x1440, 0x0,1
