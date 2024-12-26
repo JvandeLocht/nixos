@@ -100,7 +100,7 @@ in
       isNormalUser = true;
       description = "Jan";
       hashedPasswordFile = "/persist/passwords/user";
-      extraGroups = [ "networkmanager" "wheel" "video" "libvirtd" ];
+      extraGroups = [ "networkmanager" "wheel" "video" "libvirtd" "dialout" ];
     };
   };
   # Enable the X11 windowing system.
