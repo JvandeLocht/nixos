@@ -27,7 +27,7 @@
     $mainMod = ALT
 
     # Power
-    env = WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
+    # env = WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
     # misc:vfr = true
     env = AQ_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
 
