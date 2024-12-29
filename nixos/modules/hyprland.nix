@@ -99,15 +99,6 @@ in
     security.pam.services.swaylock = { };
     programs.dconf.enable = true;
 
-    programs.thunar = {
-      enable = true;
-      plugins = with pkgs.xfce; [
-        thunar-archive-plugin
-        thunar-volman
-        thunar-media-tags-plugin
-      ];
-    };
-
     systemd = {
       user.services.lxqt-policykit-agent = {
         description = "lxqt-policykit-agent";
