@@ -13,12 +13,10 @@ in
   };
 
   config = lib.mkIf config.hyprland.enable {
-    # stuff for hyperland
-    programs.hyprland = {
-      # Install the packages from nixpkgs
-      enable = true;
-      # Whether to enable XWayland
-      xwayland.enable = true;
+    programs = {
+      hyprland = {
+        enable = true;
+      };
       hyprlock.enable = true;
     };
     services = {
