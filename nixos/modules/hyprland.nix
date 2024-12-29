@@ -3,10 +3,6 @@
 , config
 , ...
 }:
-let
-  session = "${pkgs.hyprland}/bin/Hyprland";
-  username = "jan"; # Replace with your actual username
-in
 {
   options.hyprland = {
     enable = lib.mkEnableOption "Set up Hyprland desktop environment";
@@ -16,6 +12,7 @@ in
     programs = {
       hyprland = {
         enable = true;
+        withUWSM = true;
       };
       hyprlock.enable = true;
     };
@@ -24,12 +21,12 @@ in
         enable = true;
         settings = {
           initial_session = {
-            command = "${session}";
-            user = "${username}";
+            command = "hyprland-uwsm";
+            user = "jan";
           };
           default_session = {
-            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${session}";
-            user = "greeter";
+            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd hyprland-uwsm";
+            user = "jan";
           };
         };
       };
