@@ -19,6 +19,7 @@ in
       enable = true;
       # Whether to enable XWayland
       xwayland.enable = true;
+      hyprlock.enable = true;
     };
     services = {
       greetd = {
@@ -39,6 +40,7 @@ in
       supergfxd.enable = true;
       upower.enable = true;
       gnome.sushi.enable = true;
+      hypridle.enable = true;
     };
 
     nixpkgs.overlays = [
