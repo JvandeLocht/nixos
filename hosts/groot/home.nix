@@ -58,6 +58,7 @@ in
         rclone-browser
         rclone
         python313
+        notify-client
       ])
       ++ (with unstable; [
         freecad-wayland
