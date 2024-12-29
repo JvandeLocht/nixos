@@ -96,7 +96,6 @@ in
       enable = true;
       extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
     };
-    security.pam.services.swaylock = { };
 
     systemd = {
       user.services.lxqt-policykit-agent = {
