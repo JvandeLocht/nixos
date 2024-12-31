@@ -135,6 +135,26 @@ in
       };
       Install = { WantedBy = [ "graphical-session.target" ]; };
     };
+    # notify = {
+    #   Unit = {
+    #     Description = "start notify";
+    #   };
+    #   Service = {
+    #     Restart = "always";
+    #     ExecStart = "${pkgs.notify-client}/bin/notify";
+    #   };
+    #   Install = { WantedBy = [ "graphical-session.target" ]; };
+    # };
+    # rog-control = {
+    #   Unit = {
+    #     Description = "start rog-control";
+    #   };
+    #   Service = {
+    #     Restart = "always";
+    #     ExecStart = "${pkgs.asusctl}/bin/rog-control-center";
+    #   };
+    #   Install = { WantedBy = [ "graphical-session.target" ]; };
+    # };
   };
 
   # This value determines the home Manager release that your

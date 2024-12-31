@@ -8,6 +8,9 @@
     exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
     exec-once = ${pkgs.ulauncher}/bin/ulauncher --hide-window
     exec-once = ${pkgs.udiskie}/bin/udiskie -t
+    exec-once = ${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage
+    exec-once = ${pkgs.asusctl}/bin/rog-control-center
+
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
     monitor=DP-7, 2560x1440, 0x0,1
