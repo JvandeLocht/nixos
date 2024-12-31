@@ -170,6 +170,9 @@
     windowrulev2 = workspace special:Filen,class:Filen
     bind = $mainMod, F, togglespecialworkspace,Filen
 
+    windowrulev2 = workspace special:Notify,class:com.ranfdev.Notify
+    bind = $mainMod, N, togglespecialworkspace,Notify
+
     windowrulev2 = workspace special:Signal,class:signal
     bind = $mainMod, S, exec,${
       pkgs.writeScript "signal" ''
