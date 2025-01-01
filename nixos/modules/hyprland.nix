@@ -21,17 +21,17 @@
         enable = true;
         settings = {
           initial_session = {
-            command = "hyprland-uwsm";
+            command = "${pkgs.hyprland}/bin/Hyprland";
             user = "jan";
           };
           default_session = {
-            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd hyprland-uwsm";
-            user = "jan";
+            command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${pkgs.hyprland}/bin/Hyprland";
+            user = "greeter";
           };
         };
       };
       gvfs.enable = true; # Mount, trash, and other functionalities
-      tumbler.enable = true; # Thumbnail support for images
+      tumbler.enable = true; # Thumb${pkgs.hyprland}/bin/Hyprlandnail support for images
       supergfxd.enable = true;
       upower.enable = true;
       gnome.sushi.enable = true;
