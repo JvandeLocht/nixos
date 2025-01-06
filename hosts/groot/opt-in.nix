@@ -5,6 +5,8 @@
       "/root/.local/share/nix"
       "/var/log"
       "/var/lib/bluetooth"
+      "/var/lib/cups"
+      "/var/spool/cups"
       "/var/lib/nixos"
       "/var/lib/libvirt"
       "/var/cache/libvirt"
