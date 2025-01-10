@@ -20,6 +20,8 @@ in
     # Packages that should be installed to the user profile.
     packages =
       (with pkgs; [
+        bitwarden-desktop
+        bitwarden-cli
         (blackbox-terminal.override { sixelSupport = true; })
         chafa
         prusa-slicer
@@ -38,7 +40,7 @@ in
         freetube
         webcord
         evince # pdf viewer
-        # thunderbird
+        thunderbird
         # qownnotes
         obs-studio
         vlc
