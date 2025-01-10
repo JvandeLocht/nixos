@@ -15,7 +15,7 @@ in
     ../common/home.nix
   ];
 
-  tmux.enable = false;
+  tmux.enable = true;
 
   home = {
     username = "jan";
