@@ -20,6 +20,7 @@
     impermanence.url = "github:nix-community/impermanence";
 
     nixvim-config.url = "github:JvandeLocht/nixvim-config";
+    nvf.url = "github:JvandeLocht/nvf-config";
 
     agenix.url = "github:ryantm/agenix";
 
@@ -47,6 +48,7 @@
     , home-manager-unstable
     , impermanence
     , nixvim-config
+    , nvf
     , agenix
     , ...
     } @ inputs:
@@ -57,10 +59,17 @@
         nixpkgs-unstable.lib.nixosSystem {
           system = system;
           modules = [
+            # {
+            #   nixpkgs.overlays = [
+            #     (final: _prev: {
+            #       nixvim = nixvim-config.packages.${_prev.system}.default;
+            #     })
+            #   ];
+            # }
             {
               nixpkgs.overlays = [
                 (final: _prev: {
-                  nixvim = nixvim-config.packages.${_prev.system}.default;
+                  nvf = nvf.packages.${_prev.system}.default;
                 })
               ];
             }

@@ -55,7 +55,8 @@
     k9s
     fluxcd
     kompose
-    nixvim
+    # nixvim
+    nvf
     minio-client
     velero
 
