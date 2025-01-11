@@ -23,7 +23,10 @@
     },
     "darwin": {
       "inputs": {
-        "nixpkgs": ["agenix", "nixpkgs"]
+        "nixpkgs": [
+          "agenix",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1700795494,
@@ -42,7 +45,11 @@
     },
     "devshell": {
       "inputs": {
-        "nixpkgs": ["nixvim-config", "nixvim", "nixpkgs"]
+        "nixpkgs": [
+          "nixvim-config",
+          "nixvim",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1728330715,
@@ -60,7 +67,9 @@
     },
     "fcitx-virtual-keyboard-adapter": {
       "inputs": {
-        "nixpkgs": ["nixpkgs-unstable"]
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
       },
       "locked": {
         "lastModified": 1730255698,
@@ -92,7 +101,11 @@
     },
     "flake-parts": {
       "inputs": {
-        "nixpkgs-lib": ["nixvim-config", "nixvim", "nixpkgs"]
+        "nixpkgs-lib": [
+          "nixvim-config",
+          "nixvim",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1733312601,
@@ -164,10 +177,22 @@
     },
     "git-hooks": {
       "inputs": {
-        "flake-compat": ["nixvim-config", "nixvim", "flake-compat"],
+        "flake-compat": [
+          "nixvim-config",
+          "nixvim",
+          "flake-compat"
+        ],
         "gitignore": "gitignore",
-        "nixpkgs": ["nixvim-config", "nixvim", "nixpkgs"],
-        "nixpkgs-stable": ["nixvim-config", "nixvim", "nixpkgs"]
+        "nixpkgs": [
+          "nixvim-config",
+          "nixvim",
+          "nixpkgs"
+        ],
+        "nixpkgs-stable": [
+          "nixvim-config",
+          "nixvim",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1733318908,
@@ -185,7 +210,12 @@
     },
     "gitignore": {
       "inputs": {
-        "nixpkgs": ["nixvim-config", "nixvim", "git-hooks", "nixpkgs"]
+        "nixpkgs": [
+          "nixvim-config",
+          "nixvim",
+          "git-hooks",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1709087332,
@@ -203,7 +233,10 @@
     },
     "home-manager": {
       "inputs": {
-        "nixpkgs": ["agenix", "nixpkgs"]
+        "nixpkgs": [
+          "agenix",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1703113217,
@@ -221,7 +254,9 @@
     },
     "home-manager-unstable": {
       "inputs": {
-        "nixpkgs": ["nixpkgs-unstable"]
+        "nixpkgs": [
+          "nixpkgs-unstable"
+        ]
       },
       "locked": {
         "lastModified": 1736508663,
@@ -239,7 +274,9 @@
     },
     "home-manager_2": {
       "inputs": {
-        "nixpkgs": ["nixpkgs"]
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1736373539,
@@ -258,7 +295,11 @@
     },
     "home-manager_3": {
       "inputs": {
-        "nixpkgs": ["nixvim-config", "nixvim", "nixpkgs"]
+        "nixpkgs": [
+          "nixvim-config",
+          "nixvim",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1733484277,
@@ -297,7 +338,12 @@
           "nuschtosSearch",
           "flake-utils"
         ],
-        "nixpkgs": ["nixvim-config", "nixvim", "nuschtosSearch", "nixpkgs"]
+        "nixpkgs": [
+          "nixvim-config",
+          "nixvim",
+          "nuschtosSearch",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1729958008,
@@ -331,8 +377,16 @@
     },
     "nil": {
       "inputs": {
-        "flake-utils": ["nvf", "nvf", "flake-utils"],
-        "nixpkgs": ["nvf", "nvf", "nixpkgs"],
+        "flake-utils": [
+          "nvf",
+          "nvf",
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nvf",
+          "nvf",
+          "nixpkgs"
+        ],
         "rust-overlay": "rust-overlay"
       },
       "locked": {
@@ -351,7 +405,11 @@
     },
     "nix-darwin": {
       "inputs": {
-        "nixpkgs": ["nixvim-config", "nixvim", "nixpkgs"]
+        "nixpkgs": [
+          "nixvim-config",
+          "nixvim",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1733570843,
@@ -369,7 +427,10 @@
     },
     "nix-formatter-pack": {
       "inputs": {
-        "nixpkgs": ["nixvim-config", "nixpkgs"],
+        "nixpkgs": [
+          "nixvim-config",
+          "nixpkgs"
+        ],
         "nmd": "nmd",
         "nmt": "nmt"
       },
@@ -519,7 +580,10 @@
         "git-hooks": "git-hooks",
         "home-manager": "home-manager_3",
         "nix-darwin": "nix-darwin",
-        "nixpkgs": ["nixvim-config", "nixpkgs"],
+        "nixpkgs": [
+          "nixvim-config",
+          "nixpkgs"
+        ],
         "nuschtosSearch": "nuschtosSearch",
         "treefmt-nix": "treefmt-nix"
       },
@@ -610,7 +674,11 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "ixx": "ixx",
-        "nixpkgs": ["nixvim-config", "nixvim", "nixpkgs"]
+        "nixpkgs": [
+          "nixvim-config",
+          "nixvim",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1733411491,
@@ -632,11 +700,11 @@
         "nvf": "nvf_2"
       },
       "locked": {
-        "lastModified": 1736547737,
-        "narHash": "sha256-x6eFl+3rLtluCQKBCr67kxeB4/fiQMjDPTRAzAnDejk=",
+        "lastModified": 1736627657,
+        "narHash": "sha256-efOvzoV1FCs/knB8dobnTB4Y6NqgMTRKvjQEd/9jlbo=",
         "owner": "JvandeLocht",
         "repo": "nvf-config",
-        "rev": "cebfa26f93f835e36bb6441f9ef2fdc05d61ad7d",
+        "rev": "aba1fc7f660b45fccd5a44e862c1b9babe09a686",
         "type": "github"
       },
       "original": {
@@ -2760,7 +2828,12 @@
     },
     "rust-overlay": {
       "inputs": {
-        "nixpkgs": ["nvf", "nvf", "nil", "nixpkgs"]
+        "nixpkgs": [
+          "nvf",
+          "nvf",
+          "nil",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1731983527,
@@ -2838,7 +2911,11 @@
     },
     "treefmt-nix": {
       "inputs": {
-        "nixpkgs": ["nixvim-config", "nixvim", "nixpkgs"]
+        "nixpkgs": [
+          "nixvim-config",
+          "nixvim",
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1733440889,
