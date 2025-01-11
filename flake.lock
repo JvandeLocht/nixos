@@ -700,11 +700,11 @@
         "nvf": "nvf_2"
       },
       "locked": {
-        "lastModified": 1736542432,
-        "narHash": "sha256-+Jw7IZXjSm5G9FnepxVP/PFiYFDbSXBH/YAxY3pUT4E=",
+        "lastModified": 1736547737,
+        "narHash": "sha256-x6eFl+3rLtluCQKBCr67kxeB4/fiQMjDPTRAzAnDejk=",
         "owner": "JvandeLocht",
         "repo": "nvf-config",
-        "rev": "c9111d0f7f240f0dd80e2cebf547e1d1b23e1e37",
+        "rev": "cebfa26f93f835e36bb6441f9ef2fdc05d61ad7d",
         "type": "github"
       },
       "original": {
