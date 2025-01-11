@@ -1,16 +1,17 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }: {
-  imports = [ ./ollama-webui.nix ./nvidia.nix ./minio.nix ./proxmox-backup-server.nix ];
+  imports = [./ollama-webui.nix ./nvidia.nix ./minio.nix ./proxmox-backup-server.nix];
 
   options.podman = {
     enable = lib.mkEnableOption "Set up containerization environment";
   };
 
   config = lib.mkIf config.podman.enable {
-    environment.systemPackages = with pkgs;[ docker-compose ];
+    environment.systemPackages = with pkgs; [docker-compose];
 
     virtualisation = {
       oci-containers.backend = "podman";

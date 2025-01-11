@@ -1,7 +1,8 @@
-{ lib
-, config
-, pkgs
-, ...
+{
+  lib,
+  config,
+  pkgs,
+  ...
 }: {
   options.waybar = {
     enable = lib.mkEnableOption "Custom Waybar configuration";
@@ -10,9 +11,9 @@
   config = lib.mkIf config.waybar.enable {
     programs.waybar = {
       package = pkgs.waybar.overrideAttrs (oa: {
-        mesonFlags = (oa.mesonFlags or [ ]) ++ [ "-Dexperimental=true" ];
+        mesonFlags = (oa.mesonFlags or []) ++ ["-Dexperimental=true"];
         patches =
-          (oa.patches or [ ])
+          (oa.patches or [])
           ++ [
             (pkgs.fetchpatch {
               name = "fix waybar hyprctl";
@@ -29,8 +30,8 @@
           layer = "top";
           height = 35;
           spacing = 5;
-          modules-left = [ "hyprland/workspaces" "wlr/taskbar" ];
-          modules-center = [ "clock" ];
+          modules-left = ["hyprland/workspaces" "wlr/taskbar"];
+          modules-center = ["clock"];
           modules-right = [
             "tray"
             "idle_inhibitor"
@@ -62,11 +63,11 @@
               "phone-muted" = "";
               "portable" = "";
               "car" = "";
-              "default" = [ "" "" ];
+              "default" = ["" ""];
             };
             "scroll-step" = 1;
             "on-click" = "${pkgs.lxqt.pavucontrol-qt}/bin/pavucontrol-qt";
-            "ignored-sinks" = [ "Easy Effects Sink" ];
+            "ignored-sinks" = ["Easy Effects Sink"];
           };
           "battery" = {
             "bat" = "BAT0";
@@ -76,7 +77,7 @@
               "critical" = 15;
             };
             "format" = "{capacity}% {icon}";
-            "format-icons" = [ "" "" "" "" "" ];
+            "format-icons" = ["" "" "" "" ""];
             "max-length" = 25;
           };
           "hyprland/workspaces" = {
@@ -84,7 +85,7 @@
             "max-length" = 200;
             "seperate-outputs" = true;
             "warp-on-scroll" = false;
-            "ignore-workspaces" = [ "Filen" ];
+            "ignore-workspaces" = ["Filen"];
           };
           "idle_inhibitor" = {
             "format" = "{icon}";
@@ -100,7 +101,7 @@
             "tooltip-format" = "{title}";
             "on-click" = "activate";
             "on-click-middle" = "close";
-            "ignore-list" = [ "Filen" ];
+            "ignore-list" = ["Filen"];
           };
           "bluetooth" = {
             "format" = " {status}";
@@ -122,7 +123,7 @@
           };
           "cpu" = {
             "format" = "{icon0} {icon1} {icon2} {icon3} {icon4} {icon5} {icon6} {icon7}";
-            "format-icons" = [ "▁" "▂" "▃" "▄" "▅" "▆" "▇" "█" ];
+            "format-icons" = ["▁" "▂" "▃" "▄" "▅" "▆" "▇" "█"];
           };
           "memory" = {
             "interval" = 30;

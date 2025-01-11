@@ -1,7 +1,8 @@
-{ config
-, pkgs
-, osConfig
-, ...
+{
+  config,
+  pkgs,
+  osConfig,
+  ...
 }: {
   imports = [
     ../../home-manager/modules
@@ -9,7 +10,6 @@
 
   # Your Home Manager configuration
   home.file."hostname-file".text = osConfig.networking.hostName;
-
 
   nixpkgs.config.allowUnfree = true;
 

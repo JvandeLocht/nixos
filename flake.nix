@@ -2,7 +2,7 @@
   description = "Jans's NixOS Flake";
 
   nixConfig = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = ["nix-command" "flakes"];
 
     extra-substituters = [
       # Nix community's cache server
@@ -40,62 +40,60 @@
     };
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , nixpkgs-unstable
-    , home-manager
-    , home-manager-unstable
-    , impermanence
-    , nixvim-config
-    , nvf
-    , agenix
-    , ...
-    } @ inputs:
-    let
-      inherit (self) outputs;
-      system = "x86_64-linux";
-      mkNixosConfig = name: user:
-        nixpkgs-unstable.lib.nixosSystem {
-          system = system;
-          modules = [
-            # {
-            #   nixpkgs.overlays = [
-            #     (final: _prev: {
-            #       nixvim = nixvim-config.packages.${_prev.system}.default;
-            #     })
-            #   ];
-            # }
-            {
-              nixpkgs.overlays = [
-                (final: _prev: {
-                  nvf = nvf.packages.${_prev.system}.default;
-                })
-              ];
-            }
-            { _module.args = { inherit inputs; }; }
-            ./hosts/${name}/configuration.nix
-            impermanence.nixosModules.impermanence
-            home-manager-unstable.nixosModules.home-manager
-            agenix.nixosModules.default
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                extraSpecialArgs = { inherit inputs outputs; };
-                users.${user} = {
-                  imports = [ ./hosts/${name}/home.nix ];
-                };
-                backupFileExtension = "backup";
+  outputs = {
+    self,
+    nixpkgs,
+    nixpkgs-unstable,
+    home-manager,
+    home-manager-unstable,
+    impermanence,
+    nixvim-config,
+    nvf,
+    agenix,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    system = "x86_64-linux";
+    mkNixosConfig = name: user:
+      nixpkgs-unstable.lib.nixosSystem {
+        system = system;
+        modules = [
+          # {
+          #   nixpkgs.overlays = [
+          #     (final: _prev: {
+          #       nixvim = nixvim-config.packages.${_prev.system}.default;
+          #     })
+          #   ];
+          # }
+          {
+            nixpkgs.overlays = [
+              (final: _prev: {
+                nvf = nvf.packages.${_prev.system}.default;
+              })
+            ];
+          }
+          {_module.args = {inherit inputs;};}
+          ./hosts/${name}/configuration.nix
+          impermanence.nixosModules.impermanence
+          home-manager-unstable.nixosModules.home-manager
+          agenix.nixosModules.default
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              extraSpecialArgs = {inherit inputs outputs;};
+              users.${user} = {
+                imports = [./hosts/${name}/home.nix];
               };
-            }
-          ];
-        };
-    in
-    {
-      nixosConfigurations = {
-        groot = mkNixosConfig "groot" "jan";
-        nixnas = mkNixosConfig "nixnas" "jan";
+              backupFileExtension = "backup";
+            };
+          }
+        ];
       };
+  in {
+    nixosConfigurations = {
+      groot = mkNixosConfig "groot" "jan";
+      nixnas = mkNixosConfig "nixnas" "jan";
     };
+  };
 }

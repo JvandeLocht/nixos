@@ -1,1 +1,1 @@
-{ pkgs ? import <nixpkgs> { } }: pkgs.callPackage ./iio-hyprland.nix { }
+{pkgs ? import <nixpkgs> {}}: pkgs.callPackage ./iio-hyprland.nix {}

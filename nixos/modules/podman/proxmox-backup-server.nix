@@ -1,7 +1,8 @@
-{ pkgs
-, lib
-, config
-, ...
+{
+  pkgs,
+  lib,
+  config,
+  ...
 }: {
   options.podman.proxmox-backup-server = {
     enable = lib.mkEnableOption "Set up proxmox-backup-server container";
@@ -29,8 +30,8 @@
     systemd.services = {
       podman-usb-mount-pbs = {
         enable = true;
-        after = [ "network.target" ];
-        wantedBy = [ "default.target" ];
+        after = ["network.target"];
+        wantedBy = ["default.target"];
         description = "wait for usb mount";
         serviceConfig = {
           Type = "simple";
@@ -44,7 +45,7 @@
       proxmox-backup-server = {
         image = "docker.io/ayufan/proxmox-backup-server:latest";
 
-        dependsOn = [ "usb-mount-pbs" ];
+        dependsOn = ["usb-mount-pbs"];
 
         environment = {
           "TZ" = "Europe/Amsterdam";
@@ -61,7 +62,6 @@
           "8007:8007"
         ];
 
-
         extraOptions = [
           "--name=proxmox-backup-server"
           "--hostname=proxmox-backup-server"
@@ -72,4 +72,3 @@
     };
   };
 }
-

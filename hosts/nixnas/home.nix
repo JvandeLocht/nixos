@@ -1,16 +1,14 @@
-{ config
-, inputs
-, pkgs
-, osConfig
-, ...
-}:
-let
+{
+  config,
+  inputs,
+  pkgs,
+  osConfig,
+  ...
+}: let
   unstable = import inputs.nixpkgs-unstable {
     localSystem = pkgs.system;
   };
-in
-
-{
+in {
   imports = [
     ../common/home.nix
   ];
@@ -51,10 +49,9 @@ in
         Restart = "always";
         ExecStart = "${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage";
       };
-      Install = { WantedBy = [ "graphical-session.target" ]; };
+      Install = {WantedBy = ["graphical-session.target"];};
     };
   };
-
 
   # This value determines the home Manager release that your
   # configuration is compatible with. This helps avoid breakage

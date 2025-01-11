@@ -1,7 +1,8 @@
-{ pkgs
-, lib
-, config
-, ...
+{
+  pkgs,
+  lib,
+  config,
+  ...
 }: {
   options.podman.minio = {
     enable = lib.mkEnableOption "Set up minio container";
@@ -32,8 +33,8 @@
     systemd.services = {
       podman-usb-mount = {
         enable = true;
-        after = [ "network.target" ];
-        wantedBy = [ "default.target" ];
+        after = ["network.target"];
+        wantedBy = ["default.target"];
         description = "wait for usb mount";
         serviceConfig = {
           Type = "simple";
@@ -49,7 +50,7 @@
       minio = {
         image = "quay.io/minio/minio";
 
-        dependsOn = [ "usb-mount" ];
+        dependsOn = ["usb-mount"];
 
         environment = {
           "TZ" = "Europe/Amsterdam";
@@ -64,7 +65,7 @@
           "9001:9001"
         ];
 
-        cmd = [ "server" "/data" "--console-address=:9001" ];
+        cmd = ["server" "/data" "--console-address=:9001"];
 
         extraOptions = [
           "--secret=minio_root_user,type=env,target=MINIO_ROOT_USER"

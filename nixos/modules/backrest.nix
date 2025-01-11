@@ -1,9 +1,12 @@
-{ config, lib, pkgs, ... }:
-with lib;
-let
-  cfg = config.services.backrest;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.services.backrest;
+in {
   options.services.backrest = {
     enable = mkEnableOption "Backrest service";
 
@@ -26,13 +29,12 @@ in
 
     additionalPath = mkOption {
       type = types.listOf types.package;
-      default = [ ];
+      default = [];
       description = "Additional packages to add to the PATH of the Backrest service.";
     };
   };
 
   config = mkIf cfg.enable {
-
     age.secrets = {
       rclone-config = {
         file = ../../secrets/rclone-config.age;
@@ -48,7 +50,6 @@ in
     systemd.tmpfiles.rules = [
       "L /root/.config/rclone/rclone.conf - - - - ${config.age.secrets.rclone-config.path}"
       "L /root/.config/backrest/config.json - - - - ${config.age.secrets.${cfg.configSecret}.path}"
-
     ];
 
     systemd.services.backrest = {
@@ -56,10 +57,10 @@ in
       environment = {
         HOME = "/root";
       };
-      path = with pkgs; [ rclone busybox bash curl ] ++ cfg.additionalPath;
+      path = with pkgs; [rclone busybox bash curl] ++ cfg.additionalPath;
 
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
+      after = ["network.target"];
+      wantedBy = ["multi-user.target"];
       description = "Run backrest";
       serviceConfig = {
         Type = "simple";
@@ -70,4 +71,3 @@ in
     };
   };
 }
-

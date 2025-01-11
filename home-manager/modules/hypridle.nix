@@ -1,7 +1,8 @@
-{ lib
-, config
-, pkgs
-, ...
+{
+  lib,
+  config,
+  pkgs,
+  ...
 }: {
   options.hypridle = {
     enable = lib.mkEnableOption "hypridle with custom configuration";

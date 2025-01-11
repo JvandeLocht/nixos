@@ -1,7 +1,8 @@
-{ pkgs
-, lib
-, config
-, ...
+{
+  pkgs,
+  lib,
+  config,
+  ...
 }: {
   options.nvidia = {
     enable = lib.mkEnableOption "Set up NVIDIA and OpenGL";
@@ -18,7 +19,7 @@
     # cudnn
     # ];
     # Load nvidia driver for Xorg and Wayland
-    services.xserver.videoDrivers = [ "nvidia" ];
+    services.xserver.videoDrivers = ["nvidia"];
 
     hardware.nvidia = {
       # Modesetting is required.

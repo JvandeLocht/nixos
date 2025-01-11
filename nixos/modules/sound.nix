@@ -1,7 +1,8 @@
-{ config
-, lib
-, pkgs
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  ...
 }: {
   options.soundConfig = {
     enable = lib.mkEnableOption "Custom audio setup with PipeWire";

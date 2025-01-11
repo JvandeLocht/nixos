@@ -1,24 +1,23 @@
-{ lib
-, config
-, pkgs
-, ...
-}:
-let
+{
+  lib,
+  config,
+  pkgs,
+  ...
+}: let
   tmux-which-key =
     pkgs.tmuxPlugins.mkTmuxPlugin
-      {
-        pluginName = "tmux-which-key";
-        version = "2024-07-15";
-        src = pkgs.fetchFromGitHub {
-          owner = "alexwforsythe";
-          repo = "tmux-which-key";
-          rev = "1f419775caf136a60aac8e3a269b51ad10b51eb6";
-          sha256 = "sha256-X7FunHrAexDgAlZfN+JOUJvXFZeyVj9yu6WRnxMEA8E=";
-        };
-        rtpFilePath = "plugin.sh.tmux";
+    {
+      pluginName = "tmux-which-key";
+      version = "2024-07-15";
+      src = pkgs.fetchFromGitHub {
+        owner = "alexwforsythe";
+        repo = "tmux-which-key";
+        rev = "1f419775caf136a60aac8e3a269b51ad10b51eb6";
+        sha256 = "sha256-X7FunHrAexDgAlZfN+JOUJvXFZeyVj9yu6WRnxMEA8E=";
       };
-in
-{
+      rtpFilePath = "plugin.sh.tmux";
+    };
+in {
   options = {
     tmux.enable =
       lib.mkEnableOption "enables preconfigured tmux";
@@ -26,7 +25,7 @@ in
 
   config = lib.mkIf config.tmux.enable {
     xdg.configFile = {
-      "tmux/plugins/tmux-which-key/config.yaml".text = lib.generators.toYAML { } {
+      "tmux/plugins/tmux-which-key/config.yaml".text = lib.generators.toYAML {} {
         command_alias_start_index = 200;
         # rest of config here
       };

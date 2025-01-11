@@ -19,11 +19,11 @@ echo "Checking if the system is UEFI or BIOS"
 echo "-----"
 
 if [ -d /sys/firmware/efi ]; then
-  echo "UEFI detected"
-  BOOT_TYPE="UEFI"
+	echo "UEFI detected"
+	BOOT_TYPE="UEFI"
 else
-  echo "BIOS detected"
-  BOOT_TYPE="BIOS"
+	echo "BIOS detected"
+	BOOT_TYPE="BIOS"
 fi
 
 echo "-----"
@@ -39,18 +39,18 @@ echo "-----"
 echo "Creating boot table and root & swap partitions"
 echo "-----"
 if [ "$BOOT_TYPE" == "BIOS" ]; then
-  parted $DISK mklabel msdos
-  parted $DISK mkpart primary 2M $PART_SIZE
-  parted $DISK mkpart primary linux-swap $PART_SIZE 100%
+	parted $DISK mklabel msdos
+	parted $DISK mkpart primary 2M $PART_SIZE
+	parted $DISK mkpart primary linux-swap $PART_SIZE 100%
 else
-  parted $DISK mklabel gpt
-  parted $DISK mkpart primary 512MB $PART_SIZE
-  parted $DISK mkpart primary linux-swap $PART_SIZE 100%
-  parted $DISK mkpart ESP fat32 1MB 512MB
-  lsblk
-  read -p "Specify the boot partition (should be 3 or p3): " BOOT
-  parted $DISK set ${BOOT} esp on
-  mkfs.fat -F32 -n boot ${DISK}${BOOT}
+	parted $DISK mklabel gpt
+	parted $DISK mkpart primary 512MB $PART_SIZE
+	parted $DISK mkpart primary linux-swap $PART_SIZE 100%
+	parted $DISK mkpart ESP fat32 1MB 512MB
+	lsblk
+	read -p "Specify the boot partition (should be 3 or p3): " BOOT
+	parted $DISK set ${BOOT} esp on
+	mkfs.fat -F32 -n boot ${DISK}${BOOT}
 fi
 
 lsblk
@@ -90,13 +90,13 @@ mkdir /mnt/persist
 mount -t zfs rpool/safe/persist /mnt/persist
 
 if [ "$BOOT_TYPE" == "BIOS" ]; then
-echo "-----"
-  zfs create -p -o mountpoint=legacy rpool/safe/boot
-  mount -t zfs rpool/safe/boot /mnt/boot
+	echo "-----"
+	zfs create -p -o mountpoint=legacy rpool/safe/boot
+	mount -t zfs rpool/safe/boot /mnt/boot
 else
-echo "-----"
-  mkdir /mnt/boot
-  mount ${DISK}${BOOT} /mnt/boot
+	echo "-----"
+	mkdir /mnt/boot
+	mount ${DISK}${BOOT} /mnt/boot
 fi
 
 zfs list
@@ -114,14 +114,14 @@ read -p "Enter your username: " USERNAME
 read -p "Enter your host ID (or leave empty to create a random one): " HOST_ID_INPUT
 
 if [ "$HOST_ID_INPUT" == "" ]; then
-  HOST_ID=$(head -c4 /dev/urandom | od -t x4 | awk '{print $2}')
-    echo "Generated host ID: $HOST_ID"
-    else
-      HOST_ID=$HOST_ID_INPUT
-      fi
+	HOST_ID=$(head -c4 /dev/urandom | od -t x4 | awk '{print $2}')
+	echo "Generated host ID: $HOST_ID"
+else
+	HOST_ID=$HOST_ID_INPUT
+fi
 
 if [ "$BOOT_TYPE" == "BIOS" ]; then
-cat <<EOF > /mnt/etc/nixos/configuration.patch
+	cat <<EOF >/mnt/etc/nixos/configuration.patch
 --- configuration.nix	2024-08-16 12:08:39.856491846 +0000
 +++ /mnt/etc/nixos/configuration.nix	2024-08-16 12:21:37.473561228 +0000
 @@ -12,6 +12,10 @@
@@ -211,7 +211,7 @@ cat <<EOF > /mnt/etc/nixos/configuration.patch
    # started in user sessions.
 EOF
 else
-cat <<EOF > /mnt/etc/nixos/configuration.patch
+	cat <<EOF >/mnt/etc/nixos/configuration.patch
 --- /mnt/etc/nixos/configuration.bak	2024-08-17 14:00:09.853114055 +0000
 +++ /mnt/etc/nixos/configuration.nix	2024-08-17 16:23:22.828340569 +0000
 @@ -10,17 +10,38 @@
@@ -296,7 +296,7 @@ cat <<EOF > /mnt/etc/nixos/configuration.patch
 EOF
 fi
 
-patch /mnt/etc/nixos/configuration.nix < /mnt/etc/nixos/configuration.patch
+patch /mnt/etc/nixos/configuration.nix </mnt/etc/nixos/configuration.patch
 echo "Patching complete"
 
 echo "Move NixOS configuration into persistent storage"

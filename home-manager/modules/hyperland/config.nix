@@ -1,4 +1,9 @@
-{ config, pkgs, lib, ... }: {
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: {
   wayland.windowManager.hyprland.extraConfig = ''
     exec-once = waybar
     exec-once = ${pkgs.libsForQt5.plasma-workspace}/bin/xembedsniproxy
@@ -131,15 +136,15 @@
 
         # swipe up from bottom edge
         hyprgrass-bind = , edge:d:u, exec, ${
-          pkgs.writeScript "wvkbd-skript" ''
-            #!/usr/bin/env bash
-              if ${pkgs.toybox}/bin/pgrep -x 'wvkbd-mobintl' > /dev/null; then
-                ${pkgs.killall}/bin/killall wvkbd-mobintl
-              else
-                ${pkgs.wvkbd}/bin/wvkbd-mobintl -L 300
-              fi
-          ''
-        }
+      pkgs.writeScript "wvkbd-skript" ''
+        #!/usr/bin/env bash
+          if ${pkgs.toybox}/bin/pgrep -x 'wvkbd-mobintl' > /dev/null; then
+            ${pkgs.killall}/bin/killall wvkbd-mobintl
+          else
+            ${pkgs.wvkbd}/bin/wvkbd-mobintl -L 300
+          fi
+      ''
+    }
 
         # swipe down with 4 fingers
         hyprgrass-bind = , swipe:4:d, killactive
@@ -312,7 +317,3 @@
 
   '';
 }
-
-
-
-

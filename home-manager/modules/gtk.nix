@@ -1,7 +1,8 @@
-{ lib
-, config
-, pkgs
-, ...
+{
+  lib,
+  config,
+  pkgs,
+  ...
 }: {
   options.gtkThemes = {
     enable = lib.mkEnableOption "Custom pointer cursor and GTK theme configuration";

@@ -1,19 +1,18 @@
-{ lib
-, pkgs
-, osConfig
-, inputs
-, ...
-}:
-let
+{
+  lib,
+  pkgs,
+  osConfig,
+  inputs,
+  ...
+}: let
   unstable = import inputs.nixpkgs-unstable {
     localSystem = pkgs.system;
   };
-in
-{
+in {
   config = lib.mkIf osConfig.gnome.enable {
     home.packages =
       (with pkgs; [
-      ])
+        ])
       ++ (with pkgs.gnomeExtensions; [
         caffeine
         forge
@@ -27,6 +26,5 @@ in
       ++ (with unstable; [
         gnomeExtensions.arcmenu
       ]);
-
   };
 }

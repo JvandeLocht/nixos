@@ -1,13 +1,19 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-
-{ config, lib, pkgs, inputs, ... }:
-let
-  zfsCompatibleKernelPackages = lib.filterAttrs
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}: let
+  zfsCompatibleKernelPackages =
+    lib.filterAttrs
     (
       name: kernelPackages:
-        (builtins.match "linux_[0-9]+_[0-9]+" name) != null
+        (builtins.match "linux_[0-9]+_[0-9]+" name)
+        != null
         && (builtins.tryEval kernelPackages).success
         && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
     )
@@ -17,14 +23,12 @@ let
       builtins.attrValues zfsCompatibleKernelPackages
     )
   );
-in
-{
-  imports =
-    [
-      ./hardware-configuration.nix
-      ../common/configuration.nix
-      ./opt-in.nix
-    ];
+in {
+  imports = [
+    ./hardware-configuration.nix
+    ../common/configuration.nix
+    ./opt-in.nix
+  ];
 
   podman = {
     enable = true;
@@ -47,8 +51,8 @@ in
   systemd.services = {
     tank-usb-mount = {
       enable = true;
-      after = [ "network.target" ];
-      wantedBy = [ "default.target" ];
+      after = ["network.target"];
+      wantedBy = ["default.target"];
       description = "Import zfs pool tank";
       serviceConfig = {
         Type = "simple";
@@ -71,7 +75,7 @@ in
         efiInstallAsRemovable = true;
         mirroredBoots = [
           {
-            devices = [ "nodev" ];
+            devices = ["nodev"];
             path = "/boot";
           }
         ];
@@ -141,28 +145,30 @@ in
       # password = "password"; # Change this once your computer is set up!
       hashedPasswordFile = config.age.secrets.jan-nixnas.path;
       home = "/home/jan";
-      extraGroups = [ "wheel" "networkmanager" "users" ];
+      extraGroups = ["wheel" "networkmanager" "users"];
       linger = true;
     };
   };
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    trusted-users = [ "jan" ]; # Add your own username to the trusted list
+    experimental-features = ["nix-command" "flakes"];
+    trusted-users = ["jan"]; # Add your own username to the trusted list
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = (with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
-    git
-    # nixvim
-    spice
-    tmux
-  ]) ++ (with inputs;[
-    # agenix.packages.x86_64-linux.default
-  ]);
+  environment.systemPackages =
+    (with pkgs; [
+      vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+      wget
+      git
+      # nixvim
+      spice
+      tmux
+    ])
+    ++ (with inputs; [
+      # agenix.packages.x86_64-linux.default
+    ]);
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
@@ -182,7 +188,4 @@ in
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.05"; # Did you read the comment?
-
 }
-
-

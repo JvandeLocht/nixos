@@ -1,9 +1,9 @@
-{ pkgs
-, lib
-, config
-, ...
-}:
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}: {
   options.hyprland = {
     enable = lib.mkEnableOption "Set up Hyprland desktop environment";
   };
@@ -41,7 +41,7 @@
     nixpkgs.overlays = [
       (final: prev: {
         wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
-          patches = (oldAttrs.patches or [ ]) ++ [ ../../patches/switchYandZ.patch ];
+          patches = (oldAttrs.patches or []) ++ [../../patches/switchYandZ.patch];
         });
       })
     ];
@@ -93,9 +93,9 @@
     systemd = {
       user.services.lxqt-policykit-agent = {
         description = "lxqt-policykit-agent";
-        wantedBy = [ "hyprland-session.target" ];
-        wants = [ "hyprland-session.target" ];
-        after = [ "hyprland-session.target" ];
+        wantedBy = ["hyprland-session.target"];
+        wants = ["hyprland-session.target"];
+        after = ["hyprland-session.target"];
         serviceConfig = {
           Type = "simple";
           ExecStart = "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent";
@@ -105,6 +105,5 @@
         };
       };
     };
-
   };
 }

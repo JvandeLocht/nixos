@@ -1,35 +1,39 @@
 # This is my personal nix config.
 
-To set up one firstly needs to follow the Instructions of Graham Christensen on [Darling Erasure](https://grahamc.com/blog/erase-your-darlings/)
+To set up one firstly needs to follow the Instructions of Graham Christensen on
+[Darling Erasure](https://grahamc.com/blog/erase-your-darlings/)
 
 To summarize:
+
 - Create two partitions, one for /boot and one for the zfs Dataset
 - partition your drive with zfs
 - Create Root dataset
-  - ```zfs create -p -o mountpoint=legacy rpool/local/root``` 
+  - `zfs create -p -o mountpoint=legacy rpool/local/root`
 - Snapshot Root dataset
-  - ```zfs snapshot rpool/local/root@blank``` 
+  - `zfs snapshot rpool/local/root@blank`
 - Mount Root dataset
-  - ```mount -t zfs rpool/local/root /mnt``` 
+  - `mount -t zfs rpool/local/root /mnt`
 - Mount boot partition
-  - ```mkdir /mnt/boot``` 
-  - ```mount /dev/the-boot-partition /mnt/boot``` 
+  - `mkdir /mnt/boot`
+  - `mount /dev/the-boot-partition /mnt/boot`
 - Create and mount a dataset for /nix
-  - ```zfs create -p -o mountpoint=legacy rpool/local/nix``` 
-  - ```mkdir /mnt/nix``` 
-  - ```mount -t zfs rpool/local/nix /nix``` 
+  - `zfs create -p -o mountpoint=legacy rpool/local/nix`
+  - `mkdir /mnt/nix`
+  - `mount -t zfs rpool/local/nix /nix`
 - And a dataset for /home
-  - ```zfs create -p -o mountpoint=legacy rpool/safe/home```
-  - ```mkdir /mnt/home```
-  - ```mount -t zfs rpool/safe/home /mnt/home```
+  - `zfs create -p -o mountpoint=legacy rpool/safe/home`
+  - `mkdir /mnt/home`
+  - `mount -t zfs rpool/safe/home /mnt/home`
 - And finally, a dataset explicitly for state I want to persist between boots
-  - ```zfs create -p -o mountpoint=legacy rpool/safe/persist```
-  - ```mkdir /mnt/persist```
-  - ```mount -t zfs rpool/safe/persist /mnt/persist```
+  - `zfs create -p -o mountpoint=legacy rpool/safe/persist`
+  - `mkdir /mnt/persist`
+  - `mount -t zfs rpool/safe/persist /mnt/persist`
 
 ###### Note: in my systems, datasets under rpool/local are never backed up, and datasets under rpool/safe are.
 
-And now safely erasing the root dataset on each boot is very easy: after devices are made available, roll back to the blank snapshot:
+And now safely erasing the root dataset on each boot is very easy: after devices
+are made available, roll back to the blank snapshot:
+
 ```
 {
   boot.initrd.postDeviceCommands = lib.mkAfter ''
@@ -38,14 +42,17 @@ And now safely erasing the root dataset on each boot is very easy: after devices
 }
 ```
 
-The selection of data that should persist across reboots is done by using the Nix Module [impermanence](https://github.com/nix-community/impermanence)
+The selection of data that should persist across reboots is done by using the
+Nix Module [impermanence](https://github.com/nix-community/impermanence)
 
 To see what your are about to loose you can run this command:
+
 ```
 sudo zfs diff rpool/local/root@blank
 ```
 
 Filestructure:
+
 ```
 ├── dotfiles
 │   └── OKI_C332_PS.ppd
@@ -173,4 +180,4 @@ Filestructure:
 ├── readme.md
 └── scripts
     └── trim-generations.sh
-``` 
+```

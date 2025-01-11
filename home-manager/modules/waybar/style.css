@@ -1,48 +1,52 @@
 #waybar {
-    font-family: "SF Pro Display", Cantarell, Noto Sans, sans-serif;
-    font-size: 20px;
+  font-family:
+    "SF Pro Display",
+    Cantarell,
+    Noto Sans,
+    sans-serif;
+  font-size: 20px;
 }
 
 #window {
-    padding: 0 10px;
+  padding: 0 10px;
 }
 
 window#waybar {
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    text-shadow: none;
-    transition-duration: 0s;
-    color: rgba(217, 216, 216, 1);
-    /* background: #1a1b26; */
-    background: shade(alpha(@borders, 0.1), 1.25);
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-shadow: none;
+  transition-duration: 0s;
+  color: rgba(217, 216, 216, 1);
+  /* background: #1a1b26; */
+  background: shade(alpha(@borders, 0.1), 1.25);
 }
 
 #workspaces {
-    margin: 0 5px;
+  margin: 0 5px;
 }
 
 #workspaces button.active {
-    background-color: #9E9E9E;
+  background-color: #9e9e9e;
 }
 
 #workspaces button {
-    color: rgba(217, 216, 216, 1);
-    background-color: #272822;
+  color: rgba(217, 216, 216, 1);
+  background-color: #272822;
 }
 
 #tray {
-    border: none;
-    margin-bottom: 2px;
+  border: none;
+  margin-bottom: 2px;
 }
 
-#tray>.passive {
-    -gtk-icon-effect: dim;
+#tray > .passive {
+  -gtk-icon-effect: dim;
 }
 
-#tray>.needs-attention {
-    -gtk-icon-effect: highlight;
-    background-color: #eb4d4b;
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: #eb4d4b;
 }
 
 #tray,
@@ -63,33 +67,33 @@ window#waybar {
 #custom-weather,
 #custom-mail,
 #custom-media {
-    margin: 0px 0px 0px 10px;
-    padding: 0 12px;
+  margin: 0px 0px 0px 10px;
+  padding: 0 12px;
 }
 
 #battery.warning {
-    color: rgba(255, 210, 4, 1);
+  color: rgba(255, 210, 4, 1);
 }
 
 #battery.critical {
-    color: rgba(238, 46, 36, 1);
+  color: rgba(238, 46, 36, 1);
 }
 
 #battery.charging {
-    color: rgba(217, 216, 216, 1);
+  color: rgba(217, 216, 216, 1);
 }
 
 #custom-storage.warning {
-    color: rgba(255, 210, 4, 1);
+  color: rgba(255, 210, 4, 1);
 }
 
 #custom-storage.critical {
-    color: rgba(238, 46, 36, 1);
+  color: rgba(238, 46, 36, 1);
 }
 
 @keyframes blink {
-    to {
-        background-color: #ffffff;
-        color: black;
-    }
+  to {
+    background-color: #ffffff;
+    color: black;
+  }
 }
