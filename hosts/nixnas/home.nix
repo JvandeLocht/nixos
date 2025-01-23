@@ -20,22 +20,10 @@ in {
     homeDirectory = "/home/jan";
     packages =
       (with pkgs; [
-        zathura
         appimage-run
       ])
-      ++ (with pkgs.gnomeExtensions; [
-        caffeine
-        forge
-        space-bar
-        gsconnect
-        appindicator
-        screen-rotate
-        dash-to-dock
-        syncthing-indicator
-      ])
       ++ (with unstable; [
-        gnomeExtensions.arcmenu
-      ]);
+        ]);
   };
   # Packages that should be installed to the user profile.
   services.syncthing.enable = true;
