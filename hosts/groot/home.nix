@@ -13,6 +13,10 @@ in {
   ];
 
   tmux.enable = true;
+  firefox.enable = true;
+  alacritty.enable = true;
+  foot.enable = true;
+  kitty.enable = true;
   home = {
     username = "jan";
     homeDirectory = "/home/jan";
