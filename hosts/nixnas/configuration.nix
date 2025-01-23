@@ -37,7 +37,7 @@ in {
   };
 
   locale.enable = true;
-  gnome.enable = true;
+  # gnome.enable = true;
   nvidia.enable = false;
   gaming.enable = false;
 
@@ -121,21 +121,6 @@ in {
       port = 9898;
       configSecret = "backrest-nixnas";
     };
-
-    # restic = {
-    #   backups.nixnas = {
-    #     initialize = true;
-    #     repository = "rclone:filen:Backups/restic/nixnas";
-    #     paths = [ "/home/jan" "/persist" "/apps" ];
-    #     exclude = [ "/var/cache" "/home/*/.cache" "/home/*/.local/share" "/home/*/Bilder" "/persist/var/lib/ollama" "/persist/var/lib/ollama" "/persist/var/lib/libvirt" "/persist/var/lib/containers" "/persist/var/lib/systemd" ];
-    #     passwordFile = "${config.age.secrets.jan-nixnas-restic.path}";
-    #     rcloneConfigFile = "${config.age.secrets.rclone-config.path}";
-    #     pruneOpts = [
-    #       "--keep-weekly 4"
-    #       "--keep-monthly 3"
-    #     ];
-    #   };
-    # };
   };
 
   # security.sudo.wheelNeedsPassword = false;
