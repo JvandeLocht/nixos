@@ -13,12 +13,8 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  alacritty.enable = true;
-  firefox.enable = true;
   zsh.enable = true;
   yazi.enable = true;
-  foot.enable = true;
-  kitty.enable = true;
   lf.enable = true;
 
   # basic configuration of git, please change to your own
