@@ -59,6 +59,7 @@ in {
         dbeaver-bin
         brave
         mullvad-browser
+        mediawriter
 
         rclone-browser
         rclone
