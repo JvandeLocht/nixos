@@ -2,21 +2,12 @@
   lib,
   config,
   pkgs,
+  inputs,
   ...
 }: let
-  tmux-which-key =
-    pkgs.tmuxPlugins.mkTmuxPlugin
-    {
-      pluginName = "tmux-which-key";
-      version = "2024-07-15";
-      src = pkgs.fetchFromGitHub {
-        owner = "alexwforsythe";
-        repo = "tmux-which-key";
-        rev = "1f419775caf136a60aac8e3a269b51ad10b51eb6";
-        sha256 = "sha256-X7FunHrAexDgAlZfN+JOUJvXFZeyVj9yu6WRnxMEA8E=";
-      };
-      rtpFilePath = "plugin.sh.tmux";
-    };
+  stable = import inputs.nixpkgs {
+    localSystem = pkgs.system;
+  };
 in {
   options = {
     tmux.enable =
@@ -70,25 +61,22 @@ in {
         # Enable mouse control (clickable windows, panes, resizable panes)
         set -g mouse on
       '';
-      plugins = with pkgs; [
-        {
-          plugin = tmuxPlugins.resurrect;
-          extraConfig = "set -g @resurrect-strategy-nvim 'session'";
-        }
-        {
-          plugin = tmuxPlugins.continuum;
-          extraConfig = ''
-            set -g @continuum-restore 'on'
-            set -g @continuum-save-interval '60' # minutes
-          '';
-        }
-        # {
-        #   plugin = tmux-which-key;
-        #   extraConfig = ''
-        #     set -g @tmux-which-key-xdg-enable 1;
-        #   '';
-        # }
-      ];
+      plugins = with pkgs;
+        [
+          {
+            plugin = tmuxPlugins.continuum;
+            extraConfig = ''
+              set -g @continuum-restore 'on'
+              set -g @continuum-save-interval '60' # minutes
+            '';
+          }
+        ]
+        ++ (with stable; [
+          {
+            plugin = tmuxPlugins.resurrect;
+            extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+          }
+        ]);
     };
   };
 }

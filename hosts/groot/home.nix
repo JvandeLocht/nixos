@@ -4,7 +4,7 @@
   inputs,
   ...
 }: let
-  unstable = import inputs.nixpkgs-unstable {
+  stable = import inputs.nixpkgs {
     localSystem = pkgs.system;
   };
 in {
@@ -24,7 +24,6 @@ in {
     packages =
       (with pkgs; [
         bitwarden-desktop
-        bitwarden-cli
         (blackbox-terminal.override {sixelSupport = true;})
         chafa
         prusa-slicer
@@ -58,16 +57,18 @@ in {
         pdf4qt
         dbeaver-bin
         brave
-        mullvad-browser
+        # mullvad-browser
         mediawriter
+        peazip
+        freecad-wayland
 
         rclone-browser
         rclone
         python313
         notify-client
       ])
-      ++ (with unstable; [
-        freecad-wayland
+      ++ (with stable; [
+        bitwarden-cli
       ]);
   };
   services.syncthing.enable = true;
