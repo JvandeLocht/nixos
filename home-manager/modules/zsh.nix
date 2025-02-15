@@ -32,6 +32,7 @@
           v = "nvim";
           y = "yazi";
           sp = "ssh root@192.168.178.40";
+          # ssh = "kitty +kitten ssh";
         };
         oh-my-zsh = {
           enable = true;
