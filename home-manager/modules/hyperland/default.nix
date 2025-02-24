@@ -26,7 +26,7 @@
     hypridle.enable = true;
     services = {
       swaync.enable = true;
-      gnome-keyring.enable = true;
+      # gnome-keyring.enable = true;
     };
 
     systemd.user.services = {
@@ -60,10 +60,10 @@
     home.packages = with pkgs; [
       libnotify
       mpd
-      gnome-keyring
-      seahorse
-      libgnome-keyring
-      libsecret
+      # gnome-keyring
+      # seahorse
+      # libgnome-keyring
+      # libsecret
       wl-clipboard
       hyprpaper
       grimblast

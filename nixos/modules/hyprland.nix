@@ -30,12 +30,15 @@
           };
         };
       };
+      gnome.gnome-keyring.enable = true;
       gvfs.enable = true; # Mount, trash, and other functionalities
       tumbler.enable = true; # Thumb${pkgs.hyprland}/bin/Hyprlandnail support for images
       supergfxd.enable = true;
       upower.enable = true;
       gnome.sushi.enable = true;
       hypridle.enable = true;
+      dbus.enable = true;
+      udisks2.enable = true;
     };
 
     nixpkgs.overlays = [
@@ -47,7 +50,9 @@
     ];
 
     environment = {
-      variables.XCURSOR_SIZE = "15";
+      variables = {
+        XCURSOR_SIZE = "15";
+      };
       sessionVariables = {
         # If your cursor becomes invisible
         WLR_NO_HARDWARE_CURSORS = "1";
@@ -77,7 +82,6 @@
         QT_AUTO_SCREEN_SCALE_FACTOR = "1";
       };
       systemPackages = with pkgs; [
-        lxqt.lxqt-policykit
         brightnessctl
         xbindkeys
         qt5.qtwayland
@@ -85,10 +89,17 @@
         file-roller
         nautilus
         nautilus-open-any-terminal
+        seahorse
       ];
     };
 
-    security.polkit.enable = true;
+    security = {
+      polkit.enable = true;
+      pam.services.greetd = {
+        enableGnomeKeyring = true;
+        startSession = true;
+      };
+    };
 
     systemd = {
       user.services.lxqt-policykit-agent = {

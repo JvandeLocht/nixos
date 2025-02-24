@@ -5,6 +5,7 @@
   ...
 }: {
   wayland.windowManager.hyprland.extraConfig = ''
+    exec-once = {pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
     exec-once = waybar
     exec-once = ${pkgs.libsForQt5.plasma-workspace}/bin/xembedsniproxy
     exec-once = hyprctl setcursor catppuccin-mocha-sapphire-cursors 15
