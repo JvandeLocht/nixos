@@ -61,6 +61,7 @@ in {
         mediawriter
         peazip
         freecad-wayland
+        inputs.zen-browser.packages."${system}".default # beta
 
         rclone-browser
         rclone
