@@ -63,6 +63,7 @@ in {
         freecad-wayland
         inputs.zen-browser.packages."${system}".default # beta
 
+        golden-cheetah
         rclone-browser
         rclone
         python313
