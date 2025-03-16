@@ -1,7 +1,6 @@
 {
   lib,
   config,
-  pkgs,
   ...
 }: {
   options.hyprlock = {
@@ -13,9 +12,9 @@
       enable = true;
       settings = {
         general = {
-          disable_loading_bar = true;
+          disable_loading_bar = false;
           grace = 15;
-          hide_cursor = true;
+          hide_cursor = false;
           no_fade_in = false;
         };
 
