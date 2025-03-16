@@ -44,6 +44,7 @@ in {
         evince # pdf viewer
         thunderbird
         # qownnotes
+        joplin-desktop
         obs-studio
         vlc
         zoom-us
