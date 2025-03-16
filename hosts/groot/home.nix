@@ -50,7 +50,6 @@ in {
         zoom-us
         signal-desktop
         xournalpp
-        logseq
         onlyoffice-bin
         appimage-run
         element-desktop
