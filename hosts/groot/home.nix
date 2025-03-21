@@ -62,6 +62,7 @@ in {
         peazip
         freecad-wayland
         inputs.zen-browser.packages."${system}".default # beta
+        makemkv
 
         golden-cheetah
         rclone-browser
