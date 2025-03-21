@@ -8,9 +8,6 @@
     ../../home-manager/modules
   ];
 
-  # Your Home Manager configuration
-  home.file."hostname-file".text = osConfig.networking.hostName;
-
   zsh.enable = true;
   yazi.enable = true;
   lf.enable = true;
