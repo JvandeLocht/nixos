@@ -83,7 +83,6 @@
           {
             home-manager = {
               useGlobalPkgs = true;
-              useUserPackages = true;
               extraSpecialArgs = {inherit inputs outputs;};
               users.${user} = {
                 imports = [./hosts/${name}/home.nix];
