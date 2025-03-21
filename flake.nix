@@ -61,13 +61,6 @@
       nixpkgs-unstable.lib.nixosSystem {
         system = system;
         modules = [
-          # {
-          #   nixpkgs.overlays = [
-          #     (final: _prev: {
-          #       nixvim = nixvim-config.packages.${_prev.system}.default;
-          #     })
-          #   ];
-          # }
           {
             nixpkgs.overlays = [
               (final: _prev: {
