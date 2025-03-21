@@ -41,13 +41,13 @@
       udisks2.enable = true;
     };
 
-    nixpkgs.overlays = [
-      (final: prev: {
-        wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
-          patches = (oldAttrs.patches or []) ++ [../../patches/switchYandZ.patch];
-        });
-      })
-    ];
+    # nixpkgs.overlays = [
+    #   (final: prev: {
+    #     wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
+    #       patches = (oldAttrs.patches or []) ++ [../../patches/switchYandZ.patch];
+    #     });
+    #   })
+    # ];
 
     environment = {
       variables = {

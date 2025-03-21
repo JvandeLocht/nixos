@@ -73,6 +73,11 @@
               (final: _prev: {
                 nvf = nvf.packages.${_prev.system}.default;
               })
+              (final: prev: {
+                wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
+                  patches = (oldAttrs.patches or []) ++ [./patches/switchYandZ.patch];
+                });
+              })
             ];
           }
           {_module.args = {inherit inputs;};}
