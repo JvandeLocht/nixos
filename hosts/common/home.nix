@@ -11,8 +11,6 @@
   # Your Home Manager configuration
   home.file."hostname-file".text = osConfig.networking.hostName;
 
-  nixpkgs.config.allowUnfree = true;
-
   zsh.enable = true;
   yazi.enable = true;
   lf.enable = true;
