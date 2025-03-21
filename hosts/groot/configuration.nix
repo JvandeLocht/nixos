@@ -76,6 +76,8 @@ in {
         patch = ../../patches/amd-tablet-sfh.patch;
       }
     ];
+    # For Makemkv
+    kernelModules = ["sg"];
   };
 
   networking = {
