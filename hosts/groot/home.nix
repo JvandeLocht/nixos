@@ -62,6 +62,7 @@ in {
         peazip
         freecad-wayland
         inputs.zen-browser.packages."${system}".default # beta
+        spotube
         makemkv
 
         golden-cheetah
