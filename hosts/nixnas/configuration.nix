@@ -90,6 +90,10 @@ in {
     hostName = "nixnas"; # Define your hostname.
     hostId = "3901c199";
     networkmanager.enable = true;
+    firewall = {
+      allowPing = true;
+      extraCommands = ''iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns'';
+    };
   };
 
   services = {
@@ -106,7 +110,47 @@ in {
     samba = {
       enable = true;
       openFirewall = true;
+      settings = {
+        global = {
+          security = "user";
+          "workgroup" = "WORKGROUP";
+          "server string" = "smbnix";
+          "netbios name" = "smbnix";
+          #"use sendfile" = "yes";
+          # "max protocol" = "smb2";
+          # note: localhost is the ipv6 localhost ::1
+          "hosts allow" = "192.168.178. 127.0.0.1 localhost";
+          "hosts deny" = "0.0.0.0/0";
+          "guest account" = "nobody";
+          "map to guest" = "bad user";
+        };
+        "tank" = {
+          "path" = "/tank";
+          "browseable" = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+          "create mask" = "0644";
+          "directory mask" = "0755";
+          "force user" = "jan";
+          "force group" = "users";
+        };
+        "arm" = {
+          "path" = "/tank/arm";
+          "browseable" = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+          "create mask" = "0644";
+          "directory mask" = "0755";
+          "force user" = "arm";
+          "force group" = "users";
+        };
+      };
     };
+    samba-wsdd = {
+      enable = true;
+      openFirewall = true;
+    };
+
     openssh.enable = true;
     zfs.autoScrub.enable = true;
     gvfs.enable = true;
@@ -124,17 +168,23 @@ in {
   };
 
   # security.sudo.wheelNeedsPassword = false;
-  users.users = {
-    "jan" = {
-      isNormalUser = true;
-      # password = "password"; # Change this once your computer is set up!
-      hashedPasswordFile = config.age.secrets.jan-nixnas.path;
-      home = "/home/jan";
-      extraGroups = ["wheel" "networkmanager" "users"];
-      linger = true;
+  users = {
+    # groups.samba = {};
+    users = {
+      "jan" = {
+        isNormalUser = true;
+        # password = "password"; # Change this once your computer is set up!
+        hashedPasswordFile = config.age.secrets.jan-nixnas.path;
+        home = "/home/jan";
+        extraGroups = ["wheel" "networkmanager" "users"];
+        linger = true;
+      };
+      "arm" = {
+        isSystemUser = true;
+        group = "users";
+      };
     };
   };
-
   nix.settings = {
     experimental-features = ["nix-command" "flakes"];
     trusted-users = ["jan"]; # Add your own username to the trusted list
