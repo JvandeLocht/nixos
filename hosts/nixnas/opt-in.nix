@@ -14,6 +14,8 @@
       "/var/lib/minio"
       "/etc/NetworkManager/system-connections"
       "/etc/ssh"
+      "/etc/samba"
+      "/var/lib/samba"
       {
         directory = "/var/lib/colord";
         user = "colord";
