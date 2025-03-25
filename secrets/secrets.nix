@@ -12,4 +12,5 @@ in {
   "rclone-config.age".publicKeys = users ++ systems;
   "backrest-nixnas.age".publicKeys = users ++ [nixnas];
   "backrest-groot.age".publicKeys = users ++ [groot];
+  "smb-secrets.age".publicKeys = users ++ [groot];
 }

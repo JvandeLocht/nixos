@@ -21,6 +21,11 @@
       path = "/persist/secrets/jan-nixnas";
       symlink = false;
     };
+    smb-secrets = {
+      file = ../../secrets/smb-secrets.age;
+      path = "/persist/secrets/smb-secrets";
+      symlink = false;
+    };
     # rclone-config = {
     #   file = ../../secrets/rclone-config.age;
     #   path = "/persist/secrets/rclone-config";
