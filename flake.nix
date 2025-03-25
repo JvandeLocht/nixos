@@ -71,6 +71,13 @@
                   patches = (oldAttrs.patches or []) ++ [./patches/switchYandZ.patch];
                 });
               })
+              (
+                final: prev: {
+                  spotube = prev.spotube.overrideAttrs (oldAttrs: {
+                    version = "4.0.2";
+                  });
+                }
+              )
             ];
           }
           {_module.args = {inherit inputs;};}
