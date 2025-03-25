@@ -136,6 +136,9 @@ in {
         };
         "arm" = {
           "path" = "/tank/arm";
+        "JackyJan" = {
+          "path" = "/tank/JackyJan";
+          "valid users" = "jan, jacky";
           "browseable" = "yes";
           "read only" = "no";
           "guest ok" = "no";
@@ -180,6 +183,10 @@ in {
         linger = true;
       };
       "arm" = {
+        isSystemUser = true;
+        group = "users";
+      };
+      "jacky" = {
         isSystemUser = true;
         group = "users";
       };
