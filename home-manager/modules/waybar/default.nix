@@ -34,14 +34,14 @@
           modules-center = ["clock"];
           modules-right = [
             "tray"
-            "idle_inhibitor"
+            # "idle_inhibitor"
             "bluetooth"
             "custom/swaync"
             "battery"
             "pulseaudio"
             "cpu"
             "memory"
-            "custom/wvkbd"
+            # "custom/wvkbd"
           ];
 
           # Module configurations
