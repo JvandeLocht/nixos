@@ -163,6 +163,7 @@ in {
       enable = true;
       openFirewall = true;
     };
+    avahi.enable = true;
 
     openssh.enable = true;
     zfs.autoScrub.enable = true;
