@@ -81,6 +81,7 @@ in {
       cantarell-fonts
       notonoto
       meslo-lgs-nf
+      vistafonts
     ];
   };
 
