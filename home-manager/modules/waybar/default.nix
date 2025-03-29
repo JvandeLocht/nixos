@@ -66,7 +66,33 @@
               "default" = ["" ""];
             };
             "scroll-step" = 1;
-            "on-click" = "${pkgs.lxqt.pavucontrol-qt}/bin/pavucontrol-qt";
+            "on-click-right" = "${pkgs.lxqt.pavucontrol-qt}/bin/pavucontrol-qt";
+            "on-click" =
+              pkgs.writeShellScript "sink_cycle.sh"
+              /*
+              bash
+              */
+              ''
+                #!/usr/bin/env bash
+                default_sink=$(${pkgs.pulseaudio}/bin/pactl get-default-sink)
+
+                readarray -t sinks < <(${pkgs.pulseaudio}/bin/pactl list short sinks | ${pkgs.busybox}/bin/awk '{print $1,$2}')
+
+                i=0
+                for element in "''${sinks[@]}"; do
+                  sink=$(echo "$element" | ${pkgs.busybox}/bin/awk '{print $2}')
+                  if [[ $sink == "$default_sink" ]]; then
+                    default_sink_index=$i
+                  fi
+                  echo "$element"
+                  echo $i
+                  i=$((i + 1))
+                done
+
+                echo "Default sink: $(echo "''${sinks[$default_sink_index]}" | ${pkgs.busybox}/bin/awk '{print $2}') , default sink id = $(echo "''${sinks[$default_sink_index]}" | ${pkgs.busybox}/bin/awk '{print $1}')"
+                echo "setting sink: $(echo "''${sinks[$((default_sink_index - 1))]}" | ${pkgs.busybox}/bin/awk '{print $2}') , default sink id = $(echo "''${sinks[$((default_sink_index - 1))]}" | ${pkgs.busybox}/bin/awk '{print $1}')"
+                ${pkgs.pulseaudio}/bin/pactl set-default-sink "$(echo "''${sinks[$((default_sink_index - 1))]}" | ${pkgs.busybox}/bin/awk '{print $1}')"
+              '';
             "ignored-sinks" = ["Easy Effects Sink"];
           };
           "battery" = {
