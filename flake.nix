@@ -49,8 +49,6 @@
     home-manager,
     home-manager-unstable,
     impermanence,
-    nixvim-config,
-    zen-browser,
     nvf,
     agenix,
     ...
