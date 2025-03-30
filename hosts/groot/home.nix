@@ -70,6 +70,11 @@ in {
         rclone
         python313
         notify-client
+
+        #emacs
+        emacs
+        ripgrep
+        fd
       ])
       ++ (with stable; [
         bitwarden-cli
