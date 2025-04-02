@@ -3,10 +3,10 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   options = {
-    zsh.enable =
-      lib.mkEnableOption "enables preconfigured zsh";
+    zsh.enable = lib.mkEnableOption "enables preconfigured zsh";
   };
 
   config = lib.mkIf config.zsh.enable {
@@ -33,7 +33,7 @@
           y = "yazi";
           sp = "ssh root@192.168.178.40";
           doom = "${config.xdg.configHome}/emacs/bin/doom";
-          # ssh = "kitty +kitten ssh";
+          lg = "lazygit";
         };
         oh-my-zsh = {
           enable = true;
