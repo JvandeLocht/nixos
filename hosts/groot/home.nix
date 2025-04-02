@@ -12,6 +12,7 @@ in {
     ../common/home.nix
   ];
 
+  emacs.enable = true;
   tmux.enable = true;
   firefox.enable = true;
   alacritty.enable = true;
@@ -70,16 +71,12 @@ in {
         rclone
         python313
         notify-client
-
-        #emacs
-        emacs
-        ripgrep
-        fd
       ])
       ++ (with stable; [
         bitwarden-cli
       ]);
   };
+
   services.syncthing.enable = true;
 
   systemd.user.services = {

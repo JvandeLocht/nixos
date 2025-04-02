@@ -32,6 +32,7 @@
           v = "nvim";
           y = "yazi";
           sp = "ssh root@192.168.178.40";
+          doom = "${config.xdg.configHome}/emacs/bin/doom";
           # ssh = "kitty +kitten ssh";
         };
         oh-my-zsh = {
