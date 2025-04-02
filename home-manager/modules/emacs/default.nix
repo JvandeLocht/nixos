@@ -61,5 +61,10 @@
         nose2
         setuptools
       ]);
+    xdg.desktopEntries.doom = {
+      exec = "env DOOMDIR=/home/jan/.setup/home-manager/modules/emacs/doom EMACSDIR=${config.xdg.configHome}/emacs DOOMLOCALDIR=${config.xdg.dataHome}/doom DOOMPROFILELOADFILE=${config.xdg.stateHome}/doom-profiles-load.el ${pkgs.emacs}/bin/emacs";
+      name = "Doom Emacs";
+      icon = "/home/jan/.setup/img/doom.png";
+    };
   };
 }
