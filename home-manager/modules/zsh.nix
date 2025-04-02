@@ -34,6 +34,7 @@
           sp = "ssh root@192.168.178.40";
           doom = "${config.xdg.configHome}/emacs/bin/doom";
           lg = "lazygit";
+          e = "emacs";
         };
         oh-my-zsh = {
           enable = true;
