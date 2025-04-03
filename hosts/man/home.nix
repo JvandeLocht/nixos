@@ -11,11 +11,11 @@
   };
 
   imports = [
-    ./home-manager/modules/zsh.nix
-    ./home-manager/modules/bash.nix
-    ./home-manager/modules/tmux.nix
-    ./home-manager/modules/yazi.nix
-    ./home-manager/modules/emacs
+    ../../home-manager/modules/zsh.nix
+    ../../home-manager/modules/bash.nix
+    ../../home-manager/modules/tmux.nix
+    ../../home-manager/modules/yazi.nix
+    ../../home-manager/modules/emacs
   ];
 
   zsh.enable = true;
