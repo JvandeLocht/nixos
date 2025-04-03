@@ -109,3 +109,22 @@
     :major-modes '(typst-ts-mode)
     :server-id 'typst-lsp))
   )
+
+(defun +vterm/here-lazygit ()
+  "Open lazygit in vterm buffer named after Git repository"
+  (interactive)
+  (require 'magit)
+  (let* ((git-root (magit-toplevel))
+         (remote-url (magit-git-string "remote" "get-url" "origin"))
+         (repo-name (if remote-url
+                        (replace-regexp-in-string
+                         ".*/\\([^/]+?\\)\\(\.git\\)?$" "\\1" remote-url)
+                      (file-name-nondirectory
+                       (directory-file-name git-root))))
+         (buffer-name (format "lazygit-%s" repo-name)))
+    (unless git-root
+      (error "Not in a Git repository"))
+    (+vterm/here nil)
+    (vterm-send-string "lazygit")
+    (vterm-send-return)
+    (rename-buffer buffer-name t)))
