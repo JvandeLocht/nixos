@@ -14,6 +14,7 @@ in {
   ];
 
   tmux.enable = true;
+  emacs.enable = true;
 
   home = {
     username = "jan";
