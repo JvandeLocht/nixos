@@ -1,5 +1,5 @@
 {
-  description = "Jan's NixOS & Home Manager Configuration";
+  description = "Jan's NixOS, Home Manager & Nix-on-Droid Configuration";
 
   nixConfig = {
     experimental-features = [
@@ -40,10 +40,17 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+
+    # Nix-on-Droid
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
   };
 
   outputs =
-    {
+    inputs@{
       self,
       nixpkgs,
       nixpkgs-unstable,
@@ -52,24 +59,23 @@
       impermanence,
       nvf,
       agenix,
+      nix-on-droid,
       ...
-    }@inputs:
+    }:
     let
       inherit (self) outputs;
-      system = "x86_64-linux";
-      pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+      x86System = "x86_64-linux";
+      armSystem = "aarch64-linux";
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
 
-      # NixOS configuration builder
       mkNixosConfig =
         name: user:
         nixpkgs-unstable.lib.nixosSystem {
-          inherit system;
+          system = x86System;
           modules = [
             {
               nixpkgs.overlays = [
-                (final: _prev: {
-                  nvf = nvf.packages.${_prev.system}.default;
-                })
+                (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
                 (final: prev: {
                   wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
                     patches = (oldAttrs.patches or [ ]) ++ [ ./patches/switchYandZ.patch ];
@@ -99,7 +105,6 @@
             }
           ];
         };
-
     in
     {
       nixosConfigurations = {
@@ -112,14 +117,20 @@
         extraSpecialArgs = { inherit inputs outputs; };
         modules = [
           ./hosts/man/home.nix
-          {
-            nixpkgs.overlays = [
-              (final: _prev: {
-                nvf = nvf.packages.${_prev.system}.default;
-              })
-            ];
-          }
+          { nixpkgs.overlays = [ (final: _prev: { nvf = nvf.packages.${_prev.system}.default; }) ]; }
         ];
+      };
+
+      nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+        modules = [ ./nix-on-droid.nix ];
+        pkgs = import nixpkgs {
+          system = armSystem;
+          overlays = [
+            nix-on-droid.overlays.default
+            (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
+          ];
+        };
+        home-manager-path = home-manager.outPath;
       };
     };
 }
