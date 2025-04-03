@@ -111,7 +111,7 @@
         pkgs = pkgs-unstable;
         extraSpecialArgs = { inherit inputs outputs; };
         modules = [
-          ./home.nix
+          ./hosts/man/home.nix
           {
             nixpkgs.overlays = [
               (final: _prev: {
