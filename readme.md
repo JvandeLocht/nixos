@@ -1,5 +1,6 @@
-# This is my personal nix config.
+# This is my personal nix config for all my systems.
 
+## For Desktop systems I prepare the system like this:
 To set up one firstly needs to follow the Instructions of Graham Christensen on
 [Darling Erasure](https://grahamc.com/blog/erase-your-darlings/)
 
@@ -51,9 +52,11 @@ To see what your are about to loose you can run this command:
 sudo zfs diff rpool/local/root@blank
 ```
 
+
 Filestructure:
 
 ```
+.
 ├── dotfiles
 │   └── OKI_C332_PS.ppd
 ├── flake.lock
@@ -65,13 +68,24 @@ Filestructure:
 │       ├── dconf.nix
 │       ├── default.nix
 │       ├── desktop.nix
+│       ├── emacs
+│       │   ├── default.nix
+│       │   └── doom
+│       │       ├── config.el
+│       │       ├── init.el
+│       │       └── packages.el
 │       ├── firefox.nix
 │       ├── fish.nix
+│       ├── foot.nix
+│       ├── gnome.nix
 │       ├── gtk.nix
 │       ├── hyperland
 │       │   ├── config.nix
 │       │   ├── default.nix
-│       │   └── hyprpaper.nix
+│       │   ├── hyprpaper.nix
+│       │   └── touch.nix
+│       ├── hypridle.nix
+│       ├── hyprlock.nix
 │       ├── kitty.nix
 │       ├── lf
 │       │   ├── default.nix
@@ -79,6 +93,7 @@ Filestructure:
 │       ├── neovim
 │       │   ├── autopairs.nix
 │       │   ├── bufferline.nix
+│       │   ├── catppuccin.nix
 │       │   ├── comment.nix
 │       │   ├── completion.nix
 │       │   ├── default.nix
@@ -93,91 +108,85 @@ Filestructure:
 │       │   ├── treesitter.nix
 │       │   ├── web-devicons.nix
 │       │   └── which-key.nix
-│       ├── nixvim
-│       │   ├── autocommands.nix
-│       │   ├── completion.nix
-│       │   ├── default.nix
-│       │   ├── keymappings.nix
-│       │   ├── options.nix
-│       │   ├── plugins
-│       │   │   ├── barbar.nix
-│       │   │   ├── cmp.nix
-│       │   │   ├── comment.nix
-│       │   │   ├── default.nix
-│       │   │   ├── floaterm.nix
-│       │   │   ├── harpoon.nix
-│       │   │   ├── lsp.nix
-│       │   │   ├── lualine.nix
-│       │   │   ├── markdown-preview.nix
-│       │   │   ├── neo-tree.nix
-│       │   │   ├── none-ls.nix
-│       │   │   ├── startify.nix
-│       │   │   ├── telescope.nix
-│       │   │   ├── treesitter.nix
-│       │   │   ├── vimtex.nix
-│       │   │   └── which-key.nix
-│       │   └── todo.nix
 │       ├── podman
 │       │   ├── default.nix
 │       │   └── ollama.container
 │       ├── starship.nix
 │       ├── swayidle.nix
 │       ├── swaylock.nix
+│       ├── tmux.nix
 │       ├── waybar
 │       │   ├── default.nix
 │       │   └── style.css
 │       ├── wezterm.nix
 │       ├── wofi.nix
+│       ├── yazi.nix
 │       └── zsh.nix
 ├── hosts
 │   ├── common
 │   │   ├── configuration.nix
 │   │   └── home.nix
-│   ├── gnome_laptop
+│   ├── groot
 │   │   ├── configuration.nix
 │   │   ├── hardware-configuration.nix
 │   │   ├── home.nix
 │   │   └── opt-in.nix
-│   ├── hyprland_laptop
-│   │   ├── configuration.nix
+│   ├── man
 │   │   └── home.nix
-│   ├── kde_laptop
-│   │   ├── configuration.nix
-│   │   └── home.nix
-│   └── server
+│   ├── nixdroid
+│   │   ├── home.nix
+│   │   └── nix-on-droid.nix
+│   └── nixnas
 │       ├── configuration.nix
 │       ├── hardware-configuration.nix
-│       └── home.nix
+│       ├── home.nix
+│       └── opt-in.nix
 ├── img
+│   ├── doom.png
 │   └── nixos_wallpaper.jpg
-├── kernel
-│   └── patch
-│       └── amd-tablet-sfh.patch
-├── llama.log
 ├── nixos
 │   └── modules
+│       ├── backrest.nix
 │       ├── default.nix
 │       ├── gaming.nix
 │       ├── gnome.nix
+│       ├── hyprland.nix
 │       ├── locale_keymap.nix
-│       ├── microvm
-│       │   ├── default.nix
-│       │   └── microvm.nix
 │       ├── networking.nix
 │       ├── nvidia.nix
 │       ├── podman
 │       │   ├── default.nix
-│       │   └── ollama.nix
+│       │   ├── minio.nix
+│       │   ├── nvidia.nix
+│       │   ├── ollama-webui.nix
+│       │   └── proxmox-backup-server.nix
 │       ├── power.nix
 │       ├── printing.nix
+│       ├── secrets.nix
 │       ├── services.nix
 │       ├── sound.nix
+│       ├── specialisation.nix
 │       └── virtualization
 │           └── default.nix
+├── patches
+│   ├── amd-tablet-sfh.patch
+│   └── switchYandZ.patch
 ├── pkgs
 │   ├── default.nix
 │   └── iio-hyprland.nix
 ├── readme.md
-└── scripts
-    └── trim-generations.sh
+├── scripts
+│   ├── config-nix-efi.patch
+│   ├── config-nix.patch
+│   ├── format-disk.sh
+│   └── trim-generations.sh
+└── secrets
+    ├── backrest-groot.age
+    ├── backrest-nixnas.age
+    ├── jan-nixnas.age
+    ├── minio-accessKey.age
+    ├── minio-secretKey.age
+    ├── rclone-config.age
+    ├── secrets.nix
+    └── smb-secrets.age
 ```
