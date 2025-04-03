@@ -128,3 +128,6 @@
     (vterm-send-string "lazygit")
     (vterm-send-return)
     (rename-buffer buffer-name t)))
+(map! :leader
+      :prefix "o"
+      :desc "Lazygit" "L" #'+vterm/here-lazygit)
