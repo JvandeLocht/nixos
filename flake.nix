@@ -49,84 +49,91 @@
     };
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    nixpkgs-unstable,
-    home-manager,
-    home-manager-unstable,
-    impermanence,
-    nvf,
-    agenix,
-    nix-on-droid,
-    ...
-  }: let
-    inherit (self) outputs;
-    x86System = "x86_64-linux";
-    armSystem = "aarch64-linux";
-    pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      home-manager,
+      home-manager-unstable,
+      impermanence,
+      nvf,
+      agenix,
+      nix-on-droid,
+      ...
+    }:
+    let
+      inherit (self) outputs;
+      x86System = "x86_64-linux";
+      armSystem = "aarch64-linux";
+      pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
 
-    mkNixosConfig = name: user:
-      nixpkgs-unstable.lib.nixosSystem {
-        system = x86System;
-        modules = [
-          {
-            nixpkgs.overlays = [
-              (final: _prev: {nvf = nvf.packages.${_prev.system}.default;})
-              (final: prev: {
-                wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
-                  patches = (oldAttrs.patches or []) ++ [./patches/switchYandZ.patch];
-                });
-              })
-              (final: prev: {
-                spotube = prev.spotube.overrideAttrs (oldAttrs: {
-                  version = "4.0.2";
-                });
-              })
-            ];
-          }
-          {_module.args = {inherit inputs outputs;};}
-          ./hosts/${name}/configuration.nix
-          impermanence.nixosModules.impermanence
-          home-manager-unstable.nixosModules.home-manager
-          agenix.nixosModules.default
-          {
-            home-manager = {
-              useGlobalPkgs = true;
-              extraSpecialArgs = {inherit inputs outputs;};
-              users.${user} = {
-                imports = [./hosts/${name}/home.nix];
+      mkNixosConfig =
+        name: user:
+        nixpkgs-unstable.lib.nixosSystem {
+          system = x86System;
+          modules = [
+            {
+              nixpkgs.overlays = [
+                (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
+                (final: prev: {
+                  wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
+                    patches = (oldAttrs.patches or [ ]) ++ [ ./patches/switchYandZ.patch ];
+                  });
+                })
+                (final: prev: {
+                  spotube = prev.spotube.overrideAttrs (oldAttrs: {
+                    version = "4.0.2";
+                  });
+                })
+              ];
+            }
+            { _module.args = { inherit inputs outputs; }; }
+            ./hosts/${name}/configuration.nix
+            impermanence.nixosModules.impermanence
+            home-manager-unstable.nixosModules.home-manager
+            agenix.nixosModules.default
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                extraSpecialArgs = { inherit inputs outputs; };
+                users.${user} = {
+                  imports = [ ./hosts/${name}/home.nix ];
+                };
+                backupFileExtension = "backup";
               };
-              backupFileExtension = "backup";
-            };
-          }
-        ];
+            }
+          ];
+        };
+    in
+    {
+      nixosConfigurations = {
+        groot = mkNixosConfig "groot" "jan";
+        nixnas = mkNixosConfig "nixnas" "jan";
       };
-  in {
-    nixosConfigurations = {
-      groot = mkNixosConfig "groot" "jan";
-      nixnas = mkNixosConfig "nixnas" "jan";
-    };
 
-    homeConfigurations."jan" = home-manager-unstable.lib.homeManagerConfiguration {
-      pkgs = pkgs-unstable;
-      extraSpecialArgs = {inherit inputs outputs;};
-      modules = [
-        ./hosts/man/home.nix
-        {nixpkgs.overlays = [(final: _prev: {nvf = nvf.packages.${_prev.system}.default;})];}
-      ];
-    };
-
-    nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-      modules = [./hosts/nixdroid/nix-on-droid.nix];
-      pkgs = import nixpkgs {
-        system = armSystem;
-        overlays = [
-          nix-on-droid.overlays.default
-          (final: _prev: {nvf = nvf.packages.${_prev.system}.default;})
-        ];
+      homeConfigurations = {
+        default = self.homeConfigurations.jan;
+        jan = home-manager-unstable.lib.homeManagerConfiguration {
+          pkgs = pkgs-unstable;
+          extraSpecialArgs = { inherit inputs outputs; };
+          modules = [
+            ./hosts/man/home.nix
+            { nixpkgs.overlays = [ (final: _prev: { nvf = nvf.packages.${_prev.system}.default; }) ]; }
+          ];
+        };
       };
-      home-manager-path = home-manager.outPath;
+
+      nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+        modules = [ ./hosts/nixdroid/nix-on-droid.nix ];
+        pkgs = import nixpkgs {
+          system = armSystem;
+          overlays = [
+            nix-on-droid.overlays.default
+            (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
+          ];
+        };
+        home-manager-path = home-manager.outPath;
+      };
     };
-  };
 }
