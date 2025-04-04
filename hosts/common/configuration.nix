@@ -5,17 +5,20 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   unstable = import inputs.nixpkgs-unstable {
     localSystem = pkgs.system;
   };
-in {
+in
+{
   imports = [
     ../../nixos/modules
   ];
 
   environment = {
-    systemPackages = with pkgs;
+    systemPackages =
+      with pkgs;
       [
         git
         neovim
@@ -64,19 +67,12 @@ in {
     zsh.enable = true;
     kdeconnect.enable = true;
     partition-manager.enable = true;
-    nh = {
-      enable = true;
-      clean = {
-        enable = true;
-        extraArgs = "--keep-since 4d --keep 3";
-      };
-      flake = "/home/jan/.setup";
-    };
   };
 
   fonts = {
     fontDir.enable = true;
-    packages = with pkgs;
+    packages =
+      with pkgs;
       [
         fira-code
         cantarell-fonts

@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     ../../home-manager/modules
   ];
@@ -7,11 +8,20 @@
   yazi.enable = true;
   lf.enable = true;
 
-  # basic configuration of git, please change to your own
-  programs.git = {
-    enable = true;
-    userName = "Jan van de Locht";
-    userEmail = "jan@vandelocht.uk";
+  programs = {
+    git = {
+      enable = true;
+      userName = "Jan van de Locht";
+      userEmail = "jan@vandelocht.uk";
+    };
+    nh = {
+      enable = true;
+      clean = {
+        enable = true;
+        extraArgs = "--keep-since 4d --keep 3";
+      };
+      flake = "/home/jan/.setup";
+    };
   };
 
   home = {
