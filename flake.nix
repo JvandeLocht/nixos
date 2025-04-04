@@ -23,7 +23,6 @@
     agenix.url = "github:ryantm/agenix";
 
     # User configurations
-    nixvim-config.url = "github:JvandeLocht/nixvim-config";
     nvf.url = "github:JvandeLocht/nvf-config";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     fcitx-virtual-keyboard-adapter = {
