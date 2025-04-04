@@ -67,48 +67,51 @@
       armSystem = "aarch64-linux";
       pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
 
-      mkNixosConfig =
-        name: user:
-        nixpkgs-unstable.lib.nixosSystem {
-          system = x86System;
-          modules = [
-            {
-              nixpkgs.overlays = [
-                (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
-                (final: prev: {
-                  wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
-                    patches = (oldAttrs.patches or [ ]) ++ [ ./patches/switchYandZ.patch ];
-                  });
-                })
-                (final: prev: {
-                  spotube = prev.spotube.overrideAttrs (oldAttrs: {
-                    version = "4.0.2";
-                  });
-                })
-              ];
-            }
-            { _module.args = { inherit inputs outputs; }; }
-            ./hosts/${name}/configuration.nix
-            impermanence.nixosModules.impermanence
-            home-manager-unstable.nixosModules.home-manager
-            agenix.nixosModules.default
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                extraSpecialArgs = { inherit inputs outputs; };
-                users.${user} = {
-                  imports = [ ./hosts/${name}/home.nix ];
-                };
-                backupFileExtension = "backup";
-              };
-            }
-          ];
-        };
+      # Common special args for all configurations
+      specialArgs = { inherit inputs outputs; };
+
+      # Common overlays to be reused
+      commonOverlays = [
+        (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
+      ];
+
+      mkNixosConfig = import ./lib/mkNixosConfig.nix {
+        inherit
+          inputs
+          impermanence
+          agenix
+          home-manager-unstable
+          commonOverlays
+          specialArgs
+          ;
+      };
+
     in
     {
       nixosConfigurations = {
-        groot = mkNixosConfig "groot" "jan";
-        nixnas = mkNixosConfig "nixnas" "jan";
+        groot = mkNixosConfig {
+          system = x86System;
+          hostname = "groot";
+          username = "jan";
+          extraOverlays = [
+            (final: prev: {
+              wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
+                patches = (oldAttrs.patches or [ ]) ++ [ ./patches/switchYandZ.patch ];
+              });
+            })
+            (final: prev: {
+              spotube = prev.spotube.overrideAttrs (oldAttrs: {
+                version = "4.0.2";
+              });
+            })
+          ];
+        };
+
+        nixnas = mkNixosConfig {
+          system = x86System;
+          hostname = "nixnas";
+          username = "jan";
+        };
       };
 
       homeConfigurations = {
@@ -116,10 +119,10 @@
         backupFileExtension = "backup";
         jan = home-manager-unstable.lib.homeManagerConfiguration {
           pkgs = pkgs-unstable;
-          extraSpecialArgs = { inherit inputs outputs; };
+          extraSpecialArgs = specialArgs;
           modules = [
             ./hosts/man/home.nix
-            { nixpkgs.overlays = [ (final: _prev: { nvf = nvf.packages.${_prev.system}.default; }) ]; }
+            { nixpkgs.overlays = commonOverlays; }
           ];
         };
       };
@@ -130,8 +133,7 @@
           system = armSystem;
           overlays = [
             nix-on-droid.overlays.default
-            (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
-          ];
+          ] ++ commonOverlays;
         };
         home-manager-path = home-manager.outPath;
       };
