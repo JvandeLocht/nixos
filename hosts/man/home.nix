@@ -18,6 +18,22 @@
     ../../home-manager/modules/emacs
   ];
 
+  programs = {
+    git = {
+      enable = true;
+      userName = "Jan van de Locht";
+      userEmail = "jan@vandelocht.uk";
+    };
+    nh = {
+      enable = true;
+      clean = {
+        enable = true;
+        extraArgs = "--keep-since 4d --keep 3";
+      };
+      flake = "/home/jan/.setup";
+    };
+  };
+
   zsh.enable = true;
   bash.enable = true;
   yazi.enable = true;
