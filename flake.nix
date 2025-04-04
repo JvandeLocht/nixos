@@ -114,6 +114,7 @@
 
       homeConfigurations = {
         default = self.homeConfigurations.jan;
+        backupFileExtension = "backup";
         jan = home-manager-unstable.lib.homeManagerConfiguration {
           pkgs = pkgs-unstable;
           extraSpecialArgs = { inherit inputs outputs; };
