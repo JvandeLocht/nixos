@@ -45,6 +45,7 @@ in {
   printing.enable = true;
   services.enable = true;
   soundConfig.enable = true;
+  specialisationConfig.enable = true;
 
   environment.systemPackages = [pkgs.cifs-utils];
   fileSystems."/mnt/share" = {
