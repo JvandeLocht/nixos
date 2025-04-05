@@ -16,6 +16,8 @@
       "/etc/ssh"
       "/etc/samba"
       "/var/lib/samba"
+      "/var/lib/cups"
+      "/var/spool/cups"
       {
         directory = "/var/lib/colord";
         user = "colord";
@@ -27,7 +29,9 @@
       "/etc/machine-id"
       {
         file = "/var/keys/secret_file";
-        parentDirectory = {mode = "u=rwx,g=,o=";};
+        parentDirectory = {
+          mode = "u=rwx,g=,o=";
+        };
       }
     ];
   };

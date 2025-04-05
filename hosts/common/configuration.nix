@@ -50,15 +50,7 @@ in
     };
   };
 
-  networking.firewall = {
-    allowedTCPPortRanges = [
-      # for backrest
-      {
-        from = 9898;
-        to = 9898;
-      }
-    ];
-  };
+  networking.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
   programs = {

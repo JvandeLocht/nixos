@@ -3,7 +3,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options.networking = {
     enable = lib.mkEnableOption "Set up networking and SSH";
   };
@@ -28,6 +29,10 @@
         {
           from = 1714;
           to = 1764;
+        }
+        {
+          from = 9898;
+          to = 9898;
         }
       ];
       allowedUDPPortRanges = [

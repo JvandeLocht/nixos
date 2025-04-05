@@ -6,23 +6,21 @@
   pkgs,
   lib,
   ...
-}: let
-  zfsCompatibleKernelPackages =
-    lib.filterAttrs
-    (
-      name: kernelPackages:
-        (builtins.match "linux_[0-9]+_[0-9]+" name)
-        != null
-        && (builtins.tryEval kernelPackages).success
-        && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
-    )
-    pkgs.linuxKernel.packages;
+}:
+let
+  zfsCompatibleKernelPackages = lib.filterAttrs (
+    name: kernelPackages:
+    (builtins.match "linux_[0-9]+_[0-9]+" name) != null
+    && (builtins.tryEval kernelPackages).success
+    && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
+  ) pkgs.linuxKernel.packages;
   latestKernelPackage = lib.last (
     lib.sort (a: b: (lib.versionOlder a.kernel.version b.kernel.version)) (
       builtins.attrValues zfsCompatibleKernelPackages
     )
   );
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
     ../common/configuration.nix
@@ -39,7 +37,6 @@ in {
   gaming.enable = true;
   hyprland.enable = true;
   locale.enable = true;
-  networking.enable = true;
   nvidia.enable = true;
   # power.enable = true;
   printing.enable = true;
@@ -47,14 +44,16 @@ in {
   soundConfig.enable = true;
   specialisationConfig.enable = true;
 
-  environment.systemPackages = [pkgs.cifs-utils];
+  environment.systemPackages = [ pkgs.cifs-utils ];
   fileSystems."/mnt/share" = {
     device = "//192.168.178.58/tank";
     fsType = "cifs";
-    options = let
-      # this line prevents hanging on network split
-      automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
-    in ["${automount_opts},credentials=${config.age.secrets.smb-secrets.path},uid=1000,gid=100"];
+    options =
+      let
+        # this line prevents hanging on network split
+        automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
+      in
+      [ "${automount_opts},credentials=${config.age.secrets.smb-secrets.path},uid=1000,gid=100" ];
   };
 
   boot = {
@@ -67,7 +66,7 @@ in {
         efiInstallAsRemovable = true;
         mirroredBoots = [
           {
-            devices = ["nodev"];
+            devices = [ "nodev" ];
             path = "/boot";
           }
         ];
@@ -80,7 +79,7 @@ in {
     # Note this might jump back and forth as kernels are added or removed.
     kernelPackages = latestKernelPackage;
     # kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    kernelParams = ["nohibernate"];
+    kernelParams = [ "nohibernate" ];
     kernelPatches = [
       {
         name = "amd-tablet-sfh";
@@ -88,7 +87,7 @@ in {
       }
     ];
     # For Makemkv
-    kernelModules = ["sg"];
+    kernelModules = [ "sg" ];
   };
 
   networking = {
@@ -97,8 +96,11 @@ in {
   };
 
   nix.settings = {
-    experimental-features = ["nix-command" "flakes"];
-    trusted-users = ["jan"]; # Add your own username to the trusted list
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+    trusted-users = [ "jan" ]; # Add your own username to the trusted list
   };
 
   hardware = {
@@ -114,7 +116,13 @@ in {
       isNormalUser = true;
       description = "Jan";
       hashedPasswordFile = "/persist/passwords/user";
-      extraGroups = ["networkmanager" "wheel" "video" "libvirtd" "dialout"];
+      extraGroups = [
+        "networkmanager"
+        "wheel"
+        "video"
+        "libvirtd"
+        "dialout"
+      ];
     };
   };
   # Enable the X11 windowing system.
@@ -124,7 +132,7 @@ in {
       bindAddress = "127.0.0.1"; # or "0.0.0.0" for the second snippet
       port = 9898;
       configSecret = "backrest-groot"; # or "backrest-nixnas" for the second snippet
-      additionalPath = with pkgs; [mako];
+      additionalPath = with pkgs; [ mako ];
     };
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
@@ -146,7 +154,12 @@ in {
       ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/leds/asus::kbd_backlight/brightness"
     '';
   };
-  nixpkgs.config.permittedInsecurePackages = ["electron-24.8.6" "electron-22.3.27" "electron-25.9.0" "electron-27.3.11"];
+  nixpkgs.config.permittedInsecurePackages = [
+    "electron-24.8.6"
+    "electron-22.3.27"
+    "electron-25.9.0"
+    "electron-27.3.11"
+  ];
   # This value determines the NixOS rele se from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

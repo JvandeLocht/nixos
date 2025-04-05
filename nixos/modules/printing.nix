@@ -3,7 +3,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options.printing = {
     enable = lib.mkEnableOption "Set up printing";
   };
@@ -13,8 +14,9 @@
     services.printing = {
       enable = true;
       drivers = [
-        (pkgs.writeTextDir "share/cups/model/OKI_C332_PS.ppd"
-          (builtins.readFile ../../dotfiles/OKI_C332_PS.ppd))
+        (pkgs.writeTextDir "share/cups/model/OKI_C332_PS.ppd" (
+          builtins.readFile ../../dotfiles/OKI_C332_PS.ppd
+        ))
       ];
     };
     services.avahi = {
