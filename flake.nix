@@ -21,6 +21,7 @@
     # System modules
     impermanence.url = "github:nix-community/impermanence";
     agenix.url = "github:ryantm/agenix";
+    hyprland.url = "github:hyprwm/Hyprland";
 
     # User configurations
     nvf.url = "github:JvandeLocht/nvf-config";

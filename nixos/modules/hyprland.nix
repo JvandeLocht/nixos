@@ -2,8 +2,10 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
-}: {
+}:
+{
   options.hyprland = {
     enable = lib.mkEnableOption "Set up Hyprland desktop environment";
   };
@@ -11,6 +13,11 @@
   config = lib.mkIf config.hyprland.enable {
     programs = {
       hyprland = {
+        # set the flake package
+        package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+        # make sure to also set the portal package, so that they are in sync
+        portalPackage =
+          inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
         enable = true;
         withUWSM = true;
       };
@@ -104,9 +111,9 @@
     systemd = {
       user.services.lxqt-policykit-agent = {
         description = "lxqt-policykit-agent";
-        wantedBy = ["hyprland-session.target"];
-        wants = ["hyprland-session.target"];
-        after = ["hyprland-session.target"];
+        wantedBy = [ "hyprland-session.target" ];
+        wants = [ "hyprland-session.target" ];
+        after = [ "hyprland-session.target" ];
         serviceConfig = {
           Type = "simple";
           ExecStart = "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent";
