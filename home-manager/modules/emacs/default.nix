@@ -3,7 +3,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options = {
     emacs.enable = lib.mkEnableOption "installes dependencies for emacs";
   };
@@ -12,8 +13,8 @@
     programs.emacs = {
       enable = true;
       package = pkgs.emacs-gtk;
-      extraPackages = epkgs:
-        with epkgs; [
+      extraPackages =
+        epkgs: with epkgs; [
           vterm
           treesit-grammars.with-all-grammars
           python-black
@@ -34,7 +35,8 @@
       DOOMPROFILELOADFILE = "${config.xdg.stateHome}/doom-profiles-load.el";
     };
     fonts.fontconfig.enable = true;
-    home.packages = with pkgs;
+    home.packages =
+      with pkgs;
       [
         ripgrep
         fd
@@ -52,6 +54,7 @@
         black # :lang python
         multimarkdown
         ispell
+        vips # dirvish image preview
       ]
       ++ (with python312Packages; [
         pyflakes
