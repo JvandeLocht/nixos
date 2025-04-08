@@ -114,6 +114,8 @@ in
       };
     };
     samba = {
+      # The users must still get created and get a smbpasswd
+      # sudo smbpasswd -a User
       enable = true;
       openFirewall = true;
       settings = {
@@ -150,6 +152,17 @@ in
           "create mask" = "0644";
           "directory mask" = "0755";
           "force user" = "arm";
+          "force group" = "users";
+        };
+        "k8s" = {
+          "path" = "/tank/k8s";
+          "valid users" = "k8s";
+          "browseable" = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+          "create mask" = "0644";
+          "directory mask" = "0755";
+          "force user" = "k8s";
           "force group" = "users";
         };
         "JackyJan" = {
@@ -203,7 +216,12 @@ in
         ];
         linger = true;
       };
+      # For Samba shares
       "arm" = {
+        isSystemUser = true;
+        group = "users";
+      };
+      "k8s" = {
         isSystemUser = true;
         group = "users";
       };
