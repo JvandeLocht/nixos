@@ -26,8 +26,8 @@
         doom-variable-pitch-font (font-spec :family "Fira Sans" :size 11)))
 
 (when (string-match "groot" (system-name))
-  (setq doom-font (font-spec :family "Fira Code" :size 20 :weight 'semi-light)
-        doom-variable-pitch-font (font-spec :family "Fira Sans" :size 20)))
+  (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'semi-light)
+        doom-variable-pitch-font (font-spec :family "Fira Sans" :size 18)))
 
 ;; (setq doom-font (font-spec :family "Fira Code" :size 20 :weight 'semi-light)
 ;;       doom-variable-pitch-font (font-spec :family "Fira Sans" :size 20))
