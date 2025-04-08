@@ -35,6 +35,8 @@
           doom = "${config.xdg.configHome}/emacs/bin/doom";
           lg = "lazygit";
           e = "emacs";
+          py = "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe python";
+          psh = "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe";
         };
         oh-my-zsh = {
           enable = true;
