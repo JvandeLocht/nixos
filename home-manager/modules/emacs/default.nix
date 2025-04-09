@@ -58,6 +58,7 @@
         ispell
         vips # dirvish image preview
         nodePackages_latest.prettier # code formatting with apheleia
+        st
       ]
       ++ (with python312Packages; [
         pyflakes

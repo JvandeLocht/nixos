@@ -51,3 +51,7 @@
 (package! typst-preview
   :recipe (:host github :repo "havarddj/typst-preview.el"))
 (package! websocket)
+
+(package! eee
+  :recipe (:host github :repo "eval-exec/eee.el"
+           :files (:defaults "*.el" "*.sh")))

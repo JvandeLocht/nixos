@@ -132,6 +132,24 @@
       :prefix "o"
       :desc "Lazygit" "L" #'+vterm/here-lazygit)
 
+(use-package eee
+  :load-path "~/Projects/github.com/eval-exec/eee.el/"
+  :bind-keymap
+  ("s-e" . ee-keymap)
+  :config
+
+  ;; Should have wezterm or alacritty installed, more terminal application is supporting...
+  ;; Issues and pull requests are welcome
+  (setq ee-terminal-command "st")
+
+  ;; (global-definer "f" 'ee-find)
+  ;; (global-definer "g" 'ee-lazygit)
+  ;; (global-definer "y" 'ee-yazi-project)
+  ;; (general-def "C-x C-f" 'ee-yazi)
+  ;; (general-def "C-S-f" 'ee-rg)
+  ;; (general-evil-define-key 'normal 'global "M-f" 'ee-line
+  )
+
 ;; Keybinds
 (map! :leader
       :prefix "o"
