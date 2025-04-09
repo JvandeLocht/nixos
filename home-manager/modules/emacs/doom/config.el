@@ -131,3 +131,8 @@
 (map! :leader
       :prefix "o"
       :desc "Lazygit" "L" #'+vterm/here-lazygit)
+
+;; Keybinds
+(map! :leader
+      :prefix "o"
+      :desc "Dirvish" "y" #'dirvish)
