@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   wayland.windowManager.hyprland.extraConfig = ''
     exec-once = {pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
     exec-once = waybar
@@ -136,16 +137,14 @@
         resize_on_border_long_press = true
 
         # swipe up from bottom edge
-        hyprgrass-bind = , edge:d:u, exec, ${
-      pkgs.writeScript "wvkbd-skript" ''
-        #!/usr/bin/env bash
-          if ${pkgs.toybox}/bin/pgrep -x 'wvkbd-mobintl' > /dev/null; then
-            ${pkgs.killall}/bin/killall wvkbd-mobintl
-          else
-            ${pkgs.wvkbd}/bin/wvkbd-mobintl -L 300
-          fi
-      ''
-    }
+        hyprgrass-bind = , edge:d:u, exec, ${pkgs.writeScript "wvkbd-skript" ''
+          #!/usr/bin/env bash
+            if ${pkgs.toybox}/bin/pgrep -x 'wvkbd-mobintl' > /dev/null; then
+              ${pkgs.killall}/bin/killall wvkbd-mobintl
+            else
+              ${pkgs.wvkbd}/bin/wvkbd-mobintl -L 300
+            fi
+        ''}
 
         # swipe down with 4 fingers
         hyprgrass-bind = , swipe:4:d, killactive
@@ -173,6 +172,11 @@
     # Example windowrule v2
     # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
     # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
+
+    windowrulev2 = float,class:st-256color
+    windowrulev2 = size 80% 95%,class:st-256color
+    windowrulev2 = center 1,class:st-256color
+
     windowrulev2 = workspace special:Filen,class:Filen
     bind = $mainMod, F, togglespecialworkspace,Filen
 
@@ -180,16 +184,14 @@
     bind = $mainMod, N, togglespecialworkspace,Notify
 
     windowrulev2 = workspace special:Signal,class:signal
-    bind = $mainMod, S, exec,${
-      pkgs.writeScript "signal" ''
-        #!/usr/bin/env bash
-          if ! pgrep -x "signal-desktop" > /dev/null; then
-              ${pkgs.signal-desktop}/bin/signal-desktop &
-          fi
+    bind = $mainMod, S, exec,${pkgs.writeScript "signal" ''
+      #!/usr/bin/env bash
+        if ! pgrep -x "signal-desktop" > /dev/null; then
+            ${pkgs.signal-desktop}/bin/signal-desktop &
+        fi
 
-          hyprctl dispatch togglespecialworkspace Signal
-      ''
-    }
+        hyprctl dispatch togglespecialworkspace Signal
+    ''}
 
 
 
@@ -198,31 +200,27 @@
 
     # Laptop lid
     # bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
-    bindl=,switch:on:Lid Switch,exec,${
-      pkgs.writeScript "desktop-mode" ''
-        #!/usr/bin/env bash
-        count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
-        if  [ $count = 1 ]; then
-          hyprlock
-          systemctl suspend
-        else
-          hyprctl keyword monitor "eDP-1, disable"
-        fi
-      ''
-    }
+    bindl=,switch:on:Lid Switch,exec,${pkgs.writeScript "desktop-mode" ''
+      #!/usr/bin/env bash
+      count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
+      if  [ $count = 1 ]; then
+        hyprlock
+        systemctl suspend
+      else
+        hyprctl keyword monitor "eDP-1, disable"
+      fi
+    ''}
 
     # bindl=,switch:off:Lid Switch,exec,hyprctl keyword monitor "eDP-1, disable"
-    bindl=,switch:off:Lid Switch,exec,${
-      pkgs.writeScript "desktop-mode" ''
-        #!/usr/bin/env bash
-        count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
-        if  [ $count = 1 ]; then
-          echo "lid opened"
-        else
-          hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
-        fi
-      ''
-    }
+    bindl=,switch:off:Lid Switch,exec,${pkgs.writeScript "desktop-mode" ''
+      #!/usr/bin/env bash
+      count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
+      if  [ $count = 1 ]; then
+        echo "lid opened"
+      else
+        hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
+      fi
+    ''}
 
 
     # Tablet mode

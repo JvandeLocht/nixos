@@ -79,7 +79,7 @@
             patches = (oldAttrs.patches or [ ]) ++ [
               (super.fetchpatch {
                 url = "https://st.suckless.org/patches/glyph_wide_support/st-glyph-wide-support-20220411-ef05519.diff";
-                sha256 = "0rr5q54ag9j0zbq15mvzjxqkrna21jmabfghda3srbf6j4a92ac4";
+                sha256 = "sha256-nGVswWAJhIhHq0s6+hiVaKLkYKog1mEhBUsLzJjzN+g=";
               })
             ];
           });
