@@ -26,6 +26,8 @@
           pytest
           shfmt
           flymake-shellcheck
+          apheleia
+          prettier
         ];
     };
     home.sessionVariables = {
@@ -55,6 +57,7 @@
         multimarkdown
         ispell
         vips # dirvish image preview
+        nodePackages_latest.prettier # code formatting with apheleia
       ]
       ++ (with python312Packages; [
         pyflakes
