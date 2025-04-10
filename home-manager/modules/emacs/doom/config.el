@@ -140,7 +140,11 @@
 
   ;; Should have wezterm or alacritty installed, more terminal application is supporting...
   ;; Issues and pull requests are welcome
-  (setq ee-terminal-command "st")
+  ;; (setq ee-terminal-command "st -z 16 -G 1400x1000")
+  (when (string-match "DTDEOBHNB303677" (system-name))
+    (setq ee-terminal-command "st -z 16 -G 1400x1000"))
+  (when (string-match "groot" (system-name))
+    (setq ee-terminal-command "kitty"))
 
   ;; (global-definer "f" 'ee-find)
   ;; (global-definer "g" 'ee-lazygit)
@@ -152,5 +156,11 @@
 
 ;; Keybinds
 (map! :leader
-      :prefix "o"
-      :desc "Dirvish" "y" #'dirvish)
+      :prefix "e"
+      :desc "Yazi" "y" #'ee-yazi)
+(map! :leader
+      :prefix "e"
+      :desc "Find" "f" #'ee-find)
+(map! :leader
+      :prefix "e"
+      :desc "Lazygit" "g" #'ee-lazygit)
