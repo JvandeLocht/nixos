@@ -23,7 +23,7 @@ in {
     };
     programs.tmux = {
       enable = true;
-      terminal = "xterm-kitty";
+      # terminal = "xterm-kitty";
       extraConfig = ''
         set-option -g status-position top
         set-option -g status-style "bg=black,fg=green"
