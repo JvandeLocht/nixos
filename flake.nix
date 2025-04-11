@@ -17,6 +17,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
 
     # System modules
     impermanence.url = "github:nix-community/impermanence";
@@ -49,34 +50,34 @@
     };
   };
 
-  outputs =
-    inputs@{
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      home-manager,
-      home-manager-unstable,
-      impermanence,
-      nvf,
-      agenix,
-      nix-on-droid,
-      ...
-    }:
-    let
-      inherit (self) outputs;
-      x86System = "x86_64-linux";
-      armSystem = "aarch64-linux";
-      pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    nixpkgs-unstable,
+    home-manager,
+    home-manager-unstable,
+    impermanence,
+    nvf,
+    agenix,
+    nix-on-droid,
+    ...
+  }: let
+    inherit (self) outputs;
+    x86System = "x86_64-linux";
+    armSystem = "aarch64-linux";
+    pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
 
-      # Common special args for all configurations
-      specialArgs = { inherit inputs outputs; };
+    # Common special args for all configurations
+    specialArgs = {inherit inputs outputs;};
 
-      # Common overlays to be reused
-      commonOverlays = [
-        (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
-        (self: super: {
-          st = super.st.overrideAttrs (oldAttrs: {
-            patches = (oldAttrs.patches or [ ]) ++ [
+    # Common overlays to be reused
+    commonOverlays = [
+      (final: _prev: {nvf = nvf.packages.${_prev.system}.default;})
+      (self: super: {
+        st = super.st.overrideAttrs (oldAttrs: {
+          patches =
+            (oldAttrs.patches or [])
+            ++ [
               (super.fetchpatch {
                 url = "https://st.suckless.org/patches/glyph_wide_support/st-glyph-wide-support-20220411-ef05519.diff";
                 sha256 = "sha256-nGVswWAJhIhHq0s6+hiVaKLkYKog1mEhBUsLzJjzN+g=";
@@ -94,71 +95,78 @@
                 sha256 = "sha256-dOkrjXGxFgIRy4n9g2RQjd8EBAvpW4tNmkOVj4TaFGg=";
               })
             ];
-          });
-        })
-      ];
+        });
+      })
+    ];
 
-      mkNixosConfig = import ./lib/mkNixosConfig.nix {
-        inherit
-          inputs
-          impermanence
-          agenix
-          home-manager-unstable
-          commonOverlays
-          specialArgs
-          ;
+    mkNixosConfig = import ./lib/mkNixosConfig.nix {
+      inherit
+        inputs
+        impermanence
+        agenix
+        home-manager-unstable
+        commonOverlays
+        specialArgs
+        ;
+    };
+  in {
+    nixosConfigurations = {
+      groot = mkNixosConfig {
+        system = x86System;
+        hostname = "groot";
+        username = "jan";
+        extraOverlays = [
+          (final: prev: {
+            wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
+              patches = (oldAttrs.patches or []) ++ [./patches/switchYandZ.patch];
+            });
+          })
+          (final: prev: {
+            spotube = prev.spotube.overrideAttrs (oldAttrs: {
+              version = "4.0.2";
+            });
+          })
+        ];
       };
 
-    in
-    {
-      nixosConfigurations = {
-        groot = mkNixosConfig {
-          system = x86System;
-          hostname = "groot";
-          username = "jan";
-          extraOverlays = [
-            (final: prev: {
-              wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
-                patches = (oldAttrs.patches or [ ]) ++ [ ./patches/switchYandZ.patch ];
-              });
-            })
-            (final: prev: {
-              spotube = prev.spotube.overrideAttrs (oldAttrs: {
-                version = "4.0.2";
-              });
-            })
-          ];
-        };
-
-        nixnas = mkNixosConfig {
-          system = x86System;
-          hostname = "nixnas";
-          username = "jan";
-        };
+      nixnas = mkNixosConfig {
+        system = x86System;
+        hostname = "nixnas";
+        username = "jan";
       };
 
-      homeConfigurations = {
-        default = self.homeConfigurations.jan;
-        backupFileExtension = "backup";
-        jan = home-manager-unstable.lib.homeManagerConfiguration {
-          pkgs = pkgs-unstable;
-          extraSpecialArgs = specialArgs;
-          modules = [
-            ./hosts/man/home.nix
-            { nixpkgs.overlays = commonOverlays; }
-          ];
-        };
-      };
-
-      nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-        modules = [ ./hosts/nixdroid/nix-on-droid.nix ];
-        pkgs = import nixpkgs {
-          system = armSystem;
-          overlays = [
-            nix-on-droid.overlays.default
-          ] ++ commonOverlays;
-        };
-        home-manager-path = home-manager.outPath;
+      nixwsl = mkNixosConfig {
+        system = x86System;
+        hostname = "nixwsl";
+        username = "jan";
+        extraModules = [inputs.nixos-wsl.nixosModules.default];
       };
     };
+
+    homeConfigurations = {
+      default = self.homeConfigurations.jan;
+      backupFileExtension = "backup";
+      jan = home-manager-unstable.lib.homeManagerConfiguration {
+        pkgs = pkgs-unstable;
+        extraSpecialArgs = specialArgs;
+        modules = [
+          ./hosts/man/home.nix
+          {nixpkgs.overlays = commonOverlays;}
+        ];
+      };
+    };
+
+    nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+      modules = [./hosts/nixdroid/nix-on-droid.nix];
+      pkgs = import nixpkgs {
+        system = armSystem;
+        overlays =
+          [
+            nix-on-droid.overlays.default
+          ]
+          ++ commonOverlays;
+      };
+      home-manager-path = home-manager.outPath;
+    };
+  };
 }

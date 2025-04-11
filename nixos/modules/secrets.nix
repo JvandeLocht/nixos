@@ -26,6 +26,11 @@
       path = "/persist/secrets/smb-secrets";
       symlink = false;
     };
+    cert-secrets = {
+      file = ../../secrets/cert-secrets.age;
+      path = "/etc/secrets/cert-secrets";
+      symlink = false;
+    };
     # rclone-config = {
     #   file = ../../secrets/rclone-config.age;
     #   path = "/persist/secrets/rclone-config";
