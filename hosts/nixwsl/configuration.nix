@@ -9,9 +9,8 @@
   pkgs,
   inputs,
   ...
-}:
-{
-  imports = [ ../../nixos/modules/secrets.nix ];
+}: {
+  imports = [../../nixos/modules/secrets.nix];
   nix.settings = {
     experimental-features = [
       "nix-command"
@@ -22,9 +21,9 @@
   users.defaultUserShell = pkgs.zsh;
   wsl.enable = true;
   wsl.defaultUser = "jan";
-  age.identityPaths = [ "${config.users.users.jan.home}/.ssh/id_ed25519" ];
+  age.identityPaths = ["${config.users.users.jan.home}/.ssh/id_ed25519"];
   security.pki.certificates = [
-    ''${pkgs.busybox}/bin/cat ${config.age.secrets.cert-secrets.path}''
+    (builtins.readFile ../../man-cert.crt)
   ];
   networking = {
     hostName = "nixwsl"; # Define your hostname.
@@ -33,8 +32,7 @@
     zsh.enable = true;
   };
   environment = {
-    systemPackages =
-      with pkgs;
+    systemPackages = with pkgs;
       [
         git
         wget
@@ -44,7 +42,7 @@
         restic
       ]
       ++ (with inputs; [
-        agenix.packages.x86_64-linux.default
+        # agenix.packages.x86_64-linux.default
       ])
       ++ (with unstable; [
         # proton-pass
