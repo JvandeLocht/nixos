@@ -3,8 +3,7 @@
   lib,
   config,
   ...
-}:
-{
+}: {
   options = {
     emacs.enable = lib.mkEnableOption "installes dependencies for emacs";
   };
@@ -13,8 +12,8 @@
     programs.emacs = {
       enable = true;
       package = pkgs.emacs-gtk;
-      extraPackages =
-        epkgs: with epkgs; [
+      extraPackages = epkgs:
+        with epkgs; [
           vterm
           treesit-grammars.with-all-grammars
           python-black
@@ -37,8 +36,7 @@
       DOOMPROFILELOADFILE = "${config.xdg.stateHome}/doom-profiles-load.el";
     };
     fonts.fontconfig.enable = true;
-    home.packages =
-      with pkgs;
+    home.packages = with pkgs;
       [
         ripgrep
         fd
@@ -72,6 +70,10 @@
       exec = "env DOOMDIR=${config.home.homeDirectory}/.setup/home-manager/modules/emacs/doom EMACSDIR=${config.xdg.configHome}/emacs DOOMLOCALDIR=${config.xdg.dataHome}/doom DOOMPROFILELOADFILE=${config.xdg.stateHome}/doom-profiles-load.el ${pkgs.emacs}/bin/emacs";
       name = "Doom Emacs";
       icon = "${config.home.homeDirectory}/.setup/img/doom.png";
+    };
+    xdg.configFile."emacs".source = builtins.fetchGit {
+      url = "https://github.com/doomemacs/doomemacs.git";
+      rev = "c233aada0b3e8989b4be78f7f8cae540074b832b";
     };
   };
 }
