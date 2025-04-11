@@ -21,7 +21,7 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 
-(when (string-match "DTDEOBHNB303677" (system-name))
+(when (string-match "nixwsl" (system-name))
   (setq doom-font (font-spec :family "Fira Code" :size 11 :weight 'semi-light)
         doom-variable-pitch-font (font-spec :family "Fira Sans" :size 11)))
 
@@ -141,7 +141,7 @@
   ;; Should have wezterm or alacritty installed, more terminal application is supporting...
   ;; Issues and pull requests are welcome
   ;; (setq ee-terminal-command "st -z 16 -G 1400x1000")
-  (when (string-match "DTDEOBHNB303677" (system-name))
+  (when (string-match "nixwsl" (system-name))
     (setq ee-terminal-command "st -z 16 -G 1400x1000"))
   (when (string-match "groot" (system-name))
     (setq ee-terminal-command "st -z 18"))
