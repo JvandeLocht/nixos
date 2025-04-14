@@ -94,7 +94,8 @@
 (use-package typst-preview
   :load-path "directory-of-typst-preview.el"
   :config
-  (setq typst-preview-open-browser-automatically -1)
+  (setq typst-preview-open-browser-automatically nil)
+  (setq typst-preview-ask-if-pin-main nil)
   (setq typst-preview-host "127.0.0.1:11111")
   (define-key typst-preview-mode-map (kbd "C-c C-j") 'typst-preview-send-position)
   )
