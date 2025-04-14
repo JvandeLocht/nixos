@@ -54,6 +54,19 @@
         "type": "github"
       }
     },
+    "certs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1744356339,
+        "narHash": "sha256-r728oCzsidwZBRLd1InXoL9a/6624Y60CyT6lV1yzWs=",
+        "path": "/etc/nixos",
+        "type": "path"
+      },
+      "original": {
+        "path": "/etc/nixos",
+        "type": "path"
+      }
+    },
     "darwin": {
       "inputs": {
         "nixpkgs": [
@@ -940,6 +953,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "certs": "certs",
         "fcitx-virtual-keyboard-adapter": "fcitx-virtual-keyboard-adapter",
         "home-manager": "home-manager_2",
         "home-manager-unstable": "home-manager-unstable",
