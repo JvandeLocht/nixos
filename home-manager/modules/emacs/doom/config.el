@@ -23,7 +23,9 @@
 
 (when (string-match "nixwsl" (system-name))
   (setq doom-font (font-spec :family "Fira Code" :size 11 :weight 'semi-light)
-        doom-variable-pitch-font (font-spec :family "Fira Sans" :size 11)))
+        doom-variable-pitch-font (font-spec :family "Fira Sans" :size 11))
+  (setq vterm-shell "/home/jan/.nix-profile/bin/zsh"))
+
 
 (when (string-match "groot" (system-name))
   (setq doom-font (font-spec :family "Fira Code" :size 18 :weight 'semi-light)
