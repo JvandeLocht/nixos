@@ -97,7 +97,6 @@
   (setq typst-preview-open-browser-automatically nil)
   (setq typst-preview-ask-if-pin-main nil)
   (setq typst-preview-host "127.0.0.1:11111")
-  (define-key typst-preview-mode-map (kbd "C-c C-j") 'typst-preview-send-position)
   )
 (use-package typst-ts-mode
   :load-path "directory-of-typst-ts-mode.el"
@@ -167,3 +166,9 @@
 (map! :leader
       :prefix "e"
       :desc "Lazygit" "g" #'ee-lazygit)
+(map! :leader
+      :prefix "t"
+      :desc "Typst Preview" "p" #'typst-preview-mode)
+(map! :leader
+      :prefix "t"
+      :desc "Typst Preview Sync" "P" #'typst-preview-send-position)
