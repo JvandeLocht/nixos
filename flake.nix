@@ -23,6 +23,11 @@
       flake = false;
     };
 
+    doomemacs = {
+      url = "github:doomemacs/doomemacs";
+      flake = false;
+    };
+
     # System modules
     impermanence.url = "github:nix-community/impermanence";
     agenix.url = "github:ryantm/agenix";

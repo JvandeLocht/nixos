@@ -89,6 +89,22 @@
         "type": "github"
       }
     },
+    "doomemacs": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1744400981,
+        "narHash": "sha256-8bBhEmytBSPksB04vhcx0XUTW0wES0A5RATcvluTveg=",
+        "owner": "doomemacs",
+        "repo": "doomemacs",
+        "rev": "c6f749e67c13342007f6aeaa4a81e6fdb00f529f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "doomemacs",
+        "repo": "doomemacs",
+        "type": "github"
+      }
+    },
     "fcitx-virtual-keyboard-adapter": {
       "inputs": {
         "nixpkgs": [
@@ -954,6 +970,7 @@
       "inputs": {
         "agenix": "agenix",
         "certs": "certs",
+        "doomemacs": "doomemacs",
         "fcitx-virtual-keyboard-adapter": "fcitx-virtual-keyboard-adapter",
         "home-manager": "home-manager_2",
         "home-manager-unstable": "home-manager-unstable",
