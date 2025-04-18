@@ -176,6 +176,17 @@ in
           "force user" = "arm";
           "force group" = "users";
         };
+        "media" = {
+          "path" = "/tank/media";
+          "valid users" = "media";
+          "browseable" = "yes";
+          "read only" = "no";
+          "guest ok" = "no";
+          "create mask" = "0644";
+          "directory mask" = "0755";
+          "force user" = "media";
+          "force group" = "users";
+        };
       };
     };
     samba-wsdd = {
@@ -226,6 +237,10 @@ in
         group = "users";
       };
       "jacky" = {
+        isSystemUser = true;
+        group = "users";
+      };
+      "media" = {
         isSystemUser = true;
         group = "users";
       };
