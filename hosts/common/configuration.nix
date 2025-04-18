@@ -36,6 +36,8 @@ in
         restic
         zellij
         backrest
+        filen-cli
+        immich-cli
       ]
       ++ (with inputs; [
         agenix.packages.x86_64-linux.default
