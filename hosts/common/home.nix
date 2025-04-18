@@ -82,8 +82,6 @@
     stateVersion = "23.05";
   };
 
-  services.syncthing.enable = true;
-
   # Let home Manager install and manage itself.
   programs.home-manager.enable = true;
 }

@@ -27,7 +27,6 @@ in {
         ]);
   };
   # Packages that should be installed to the user profile.
-  services.syncthing.enable = true;
 
   systemd.user.services = {
     filen = {

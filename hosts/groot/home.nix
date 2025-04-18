@@ -77,8 +77,6 @@ in {
       ]);
   };
 
-  services.syncthing.enable = true;
-
   systemd.user.services = {
     protonmail-bridge = {
       Unit = {
