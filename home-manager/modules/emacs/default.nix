@@ -70,7 +70,7 @@
         setuptools
       ]);
     xdg.desktopEntries.doom = {
-      exec = "env DOOMDIR=${config.home.homeDirectory}/.setup/home-manager/modules/emacs/doom EMACSDIR=${config.xdg.configHome}/emacs DOOMLOCALDIR=${config.xdg.dataHome}/doom DOOMPROFILELOADFILE=${config.xdg.stateHome}/doom-profiles-load.el ${pkgs.emacs}/bin/emacs";
+      exec = "env DOOMDIR=${config.home.homeDirectory}/.setup/home-manager/modules/emacs/doom EMACSDIR=${config.xdg.configHome}/emacs DOOMLOCALDIR=${config.xdg.dataHome}/doom DOOMPROFILELOADFILE=${config.xdg.stateHome}/doom-profiles-load.el ${pkgs.emacs-git-pgtk}/bin/emacs";
       name = "Doom Emacs";
       icon = "${config.home.homeDirectory}/.setup/img/doom.png";
     };
