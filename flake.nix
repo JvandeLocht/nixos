@@ -27,6 +27,7 @@
       url = "github:doomemacs/doomemacs";
       flake = false;
     };
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
 
     # System modules
     impermanence.url = "github:nix-community/impermanence";
@@ -84,6 +85,7 @@
       # Common overlays to be reused
       commonOverlays = [
         (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
+        inputs.emacs-overlay.overlays.default
         (self: super: {
           st = super.st.overrideAttrs (oldAttrs: {
             patches = (oldAttrs.patches or [ ]) ++ [

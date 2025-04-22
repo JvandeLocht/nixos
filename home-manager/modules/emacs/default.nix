@@ -13,7 +13,7 @@
   config = lib.mkIf config.emacs.enable {
     programs.emacs = {
       enable = true;
-      package = pkgs.emacs-gtk;
+      package = pkgs.emacs-git-pgtk;
       extraPackages =
         epkgs: with epkgs; [
           vterm
