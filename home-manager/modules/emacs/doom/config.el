@@ -172,3 +172,6 @@
 (map! :leader
       :prefix "t"
       :desc "Typst Preview Sync" "P" #'typst-preview-send-position)
+(map! :leader
+      :prefix "t"
+      :desc "Treemacs" "t" #'treemacs)
