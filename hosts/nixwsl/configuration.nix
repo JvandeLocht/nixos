@@ -55,6 +55,21 @@
       RESTIC_PROGRESS_FPS = "1";
     };
   };
+
+  fonts = {
+    fontDir.enable = true;
+    packages =
+      with pkgs;
+      [
+        fira-code
+        cantarell-fonts
+        notonoto
+        meslo-lgs-nf
+        vistafonts
+      ]
+      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
+  };
+  nixpkgs.config.allowUnfree = true;
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
   # this value at the release version of the first install of this system.
