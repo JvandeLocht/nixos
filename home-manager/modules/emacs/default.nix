@@ -4,18 +4,18 @@
   config,
   inputs,
   ...
-}:
-{
+}: {
   options = {
     emacs.enable = lib.mkEnableOption "installes dependencies for emacs";
+    emacs.package = lib.mkPackageOption pkgs "emacs-git-pgtk" {extraDescription = "Defines which emacs package should be used.";};
   };
 
   config = lib.mkIf config.emacs.enable {
     programs.emacs = {
       enable = true;
-      package = pkgs.emacs-git-pgtk;
-      extraPackages =
-        epkgs: with epkgs; [
+      package = config.emacs.package;
+      extraPackages = epkgs:
+        with epkgs; [
           vterm
           treesit-grammars.with-all-grammars
           python-black
@@ -38,8 +38,7 @@
       DOOMPROFILELOADFILE = "${config.xdg.stateHome}/doom-profiles-load.el";
     };
     fonts.fontconfig.enable = true;
-    home.packages =
-      with pkgs;
+    home.packages = with pkgs;
       [
         ripgrep
         fd

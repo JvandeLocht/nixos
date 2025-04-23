@@ -36,7 +36,10 @@
   zsh.enable = true;
   bash.enable = true;
   yazi.enable = true;
-  emacs.enable = true;
+  emacs = {
+    enable = true;
+    package = pkgs.emacs-git;
+  };
   tmux.enable = true;
 
   fonts.fontconfig.enable = true;
