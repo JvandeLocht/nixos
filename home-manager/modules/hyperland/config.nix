@@ -170,12 +170,15 @@
     # Example windowrule v1
     # windowrule = float, ^(kitty)$
     # Example windowrule v2
-    # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
     # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
 
-    windowrulev2 = float,class:st-256color
-    windowrulev2 = size 80% 95%,class:st-256color
-    windowrulev2 = center 1,class:st-256color
+    windowrulev2 = float,title:ee-kitty
+    windowrulev2 = size 80% 95%,title:ee-kitty
+    windowrulev2 = center 1,title:ee-kitty
+
+    windowrulev2 = float,title:st-256color
+    windowrulev2 = size 80% 95%,title:st-256color
+    windowrulev2 = center 1,title:st-256color
 
     windowrulev2 = workspace special:Filen,class:Filen
     bind = $mainMod, F, togglespecialworkspace,Filen

@@ -146,7 +146,7 @@
   (when (string-match "nixwsl" (system-name))
     (setq ee-terminal-command "st -z 16 -G 1400x1000"))
   (when (string-match "groot" (system-name))
-    (setq ee-terminal-command "st -z 18"))
+    (setq ee-terminal-command "kitty"))
 
   ;; (global-definer "f" 'ee-find)
   ;; (global-definer "g" 'ee-lazygit)
