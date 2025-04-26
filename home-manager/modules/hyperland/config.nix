@@ -20,10 +20,10 @@
 
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
-    monitor=DP-7, 2560x1440, 0x0,1
+    monitor=DP-6, 3440x1440, 0x0,1
+    monitor=DP-7, 2560x1440, 3440x0,1
     # monitor=eDP-1, 2560x1600@165.04Hz, 1280x1440,1.25
     monitor=eDP-1, 2560x1600@165.04Hz, 0x0,1.25
-    monitor=DP-6, 3440x1440, 2560x0,1
     monitor=,highres,auto,1
     xwayland {
         force_zero_scaling = true
