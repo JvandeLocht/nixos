@@ -258,6 +258,7 @@
 
     # Example binds, see https://wiki.hyprland.org/Configuring/Binds/ for more
     bind = $mainMod, Q, exec, kitty
+    bind = $mainMod, Z, exec, zen
     bind = $mainMod, W, exec, env DOOMDIR=${config.home.homeDirectory}/.setup/home-manager/modules/emacs/doom EMACSDIR=${config.xdg.configHome}/emacs DOOMLOCALDIR=${config.xdg.dataHome}/doom DOOMPROFILELOADFILE=${config.xdg.stateHome}/doom-profiles-load.el ${pkgs.emacs-git-pgtk}/bin/emacs
     bind = $mainMod, C, killactive,
     bind = $mainMod, M, exit,
