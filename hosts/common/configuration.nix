@@ -38,6 +38,7 @@ in
         backrest
         filen-cli
         immich-cli
+        gnome-disk-utility
       ]
       ++ (with inputs; [
         agenix.packages.x86_64-linux.default
