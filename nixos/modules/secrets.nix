@@ -26,6 +26,11 @@
       path = "/persist/secrets/smb-secrets";
       symlink = false;
     };
+    bitwarden = {
+      file = ../../secrets/bitwarden.age;
+      path = "/persist/secrets/bitwarden";
+      symlink = false;
+    };
     # rclone-config = {
     #   file = ../../secrets/rclone-config.age;
     #   path = "/persist/secrets/rclone-config";
