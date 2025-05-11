@@ -3,8 +3,7 @@
   lib,
   config,
   ...
-}:
-{
+}: {
   options.networking = {
     enable = lib.mkEnableOption "Set up networking and SSH";
   };
@@ -34,13 +33,44 @@
           from = 9898;
           to = 9898;
         }
+        {
+          from = 51820;
+          to = 51820;
+        }
+        {
+          from = 52560;
+          to = 52560;
+        }
       ];
       allowedUDPPortRanges = [
         {
           from = 1714;
           to = 1764;
         }
+        {
+          from = 51820;
+          to = 51820;
+        }
+        {
+          from = 52560;
+          to = 52560;
+        }
       ];
+      # if packets are still dropped, they will show up in dmesg
+      logReversePathDrops = true;
+      # wireguard trips rpfilter up
+      extraCommands = ''
+        ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN
+        ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN
+        ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --sport 52560 -j RETURN
+        ip46tables -t mangle -I nixos-fw-rpfilter -p udp -m udp --dport 52560 -j RETURN
+      '';
+      extraStopCommands = ''
+        ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 51820 -j RETURN || true
+        ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 51820 -j RETURN || true
+        ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --sport 52560 -j RETURN || true
+        ip46tables -t mangle -D nixos-fw-rpfilter -p udp -m udp --dport 52560 -j RETURN || true
+      '';
     };
     # programs.ssh.startAgent = true;
     # Enable the OpenSSH daemon.
