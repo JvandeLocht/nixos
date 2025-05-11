@@ -52,7 +52,7 @@
         fontconfig
         shfmt # :lang sh
         shellcheck # :lang sh
-        nodejs_23 # needed for lsp
+        nodejs_24 # needed for lsp
         black # :lang python
         multimarkdown
         ispell
