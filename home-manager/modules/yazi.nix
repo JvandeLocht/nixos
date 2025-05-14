@@ -70,6 +70,7 @@
     };
     home.packages = with pkgs; [
       ueberzugpp
+      mpv
       ouch
     ];
   };
