@@ -3,10 +3,10 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   options = {
-    yazi.enable =
-      lib.mkEnableOption "enables preconfigured yazi";
+    yazi.enable = lib.mkEnableOption "enables preconfigured yazi";
   };
 
   config = lib.mkIf config.yazi.enable {
@@ -53,10 +53,16 @@
               mime = "application/xz";
               run = "ouch";
             }
+            #csv previewer
+            {
+              mime = "text/csv";
+              run = "miller";
+            }
           ];
+        };
+      };
       keymap = {
         manager.prepend_keymap = [
-          #ouch
           {
             run = "plugin ouch";
             on = [ "C" ];
@@ -66,12 +72,14 @@
       };
       plugins = {
         ouch = pkgs.yaziPlugins.ouch;
+        miller = pkgs.yaziPlugins.miller;
       };
     };
     home.packages = with pkgs; [
       ueberzugpp
       mpv
       ouch
+      miller
     ];
   };
 }
