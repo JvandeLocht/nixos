@@ -114,6 +114,7 @@ in
     # Needed for Solaar to see Logitech devices.
     logitech.wireless.enable = true;
     bluetooth.enable = true;
+    spacenavd.enable = true;
   };
 
   users.users = {
