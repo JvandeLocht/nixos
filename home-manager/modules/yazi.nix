@@ -53,10 +53,26 @@
               mime = "application/xz";
               run = "ouch";
             }
-            #csv previewer
+            #csv previewer[plugin]
             {
-              mime = "text/csv";
-              run = "miller";
+              mime = "application/*csv";
+              run = "rich-preview";
+            }
+            {
+              mime = "*.md";
+              run = "rich-preview";
+            }
+            {
+              mime = "*.rst";
+              run = "rich-preview";
+            }
+            {
+              mime = "*.ipynb";
+              run = "rich-preview";
+            }
+            {
+              mime = "*.json";
+              run = "rich-preview";
             }
           ];
         };
@@ -68,18 +84,26 @@
             on = [ "C" ];
             desc = "Compress with ouch";
           }
+          {
+            run = "plugin mount";
+            on = [ "M" ];
+            desc = "mount with mount";
+          }
         ];
       };
       plugins = {
         ouch = pkgs.yaziPlugins.ouch;
         miller = pkgs.yaziPlugins.miller;
+        rich-preview = pkgs.yaziPlugins.rich-preview;
+        mount = pkgs.yaziPlugins.mount;
       };
     };
     home.packages = with pkgs; [
       ueberzugpp
       mpv
       ouch
-      miller
+      rich-cli
+      udisks
     ];
   };
 }
