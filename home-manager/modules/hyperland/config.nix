@@ -264,6 +264,7 @@
     bind = $mainMod, M, exit,
     bind = $mainMod, E, exec, dolphin
     bind = $mainMod, V, togglefloating,
+    bind = SUPER, F, fullscreen
     bind = $mainMod, R, exec, ulauncher-toggle
     bind = $mainMod, P, pseudo, # dwindle
     bind = $mainMod, J, togglesplit, # dwindle
