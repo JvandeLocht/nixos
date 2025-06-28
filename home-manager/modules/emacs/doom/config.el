@@ -135,7 +135,9 @@
       :desc "Lazygit" "L" #'+vterm/here-lazygit)
 
 (use-package eee
-  :load-path "~/Projects/github.com/eval-exec/eee.el/"
+  ;; :load-path "~/Projects/github.com/eval-exec/eee.el/"
+  :after-call (doom-real-buffer-p) ; Defer loading until after startup
+  :bind-keymap
   :bind-keymap
   ("s-e" . ee-keymap)
   :config
@@ -162,7 +164,7 @@
       :desc "Yazi" "y" #'ee-yazi)
 (map! :leader
       :prefix "e"
-      :desc "Find" "f" #'ee-find)
+      :desc "Find" "f" #'ee-rg)
 (map! :leader
       :prefix "e"
       :desc "Lazygit" "g" #'ee-lazygit)

@@ -4,18 +4,21 @@
   config,
   inputs,
   ...
-}: {
+}:
+{
   options = {
     emacs.enable = lib.mkEnableOption "installes dependencies for emacs";
-    emacs.package = lib.mkPackageOption pkgs "emacs-git-pgtk" {extraDescription = "Defines which emacs package should be used.";};
+    emacs.package = lib.mkPackageOption pkgs "emacs-git-pgtk" {
+      extraDescription = "Defines which emacs package should be used.";
+    };
   };
 
   config = lib.mkIf config.emacs.enable {
     programs.emacs = {
       enable = true;
       package = config.emacs.package;
-      extraPackages = epkgs:
-        with epkgs; [
+      extraPackages =
+        epkgs: with epkgs; [
           vterm
           treesit-grammars.with-all-grammars
           python-black
@@ -29,6 +32,7 @@
           flymake-shellcheck
           apheleia
           prettier
+          fzf
         ];
     };
     home.sessionVariables = {
@@ -38,9 +42,12 @@
       DOOMPROFILELOADFILE = "${config.xdg.stateHome}/doom-profiles-load.el";
     };
     fonts.fontconfig.enable = true;
-    home.packages = with pkgs;
+    home.packages =
+      with pkgs;
       [
         ripgrep
+        fzf
+        bat
         fd
         nixfmt-rfc-style
         lazygit
