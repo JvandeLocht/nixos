@@ -1,8 +1,10 @@
-{ pkgs
-, lib
-, config
-, ...
-}: {
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+{
   options.gnome = {
     enable = lib.mkEnableOption "Set up GNOME desktop environment";
   };
@@ -18,7 +20,7 @@
     };
 
     # Enable the GNOME Desktop Environment.
-    services.xserver = {
+    services = {
       displayManager.gdm.enable = true;
       desktopManager.gnome.enable = true;
     };
