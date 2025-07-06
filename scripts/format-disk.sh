@@ -219,9 +219,9 @@ if [ "$BOOT_TYPE" == "BIOS" ]; then
 EOF
 else
     cat <<EOF >/mnt/etc/nixos/configuration.patch
---- configuration.bak	2025-07-06 21:43:59.375263771 +0000
-+++ configuration.nix	2025-07-06 21:53:05.051223844 +0000
-@@ -10,17 +10,38 @@
+--- configuration.bak	2025-07-06 22:13:58.931190735 +0000
++++ configuration.nix	2025-07-06 22:21:00.503350942 +0000
+@@ -10,17 +10,60 @@
        ./hardware-configuration.nix
      ];
 
@@ -262,30 +262,18 @@ else
    # Set your time zone.
 -  # time.timeZone = "Europe/Amsterdam";
 +  time.timeZone = "Europe/Amsterdam";
-
-   # Configure network proxy if necessary
-   # networking.proxy.default = "http://user:password@proxy:port/";
-@@ -58,23 +79,31 @@
-   # Enable touchpad support (enabled default in most desktopManager).
-   # services.libinput.enable = true;
-
--  # Define a user account. Don't forget to set a password with ‘passwd’.
--  # users.users.alice = {
--  #   isNormalUser = true;
--  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
--  #   packages = with pkgs; [
--  #     tree
--  #   ];
--  # };
--
-   # programs.firefox.enable = true;
-
-   # List packages installed in system profile.
-   # You can use https://search.nixos.org/ to find more packages (and options).
--  # environment.systemPackages = with pkgs; [
--  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
--  #   wget
--  # ];
++
++environment.systemPackages = with pkgs; [
++  vim
++  git
++  tmux
++  wget
++];
++
++nix.settings = {
++  experimental-features = ["nix-command" "flakes"];
++  trusted-users = ["$USERNAME"]; # Add your own username to the trusted list
++};
 +
 +security.sudo.wheelNeedsPassword = false;
 +    users.users."$USERNAME" = {
@@ -296,20 +284,9 @@ else
 +    openssh.authorizedKeys.keys = [ "<your ssh key>" ];  # If using VPS
 +};
 +
-+  environment.systemPackages = with pkgs; [
-+    vim
-+    git
-+    tmux
-+    wget
-+  ];
-+
-+nix.settings = {
-+  experimental-features = ["nix-command" "flakes"];
-+  trusted-users = ["$USERNAME"]; # Add your own username to the trusted list
-+};
 
-   # Some programs need SUID wrappers, can be configured further or are
-   # started in user sessions.
+   # Configure network proxy if necessary
+   # networking.proxy.default = "http://user:password@proxy:port/";
 EOF
 fi
 
