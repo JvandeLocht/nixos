@@ -19,11 +19,11 @@ echo "Checking if the system is UEFI or BIOS"
 echo "-----"
 
 if [ -d /sys/firmware/efi ]; then
-	echo "UEFI detected"
-	BOOT_TYPE="UEFI"
+    echo "UEFI detected"
+    BOOT_TYPE="UEFI"
 else
-	echo "BIOS detected"
-	BOOT_TYPE="BIOS"
+    echo "BIOS detected"
+    BOOT_TYPE="BIOS"
 fi
 
 echo "-----"
@@ -36,21 +36,28 @@ read -p "Enter the disk name (e.g., /dev/sda): " DISK
 read -p "Enter the desired partition size (e.g., 150G): " PART_SIZE
 #
 echo "-----"
+echo "Deleting all existing partitions"
+echo "-----"
+for part in $(parted -s $DISK print | awk '/^ / {print $1}'); do
+    parted -s $DISK rm $part
+done
+
+echo "-----"
 echo "Creating boot table and root & swap partitions"
 echo "-----"
 if [ "$BOOT_TYPE" == "BIOS" ]; then
-	parted $DISK mklabel msdos
-	parted $DISK mkpart primary 2M $PART_SIZE
-	parted $DISK mkpart primary linux-swap $PART_SIZE 100%
+    parted --script --align optimal $DISK mklabel msdos
+    parted --script --align optimal $DISK mkpart primary 2MB $PART_SIZE
+    parted --script --align optimal $DISK mkpart primary linux-swap $PART_SIZE 100%
 else
-	parted $DISK mklabel gpt
-	parted $DISK mkpart primary 512MB $PART_SIZE
-	parted $DISK mkpart primary linux-swap $PART_SIZE 100%
-	parted $DISK mkpart ESP fat32 1MB 512MB
-	lsblk
-	read -p "Specify the boot partition (should be 3 or p3): " BOOT
-	parted $DISK set ${BOOT} esp on
-	mkfs.fat -F32 -n boot ${DISK}${BOOT}
+    parted --script --align optimal $DISK mklabel gpt
+    parted --script --align optimal $DISK mkpart primary 512MB $PART_SIZE
+    parted --script --align optimal $DISK mkpart primary linux-swap $PART_SIZE 100%
+    parted --script --align optimal $DISK mkpart ESP fat32 1MB 512MB
+    lsblk
+    read -p "Specify the boot partition (should be 3 or p3): " BOOT
+    parted --script $DISK set ${BOOT} esp on
+    mkfs.fat -F32 -n BOOT ${DISK}${BOOT}
 fi
 
 lsblk
@@ -90,13 +97,13 @@ mkdir /mnt/persist
 mount -t zfs rpool/safe/persist /mnt/persist
 
 if [ "$BOOT_TYPE" == "BIOS" ]; then
-	echo "-----"
-	zfs create -p -o mountpoint=legacy rpool/safe/boot
-	mount -t zfs rpool/safe/boot /mnt/boot
+    echo "-----"
+    zfs create -p -o mountpoint=legacy rpool/safe/boot
+    mount -t zfs rpool/safe/boot /mnt/boot
 else
-	echo "-----"
-	mkdir /mnt/boot
-	mount ${DISK}${BOOT} /mnt/boot
+    echo "-----"
+    mkdir /mnt/boot
+    mount ${DISK}${BOOT} /mnt/boot
 fi
 
 zfs list
@@ -114,10 +121,10 @@ read -p "Enter your username: " USERNAME
 read -p "Enter your host ID (or leave empty to create a random one): " HOST_ID_INPUT
 
 if [ "$HOST_ID_INPUT" == "" ]; then
-	HOST_ID=$(head -c4 /dev/urandom | od -t x4 | awk '{print $2}')
-	echo "Generated host ID: $HOST_ID"
+    HOST_ID=$(head -c4 /dev/urandom | od -t x4 | awk '{print $2}')
+    echo "Generated host ID: $HOST_ID"
 else
-	HOST_ID=$HOST_ID_INPUT
+    HOST_ID=$HOST_ID_INPUT
 fi
 
 if [ "$BOOT_TYPE" == "BIOS" ]; then
