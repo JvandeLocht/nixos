@@ -128,7 +128,7 @@ else
 fi
 
 if [ "$BOOT_TYPE" == "BIOS" ]; then
-	cat <<EOF >/mnt/etc/nixos/configuration.patch
+    cat <<EOF >/mnt/etc/nixos/configuration.patch
 --- configuration.nix	2024-08-16 12:08:39.856491846 +0000
 +++ /mnt/etc/nixos/configuration.nix	2024-08-16 12:21:37.473561228 +0000
 @@ -12,6 +12,10 @@
@@ -218,13 +218,13 @@ if [ "$BOOT_TYPE" == "BIOS" ]; then
    # started in user sessions.
 EOF
 else
-	cat <<EOF >/mnt/etc/nixos/configuration.patch
---- /mnt/etc/nixos/configuration.bak	2024-08-17 14:00:09.853114055 +0000
-+++ /mnt/etc/nixos/configuration.nix	2024-08-17 16:23:22.828340569 +0000
+    cat <<EOF >/mnt/etc/nixos/configuration.patch
+--- configuration.bak	2025-07-06 21:43:59.375263771 +0000
++++ configuration.nix	2025-07-06 21:53:05.051223844 +0000
 @@ -10,17 +10,38 @@
        ./hardware-configuration.nix
      ];
- 
+
 -  # Use the systemd-boot EFI boot loader.
 -  boot.loader.systemd-boot.enable = true;
 -  boot.loader.efi.canTouchEfiVariables = true;
@@ -251,53 +251,63 @@ else
 +boot.initrd.postDeviceCommands = lib.mkAfter ''
 +      zfs rollback -r rpool/local/root@blank
 +          '';
- 
+
    # networking.hostName = "nixos"; # Define your hostname.
 +  networking.hostId = "$HOST_ID";
    # Pick only one of the below networking options.
    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 -  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
 +  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
- 
+
    # Set your time zone.
 -  # time.timeZone = "Europe/Amsterdam";
 +  time.timeZone = "Europe/Amsterdam";
- 
+
    # Configure network proxy if necessary
    # networking.proxy.default = "http://user:password@proxy:port/";
-@@ -70,13 +91,30 @@
-   #     tree
-   #   ];
-   # };
-+  services.openssh.enable = true;  # If using VPS
-+
-+  security.sudo.wheelNeedsPassword = false;
-+  users.users."$USERNAME" = {
-+    isNormalUser = true;
-+      password = "password";  # Change this once your computer is set up!
-+        home = "/home/$USERNAME";
-+          extraGroups = [ "wheel" "networkmanager" ];
-+            openssh.authorizedKeys.keys = [ "<your ssh key>" ];  # If using VPS
-+            };
-+    
-+  nix.settings = {
-+      experimental-features = ["nix-command" "flakes"];
-+          trusted-users = ["$USERNAME"]; # Add your own username to the trusted list
-+            };
-+
- 
-   # List packages installed in system profile. To search, run:
-   # $ nix search wget
+@@ -58,23 +79,31 @@
+   # Enable touchpad support (enabled default in most desktopManager).
+   # services.libinput.enable = true;
+
+-  # Define a user account. Don't forget to set a password with ‘passwd’.
+-  # users.users.alice = {
+-  #   isNormalUser = true;
+-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
+-  #   packages = with pkgs; [
+-  #     tree
+-  #   ];
+-  # };
+-
+   # programs.firefox.enable = true;
+
+   # List packages installed in system profile.
+   # You can use https://search.nixos.org/ to find more packages (and options).
 -  # environment.systemPackages = with pkgs; [
 -  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
 -  #   wget
 -  # ];
++
++security.sudo.wheelNeedsPassword = false;
++    users.users."$USERNAME" = {
++    isNormalUser = true;
++    password = "password";  # Change this once your computer is set up!
++    home = "/home/$USERNAME";
++    extraGroups = [ "wheel" "networkmanager" ];
++    openssh.authorizedKeys.keys = [ "<your ssh key>" ];  # If using VPS
++};
++
 +  environment.systemPackages = with pkgs; [
-+    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-+    wget
++    vim
 +    git
++    tmux
++    wget
 +  ];
- 
++
++nix.settings = {
++  experimental-features = ["nix-command" "flakes"];
++  trusted-users = ["$USERNAME"]; # Add your own username to the trusted list
++};
+
    # Some programs need SUID wrappers, can be configured further or are
    # started in user sessions.
 EOF
