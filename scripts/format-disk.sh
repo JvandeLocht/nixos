@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Prompt user for necessary variables
-# read -p "Enter your SSH key: " SSH_KEY
-SSH_KEY=""
+read -p "Enter your SSH key: " SSH_KEY
+# SSH_KEY=""
 #
 # # Add SSH key (optional)
 # mkdir -p /home/nixos/.ssh
@@ -219,9 +219,9 @@ if [ "$BOOT_TYPE" == "BIOS" ]; then
 EOF
 else
     cat <<EOF >/mnt/etc/nixos/configuration.patch
---- configuration.bak	2025-07-06 22:13:58.931190735 +0000
-+++ configuration.nix	2025-07-06 22:21:00.503350942 +0000
-@@ -10,17 +10,60 @@
+--- configuration.bak   2025-07-07 13:15:12.549084061 +0200
++++ configuration.nix   2025-07-07 13:15:12.660083866 +0200
+@@ -10,17 +10,114 @@
        ./hardware-configuration.nix
      ];
 
@@ -263,12 +263,23 @@ else
 -  # time.timeZone = "Europe/Amsterdam";
 +  time.timeZone = "Europe/Amsterdam";
 +
-+environment.systemPackages = with pkgs; [
-+  vim
-+  git
-+  tmux
-+  wget
-+];
++  environment = {
++    shellAliases = {
++      get-config = "git clone https://github.com/JvandeLocht/nixos";
++      v = "nix run github:JvandeLocht/nvf-config#";
++    };
++    interactiveShellInit = ''
++      echo "Available aliases:"
++      alias
++    '';
++    systemPackages = with pkgs; [
++      tmux
++      vim
++      git
++      wget
++    ];
++  };
++
 +
 +nix.settings = {
 +  experimental-features = ["nix-command" "flakes"];
@@ -283,6 +294,49 @@ else
 +    extraGroups = [ "wheel" "networkmanager" ];
 +    openssh.authorizedKeys.keys = [ "<your ssh key>" ];  # If using VPS
 +};
++
++  # Enable SSH server
++  services.openssh = {
++    enable = true;
++    permitRootLogin = "yes";
++    passwordAuthentication = true;
++  };
++
++  # Make sure sshd service starts on boot
++  systemd.services.sshd.wantedBy = [ "multi-user.target" ];
++
++  programs.tmux = {
++    enable = true;
++    clock24 = true;
++    extraConfig = ''
++      set-option -g status-position top
++      set-option -g status-style "bg=black,fg=green"
++      set -g status-right ""
++
++      # split panes using | and -
++      bind | split-window -h
++      bind - split-window -v
++      unbind '"'
++      unbind %
++
++      # reload config file (change file location to your the tmux.conf you want to use)
++      bind r source-file ~/.config/tmux/tmux.conf
++
++      # switch panes using Alt-arrow without prefix
++      bind -n M-h select-pane -L
++      bind -n M-l select-pane -R
++      bind -n M-j select-pane -U
++      bind -n M-k select-pane -D
++
++      # remap prefix from 'C-b' to 'C-a'
++      unbind C-b
++      set-option -g prefix C-Space
++      bind-key C-Space send-prefix
++
++      # Enable mouse control (clickable windows, panes, resizable panes)
++      set -g mouse on
++    '';
++  };
 +
 
    # Configure network proxy if necessary
