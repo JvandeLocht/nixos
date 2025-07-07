@@ -4,17 +4,19 @@
   pkgs,
   osConfig,
   ...
-}: let
+}:
+let
   unstable = import inputs.nixpkgs-unstable {
     localSystem = pkgs.system;
   };
-in {
+in
+{
   imports = [
     ../common/home.nix
   ];
 
   tmux.enable = true;
-  emacs.enable = true;
+  emacs.enable = false;
 
   home = {
     username = "jan";
@@ -24,7 +26,7 @@ in {
         appimage-run
       ])
       ++ (with unstable; [
-        ]);
+      ]);
   };
   # Packages that should be installed to the user profile.
 
@@ -37,7 +39,9 @@ in {
         Restart = "always";
         ExecStart = "${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
     };
   };
 
