@@ -7,31 +7,30 @@
   pkgs,
   inputs,
   ...
-}: let
-  zfsCompatibleKernelPackages =
-    lib.filterAttrs (
-      name: kernelPackages:
-        (builtins.match "linux_[0-9]+_[0-9]+" name)
-        != null
-        && (builtins.tryEval kernelPackages).success
-        && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
-    )
-    pkgs.linuxKernel.packages;
+}:
+let
+  zfsCompatibleKernelPackages = lib.filterAttrs (
+    name: kernelPackages:
+    (builtins.match "linux_[0-9]+_[0-9]+" name) != null
+    && (builtins.tryEval kernelPackages).success
+    && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
+  ) pkgs.linuxKernel.packages;
   latestKernelPackage = lib.last (
     lib.sort (a: b: (lib.versionOlder a.kernel.version b.kernel.version)) (
       builtins.attrValues zfsCompatibleKernelPackages
     )
   );
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
     ../common/configuration.nix
     ./opt-in.nix
   ];
   services.printing = {
-    listenAddresses = ["*:631"];
+    listenAddresses = [ "*:631" ];
     openFirewall = true;
-    allowFrom = ["all"];
+    allowFrom = [ "all" ];
     browsing = true;
     defaultShared = true;
   };
@@ -58,8 +57,8 @@ in {
   systemd.services = {
     tank-usb-mount = {
       enable = true;
-      after = ["network.target"];
-      wantedBy = ["default.target"];
+      after = [ "network.target" ];
+      wantedBy = [ "default.target" ];
       description = "Import zfs pool tank";
       serviceConfig = {
         Type = "simple";
@@ -82,7 +81,7 @@ in {
         efiInstallAsRemovable = true;
         mirroredBoots = [
           {
-            devices = ["nodev"];
+            devices = [ "nodev" ];
             path = "/boot";
           }
         ];
@@ -229,8 +228,8 @@ in {
     users = {
       "jan" = {
         isNormalUser = true;
-        # password = "password"; # Change this once your computer is set up!
-        hashedPasswordFile = config.age.secrets.jan-nixnas.path;
+        password = "password"; # Change this once your computer is set up!
+        # hashedPasswordFile = config.age.secrets.jan-nixnas.path;
         home = "/home/jan";
         extraGroups = [
           "wheel"
@@ -267,7 +266,7 @@ in {
       "nix-command"
       "flakes"
     ];
-    trusted-users = ["jan"]; # Add your own username to the trusted list
+    trusted-users = [ "jan" ]; # Add your own username to the trusted list
   };
 
   # List packages installed in system profile. To search, run:
