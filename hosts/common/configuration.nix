@@ -66,16 +66,14 @@ in
 
   fonts = {
     fontDir.enable = true;
-    packages =
-      with pkgs;
-      [
-        fira-code
-        cantarell-fonts
-        notonoto
-        meslo-lgs-nf
-        vistafonts
-      ]
-      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
+    packages = with pkgs; [
+      fira-code
+      cantarell-fonts
+      notonoto
+      meslo-lgs-nf
+      vistafonts
+    ];
+    # ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
   };
 
   # Allow unfree packages
