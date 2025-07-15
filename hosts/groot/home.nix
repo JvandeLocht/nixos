@@ -3,11 +3,13 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   stable = import inputs.nixpkgs {
     localSystem = pkgs.system;
   };
-in {
+in
+{
   imports = [
     ../common/home.nix
   ];
@@ -25,7 +27,7 @@ in {
     packages =
       (with pkgs; [
         bitwarden-desktop
-        (blackbox-terminal.override {sixelSupport = true;})
+        (blackbox-terminal.override { sixelSupport = true; })
         chafa
         prusa-slicer
         protonmail-desktop
@@ -61,7 +63,7 @@ in {
         # mullvad-browser
         mediawriter
         peazip
-        freecad-wayland
+        freecad
         inputs.zen-browser.packages."${system}".default # beta
         spotube
         makemkv
@@ -90,7 +92,9 @@ in {
           "PASSWORD_STORE_DIR=/home/jan/.local/share/password-store"
         ];
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
     };
 
     keyboard_light = {
@@ -101,7 +105,9 @@ in {
         Restart = "never";
         ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='asus::kbd_backlight' set 1";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
     };
     keyboard_color = {
       Unit = {
@@ -111,7 +117,9 @@ in {
         Restart = "never";
         ExecStart = "${pkgs.asusctl}/bin/asusctl led-mode static -c 00ff00";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
     };
     charge_limit = {
       Unit = {
@@ -121,7 +129,9 @@ in {
         Restart = "never";
         ExecStart = "${pkgs.asusctl}/bin/asusctl -c 80";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
     };
     backlight = {
       Unit = {
@@ -131,7 +141,9 @@ in {
         Restart = "never";
         ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='amdgpu_bl2' set 15";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
     };
     filen = {
       Unit = {
@@ -141,7 +153,9 @@ in {
         Restart = "always";
         ExecStart = "${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage";
       };
-      Install = {WantedBy = ["graphical-session.target"];};
+      Install = {
+        WantedBy = [ "graphical-session.target" ];
+      };
     };
     # notify = {
     #   Unit = {

@@ -86,6 +86,34 @@
       commonOverlays = [
         (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
         inputs.emacs-overlay.overlays.default
+
+        (self: super: {
+          # We are creating a new package definition for 'freecad'.
+          freecad = super.freecad.overrideAttrs (
+            oldAttrs:
+            # Use a 'let...in' block to define a Nix variable for the Python environment.
+            let
+              pyEnv = super.python3.withPackages (ps: [
+                ps.requests
+                ps.gitpython
+              ]);
+            in
+            {
+              # Add makeWrapper to the build inputs.
+              nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ super.makeWrapper ];
+
+              # In the post-installation phase, wrap the FreeCAD executable.
+              postInstall =
+                (oldAttrs.postInstall or "")
+                + ''
+                  # Now, wrapProgram directly uses the Nix variable 'pyEnv' we defined above.
+                  # Nix will substitute ${pyEnv} with the actual path (e.g., /nix/store/...).
+                  wrapProgram $out/bin/FreeCAD \
+                    --prefix PYTHONPATH : "${pyEnv}/${super.python3.sitePackages}"
+                '';
+            }
+          );
+        })
         (self: super: {
           st = super.st.overrideAttrs (oldAttrs: {
             patches = (oldAttrs.patches or [ ]) ++ [
