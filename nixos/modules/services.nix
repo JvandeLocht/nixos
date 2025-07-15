@@ -2,7 +2,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options.services = {
     enable = lib.mkEnableOption "Services that should run";
   };
@@ -20,7 +21,6 @@
 
       gnome.sushi.enable = true;
       smartd.enable = true;
-
       fwupd.enable = true;
       # spacenavd = {
       #   enable = true;

@@ -35,7 +35,6 @@ in
   #enable custom modules
   podman = {
     enable = true;
-    openWebUI.enable = false;
     nvidia.enable = false;
   };
   virtSupport.enable = true;
@@ -133,6 +132,11 @@ in
   };
   # Enable the X11 windowing system.
   services = {
+    ollama = {
+      enable = true;
+      acceleration = "cuda";
+    };
+    nextjs-ollama-llm-ui.enable = true;
     backrest = {
       enable = true;
       bindAddress = "127.0.0.1"; # or "0.0.0.0" for the second snippet
@@ -149,10 +153,6 @@ in
         enable = true;
         user = "jan";
       };
-    };
-    ollama = {
-      enable = false;
-      acceleration = "cuda";
     };
     zfs.autoScrub.enable = true;
     udev.extraRules = ''

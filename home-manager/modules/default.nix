@@ -4,7 +4,6 @@
     ./hyperland
     ./lf
     ./neovim
-    ./podman
     ./waybar
     ./alacritty.nix
     ./bash.nix
