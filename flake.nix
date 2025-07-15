@@ -83,60 +83,7 @@
       specialArgs = { inherit inputs outputs; };
 
       # Common overlays to be reused
-      commonOverlays = [
-        (final: _prev: { nvf = nvf.packages.${_prev.system}.default; })
-        inputs.emacs-overlay.overlays.default
-
-        (self: super: {
-          # We are creating a new package definition for 'freecad'.
-          freecad = super.freecad.overrideAttrs (
-            oldAttrs:
-            # Use a 'let...in' block to define a Nix variable for the Python environment.
-            let
-              pyEnv = super.python3.withPackages (ps: [
-                ps.requests
-                ps.gitpython
-              ]);
-            in
-            {
-              # Add makeWrapper to the build inputs.
-              nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ super.makeWrapper ];
-
-              # In the post-installation phase, wrap the FreeCAD executable.
-              postInstall =
-                (oldAttrs.postInstall or "")
-                + ''
-                  # Now, wrapProgram directly uses the Nix variable 'pyEnv' we defined above.
-                  # Nix will substitute ${pyEnv} with the actual path (e.g., /nix/store/...).
-                  wrapProgram $out/bin/FreeCAD \
-                    --prefix PYTHONPATH : "${pyEnv}/${super.python3.sitePackages}"
-                '';
-            }
-          );
-        })
-        (self: super: {
-          st = super.st.overrideAttrs (oldAttrs: {
-            patches = (oldAttrs.patches or [ ]) ++ [
-              (super.fetchpatch {
-                url = "https://st.suckless.org/patches/glyph_wide_support/st-glyph-wide-support-20220411-ef05519.diff";
-                sha256 = "sha256-nGVswWAJhIhHq0s6+hiVaKLkYKog1mEhBUsLzJjzN+g=";
-              })
-              (super.fetchpatch {
-                url = "https://st.suckless.org/patches/defaultfontsize/st-defaultfontsize-20210225-4ef0cbd.diff";
-                sha256 = "sha256-CPtmRUPqcyY1j8jGUI3FywDJ26+xgRDZjx+oTewI8AQ=";
-              })
-              (super.fetchpatch {
-                url = "https://st.suckless.org/patches/anygeometry/st-anygeometry-0.8.1.diff";
-                sha256 = "sha256-mxxRKzkKg7dIQBYq5qYLwlf77XNN4waazr4EnC1pwNE=";
-              })
-              (super.fetchpatch {
-                url = "https://st.suckless.org/patches/gruvbox/st-gruvbox-dark-0.8.5.diff";
-                sha256 = "sha256-dOkrjXGxFgIRy4n9g2RQjd8EBAvpW4tNmkOVj4TaFGg=";
-              })
-            ];
-          });
-        })
-      ];
+      commonOverlays = import ./overlays inputs;
 
       mkNixosConfig = import ./lib/mkNixosConfig.nix {
         inherit
@@ -156,11 +103,7 @@
           hostname = "groot";
           username = "jan";
           extraOverlays = [
-            (final: prev: {
-              wvkbd = prev.wvkbd.overrideAttrs (oldAttrs: {
-                patches = (oldAttrs.patches or [ ]) ++ [ ./patches/switchYandZ.patch ];
-              });
-            })
+            (import ./overlays/wvkbd.nix inputs)
           ];
         };
 
