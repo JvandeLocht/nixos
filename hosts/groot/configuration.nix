@@ -50,8 +50,8 @@ in
   specialisationConfig.enable = true;
 
   environment.systemPackages = [ pkgs.cifs-utils ];
-  fileSystems."/mnt/share" = {
-    device = "//192.168.178.58/tank";
+  fileSystems."/mnt/share/jan" = {
+    device = "//192.168.178.58/jan";
     fsType = "cifs";
     options =
       let
