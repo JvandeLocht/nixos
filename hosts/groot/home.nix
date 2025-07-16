@@ -68,6 +68,8 @@ in
         spotube
         makemkv
 
+        opencode
+
         golden-cheetah
         rclone-browser
         rclone
