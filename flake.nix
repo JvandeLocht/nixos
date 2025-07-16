@@ -17,6 +17,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -85,6 +86,7 @@
       self,
       nixpkgs,
       nixpkgs-unstable,
+      flake-utils,
       home-manager,
       home-manager-unstable,
       impermanence,
@@ -93,74 +95,84 @@
       nix-on-droid,
       ...
     }:
-    let
-      inherit (self) outputs;
-      x86System = "x86_64-linux";
-      armSystem = "aarch64-linux";
+    flake-utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
+      in
+      {
+        # Per-system outputs can go here if needed
+        # devShells.default = pkgs.mkShell { ... };
+        # packages = { ... };
+      }
+    ) // (
+      let
+        inherit (self) outputs;
 
-      # Common overlays to be reused across all configurations
-      commonOverlays = import ./overlays inputs;
+        # Common overlays to be reused across all configurations
+        commonOverlays = import ./overlays inputs;
 
-      # Common special args for all configurations
-      specialArgs = { inherit inputs outputs; };
+        # Common special args for all configurations
+        specialArgs = { inherit inputs outputs; };
 
-      mkNixosConfig = import ./lib/mkNixosConfig.nix {
-        inherit
-          inputs
-          impermanence
-          agenix
-          home-manager-unstable
-          commonOverlays
-          specialArgs
-          ;
-      };
-    in
-    {
-      nixosConfigurations = {
-        groot = mkNixosConfig {
-          system = x86System;
-          hostname = "groot";
-          username = "jan";
-          extraOverlays = [
-            (import ./overlays/wvkbd.nix inputs)
-          ];
+        mkNixosConfig = import ./lib/mkNixosConfig.nix {
+          inherit
+            inputs
+            impermanence
+            agenix
+            home-manager-unstable
+            commonOverlays
+            specialArgs
+            ;
+        };
+      in
+      {
+        nixosConfigurations = {
+          groot = mkNixosConfig {
+            system = "x86_64-linux";
+            hostname = "groot";
+            username = "jan";
+            extraOverlays = [
+              (import ./overlays/wvkbd.nix inputs)
+            ];
+          };
+
+          nixnas = mkNixosConfig {
+            system = "x86_64-linux";
+            hostname = "nixnas";
+            username = "jan";
+          };
+
+          nixwsl = mkNixosConfig {
+            system = "x86_64-linux";
+            hostname = "nixwsl";
+            username = "jan";
+            extraModules = [ inputs.nixos-wsl.nixosModules.default ];
+          };
         };
 
-        nixnas = mkNixosConfig {
-          system = x86System;
-          hostname = "nixnas";
-          username = "jan";
+        homeConfigurations = {
+          default = self.homeConfigurations.jan;
+          jan = home-manager-unstable.lib.homeManagerConfiguration {
+            pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux;
+            extraSpecialArgs = specialArgs;
+            modules = [
+              ./hosts/man/home.nix
+              { nixpkgs.overlays = commonOverlays; }
+            ];
+          };
         };
 
-        nixwsl = mkNixosConfig {
-          system = x86System;
-          hostname = "nixwsl";
-          username = "jan";
-          extraModules = [ inputs.nixos-wsl.nixosModules.default ];
+        nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
+          modules = [ ./hosts/nixdroid/nix-on-droid.nix ];
+          pkgs = import nixpkgs {
+            system = "aarch64-linux";
+            overlays = [
+              nix-on-droid.overlays.default
+            ] ++ commonOverlays;
+          };
+          home-manager-path = home-manager.outPath;
         };
-      };
-
-      homeConfigurations = {
-        default = self.homeConfigurations.jan;
-        jan = home-manager-unstable.lib.homeManagerConfiguration {
-          pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux;
-          extraSpecialArgs = specialArgs;
-          modules = [
-            ./hosts/man/home.nix
-            { nixpkgs.overlays = commonOverlays; }
-          ];
-        };
-      };
-
-      nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-        modules = [ ./hosts/nixdroid/nix-on-droid.nix ];
-        pkgs = import nixpkgs {
-          system = armSystem;
-          overlays = [
-            nix-on-droid.overlays.default
-          ] ++ commonOverlays;
-        };
-        home-manager-path = home-manager.outPath;
-      };
-    };
+      }
+    );
 }
