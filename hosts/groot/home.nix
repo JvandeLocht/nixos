@@ -60,6 +60,7 @@ in
         pdf4qt
         dbeaver-bin
         brave
+        ungoogled-chromium
         # mullvad-browser
         mediawriter
         peazip
