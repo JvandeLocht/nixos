@@ -12,6 +12,9 @@
   extraOverlays ? [],
   extraModules ? [],
 }:
+let
+  pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
+in
 inputs.nixpkgs-unstable.lib.nixosSystem {
   inherit system;
   modules =
@@ -19,7 +22,7 @@ inputs.nixpkgs-unstable.lib.nixosSystem {
       {
         nixpkgs.overlays = commonOverlays ++ extraOverlays;
       }
-      {_module.args = specialArgs;}
+      {_module.args = specialArgs // { inherit pkgs-unstable; };}
       ../hosts/${hostname}/configuration.nix
       impermanence.nixosModules.impermanence
       home-manager-unstable.nixosModules.home-manager
@@ -27,7 +30,7 @@ inputs.nixpkgs-unstable.lib.nixosSystem {
       {
         home-manager = {
           useGlobalPkgs = true;
-          extraSpecialArgs = specialArgs;
+          extraSpecialArgs = specialArgs // { inherit pkgs-unstable; };
           users.${username} = {
             imports = [../hosts/${hostname}/home.nix];
           };

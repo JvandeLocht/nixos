@@ -77,7 +77,6 @@
       inherit (self) outputs;
       x86System = "x86_64-linux";
       armSystem = "aarch64-linux";
-      pkgs-unstable = nixpkgs-unstable.legacyPackages.x86_64-linux;
 
       # Common special args for all configurations
       specialArgs = { inherit inputs outputs; };
@@ -123,9 +122,8 @@
 
       homeConfigurations = {
         default = self.homeConfigurations.jan;
-        backupFileExtension = "backup";
         jan = home-manager-unstable.lib.homeManagerConfiguration {
-          pkgs = pkgs-unstable;
+          pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux;
           extraSpecialArgs = specialArgs;
           modules = [
             ./hosts/man/home.nix
