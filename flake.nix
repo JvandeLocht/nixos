@@ -101,19 +101,21 @@
       # Common special args for all configurations
       specialArgs = { inherit inputs outputs; };
 
-      # Common overlays to be reused
-      commonOverlays = import ./overlays inputs;
-
-      mkNixosConfig = import ./lib/mkNixosConfig.nix {
-        inherit
-          inputs
-          impermanence
-          agenix
-          home-manager-unstable
-          commonOverlays
-          specialArgs
-          ;
-      };
+      mkNixosConfig = 
+        let
+          # Common overlays to be reused - lazy evaluation
+          commonOverlays = import ./overlays inputs;
+        in
+        import ./lib/mkNixosConfig.nix {
+          inherit
+            inputs
+            impermanence
+            agenix
+            home-manager-unstable
+            commonOverlays
+            specialArgs
+            ;
+        };
     in
     {
       nixosConfigurations = {
@@ -140,27 +142,35 @@
         };
       };
 
-      homeConfigurations = {
-        default = self.homeConfigurations.jan;
-        jan = home-manager-unstable.lib.homeManagerConfiguration {
-          pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux;
-          extraSpecialArgs = specialArgs;
-          modules = [
-            ./hosts/man/home.nix
-            { nixpkgs.overlays = commonOverlays; }
-          ];
+      homeConfigurations = 
+        let
+          commonOverlays = import ./overlays inputs;
+        in
+        {
+          default = self.homeConfigurations.jan;
+          jan = home-manager-unstable.lib.homeManagerConfiguration {
+            pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux;
+            extraSpecialArgs = specialArgs;
+            modules = [
+              ./hosts/man/home.nix
+              { nixpkgs.overlays = commonOverlays; }
+            ];
+          };
         };
-      };
 
-      nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-        modules = [ ./hosts/nixdroid/nix-on-droid.nix ];
-        pkgs = import nixpkgs {
-          system = armSystem;
-          overlays = [
-            nix-on-droid.overlays.default
-          ] ++ commonOverlays;
+      nixOnDroidConfigurations.default = 
+        let
+          commonOverlays = import ./overlays inputs;
+        in
+        nix-on-droid.lib.nixOnDroidConfiguration {
+          modules = [ ./hosts/nixdroid/nix-on-droid.nix ];
+          pkgs = import nixpkgs {
+            system = armSystem;
+            overlays = [
+              nix-on-droid.overlays.default
+            ] ++ commonOverlays;
+          };
+          home-manager-path = home-manager.outPath;
         };
-        home-manager-path = home-manager.outPath;
-      };
     };
 }
