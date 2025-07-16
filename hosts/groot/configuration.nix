@@ -1,6 +1,6 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
+# and in the NixOS manual (accessible by running 'nixos-help').
 {
   config,
   pkgs,
@@ -8,17 +8,7 @@
   ...
 }:
 let
-  zfsCompatibleKernelPackages = lib.filterAttrs (
-    name: kernelPackages:
-    (builtins.match "linux_[0-9]+_[0-9]+" name) != null
-    && (builtins.tryEval kernelPackages).success
-    && (!kernelPackages.${config.boot.zfs.package.kernelModuleAttribute}.meta.broken)
-  ) pkgs.linuxKernel.packages;
-  latestKernelPackage = lib.last (
-    lib.sort (a: b: (lib.versionOlder a.kernel.version b.kernel.version)) (
-      builtins.attrValues zfsCompatibleKernelPackages
-    )
-  );
+  zfsUtils = import ../../lib/zfs.nix { inherit lib pkgs config; };
 in
 {
   imports = [
@@ -81,7 +71,7 @@ in
     '';
     zfs.requestEncryptionCredentials = true;
     # Note this might jump back and forth as kernels are added or removed.
-    kernelPackages = latestKernelPackage;
+    kernelPackages = zfsUtils.getLatestZfsKernel;
     # kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [ "nohibernate" ];
     kernelPatches = [
