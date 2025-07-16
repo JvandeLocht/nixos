@@ -17,7 +17,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     certs = {
       url = "/etc/nixos";
       flake = false;
@@ -27,16 +30,33 @@
       url = "github:doomemacs/doomemacs";
       flake = false;
     };
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
+    emacs-overlay = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     # System modules
-    impermanence.url = "github:nix-community/impermanence";
-    agenix.url = "github:ryantm/agenix";
-    hyprland.url = "github:hyprwm/Hyprland";
+    impermanence = {
+      url = "github:nix-community/impermanence";
+    };
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     # User configurations
-    nvf.url = "github:JvandeLocht/nvf-config";
-    zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    nvf = {
+      url = "github:JvandeLocht/nvf-config";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+    zen-browser = {
+      url = "github:0xc000022070/zen-browser-flake";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     fcitx-virtual-keyboard-adapter = {
       url = "github:horriblename/fcitx-virtualkeyboard-adapter";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
