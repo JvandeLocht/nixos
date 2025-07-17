@@ -39,8 +39,6 @@
     systemPackages =
       with pkgs;
       [
-        git
-        wget
         curl
         powertop
         rclone
