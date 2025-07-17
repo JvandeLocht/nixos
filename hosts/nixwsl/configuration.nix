@@ -62,13 +62,13 @@
     packages =
       with pkgs;
       [
-        fira-code
         cantarell-fonts
         notonoto
-        meslo-lgs-nf
         vistafonts
-      ]
-      ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
+        nerd-fonts.fira-code
+        nerd-fonts.fira-mono
+        nerd-fonts.meslo-lg
+      ];
   };
   nixpkgs.config.allowUnfree = true;
   # settings for stateful data, like file locations and database versions
