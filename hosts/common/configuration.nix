@@ -79,5 +79,12 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  nix.optimise.automatic = true;
+  nix = {
+    optimise.automatic = true;
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 30d";
+    };
+  };
 }
