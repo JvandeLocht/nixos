@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
+# Helper function to ask for confirmation
+confirm() {
+    local message="$1"
+    local response
+    while true; do
+        read -p "$message (y/n): " response
+        case $response in
+            [Yy]* ) return 0;;
+            [Nn]* ) return 1;;
+            * ) echo "Please answer yes or no.";;
+        esac
+    done
+}
+
 # Prompt user for necessary variables
 read -p "Enter your SSH key: " SSH_KEY
 # SSH_KEY=""
@@ -34,7 +48,14 @@ echo "-----"
 
 read -p "Enter the disk name (e.g., /dev/sda): " DISK
 read -p "Enter the desired partition size (e.g., 150G): " PART_SIZE
-#
+
+echo "-----"
+echo "WARNING: This will DELETE ALL existing partitions on $DISK"
+if ! confirm "Do you want to continue with deleting all partitions on $DISK?"; then
+    echo "Aborted by user."
+    exit 1
+fi
+
 echo "-----"
 echo "Deleting all existing partitions"
 echo "-----"
@@ -43,6 +64,11 @@ for part in $(parted -s $DISK print | awk '/^ / {print $1}'); do
 done
 
 echo "-----"
+if ! confirm "Create new partition table and partitions on $DISK?"; then
+    echo "Aborted by user."
+    exit 1
+fi
+
 echo "Creating boot table and root & swap partitions"
 echo "-----"
 if [ "$BOOT_TYPE" == "BIOS" ]; then
@@ -68,13 +94,24 @@ echo "Initialize swap"
 echo ""
 read -p "Specify the swap partition (should be 2 or p2): " SWAP
 echo ""
+if ! confirm "Initialize swap on ${DISK}${SWAP}?"; then
+    echo "Aborted by user."
+    exit 1
+fi
 mkswap -L swap ${DISK}${SWAP}
 
 echo "-----"
 echo "Creating root pool, enabling compression"
 mkdir -p /mnt
 read -p "Specify the root partition (should be 1 or p1): " ROOT
-zpool create -O encryption=on -O keyformat=passphrase -O keylocation=prompt -O compression=on -f rpool ${DISK}${ROOT}
+
+if confirm "Do you want to encrypt the ZFS root pool?"; then
+    echo "Creating encrypted ZFS root pool..."
+    zpool create -O encryption=on -O keyformat=passphrase -O keylocation=prompt -O compression=on -f rpool ${DISK}${ROOT}
+else
+    echo "Creating unencrypted ZFS root pool..."
+    zpool create -O compression=on -f rpool ${DISK}${ROOT}
+fi
 zfs create -p -o mountpoint=legacy rpool/local/root
 echo "Creating initial snapshot"
 zfs snapshot rpool/local/root@blank
@@ -109,6 +146,10 @@ fi
 zfs list
 
 echo "-----"
+if ! confirm "Generate NixOS configuration files?"; then
+    echo "Aborted by user."
+    exit 1
+fi
 echo "Generate NixOS configuration file"
 rm /mnt/etc/nixos/*
 nixos-generate-config --root /mnt
@@ -344,13 +385,25 @@ else
 EOF
 fi
 
+if ! confirm "Apply configuration patch to /mnt/etc/nixos/configuration.nix?"; then
+    echo "Aborted by user."
+    exit 1
+fi
 patch /mnt/etc/nixos/configuration.nix </mnt/etc/nixos/configuration.patch
 echo "Patching complete"
 
+if ! confirm "Move NixOS configuration into persistent storage?"; then
+    echo "Aborted by user."
+    exit 1
+fi
 echo "Move NixOS configuration into persistent storage"
 mkdir -p /persist/etc
 cp -r /mnt/etc/nixos /persist/etc/
 
+if ! confirm "Perform NixOS installation? This is the final step."; then
+    echo "Aborted by user."
+    exit 1
+fi
 echo "Performing NixOS installation"
 nixos-install --verbose --no-root-password
 #
