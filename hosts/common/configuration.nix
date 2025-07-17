@@ -86,5 +86,9 @@ in
       dates = "weekly";
       options = "--delete-older-than 30d";
     };
+    settings.substituters = [
+      "https://cache.nixos.org/"
+      "https://nix-community.cachix.org"
+    ];
   };
 }
