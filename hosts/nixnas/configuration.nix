@@ -228,10 +228,6 @@ in
         linger = true;
       };
       # For Samba shares
-      "arm" = {
-        isSystemUser = true;
-        group = "users";
-      };
       "k8s" = {
         isSystemUser = true;
         group = "users";
