@@ -3,11 +3,9 @@
   lib,
   pkgs,
   ...
-}:
-let
+}: let
   cfg = config.services.filen-webdav;
-in
-{
+in {
   options.services.filen-webdav = {
     enable = lib.mkEnableOption "Filen WebDAV server";
 
@@ -62,12 +60,12 @@ in
       createHome = true;
     };
 
-    users.groups.${cfg.group} = { };
+    users.groups.${cfg.group} = {};
 
     systemd.services.filen-webdav = {
       description = "Filen WebDAV Server";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
+      after = ["network.target"];
+      wantedBy = ["multi-user.target"];
 
       serviceConfig = {
         Type = "simple";
@@ -80,24 +78,21 @@ in
         ExecStart = let
           wUserArg = lib.optionalString (cfg.wUserFile != null) "--w-user $(cat ${cfg.wUserFile})";
           wPasswordArg = lib.optionalString (cfg.wPasswordFile != null) "--w-password $(cat ${cfg.wPasswordFile})";
-        in "${pkgs.filen-cli}/bin/filen-cli webdav start --port ${toString cfg.port} --hostname ${cfg.bindAddress} ${wUserArg} ${wPasswordArg}";
+        in "${pkgs.filen-cli}/bin/filen webdav start --port ${toString cfg.port} --hostname ${cfg.bindAddress} ${wUserArg} ${wPasswordArg}";
 
         # Security settings
         NoNewPrivileges = true;
         PrivateTmp = true;
         ProtectSystem = "strict";
         ProtectHome = true;
-        ReadWritePaths = [ cfg.dataDir ];
+        ReadWritePaths = [cfg.dataDir];
         ProtectKernelTunables = true;
         ProtectKernelModules = true;
         ProtectControlGroups = true;
-        
+
         # Allow reading secret files
-        ReadOnlyPaths = lib.optionals (cfg.wUserFile != null || cfg.wPasswordFile != null) 
-          (lib.filter (x: x != null) [cfg.wUserFile cfg.wPasswordFile]);
-        
-        # Allow reading secret files
-        ReadOnlyPaths = lib.optionals (cfg.wUserFile != null || cfg.wPasswordFile != null) 
+        ReadOnlyPaths =
+          lib.optionals (cfg.wUserFile != null || cfg.wPasswordFile != null)
           (lib.filter (x: x != null) [cfg.wUserFile cfg.wPasswordFile]);
       };
 
@@ -108,6 +103,6 @@ in
       '';
     };
 
-    networking.firewall.allowedTCPPorts = lib.mkIf cfg.enable [ cfg.port ];
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.enable [cfg.port];
   };
 }
