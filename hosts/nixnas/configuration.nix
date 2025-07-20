@@ -7,20 +7,18 @@
   pkgs,
   inputs,
   ...
-}:
-let
-  zfsUtils = import ../../lib/zfs.nix { inherit lib pkgs config; };
-in
-{
+}: let
+  zfsUtils = import ../../lib/zfs.nix {inherit lib pkgs config;};
+in {
   imports = [
     ./hardware-configuration.nix
     ../common/configuration.nix
     ./opt-in.nix
   ];
   services.printing = {
-    listenAddresses = [ "*:631" ];
+    listenAddresses = ["*:631"];
     openFirewall = true;
-    allowFrom = [ "all" ];
+    allowFrom = ["all"];
     browsing = true;
     defaultShared = true;
   };
@@ -47,8 +45,8 @@ in
   systemd.services = {
     tank-usb-mount = {
       enable = true;
-      after = [ "network.target" ];
-      wantedBy = [ "default.target" ];
+      after = ["network.target"];
+      wantedBy = ["default.target"];
       description = "Import zfs pool tank";
       serviceConfig = {
         Type = "simple";
@@ -71,7 +69,7 @@ in
         efiInstallAsRemovable = true;
         mirroredBoots = [
           {
-            devices = [ "nodev" ];
+            devices = ["nodev"];
             path = "/boot";
           }
         ];
@@ -133,19 +131,8 @@ in
           "force user" = "jan";
           "force group" = "users";
         };
-        "arm" = {
-          "path" = "/tank/arm";
-          "valid users" = "arm";
-          "browseable" = "yes";
-          "read only" = "no";
-          "guest ok" = "no";
-          "create mask" = "0644";
-          "directory mask" = "0755";
-          "force user" = "arm";
-          "force group" = "users";
-        };
         "k8s" = {
-          "path" = "/tank/k8s";
+          "path" = "/tank/k8s-csi";
           "valid users" = "k8s";
           "browseable" = "yes";
           "read only" = "no";
@@ -178,7 +165,7 @@ in
           "force group" = "users";
         };
         "haBackup" = {
-          "path" = "/tank/Homeassistant/Backup";
+          "path" = "/tank/haBackup";
           "valid users" = "ha";
           "browseable" = "yes";
           "read only" = "no";
@@ -251,7 +238,7 @@ in
       "nix-command"
       "flakes"
     ];
-    trusted-users = [ "jan" ]; # Add your own username to the trusted list
+    trusted-users = ["jan"]; # Add your own username to the trusted list
     auto-optimise-store = true;
     max-jobs = "auto";
     builders-use-substitutes = true;
