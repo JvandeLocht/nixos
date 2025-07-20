@@ -12,10 +12,10 @@
     #Create directories and run scripts for the containers
     system.activationScripts = {
       script.text = ''
-        mkdir -p /apps/proxmox-backup-server/backups
-        mkdir -p /apps/proxmox-backup-server/logs
-        mkdir -p /apps/proxmox-backup-server/etc
-        mkdir -p /apps/proxmox-backup-server/lib
+        mkdir -p /tank/apps/proxmox-backup-server/backups
+        mkdir -p /tank/apps/proxmox-backup-server/logs
+        mkdir -p /tank/apps/proxmox-backup-server/etc
+        mkdir -p /tank/apps/proxmox-backup-server/lib
       '';
     };
     networking.firewall = {
@@ -37,7 +37,7 @@
           Type = "simple";
           Restart = "on-failure";
           RestartSec = 5;
-          ExecStart = "${pkgs.busybox}/bin/mountpoint -q /apps/proxmox-backup-server/";
+          ExecStart = "${pkgs.busybox}/bin/mountpoint -q /tank/apps/proxmox-backup-server/";
         };
       };
     };
@@ -52,10 +52,10 @@
         };
 
         volumes = [
-          "/apps/proxmox-backup-server/backups:/backups"
-          "/apps/proxmox-backup-server/etc:/etc/proxmox-backup"
-          "/apps/proxmox-backup-server/logs:/var/log/proxmox-backup"
-          "/apps/proxmox-backup-server/lib:/var/lib/proxmox-backup"
+          "/tank/apps/proxmox-backup-server/backups:/backups"
+          "/tank/apps/proxmox-backup-server/etc:/etc/proxmox-backup"
+          "/tank/apps/proxmox-backup-server/logs:/var/log/proxmox-backup"
+          "/tank/apps/proxmox-backup-server/lib:/var/lib/proxmox-backup"
         ];
 
         ports = [

@@ -12,7 +12,7 @@
     # Create directories and run scripts for the containers
     system.activationScripts = {
       script.text = ''
-        mkdir -p /apps/minio
+        mkdir -p /tank/apps/minio
         if ! ${pkgs.podman}/bin/podman secret exists minio_root_user; then
           ${pkgs.podman}/bin/podman secret create minio_root_user ${config.age.secrets.minio-accessKey.path}
         fi
@@ -40,7 +40,7 @@
           Type = "simple";
           Restart = "on-failure";
           RestartSec = 5;
-          ExecStart = "${pkgs.busybox}/bin/mountpoint -q /apps/minio/";
+          ExecStart = "${pkgs.busybox}/bin/mountpoint -q /tank/apps/minio/";
         };
       };
     };
@@ -55,7 +55,7 @@
         };
 
         volumes = [
-          "/apps/minio:/data"
+          "/tank/apps/minio:/data"
         ];
 
         ports = [
