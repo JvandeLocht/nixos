@@ -45,6 +45,9 @@
       file = ../../secrets/filen-cli.age;
       path = "/persist/filen/.filen-cli-auth-config";
       symlink = false;
+      mode = "600";
+      owner = "filen";
+      group = "users";
     };
     # rclone-config = {
     #   file = ../../secrets/rclone-config.age;
