@@ -31,6 +31,21 @@
       path = "/persist/secrets/bitwarden";
       symlink = false;
     };
+    filen-webdav-user = {
+      file = ../../secrets/filen-webdav-user.age;
+      path = "/persist/secrets/filen-webdav-user";
+      symlink = false;
+    };
+    filen-webdav-password = {
+      file = ../../secrets/filen-webdav-password.age;
+      path = "/persist/secrets/filen-webdav-password";
+      symlink = false;
+    };
+    filen-cli = {
+      file = ../../secrets/filen-cli.age;
+      path = "/persist/filen/.filen-cli-auth-config";
+      symlink = false;
+    };
     # rclone-config = {
     #   file = ../../secrets/rclone-config.age;
     #   path = "/persist/secrets/rclone-config";
