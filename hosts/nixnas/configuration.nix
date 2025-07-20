@@ -218,8 +218,7 @@ in
     users = {
       "jan" = {
         isNormalUser = true;
-        password = "password"; # Change this once your computer is set up!
-        # hashedPasswordFile = config.age.secrets.jan-nixnas.path;
+        hashedPasswordFile = config.age.secrets.jan-nixnas.path;
         home = "/home/jan";
         extraGroups = [
           "wheel"
