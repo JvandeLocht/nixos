@@ -41,16 +41,16 @@ in
       description = "Directory to store filen-webdav data";
     };
 
-    wUser = lib.mkOption {
-      type = lib.types.str;
-      default = "Filen";
-      description = "filen-webdav User";
+    wUserFile = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = null;
+      description = "Path to file containing WebDAV username";
     };
 
-    wPassword = lib.mkOption {
-      type = lib.types.str;
-      default = "Password";
-      description = "filen-webdav Password";
+    wPasswordFile = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = null;
+      description = "Path to file containing WebDAV password";
     };
   };
 
@@ -77,7 +77,10 @@ in
         Restart = "always";
         RestartSec = 10;
 
-        ExecStart = "${pkgs.filen-cli}/bin/filen-cli webdav start --port ${toString cfg.port} --hostname ${cfg.bindAddress} --w-user ${cfg.wUser} --w-password ${cfg.wPassword}";
+        ExecStart = let
+          wUserArg = lib.optionalString (cfg.wUserFile != null) "--w-user $(cat ${cfg.wUserFile})";
+          wPasswordArg = lib.optionalString (cfg.wPasswordFile != null) "--w-password $(cat ${cfg.wPasswordFile})";
+        in "${pkgs.filen-cli}/bin/filen-cli webdav start --port ${toString cfg.port} --hostname ${cfg.bindAddress} ${wUserArg} ${wPasswordArg}";
 
         # Security settings
         NoNewPrivileges = true;
@@ -88,6 +91,14 @@ in
         ProtectKernelTunables = true;
         ProtectKernelModules = true;
         ProtectControlGroups = true;
+        
+        # Allow reading secret files
+        ReadOnlyPaths = lib.optionals (cfg.wUserFile != null || cfg.wPasswordFile != null) 
+          (lib.filter (x: x != null) [cfg.wUserFile cfg.wPasswordFile]);
+        
+        # Allow reading secret files
+        ReadOnlyPaths = lib.optionals (cfg.wUserFile != null || cfg.wPasswordFile != null) 
+          (lib.filter (x: x != null) [cfg.wUserFile cfg.wPasswordFile]);
       };
 
       preStart = ''
