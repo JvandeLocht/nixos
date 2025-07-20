@@ -7,18 +7,20 @@
   pkgs,
   inputs,
   ...
-}: let
-  zfsUtils = import ../../lib/zfs.nix {inherit lib pkgs config;};
-in {
+}:
+let
+  zfsUtils = import ../../lib/zfs.nix { inherit lib pkgs config; };
+in
+{
   imports = [
     ./hardware-configuration.nix
     ../common/configuration.nix
     ./opt-in.nix
   ];
   services.printing = {
-    listenAddresses = ["*:631"];
+    listenAddresses = [ "*:631" ];
     openFirewall = true;
-    allowFrom = ["all"];
+    allowFrom = [ "all" ];
     browsing = true;
     defaultShared = true;
   };
@@ -45,8 +47,8 @@ in {
   systemd.services = {
     tank-usb-mount = {
       enable = true;
-      after = ["network.target"];
-      wantedBy = ["default.target"];
+      after = [ "network.target" ];
+      wantedBy = [ "default.target" ];
       description = "Import zfs pool tank";
       serviceConfig = {
         Type = "simple";
@@ -69,7 +71,7 @@ in {
         efiInstallAsRemovable = true;
         mirroredBoots = [
           {
-            devices = ["nodev"];
+            devices = [ "nodev" ];
             path = "/boot";
           }
         ];
@@ -101,6 +103,14 @@ in {
         user = "jan";
       };
     };
+
+    filen-webdav = {
+      enable = true;
+      port = 9090;
+      bindAddress = "0.0.0.0";
+      dataDir = "/persist/filen";
+    };
+
     samba = {
       # The users must still get created and get a smbpasswd
       # sudo smbpasswd -a User
@@ -238,7 +248,7 @@ in {
       "nix-command"
       "flakes"
     ];
-    trusted-users = ["jan"]; # Add your own username to the trusted list
+    trusted-users = [ "jan" ]; # Add your own username to the trusted list
     auto-optimise-store = true;
     max-jobs = "auto";
     builders-use-substitutes = true;
