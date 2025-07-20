@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   imports = [
     ../../home-manager/modules
   ];
@@ -54,6 +53,7 @@
       nvf
       minio-client
       velero
+      opencode
 
       sops
       age

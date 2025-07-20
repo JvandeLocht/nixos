@@ -2,8 +2,7 @@
   pkgs,
   lib,
   ...
-}:
-{
+}: {
   home = {
     username = "jan";
     homeDirectory = "/home/jan";
@@ -56,8 +55,6 @@
     peazip
     fira-code
     fira
-
-    opencode
   ];
 
   home.sessionVariables = {

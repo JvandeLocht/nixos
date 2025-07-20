@@ -3,13 +3,11 @@
   pkgs,
   inputs,
   ...
-}:
-let
+}: let
   stable = import inputs.nixpkgs {
     localSystem = pkgs.system;
   };
-in
-{
+in {
   imports = [
     ../common/home.nix
   ];
@@ -27,7 +25,7 @@ in
     packages =
       (with pkgs; [
         bitwarden-desktop
-        (blackbox-terminal.override { sixelSupport = true; })
+        (blackbox-terminal.override {sixelSupport = true;})
         chafa
         prusa-slicer
         protonmail-desktop
@@ -69,8 +67,6 @@ in
         spotube
         makemkv
 
-        opencode
-
         golden-cheetah
         rclone-browser
         rclone
@@ -96,7 +92,7 @@ in
         ];
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = ["graphical-session.target"];
       };
     };
 
@@ -109,7 +105,7 @@ in
         ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='asus::kbd_backlight' set 1";
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = ["graphical-session.target"];
       };
     };
     keyboard_color = {
@@ -121,7 +117,7 @@ in
         ExecStart = "${pkgs.asusctl}/bin/asusctl led-mode static -c 00ff00";
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = ["graphical-session.target"];
       };
     };
     charge_limit = {
@@ -133,7 +129,7 @@ in
         ExecStart = "${pkgs.asusctl}/bin/asusctl -c 80";
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = ["graphical-session.target"];
       };
     };
     backlight = {
@@ -145,7 +141,7 @@ in
         ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='amdgpu_bl2' set 15";
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = ["graphical-session.target"];
       };
     };
     filen = {
@@ -157,7 +153,7 @@ in
         ExecStart = "${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage";
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = ["graphical-session.target"];
       };
     };
     # notify = {
