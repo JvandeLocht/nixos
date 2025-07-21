@@ -855,11 +855,11 @@
         "nvf": "nvf_2"
       },
       "locked": {
-        "lastModified": 1752924418,
-        "narHash": "sha256-b6j+Dwu+rnlMHnmsFR4Dx3ykCVHQ/yd3jemjKmEE7BM=",
+        "lastModified": 1753134433,
+        "narHash": "sha256-y370Fg4kYKT7JaByIRf8w4kdF2tDdyVOylazCl4Agko=",
         "owner": "JvandeLocht",
         "repo": "nvf-config",
-        "rev": "820f5d2c0e8bdb3ad8f832740e8952853059c131",
+        "rev": "312fdb2be7785c6ca0c76c6ed9c29d1c6eced0d9",
         "type": "github"
       },
       "original": {
