@@ -3,9 +3,11 @@
   lib,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.services.filen-webdav;
-in {
+in
+{
   options.services.filen-webdav = {
     enable = lib.mkEnableOption "Filen WebDAV server";
 
@@ -13,12 +15,6 @@ in {
       type = lib.types.port;
       default = 9090;
       description = "Port to listen on for WebDAV connections";
-    };
-
-    bindAddress = lib.mkOption {
-      type = lib.types.str;
-      default = "0.0.0.0";
-      description = "Address to bind the WebDAV server to";
     };
 
     user = lib.mkOption {
@@ -60,12 +56,12 @@ in {
       createHome = true;
     };
 
-    users.groups.${cfg.group} = {};
+    users.groups.${cfg.group} = { };
 
     systemd.services.filen-webdav = {
       description = "Filen WebDAV Server";
-      after = ["network.target"];
-      wantedBy = ["multi-user.target"];
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
         Type = "simple";
@@ -75,25 +71,32 @@ in {
         Restart = "always";
         RestartSec = 10;
 
-        ExecStart = let
-          wUserArg = lib.optionalString (cfg.wUserFile != null) "--w-user $(cat ${cfg.wUserFile})";
-          wPasswordArg = lib.optionalString (cfg.wPasswordFile != null) "--w-password $(cat ${cfg.wPasswordFile})";
-        in "${pkgs.filen-cli}/bin/filen webdav start --port ${toString cfg.port} --hostname ${cfg.bindAddress} ${wUserArg} ${wPasswordArg}";
+        ExecStart =
+          let
+            wUserArg = lib.optionalString (cfg.wUserFile != null) "${pkgs.busybox}/bin/cat ${cfg.wUserFile}";
+            wPasswordArg = lib.optionalString (
+              cfg.wPasswordFile != null
+            ) "${pkgs.busybox}/bin/cat ${cfg.wPasswordFile}";
+          in
+          "${pkgs.filen-cli}/bin/filen webdav start --w-port ${toString cfg.port} --w-user ${wUserArg} --w-password ${wPasswordArg}";
 
         # Security settings
         NoNewPrivileges = true;
         PrivateTmp = true;
         ProtectSystem = "strict";
         ProtectHome = true;
-        ReadWritePaths = [cfg.dataDir];
+        ReadWritePaths = [ cfg.dataDir ];
         ProtectKernelTunables = true;
         ProtectKernelModules = true;
         ProtectControlGroups = true;
 
         # Allow reading secret files
-        ReadOnlyPaths =
-          lib.optionals (cfg.wUserFile != null || cfg.wPasswordFile != null)
-          (lib.filter (x: x != null) [cfg.wUserFile cfg.wPasswordFile]);
+        ReadOnlyPaths = lib.optionals (cfg.wUserFile != null || cfg.wPasswordFile != null) (
+          lib.filter (x: x != null) [
+            cfg.wUserFile
+            cfg.wPasswordFile
+          ]
+        );
       };
 
       preStart = ''
@@ -103,6 +106,6 @@ in {
       '';
     };
 
-    networking.firewall.allowedTCPPorts = lib.mkIf cfg.enable [cfg.port];
+    networking.firewall.allowedTCPPorts = lib.mkIf cfg.enable [ cfg.port ];
   };
 }

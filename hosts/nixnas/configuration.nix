@@ -107,7 +107,6 @@ in
     filen-webdav = {
       enable = true;
       port = 9090;
-      bindAddress = "0.0.0.0";
       dataDir = "/persist/filen";
       wUserFile = config.age.secrets.filen-webdav-user.path;
       wPasswordFile = config.age.secrets.filen-webdav-password.path;

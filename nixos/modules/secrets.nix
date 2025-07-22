@@ -33,13 +33,19 @@
     };
     filen-webdav-user = {
       file = ../../secrets/filen-webdav-user.age;
-      path = "/persist/secrets/filen-webdav-user";
+      path = "/persist/filen/filen-webdav-user";
       symlink = false;
+      mode = "600";
+      owner = "filen";
+      group = "users";
     };
     filen-webdav-password = {
       file = ../../secrets/filen-webdav-password.age;
-      path = "/persist/secrets/filen-webdav-password";
+      path = "/persist/filen/filen-webdav-password";
       symlink = false;
+      mode = "600";
+      owner = "filen";
+      group = "users";
     };
     filen-cli = {
       file = ../../secrets/filen-cli.age;
