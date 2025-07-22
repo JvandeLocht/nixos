@@ -33,7 +33,7 @@
           sp = "ssh root@192.168.178.40";
           doom = "${config.xdg.configHome}/emacs/bin/doom";
           lg = "lazygit";
-          e = "emacs";
+          e = "emacs -nw";
           py = "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe python";
           psh = "/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe";
         };
