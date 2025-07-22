@@ -13,7 +13,8 @@
     exec-once = hyprpaper & kdeconnect-indicator & nm-applet
     # exec=gnome-keyring-daemon -sd
     exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
-    exec-once = ${pkgs.ulauncher}/bin/ulauncher --hide-window
+    # exec-once = ${pkgs.ulauncher}/bin/ulauncher --hide-window
+    exec-once=${pkgs.walker}/bin/walker --gapplication-service
     exec-once = ${pkgs.udiskie}/bin/udiskie -t
     exec-once = ${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage
     exec-once = ${pkgs.asusctl}/bin/rog-control-center
@@ -265,7 +266,8 @@
     bind = $mainMod, E, exec, dolphin
     bind = $mainMod, V, togglefloating,
     bind = SUPER, F, fullscreen
-    bind = $mainMod, R, exec, ulauncher-toggle
+    # bind = $mainMod, R, exec, ulauncher-toggle
+    bind = $mainMod, R, exec, ${pkgs.walker}/bin/walker
     bind = $mainMod, P, pseudo, # dwindle
     bind = $mainMod, J, togglesplit, # dwindle
 
