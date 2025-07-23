@@ -44,6 +44,10 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
     hyprland = {
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -92,6 +96,7 @@
       impermanence,
       nvf,
       agenix,
+      sops-nix,
       nix-on-droid,
       ...
     }:
@@ -120,6 +125,7 @@
             inputs
             impermanence
             agenix
+            sops-nix
             home-manager-unstable
             commonOverlays
             specialArgs

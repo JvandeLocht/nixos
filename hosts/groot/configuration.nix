@@ -35,6 +35,7 @@ in
   # power.enable = true;
   printing.enable = true;
   services.enable = true;
+  sops-config.enable = true;
   soundConfig.enable = true;
   specialisationConfig.enable = true;
 

@@ -1,0 +1,9 @@
+keys:
+  # Replace with your actual age public key after running: age-keygen -o /persist/sops/age/keys.txt
+  - &age_key age1epjlv060j8z57f7vm8jvwfl0zqz9wjtw0cga5vpgw0upwa0nsdrshdn3ku
+
+creation_rules:
+  - path_regex: secrets/.*\.yaml$
+    key_groups:
+      - age:
+          - *age_key

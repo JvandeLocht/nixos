@@ -2,6 +2,7 @@
   inputs,
   impermanence,
   agenix,
+  sops-nix,
   home-manager-unstable,
   commonOverlays,
   specialArgs,
@@ -27,6 +28,7 @@ inputs.nixpkgs-unstable.lib.nixosSystem {
       impermanence.nixosModules.impermanence
       home-manager-unstable.nixosModules.home-manager
       agenix.nixosModules.default
+      sops-nix.nixosModules.sops
       {
         home-manager = {
           useGlobalPkgs = true;
