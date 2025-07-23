@@ -26,11 +26,6 @@
       path = "/persist/secrets/smb-secrets";
       symlink = false;
     };
-    bitwarden = {
-      file = ../../secrets/bitwarden.age;
-      path = "/persist/secrets/bitwarden";
-      symlink = false;
-    };
     filen-webdav-user = {
       file = ../../secrets/filen-webdav-user.age;
       path = "/persist/filen/filen-webdav-user";
@@ -55,20 +50,5 @@
       owner = "filen";
       group = "users";
     };
-    # rclone-config = {
-    #   file = ../../secrets/rclone-config.age;
-    #   path = "/persist/secrets/rclone-config";
-    #   symlink = false;
-    # };
-    # backrest-nixnas = {
-    #   file = ../../secrets/backrest-nixnas.age;
-    #   path = "/persist/secrets/backrest-nixnas";
-    #   symlink = false;
-    # };
-    # backrest-groot = {
-    #   file = ../../secrets/backrest-groot.age;
-    #   path = "/persist/secrets/backrest-groot";
-    #   symlink = false;
-    # };
   };
 }

@@ -13,12 +13,9 @@ in {
   "minio-accessKey.age".publicKeys = users ++ [nixnas];
   "minio-secretKey.age".publicKeys = users ++ [nixnas];
   "jan-nixnas.age".publicKeys = users ++ [nixnas];
-  "rclone-config.age".publicKeys = users ++ systems;
   "filen-cli.age".publicKeys = users ++ systems;
   "filen-webdav-user.age".publicKeys = users ++ systems;
   "filen-webdav-password.age".publicKeys = users ++ systems;
   "backrest-nixnas.age".publicKeys = users ++ [nixnas];
-  "backrest-groot.age".publicKeys = users ++ [groot];
   "smb-secrets.age".publicKeys = users ++ [groot];
-  "bitwarden.age".publicKeys = users ++ [groot];
 }
