@@ -162,7 +162,6 @@ in
           '';
         };
       };
-      defaultSopsFile = ../../secrets/secrets.yaml;
     };
     # age.secrets = {
     #   rclone-config = {
