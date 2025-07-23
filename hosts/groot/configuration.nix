@@ -114,7 +114,7 @@ in
     jan = {
       isNormalUser = true;
       description = "Jan";
-      hashedPasswordFile = "/persist/passwords/user";
+      hashedPasswordFile = config.sops.secrets.jan-groot.path;
       extraGroups = [
         "networkmanager"
         "wheel"
