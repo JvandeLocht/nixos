@@ -16,11 +16,6 @@ in
     ../common/configuration.nix
     ./opt-in.nix
   ];
-  environment = {
-    variables = {
-      BW_SESSION = "${pkgs.busybox}/bin/cat ${config.age.secrets.bitwarden.path}";
-    };
-  };
 
   #enable custom modules
   podman = {
