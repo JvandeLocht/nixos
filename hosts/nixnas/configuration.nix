@@ -202,12 +202,12 @@ in
     spice-autorandr.enable = true;
     spice-webdavd.enable = true;
     qemuGuest.enable = true;
-    backrest = {
-      enable = true;
-      bindAddress = "0.0.0.0";
-      port = 9898;
-      configSecret = "backrest-nixnas";
-    };
+    # backrest = {
+    #   enable = true;
+    #   bindAddress = "0.0.0.0";
+    #   port = 9898;
+    #   configSecret = "backrest-nixnas";
+    # };
   };
 
   # security.sudo.wheelNeedsPassword = false;

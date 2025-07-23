@@ -135,7 +135,7 @@ in
       enable = true;
       bindAddress = "127.0.0.1"; # or "0.0.0.0" for the second snippet
       port = 9898;
-      configSecret = "backrest-groot"; # or "backrest-nixnas" for the second snippet
+      # configSecret = "backrest-groot"; # or "backrest-nixnas" for the second snippet
       additionalPath = with pkgs; [ mako ];
     };
     # Enable touchpad support (enabled default in most desktopManager).

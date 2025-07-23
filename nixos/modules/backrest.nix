@@ -4,9 +4,11 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.services.backrest;
-in {
+in
+{
   options.services.backrest = {
     enable = mkEnableOption "Backrest service";
 
@@ -29,38 +31,173 @@ in {
 
     additionalPath = mkOption {
       type = types.listOf types.package;
-      default = [];
+      default = [ ];
       description = "Additional packages to add to the PATH of the Backrest service.";
     };
   };
 
   config = mkIf cfg.enable {
-    age.secrets = {
-      rclone-config = {
-        file = ../../secrets/rclone-config.age;
-        path = "/persist/secrets/rclone-config";
-        symlink = false;
+    sops = {
+      secrets = {
+        "filen/webdav/user" = { };
+        "filen/webdav/password" = { };
+        "restic/groot/password" = { };
+        "restic/groot/healthcheck" = { };
+        "restic/groot/ntfy" = { };
+        "backrest/groot/password" = { };
       };
-      ${cfg.configSecret} = {
-        file = ../../secrets/${cfg.configSecret}.age;
-        path = "/persist/secrets/${cfg.configSecret}";
-        symlink = false;
+      templates = {
+        "rclone.conf" = {
+          path = "/root/.config/rclone/rclone.conf";
+          content = ''
+            [filen]
+            type = webdav
+            url = http://192.168.178.152:9090
+            vendor = other
+            user = ${config.sops.placeholder."filen/webdav/user"}
+            pass = ${config.sops.placeholder."filen/webdav/password"}
+          '';
+        };
+        backrest-groot = {
+          path = "/root/.config/backrest/config.json";
+          content = ''
+            {
+              "modno": 4,
+              "version": 3,
+              "instance": "groot",
+              "repos": [
+                {
+                  "id": "groot",
+                  "uri": "rclone:filen:Backups/restic/groot",
+                  "password": "${config.sops.placeholder."restic/groot/password"}",
+                  "prunePolicy": {
+                    "schedule": {
+                      "maxFrequencyDays": 30,
+                      "clock": "CLOCK_LAST_RUN_TIME"
+                    },
+                    "maxUnusedPercent": 10
+                  },
+                  "checkPolicy": {
+                    "schedule": {
+                      "maxFrequencyDays": 30,
+                      "clock": "CLOCK_LAST_RUN_TIME"
+                    },
+                    "readDataSubsetPercent": 10
+                  },
+                  "autoUnlock": true,
+                  "commandPrefix": {}
+                }
+              ],
+              "plans": [
+                {
+                  "id": "backup",
+                  "repo": "groot",
+                  "paths": [
+                    "/home/jan",
+                    "/persist"
+                  ],
+                  "excludes": [
+                    "/var/cache",
+                    "/home/*/.cache",
+                    "/home/*/.local/share",
+                    "/home/*/Bilder",
+                    "/persist/var/lib/ollama",
+                    "/persist/var/lib/libvirt",
+                    "/persist/var/lib/containers",
+                    "/persist/var/lib/systemd"
+                  ],
+                  "schedule": {
+                    "maxFrequencyDays": 1,
+                    "clock": "CLOCK_LAST_RUN_TIME"
+                  },
+                  "retention": {
+                    "policyTimeBucketed": {
+                      "daily": 1,
+                      "weekly": 1,
+                      "monthly": 1,
+                      "yearly": 1
+                    }
+                  },
+                  "hooks": [
+                    {
+                      "conditions": [
+                        "CONDITION_SNAPSHOT_SUCCESS"
+                      ],
+                      "actionCommand": {
+                        "command": "curl -fsS --retry 3 ${config.sops.placeholder."restic/groot/healthcheck"}"
+                      }
+                    },
+                    {
+                      "conditions": [
+                        "CONDITION_SNAPSHOT_END"
+                      ],
+                      "actionCommand": {
+                        "command": "curl -d {{ .ShellEscape .Summary }} ${
+                          config.sops.placeholder."restic/groot/ntfy"
+                        }"
+                      }
+                    },
+                    {
+                      "conditions": [
+                        "CONDITION_SNAPSHOT_START"
+                      ],
+                      "actionCommand": {
+                        "command": "curl -d {{ .ShellEscape .Summary }} ${
+                          config.sops.placeholder."restic/groot/ntfy"
+                        }"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "auth": {
+                "users": [
+                  {
+                    "name": "jan",
+                    "passwordBcrypt": "${config.sops.placeholder."backrest/groot/password"}"
+                  }
+                ]
+              }
+            }
+          '';
+        };
       };
+      defaultSopsFile = ../../secrets/secrets.yaml;
     };
-    systemd.tmpfiles.rules = [
-      "L /root/.config/rclone/rclone.conf - - - - ${config.age.secrets.rclone-config.path}"
-      "L /root/.config/backrest/config.json - - - - ${config.age.secrets.${cfg.configSecret}.path}"
-    ];
+    # age.secrets = {
+    #   rclone-config = {
+    #     file = ../../secrets/rclone-config.age;
+    #     path = "/persist/secrets/rclone-config";
+    #     symlink = false;
+    #   };
+    #   ${cfg.configSecret} = {
+    #     file = ../../secrets/${cfg.configSecret}.age;
+    #     path = "/persist/secrets/${cfg.configSecret}";
+    #     symlink = false;
+    #   };
+    # };
+    # systemd.tmpfiles.rules = [
+    #   "L /root/.config/rclone/rclone.conf - - - - ${config.age.secrets.rclone-config.path}"
+    #   "L /root/.config/backrest/config.json - - - - ${config.age.secrets.${cfg.configSecret}.path}"
+    # ];
 
     systemd.services.backrest = {
       enable = true;
       environment = {
         HOME = "/root";
       };
-      path = with pkgs; [rclone busybox bash curl] ++ cfg.additionalPath;
+      path =
+        with pkgs;
+        [
+          rclone
+          busybox
+          bash
+          curl
+        ]
+        ++ cfg.additionalPath;
 
-      after = ["network.target"];
-      wantedBy = ["multi-user.target"];
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
       description = "Run backrest";
       serviceConfig = {
         Type = "simple";

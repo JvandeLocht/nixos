@@ -23,17 +23,6 @@ in
         jan-groot = {
           neededForUsers = true;
         };
-        "filen/webdav/user" = { };
-        "filen/webdav/password" = { };
-      templates = {
-        rclone-config.content = ''
-          [filen]
-          type = webdav
-          url = http://192.168.178.152:9090
-          vendor = other
-          user = "${config.sops.placeholder."filen/webdav/user"}"
-          pass = "${config.sops.placeholder."filen/webdav/password"}"
-        '';
       };
       defaultSopsFile = ../../secrets/secrets.yaml;
     };
