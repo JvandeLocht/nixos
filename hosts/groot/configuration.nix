@@ -35,6 +35,23 @@ in
   specialisationConfig.enable = true;
 
   environment.systemPackages = [ pkgs.cifs-utils ];
+
+  sops = {
+    secrets = {
+      "smb/nixnas/username" = { };
+      "smb/nixnas/domain" = { };
+      "smb/nixnas/password" = { };
+    };
+    templates = {
+      smb-secret = {
+        content = ''
+          username=${config.sops.placeholder."smb/nixnas/username"}
+          domain=${config.sops.placeholder."smb/nixnas/domain"}
+          password=${config.sops.placeholder."smb/nixnas/password"}
+        '';
+      };
+    };
+  };
   fileSystems."/mnt/share" = {
     device = "//192.168.178.58/tank";
     fsType = "cifs";
@@ -43,7 +60,7 @@ in
         # this line prevents hanging on network split
         automount_opts = "x-systemd.automount,noauto,x-systemd.idle-timeout=60,x-systemd.device-timeout=5s,x-systemd.mount-timeout=5s";
       in
-      [ "${automount_opts},credentials=${config.age.secrets.smb-secrets.path},uid=1000,gid=100" ];
+      [ "${automount_opts},credentials=${config.sops.templates.smb-secret.path},uid=1000,gid=100" ];
   };
 
   boot = {

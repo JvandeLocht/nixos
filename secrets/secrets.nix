@@ -17,5 +17,4 @@ in {
   "filen-webdav-user.age".publicKeys = users ++ systems;
   "filen-webdav-password.age".publicKeys = users ++ systems;
   "backrest-nixnas.age".publicKeys = users ++ [nixnas];
-  "smb-secrets.age".publicKeys = users ++ [groot];
 }
