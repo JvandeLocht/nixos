@@ -45,7 +45,6 @@
         restic
       ]
       ++ (with inputs; [
-        # agenix.packages.x86_64-linux.default
       ])
       ++ (with unstable; [
         # proton-pass
@@ -59,16 +58,14 @@
 
   fonts = {
     fontDir.enable = true;
-    packages =
-      with pkgs;
-      [
-        cantarell-fonts
-        notonoto
-        vistafonts
-        nerd-fonts.fira-code
-        nerd-fonts.fira-mono
-        nerd-fonts.meslo-lg
-      ];
+    packages = with pkgs; [
+      cantarell-fonts
+      notonoto
+      vistafonts
+      nerd-fonts.fira-code
+      nerd-fonts.fira-mono
+      nerd-fonts.meslo-lg
+    ];
   };
   nixpkgs.config.allowUnfree = true;
   # settings for stateful data, like file locations and database versions

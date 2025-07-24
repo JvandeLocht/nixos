@@ -40,10 +40,6 @@
     impermanence = {
       url = "github:nix-community/impermanence";
     };
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -95,12 +91,12 @@
       home-manager-unstable,
       impermanence,
       nvf,
-      agenix,
       sops-nix,
       nix-on-droid,
       ...
     }:
-    flake-utils.lib.eachDefaultSystem (system:
+    flake-utils.lib.eachDefaultSystem (
+      system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
         pkgs-unstable = nixpkgs-unstable.legacyPackages.${system};
@@ -110,7 +106,8 @@
         # devShells.default = pkgs.mkShell { ... };
         # packages = { ... };
       }
-    ) // (
+    )
+    // (
       let
         inherit (self) outputs;
 
@@ -124,7 +121,6 @@
           inherit
             inputs
             impermanence
-            agenix
             sops-nix
             home-manager-unstable
             commonOverlays
