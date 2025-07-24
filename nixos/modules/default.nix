@@ -15,7 +15,6 @@
     ./sound.nix
     ./virtualization
     ./podman
-    ./secrets.nix
     ./specialisation.nix
   ];
 }

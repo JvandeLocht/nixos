@@ -56,6 +56,16 @@ in
       createHome = true;
     };
 
+    sops = {
+      secrets = {
+        "filen/.filen-cli-auth-config" = {
+          path = "/persist/filen/.filen-cli-auth-config";
+          owner = cfg.user;
+          group = cfg.group;
+        };
+      };
+    };
+
     users.groups.${cfg.group} = { };
 
     systemd.services.filen-webdav = {

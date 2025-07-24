@@ -93,6 +93,16 @@ in
     };
   };
 
+  sops = {
+    secrets = {
+      "filen/.filen-cli-auth-config" = {
+        path = "/persist/filen/.filen-cli-auth-config";
+      };
+      "filen/webdav/user" = { };
+      "filen/webdav/password" = { };
+    };
+  };
+
   services = {
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
@@ -109,8 +119,8 @@ in
       enable = true;
       port = 9090;
       dataDir = "/persist/filen";
-      wUserFile = config.age.secrets.filen-webdav-user.path;
-      wPasswordFile = config.age.secrets.filen-webdav-password.path;
+      wUserFile = config.sops.secrets."filen/webdav/user".path;
+      wPasswordFile = config.sops.secrets."filen/webdav/password".path;
     };
 
     samba = {
