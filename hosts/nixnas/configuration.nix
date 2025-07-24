@@ -36,6 +36,7 @@ in
   nvidia.enable = false;
   gaming.enable = false;
   printing.enable = true;
+  sops-config.enable = true;
 
   programs.nh = {
     enable = true;
