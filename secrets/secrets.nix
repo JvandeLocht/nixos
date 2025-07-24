@@ -12,7 +12,6 @@ let
 in {
   "minio-accessKey.age".publicKeys = users ++ [nixnas];
   "minio-secretKey.age".publicKeys = users ++ [nixnas];
-  "jan-nixnas.age".publicKeys = users ++ [nixnas];
   "filen-cli.age".publicKeys = users ++ systems;
   "filen-webdav-user.age".publicKeys = users ++ systems;
   "filen-webdav-password.age".publicKeys = users ++ systems;

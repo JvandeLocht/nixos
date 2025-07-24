@@ -16,11 +16,6 @@
       owner = "jan";
       group = "users";
     };
-    jan-nixnas = {
-      file = ../../secrets/jan-nixnas.age;
-      path = "/persist/secrets/jan-nixnas";
-      symlink = false;
-    };
     filen-webdav-user = {
       file = ../../secrets/filen-webdav-user.age;
       path = "/persist/filen/filen-webdav-user";

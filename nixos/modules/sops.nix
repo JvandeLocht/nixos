@@ -23,6 +23,9 @@ in
         jan-groot = {
           neededForUsers = true;
         };
+        jan-nixnas = {
+          neededForUsers = true;
+        };
       };
       defaultSopsFile = ../../secrets/secrets.yaml;
     };

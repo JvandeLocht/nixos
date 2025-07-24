@@ -217,7 +217,7 @@ in
     users = {
       "jan" = {
         isNormalUser = true;
-        hashedPasswordFile = config.age.secrets.jan-nixnas.path;
+        hashedPasswordFile = config.sops.secrets.jan-nixnas.path;
         home = "/home/jan";
         extraGroups = [
           "wheel"
