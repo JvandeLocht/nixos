@@ -7,9 +7,9 @@ confirm() {
     while true; do
         read -p "$message (y/n): " response
         case $response in
-            [Yy]* ) return 0;;
-            [Nn]* ) return 1;;
-            * ) echo "Please answer yes or no.";;
+        [Yy]*) return 0 ;;
+        [Nn]*) return 1 ;;
+        *) echo "Please answer yes or no." ;;
         esac
     done
 }
@@ -260,16 +260,38 @@ if [ "$BOOT_TYPE" == "BIOS" ]; then
 EOF
 else
     cat <<EOF >/mnt/etc/nixos/configuration.patch
---- configuration.bak   2025-07-07 13:15:12.549084061 +0200
-+++ configuration.nix   2025-07-07 13:15:12.660083866 +0200
-@@ -10,17 +10,114 @@
-       ./hardware-configuration.nix
-     ];
+diff --git a/configuration.bak b/configuration.nix
+index d742cbb..91d7f68 100644
+--- a/configuration.bak
++++ b/configuration.nix
+@@ -2,25 +2,135 @@
+ # your system. Help is available in the configuration.nix(5) man page, on
+ # https://search.nixos.org/options and in the NixOS manual ($(nixos-help)).
+
+-{ config, lib, pkgs, ... }:
+-
+ {
+-  imports =
+-    [ # Include the results of the hardware scan.
+-      ./hardware-configuration.nix
+-    ];
++  config,
++  lib,
++  pkgs,
++  ...
++}:
 
 -  # Use the systemd-boot EFI boot loader.
 -  boot.loader.systemd-boot.enable = true;
 -  boot.loader.efi.canTouchEfiVariables = true;
-+boot = {
++{
++  imports = [
++    # Include the results of the hardware scan.
++    ./hardware-configuration.nix
++  ];
++  services.qemuGuest.enable = true;
++
++  boot = {
 +    # Bootloader.
 +    loader = {
 +      #      systemd-boot.enable = true;
@@ -281,24 +303,24 @@ else
 +        efiInstallAsRemovable = true;
 +        mirroredBoots = [
 +          {
-+            devices = ["nodev"];
++            devices = [ "nodev" ];
 +            path = "/boot";
 +          }
 +        ];
 +      };
 +    };
-+    };
-+services.zfs.autoScrub.enable = true;
-+boot.initrd.postDeviceCommands = lib.mkAfter ''
-+      zfs rollback -r rpool/local/root@blank
-+          '';
++  };
++  services.zfs.autoScrub.enable = true;
++  boot.initrd.postDeviceCommands = lib.mkAfter ''
++    zfs rollback -r rpool/local/root@blank
++  '';
 
    # networking.hostName = "nixos"; # Define your hostname.
-+  networking.hostId = "$HOST_ID";
++  networking.hostId = "94fc84db";
    # Pick only one of the below networking options.
    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 -  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
-+  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
++  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
    # Set your time zone.
 -  # time.timeZone = "Europe/Amsterdam";
@@ -308,6 +330,7 @@ else
 +    shellAliases = {
 +      get-config = "git clone https://github.com/JvandeLocht/nixos";
 +      v = "nix run github:JvandeLocht/nvf-config#";
++      ns = "sudo nixos-rebuild switch --flake";
 +    };
 +    interactiveShellInit = ''
 +      echo "Available aliases:"
@@ -318,23 +341,30 @@ else
 +      vim
 +      git
 +      wget
++      sops
++      age
 +    ];
 +  };
 +
++  nix.settings = {
++    experimental-features = [
++      "nix-command"
++      "flakes"
++    ];
++    trusted-users = [ "jan" ]; # Add your own username to the trusted list
++  };
 +
-+nix.settings = {
-+  experimental-features = ["nix-command" "flakes"];
-+  trusted-users = ["$USERNAME"]; # Add your own username to the trusted list
-+};
-+
-+security.sudo.wheelNeedsPassword = false;
-+    users.users."$USERNAME" = {
++  security.sudo.wheelNeedsPassword = false;
++  users.users."jan" = {
 +    isNormalUser = true;
-+    password = "password";  # Change this once your computer is set up!
-+    home = "/home/$USERNAME";
-+    extraGroups = [ "wheel" "networkmanager" ];
-+    openssh.authorizedKeys.keys = [ "<your ssh key>" ];  # If using VPS
-+};
++    password = "password"; # Change this once your computer is set up!
++    home = "/home/jan";
++    extraGroups = [
++      "wheel"
++      "networkmanager"
++    ];
++    openssh.authorizedKeys.keys = [ "<your ssh key>" ]; # If using VPS
++  };
 +
 +  # Enable SSH server
 +  services.openssh = {
@@ -378,10 +408,24 @@ else
 +      set -g mouse on
 +    '';
 +  };
-+
 
    # Configure network proxy if necessary
    # networking.proxy.default = "http://user:password@proxy:port/";
+@@ -37,9 +147,6 @@
+   # Enable the X11 windowing system.
+   # services.xserver.enable = true;
+
+-
+-
+-
+   # Configure keymap in X11
+   # services.xserver.xkb.layout = "us";
+   # services.xserver.xkb.options = "eurosign:e,caps:escape";
+@@ -120,4 +227,3 @@
+   system.stateVersion = "25.11"; # Did you read the comment?
+
+ }
+-
 EOF
 fi
 
