@@ -52,6 +52,8 @@
     python3Full
     devenv
 
+    zathura
+
     peazip
     fira-code
     fira
