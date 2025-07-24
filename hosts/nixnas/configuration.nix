@@ -278,6 +278,177 @@ in
       # agenix.packages.x86_64-linux.default
     ]);
 
+  sops = {
+    secrets = {
+      "filen/webdav/user" = { };
+      "filen/webdav/password" = { };
+      "restic/nixnas/password" = { };
+      "restic/nixnas/healthcheck" = { };
+      "restic/nixnas/ntfy" = { };
+      "backrest/nixnas/password" = { };
+    };
+    templates = {
+      "rclone.conf" = {
+        path = "/root/.config/rclone/rclone.conf";
+        content = ''
+          [filen]
+          type = webdav
+          url = http://192.168.178.152:9090
+          vendor = other
+          user = ${config.sops.placeholder."filen/webdav/user"}
+          pass = ${config.sops.placeholder."filen/webdav/password"}
+        '';
+      };
+      backrest-nixnas = {
+        path = "/root/.config/backrest/config.json";
+        content = ''
+          {
+            "modno": 11,
+            "version": 3,
+            "instance": "nixnas",
+            "repos": [
+              {
+                "id": "nixnas",
+                "uri": "rclone:filen:Backups/restic/nixnas",
+                "password": "${config.sops.placeholder."restic/nixnas/password"}",
+                "prunePolicy": {
+                  "schedule": {
+                    "maxFrequencyDays": 30,
+                    "clock": "CLOCK_LAST_RUN_TIME"
+                  },
+                  "maxUnusedPercent": 10
+                },
+                "checkPolicy": {
+                  "schedule": {
+                    "maxFrequencyDays": 30,
+                    "clock": "CLOCK_LAST_RUN_TIME"
+                  },
+                  "readDataSubsetPercent": 10
+                },
+                "autoUnlock": true,
+                "commandPrefix": {}
+              }
+            ],
+            "plans": [
+              {
+                "id": "apps",
+                "repo": "nixnas",
+                "paths": [
+                  "/tank/k8s-csi"
+                ],
+                "schedule": {
+                  "cron": "0 0 * * 0",
+                  "clock": "CLOCK_LOCAL"
+                },
+                "retention": {
+                  "policyKeepLastN": 1
+                },
+                "hooks": [
+                  {
+                    "conditions": [
+                      "CONDITION_SNAPSHOT_START"
+                    ],
+                    "actionCommand": {
+                      "command": "curl -d {{ .ShellEscape .Summary }} ${
+                        config.sops.placeholder."restic/nixnas/ntfy"
+                      }"
+                    }
+                  },
+                  {
+                    "conditions": [
+                      "CONDITION_SNAPSHOT_END"
+                    ],
+                    "actionCommand": {
+                      "command": "curl -d {{ .ShellEscape .Summary }} ${
+                        config.sops.placeholder."restic/nixnas/ntfy"
+                      }"
+                    }
+                  },
+                  {
+                    "conditions": [
+                      "CONDITION_SNAPSHOT_SUCCESS"
+                    ],
+                    "actionCommand": {
+                      "command": "curl -m 10 --retry 5 ${config.sops.placeholder."restic/nixnas/healthcheck"}"
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "backup",
+                "repo": "nixnas",
+                "paths": [
+                  "/home/jan",
+                  "/persist"
+                ],
+                "excludes": [
+                  "/var/cache",
+                  "/home/*/.cache",
+                  "/home/*/.local/share",
+                  "/home/*/Bilder",
+                  "/persist/var/lib/ollama",
+                  "/persist/var/lib/libvirt",
+                  "/persist/var/lib/containers",
+                  "/persist/var/lib/systemd"
+                ],
+                "schedule": {
+                  "cron": "0 22 * * *",
+                  "clock": "CLOCK_LOCAL"
+                },
+                "retention": {
+                  "policyTimeBucketed": {
+                    "daily": 1,
+                    "weekly": 1,
+                    "monthly": 1,
+                    "yearly": 1
+                  }
+                },
+                "hooks": [
+                  {
+                    "conditions": [
+                      "CONDITION_SNAPSHOT_SUCCESS"
+                    ],
+                    "actionCommand": {
+                      "command": "curl -fsS --retry 3 ${config.sops.placeholder."restic/nixnas/healthcheck"}"
+                    }
+                  },
+                  {
+                    "conditions": [
+                      "CONDITION_SNAPSHOT_END"
+                    ],
+                    "actionCommand": {
+                      "command": "curl -d {{ .ShellEscape .Summary }} ${
+                        config.sops.placeholder."restic/nixnas/ntfy"
+                      }"
+                    }
+                  },
+                  {
+                    "conditions": [
+                      "CONDITION_SNAPSHOT_START"
+                    ],
+                    "actionCommand": {
+                      "command": "curl -d {{ .ShellEscape .Summary }} ${
+                        config.sops.placeholder."restic/nixnas/ntfy"
+                      }"
+                    }
+                  }
+                ]
+              }
+            ],
+            "auth": {
+              "users": [
+                {
+                  "name": "jan",
+                  "passwordBcrypt": "${config.sops.placeholder."backrest/nixnas/password"}"
+                }
+              ]
+            }
+          }
+        '';
+      };
+    };
+  };
+
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
   #
