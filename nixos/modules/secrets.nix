@@ -21,11 +21,6 @@
       path = "/persist/secrets/jan-nixnas";
       symlink = false;
     };
-    smb-secrets = {
-      file = ../../secrets/smb-secrets.age;
-      path = "/persist/secrets/smb-secrets";
-      symlink = false;
-    };
     filen-webdav-user = {
       file = ../../secrets/filen-webdav-user.age;
       path = "/persist/filen/filen-webdav-user";
