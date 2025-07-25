@@ -2,7 +2,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   home = {
     username = "jan";
     homeDirectory = "/home/jan";
@@ -53,6 +54,8 @@
     devenv
 
     zathura
+
+    claude-code
 
     peazip
     fira-code
