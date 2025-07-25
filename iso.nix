@@ -75,6 +75,8 @@
       tmux
       vim
       git
+      sops
+      age
     ];
   };
 
