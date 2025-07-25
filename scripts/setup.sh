@@ -316,7 +316,7 @@ index d742cbb..91d7f68 100644
 +  '';
 
    # networking.hostName = "nixos"; # Define your hostname.
-+  networking.hostId = "94fc84db";
++  networking.hostId = "${HOST_ID}";
    # Pick only one of the below networking options.
    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 -  # networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -351,19 +351,19 @@ index d742cbb..91d7f68 100644
 +      "nix-command"
 +      "flakes"
 +    ];
-+    trusted-users = [ "jan" ]; # Add your own username to the trusted list
++    trusted-users = [ "${USERNAME}" ]; # Add your own username to the trusted list
 +  };
 +
 +  security.sudo.wheelNeedsPassword = false;
-+  users.users."jan" = {
++  users.users."${USERNAME}" = {
 +    isNormalUser = true;
 +    password = "password"; # Change this once your computer is set up!
-+    home = "/home/jan";
++    home = "/home/"${USERNAME}"";
 +    extraGroups = [
 +      "wheel"
 +      "networkmanager"
 +    ];
-+    openssh.authorizedKeys.keys = [ "<your ssh key>" ]; # If using VPS
++    openssh.authorizedKeys.keys = [ "${SSH_KEY}" ]; # If using VPS
 +  };
 +
 +  # Enable SSH server
