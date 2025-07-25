@@ -22,10 +22,6 @@
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-    certs = {
-      url = "/etc/nixos";
-      flake = false;
-    };
 
     doomemacs = {
       url = "github:doomemacs/doomemacs";

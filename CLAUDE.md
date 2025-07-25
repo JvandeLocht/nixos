@@ -17,6 +17,7 @@ This is a personal NixOS configuration using flakes that manages multiple system
 ### Code Quality
 - **Format all Nix files:** `nixpkgs-fmt **/*.nix`
 - **Update flake inputs:** `nix flake update`
+- **Safe flake updates:** All flake inputs can be safely updated from any host without conflicts
 
 ### Maintenance
 - **Clean old generations:** `./scripts/trim-generations.sh` (interactive script with options)
@@ -73,5 +74,5 @@ For desktop systems with impermanence, the ZFS setup follows these key principle
 ## Current Systems
 - **groot**: Desktop workstation with impermanence and ZFS
 - **nixnas**: NAS server with backrest, minio, and other services
-- **nixwsl**: WSL2 system configuration
+- **nixwsl**: WSL2 system configuration with certificate stored in repository (`hosts/nixwsl/man-cert.crt`)
 - **nixdroid**: Nix-on-Droid mobile configuration

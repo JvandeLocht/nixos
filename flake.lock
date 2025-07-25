@@ -33,19 +33,6 @@
         "type": "github"
       }
     },
-    "certs": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1751954046,
-        "narHash": "sha256-pQpattmS9VmO3ZIQUFn66az8GSmB4IvYhTTCFn6SUmo=",
-        "path": "/etc/nixos",
-        "type": "path"
-      },
-      "original": {
-        "path": "/etc/nixos",
-        "type": "path"
-      }
-    },
     "doomemacs": {
       "flake": false,
       "locked": {
@@ -849,7 +836,6 @@
     },
     "root": {
       "inputs": {
-        "certs": "certs",
         "doomemacs": "doomemacs",
         "emacs-overlay": "emacs-overlay",
         "fcitx-virtual-keyboard-adapter": "fcitx-virtual-keyboard-adapter",
