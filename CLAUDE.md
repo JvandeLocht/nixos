@@ -13,6 +13,7 @@ This is a personal NixOS configuration using flakes that manages multiple system
 - **Build home-manager config:** `nix build .#homeConfigurations.jan`
 - **Deploy to system:** `nixos-rebuild switch --flake .#<hostname>` (run on target machine)
 - **Check flake validity:** `nix flake check`
+- **Build custom NixOS ISO:** `nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=./iso.nix`
 
 ### Code Quality
 - **Format all Nix files:** `nixpkgs-fmt **/*.nix`
@@ -23,6 +24,7 @@ This is a personal NixOS configuration using flakes that manages multiple system
 - **Clean old generations:** `./scripts/trim-generations.sh` (interactive script with options)
 - **Check ZFS state (on impermanence systems):** `sudo zfs diff rpool/local/root@blank`
 - **Format disk for new impermanence setup:** `./scripts/format-disk.sh`
+- **Initial system setup:** `./scripts/setup.sh` (interactive script for setting up new systems)
 
 ### Secrets Management
 - **Edit secrets:** `nix run nixpkgs#sops -- secrets/<filename>.yaml`
@@ -33,7 +35,9 @@ This is a personal NixOS configuration using flakes that manages multiple system
 ### Flake Structure
 - **flake.nix:** Main flake definition with inputs/outputs for all configurations
 - **lib/mkNixosConfig.nix:** Reusable function to create NixOS configurations with consistent overlays and modules
+- **lib/zfs.nix:** ZFS-specific utilities and configurations
 - **overlays/:** Custom package overlays including nvf, emacs, freecad, etc.
+- **iso.nix:** Custom NixOS installation ISO configuration
 
 ### Host Organization
 - **hosts/common/:** Shared configuration for all systems
@@ -73,6 +77,13 @@ For desktop systems with impermanence, the ZFS setup follows these key principle
 
 ## Current Systems
 - **groot**: Desktop workstation with impermanence and ZFS
-- **nixnas**: NAS server with backrest, minio, and other services
+- **nixnas**: NAS server with backrest, minio, and other services  
 - **nixwsl**: WSL2 system configuration with certificate stored in repository (`hosts/nixwsl/man-cert.crt`)
 - **nixdroid**: Nix-on-Droid mobile configuration
+- **man**: Standalone home-manager configuration
+
+## Important File Locations
+- **Secrets:** `secrets/` directory with `.age` files managed by sops-nix
+- **Scripts:** `scripts/` directory with helper scripts for setup and maintenance
+- **Patches:** `patches/` directory with kernel and package patches
+- **Custom packages:** `pkgs/` directory for custom package definitions
