@@ -14,7 +14,7 @@
       enable = true;
       settings = {
         general = {
-          after_sleep_cmd = "hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
+          after_sleep_cmd = "sleep 1 && hyprctl dispatch dpms on"; # delay to avoid race conditions during resume
           lock_cmd = "pidof hyprlock || hyprlock"; # avoid starting multiple hyprlock instances.
           before_sleep_cmd = "loginctl lock-session"; # lock before suspend.
         };
@@ -45,7 +45,7 @@
           }
           # Display power management
           {
-            timeout = 330; # 5.5 minutes
+            timeout = 310; # 5 minutes 10 seconds - closer to lock timeout to reduce race conditions
             # Turn off screen when timeout has passed
             on-timeout = "${pkgs.hyprland}/bin/hyprctl dispatch dpms off";
             # Turn on screen when activity is detected after timeout has fired

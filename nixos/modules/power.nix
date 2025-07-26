@@ -9,6 +9,9 @@
   };
 
   config = lib.mkIf config.power.enable {
+    # Disable power-profiles-daemon to avoid conflict with TLP
+    services.power-profiles-daemon.enable = false;
+    
     services.tlp = {
       enable = true;
       settings = {
