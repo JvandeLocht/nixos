@@ -2,10 +2,18 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
-}: {
+}: let
+  pkgs-unstable = import inputs.nixpkgs-unstable {
+    system = pkgs.system;
+    config.allowUnfree = true;
+  };
+in {
   # Simply install just the packages
   environment.packages = with pkgs; [
+    # claude-code from unstable
+    pkgs-unstable.claude-code
     zsh
     git
     ##vim # or some other editor, e.g. nano or neovim

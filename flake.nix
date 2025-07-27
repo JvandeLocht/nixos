@@ -170,6 +170,7 @@
             ] ++ commonOverlays;
           };
           home-manager-path = home-manager.outPath;
+          extraSpecialArgs = specialArgs;
         };
       }
     );
