@@ -16,5 +16,6 @@
     ./virtualization
     ./podman
     ./specialisation.nix
+    ./telegraf.nix
   ];
 }

@@ -37,6 +37,7 @@ in
   gaming.enable = false;
   printing.enable = true;
   sops-config.enable = true;
+  services.homelab.telegraf.enable = true;
 
   programs.nh = {
     enable = true;
