@@ -14,9 +14,9 @@
       enable = true;
       settings = {
         general = {
-          after_sleep_cmd = "sleep 1 && hyprctl dispatch dpms on"; # delay to avoid race conditions during resume
-          lock_cmd = "pidof hyprlock || hyprlock"; # avoid starting multiple hyprlock instances.
-          before_sleep_cmd = "loginctl lock-session"; # lock before suspend.
+          # after_sleep_cmd = "sleep 1 && hyprctl dispatch dpms on"; # delay to avoid race conditions during resume
+          lock_cmd = "${pkgs.busybox}/bin/pidof ${pkgs.hyprland}/bin/hyprlock || ${pkgs.hyprland}/bin/hyprlock"; # avoid starting multiple hyprlock instances.
+          # before_sleep_cmd = "loginctl lock-session"; # lock before suspend.
         };
 
         listeners = [

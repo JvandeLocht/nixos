@@ -2,7 +2,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options.hyprlock = {
     enable = lib.mkEnableOption "hyprlock with custom configuration";
   };
@@ -12,10 +13,10 @@
       enable = true;
       settings = {
         general = {
-          disable_loading_bar = false;
+          # disable_loading_bar = false;
           grace = 15;
           hide_cursor = false;
-          no_fade_in = false;
+          # no_fade_in = false;
         };
 
         background = [

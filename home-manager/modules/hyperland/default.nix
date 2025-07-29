@@ -5,8 +5,13 @@
   pkgs,
   inputs,
   ...
-}: {
-  imports = [./config.nix ./hyprpaper.nix ./touch.nix];
+}:
+{
+  imports = [
+    ./config.nix
+    ./hyprpaper.nix
+    ./touch.nix
+  ];
 
   options.hyprlandConfig = {
     enable = lib.mkEnableOption "Custom Hyprland configuration";
@@ -16,7 +21,7 @@
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
-      plugins = with pkgs.hyprlandPlugins; [hyprgrass];
+      plugins = with pkgs.hyprlandPlugins; [ hyprgrass ];
     };
 
     waybar.enable = true;

@@ -43,7 +43,7 @@
       supergfxd.enable = true;
       upower.enable = true;
       gnome.sushi.enable = true;
-      hypridle.enable = true;
+      # hypridle.enable = false;
       dbus.enable = true;
       udisks2.enable = true;
     };
