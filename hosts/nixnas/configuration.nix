@@ -45,20 +45,20 @@ in
     flake = "/home/jan/.setup";
   };
 
-  systemd.services = {
-    tank-usb-mount = {
-      enable = true;
-      after = [ "network.target" ];
-      wantedBy = [ "default.target" ];
-      description = "Import zfs pool tank";
-      serviceConfig = {
-        Type = "simple";
-        Restart = "on-failure";
-        RestartSec = 30;
-        ExecStart = "${pkgs.zfs}/bin/zpool import tank";
-      };
-    };
-  };
+  #  systemd.services = {
+  #    tank-usb-mount = {
+  #      enable = true;
+  #      after = [ "network.target" ];
+  #      wantedBy = [ "default.target" ];
+  #      description = "Import zfs pool tank";
+  #      serviceConfig = {
+  #        Type = "simple";
+  #        Restart = "on-failure";
+  #        RestartSec = 30;
+  #        ExecStart = "${pkgs.zfs}/bin/zpool import tank";
+  #      };
+  #    };
+  #  };
 
   boot = {
     # Note this might jump back and forth as kernels are added or removed.
@@ -209,10 +209,10 @@ in
     zfs.autoScrub.enable = true;
     gvfs.enable = true;
     udisks2.enable = true;
-    spice-vdagentd.enable = true;
-    spice-autorandr.enable = true;
-    spice-webdavd.enable = true;
-    qemuGuest.enable = true;
+    spice-vdagentd.enable = false;
+    spice-autorandr.enable = false;
+    spice-webdavd.enable = false;
+    qemuGuest.enable = false;
     # backrest = {
     #   enable = true;
     #   bindAddress = "0.0.0.0";
