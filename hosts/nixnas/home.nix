@@ -4,11 +4,13 @@
   pkgs,
   osConfig,
   ...
-}: let
+}:
+let
   unstable = import inputs.nixpkgs-unstable {
     localSystem = pkgs.system;
   };
-in {
+in
+{
   imports = [
     ../common/home.nix
   ];
@@ -22,9 +24,10 @@ in {
     packages =
       (with pkgs; [
         appimage-run
+        claude-code
       ])
       ++ (with unstable; [
-        ]);
+      ]);
   };
   # Packages that should be installed to the user profile.
 
@@ -38,7 +41,7 @@ in {
         ExecStart = "${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage";
       };
       Install = {
-        WantedBy = ["graphical-session.target"];
+        WantedBy = [ "graphical-session.target" ];
       };
     };
   };
