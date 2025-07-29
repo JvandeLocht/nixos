@@ -204,7 +204,7 @@
       #!/usr/bin/env bash
       count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
       if  [ $count = 1 ]; then
-        hyprlock
+        # hyprlock
         systemctl suspend
       else
         hyprctl keyword monitor "eDP-1, disable"
