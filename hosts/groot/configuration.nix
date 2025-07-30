@@ -171,6 +171,7 @@ in
     "electron-22.3.27"
     "electron-25.9.0"
     "electron-27.3.11"
+    "libsoup-2.74.3"
   ];
 
   sops = {
