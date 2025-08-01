@@ -23,8 +23,7 @@
     # See https://wiki.hyprland.org/Configuring/Monitors/
     monitor=DP-6, 3440x1440, 0x0,1
     monitor=DP-7, 2560x1440, 3440x0,1
-    # monitor=eDP-1, 2560x1600@165.04Hz, 1280x1440,1.25
-    monitor=eDP-1, 2560x1600@165.04Hz, 0x0,1.25
+    monitor=eDP-2, 2560x1600@165.04Hz, 0x0,1.25
     monitor=,highres,auto,1
     xwayland {
         force_zero_scaling = true
@@ -39,12 +38,7 @@
     $mainMod = ALT
 
     # Power
-    # env = WLR_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
-    # misc:vfr = true
-    env = AQ_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
-
-    # Source a file (multi-file configs)
-    # source = ~/.config/hypr/myColors.conf
+    env = AQ_DRM_DEVICES,/dev/dri/card2:/dev/dri/card1
 
     # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
     input {
@@ -207,7 +201,7 @@
         # hyprlock
         systemctl suspend
       else
-        hyprctl keyword monitor "eDP-1, disable"
+        hyprctl keyword monitor "eDP-2, disable"
       fi
     ''}
 
@@ -218,7 +212,7 @@
       if  [ $count = 1 ]; then
         echo "lid opened"
       else
-        hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
+        hyprctl keyword monitor "eDP-2, 2560x1600, 1280x1440,1.25"
       fi
     ''}
 

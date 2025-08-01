@@ -42,7 +42,6 @@
     };
     hyprland = {
       url = "github:hyprwm/Hyprland";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     # User configurations
@@ -167,7 +166,8 @@
             system = "aarch64-linux";
             overlays = [
               nix-on-droid.overlays.default
-            ] ++ commonOverlays;
+            ]
+            ++ commonOverlays;
           };
           home-manager-path = home-manager.outPath;
           extraSpecialArgs = specialArgs;
