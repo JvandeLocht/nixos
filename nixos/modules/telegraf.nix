@@ -44,6 +44,12 @@ in
       description = "Collect SMART disk health metrics";
     };
 
+    collectTemperatureMetrics = mkOption {
+      type = types.bool;
+      default = true;
+      description = "Collect system temperature metrics (CPU, motherboard, etc.)";
+    };
+
     user = lib.mkOption {
       type = lib.types.str;
       default = "telegraf";
@@ -165,6 +171,23 @@ in
               # This will give us a percentage
               pid_tag = false;
               process_name = "process_name";
+            }
+          ];
+
+          # Temperature sensors
+          sensors = mkIf cfg.collectTemperatureMetrics [
+            {
+              # Remove sensors that you don't want to monitor
+              # remove_numbers = true;
+              # Timeout for running the sensors command
+              timeout = "5s";
+            }
+          ];
+
+          # Temperature monitoring via thermal zones (alternative/additional method)
+          temp = mkIf cfg.collectTemperatureMetrics [
+            {
+              # This monitors /sys/class/thermal/thermal_zone*/temp
             }
           ];
 
