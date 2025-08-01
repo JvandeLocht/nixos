@@ -65,6 +65,15 @@ in
           group = cfg.group;
         };
       };
+      templates = {
+        "influxdb.env" = {
+          content = ''
+            influx_token=${config.sops.placeholder."telegraf/influxdb_token"}
+          '';
+          owner = cfg.user;
+          group = cfg.group;
+        };
+      };
     };
 
     users.users.${cfg.user} = {
@@ -73,7 +82,7 @@ in
 
     services.telegraf = {
       enable = true;
-      environmentFiles = [ config.sops.secrets."telegraf/influxdb_token".path ];
+      environmentFiles = [ config.sops.templates."influxdb.env".path ];
 
       extraConfig = {
         agent = {
@@ -99,78 +108,153 @@ in
           }
         ];
 
-        inputs =
-          {
-            # System metrics
-            cpu = [
-              {
-                percpu = true;
-                totalcpu = true;
-                collect_cpu_time = false;
-                report_active = false;
-              }
-            ];
+        inputs = {
+          # System metrics
+          cpu = [
+            {
+              percpu = true;
+              totalcpu = true;
+              collect_cpu_time = false;
+              report_active = false;
+            }
+          ];
 
-            disk = [
-              {
-                ignore_fs = [
-                  "tmpfs"
-                  "devtmpfs"
-                  "devfs"
-                  "iso9660"
-                  "overlay"
-                  "aufs"
-                  "squashfs"
-                ];
-              }
-            ];
-
-            diskio = [ { } ];
-
-            kernel = [ { } ];
-
-            mem = [ { } ];
-
-            processes = [ { } ];
-
-            swap = [ { } ];
-
-            system = [ { } ];
-
-            # Network metrics
-            net = [
-              {
-                interfaces = [ "*" ];
-              }
-            ];
-
-            netstat = [ { } ];
-
-            # Additional system metrics
-            interrupts = [ { } ];
-
-            linux_sysctl_fs = [ { } ];
-          }
-          // optionalAttrs cfg.collectZfsMetrics {
-            # ZFS metrics
-            zfs = [
-              {
-                kstatPath = "/proc/spl/kstat/zfs";
-                poolMetrics = true;
-                datasetMetrics = true;
-              }
-            ];
-          }
-          // optionalAttrs cfg.collectSmartMetrics {
-            # SMART disk health metrics
-            smart = [
-              {
-                use_sudo = true;
-                attributes = true;
-                excludes = [ "/dev/pass*" ];
-              }
-            ];
+          zfs = {
+            poolMetrics = true;
+            datasetMetrics = true;
           };
+
+          smart = [
+            {
+              use_sudo = true;
+              attributes = true;
+              excludes = [ "/dev/pass*" ];
+            }
+          ];
+
+          disk = [
+            {
+              ignore_fs = [
+                "tmpfs"
+                "devtmpfs"
+                "devfs"
+                "iso9660"
+                "overlay"
+                "aufs"
+                "squashfs"
+              ];
+            }
+          ];
+
+          procstat = [
+            # Monitor all processes (top processes by CPU/memory)
+            {
+              pattern = ".*";
+              pid_finder = "native";
+
+              # Fields to collect
+              fieldpass = [
+                "cpu_usage"
+                "memory_rss"
+                "memory_vms"
+                "memory_swap"
+                "num_threads"
+                "pid"
+              ];
+
+              # This will give us a percentage
+              pid_tag = false;
+              process_name = "process_name";
+            }
+          ];
+
+          exec = [
+            {
+              commands =
+                let
+                  zfsHealthScript = pkgs.writeShellScript "zfs-health-monitor" ''
+                    #!${pkgs.bash}/bin/bash
+                    # Get all ZFS pools
+                    pools=$(${pkgs.zfs}/bin/zpool list -H -o name 2>/dev/null)
+
+                    if [ -z "$pools" ]; then
+                      exit 0
+                    fi
+
+                    # Function to convert health status to numeric value
+                    health_to_numeric() {
+                      case "$1" in
+                        "ONLINE") echo 0 ;;
+                        "DEGRADED") echo 1 ;;
+                        "FAULTED") echo 2 ;;
+                        "OFFLINE") echo 3 ;;
+                        "REMOVED") echo 4 ;;
+                        "UNAVAIL") echo 5 ;;
+                        *) echo 99 ;;
+                      esac
+                    }
+
+                    # Output metrics in InfluxDB line protocol format
+                    for pool in $pools; do
+                      # Get pool health and statistics
+                      health=$(${pkgs.zfs}/bin/zpool list -H -o health "$pool" 2>/dev/null | tr -d '[:space:]')
+                      health_numeric=$(health_to_numeric "$health")
+
+                      # Get pool statistics in one call
+                      stats=$(${pkgs.zfs}/bin/zpool list -Hp -o size,allocated,free,fragmentation,capacity "$pool" 2>/dev/null)
+
+                      if [ -n "$stats" ]; then
+                        read -r size allocated free frag capacity <<< "$stats"
+
+                        # Remove % from capacity if present
+                        capacity=''${capacity%\%}
+
+                        # Handle dash values for fragmentation
+                        if [ "$frag" = "-" ]; then
+                          frag=0
+                        fi
+
+                        # Output in InfluxDB line protocol format
+                        echo "zpool_health,pool=$pool health=\"$health\",health_numeric=$health_numeric"
+                        echo "zpool_stats,pool=$pool size=$size,allocated=$allocated,free=$free,fragmentation=$frag,capacity=$capacity"
+                      fi
+                    done
+                  '';
+                in
+                [ "${zfsHealthScript}" ];
+              timeout = "5s";
+              interval = "60s";
+              data_format = "influx";
+              name_suffix = "_health";
+            }
+          ];
+
+          diskio = [ { } ];
+
+          kernel = [ { } ];
+
+          mem = [ { } ];
+
+          processes = [ { } ];
+
+          swap = [ { } ];
+
+          system = [ { } ];
+
+          # Network metrics
+          net = [
+            {
+              interfaces = [ "*" ];
+            }
+          ];
+
+          netstat = [ { } ];
+
+          # Additional system metrics
+          interrupts = [ { } ];
+
+          linux_sysctl_fs = [ { } ];
+        };
       };
     };
 
