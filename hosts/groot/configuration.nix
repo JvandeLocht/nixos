@@ -32,7 +32,7 @@ in
   services.enable = true;
   sops-config.enable = true;
   soundConfig.enable = true;
-  specialisationConfig.enable = true;
+  specialisationConfig.enable = false;
 
   environment.systemPackages = [ pkgs.cifs-utils ];
 
