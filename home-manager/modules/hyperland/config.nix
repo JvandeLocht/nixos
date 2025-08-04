@@ -21,8 +21,8 @@
 
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
-    monitor=DP-6, 3440x1440, 0x0,1
-    monitor=DP-7, 2560x1440, 3440x0,1
+    monitor=DP-7, 3440x1440, 0x0,1
+    monitor=DP-8, 2560x1440, 3440x0,1
     monitor=eDP-2, 2560x1600@165.04Hz, 0x0,1.25
     monitor=,highres,auto,1
     xwayland {
