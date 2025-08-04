@@ -118,6 +118,7 @@
           inherit
             inputs
             impermanence
+            copyparty
             sops-nix
             home-manager-unstable
             commonOverlays
@@ -141,19 +142,6 @@
             hostname = "nixnas";
             username = "jan";
             extraModules = [
-              # load the copyparty NixOS module
-              copyparty.nixosModules.default
-              (
-                { pkgs, ... }:
-                {
-                  # add the copyparty overlay to expose the package to the module
-                  nixpkgs.overlays = [ copyparty.overlays.default ];
-                  # (optional) install the package globally
-                  environment.systemPackages = [ pkgs.copyparty ];
-                  # configure the copyparty module
-                  services.copyparty.enable = true;
-                }
-              )
             ];
           };
 
