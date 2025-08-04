@@ -35,6 +35,7 @@ in
   # gnome.enable = true;
   nvidia.enable = false;
   gaming.enable = false;
+  copyparty.enable = true;
   printing.enable = true;
   sops-config.enable = true;
   services.homelab.telegraf.enable = true;

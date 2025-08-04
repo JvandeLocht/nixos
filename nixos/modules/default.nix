@@ -1,6 +1,7 @@
 {
   imports = [
     ./backrest.nix
+    ./copyparty.nix
     ./filen-webdav.nix
     ./gaming.nix
     ./gnome.nix
