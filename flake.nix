@@ -58,6 +58,10 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     copyparty.url = "github:9001/copyparty";
+    walker = {
+      url = "github:abenz1267/walker";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     # Home Manager
     home-manager = {
@@ -87,6 +91,7 @@
       home-manager-unstable,
       impermanence,
       nvf,
+      walker,
       sops-nix,
       nix-on-droid,
       copyparty,
@@ -134,6 +139,9 @@
             username = "jan";
             extraOverlays = [
               (import ./overlays/wvkbd.nix inputs)
+            ];
+            additionalHomeManagerModules = [
+              inputs.walker.homeManagerModules.default
             ];
           };
 

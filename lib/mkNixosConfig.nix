@@ -13,6 +13,7 @@
   username,
   extraOverlays ? [ ],
   extraModules ? [ ],
+  additionalHomeManagerModules ? [ ],
 }:
 let
   pkgs-unstable = inputs.nixpkgs-unstable.legacyPackages.${system};
@@ -52,7 +53,7 @@ inputs.nixpkgs-unstable.lib.nixosSystem {
           inherit pkgs-unstable;
         };
         users.${username} = {
-          imports = [ ../hosts/${hostname}/home.nix ];
+          imports = [ ../hosts/${hostname}/home.nix ] ++ additionalHomeManagerModules;
         };
         backupFileExtension = "backup";
       };
