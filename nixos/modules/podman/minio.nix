@@ -41,25 +41,9 @@
         }
       ];
     };
-    systemd.services = {
-      podman-usb-mount = {
-        enable = true;
-        after = [ "network.target" ];
-        wantedBy = [ "default.target" ];
-        description = "wait for usb mount";
-        serviceConfig = {
-          Type = "simple";
-          Restart = "on-failure";
-          RestartSec = 5;
-          ExecStart = "${pkgs.busybox}/bin/mountpoint -q /tank/apps/minio/";
-        };
-      };
-    };
     virtualisation.oci-containers.containers = {
       minio = {
         image = "quay.io/minio/minio";
-
-        dependsOn = [ "usb-mount" ];
 
         environment = {
           "TZ" = "Europe/Amsterdam";

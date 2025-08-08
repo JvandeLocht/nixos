@@ -3,7 +3,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options.podman.proxmox-backup-server = {
     enable = lib.mkEnableOption "Set up proxmox-backup-server container";
   };
@@ -27,25 +28,9 @@
         }
       ];
     };
-    systemd.services = {
-      podman-usb-mount-pbs = {
-        enable = true;
-        after = ["network.target"];
-        wantedBy = ["default.target"];
-        description = "wait for usb mount";
-        serviceConfig = {
-          Type = "simple";
-          Restart = "on-failure";
-          RestartSec = 5;
-          ExecStart = "${pkgs.busybox}/bin/mountpoint -q /tank/apps/proxmox-backup-server/";
-        };
-      };
-    };
     virtualisation.oci-containers.containers = {
       proxmox-backup-server = {
         image = "docker.io/ayufan/proxmox-backup-server:latest";
-
-        dependsOn = ["usb-mount-pbs"];
 
         environment = {
           "TZ" = "Europe/Amsterdam";
