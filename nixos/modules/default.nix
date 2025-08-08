@@ -1,5 +1,6 @@
 {
   imports = [
+    ./attic.nix
     ./backrest.nix
     ./copyparty.nix
     ./filen-webdav.nix
