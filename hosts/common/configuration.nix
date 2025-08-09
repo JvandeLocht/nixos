@@ -39,6 +39,7 @@ in
         filen-cli
         immich-cli
         gnome-disk-utility
+        glances
       ]
       ++ (with inputs; [
       ])
