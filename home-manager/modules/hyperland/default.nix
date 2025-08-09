@@ -29,6 +29,7 @@
     gtkThemes.enable = true;
     hyprlock.enable = true;
     hypridle.enable = true;
+    walker.enable = true;
     services = {
       swaync.enable = true;
       hyprpolkitagent.enable = true;

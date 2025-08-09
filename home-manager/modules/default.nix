@@ -7,6 +7,7 @@
     ./waybar
     ./alacritty.nix
     ./bash.nix
+    ./walker.nix
     ./dconf.nix
     ./desktop.nix
     ./firefox.nix
