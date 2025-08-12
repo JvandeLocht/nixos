@@ -12,8 +12,12 @@ in
 {
   imports = [
     ../common/home.nix
+    ../../home-manager/modules
   ];
 
+  zsh.enable = true;
+  yazi.enable = true;
+  lf.enable = true;
   emacs.enable = true;
   tmux.enable = true;
   firefox.enable = true;

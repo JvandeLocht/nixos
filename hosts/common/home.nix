@@ -1,11 +1,8 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
-    ../../home-manager/modules
+    # ../../home-manager/modules
   ];
-
-  zsh.enable = true;
-  yazi.enable = true;
-  lf.enable = true;
 
   programs = {
     git = {
