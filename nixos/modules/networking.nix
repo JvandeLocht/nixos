@@ -21,6 +21,12 @@
       enable = true;
     };
 
+    # Enable IP forwarding for VPN and routing functionality
+    boot.kernel.sysctl = {
+      "net.ipv4.ip_forward" = lib.mkDefault 1;
+      "net.ipv6.conf.all.forwarding" = lib.mkDefault 1;
+    };
+
     # Open ports in the firewall.
     networking.firewall = {
       enable = true;

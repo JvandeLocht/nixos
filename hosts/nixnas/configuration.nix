@@ -40,6 +40,20 @@ in
   printing.enable = true;
   sops-config.enable = true;
   services.homelab.telegraf.enable = true;
+  networking.enable = true;
+
+  # Enable Netbird VPN with exit node functionality
+  services.netbird = {
+    enable = true;
+    tunnels.wt0 = {
+      port = 51820;
+      environment = {
+        NB_MANAGEMENT_URL = "https://api.netbird.io";
+        NB_SETUP_KEY_FILE = config.sops.secrets."netbird/setup-key".path;
+        NB_LOG_LEVEL = "info";
+      };
+    };
+  };
 
   programs.nh = {
     enable = true;
@@ -66,6 +80,11 @@ in
   boot = {
     # Note this might jump back and forth as kernels are added or removed.
     kernelPackages = zfsUtils.getLatestZfsKernel;
+    kernel.sysctl = {
+      "net.ipv4.ip_forward" = 1;
+      "net.ipv6.conf.all.forwarding" = 1;
+    };
+
     # Bootloader.
     loader = {
       grub = {
@@ -92,7 +111,28 @@ in
     networkmanager.enable = true;
     firewall = {
       allowPing = true;
-      extraCommands = ''iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns'';
+      # Enable connection tracking for better NAT traversal
+      connectionTrackingModules = [
+        "ftp"
+        "tftp"
+      ];
+      extraCommands = ''
+        iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns
+
+        # Enable NAT for Netbird exit node functionality
+        # Allow forwarding from Netbird interfaces to the internet
+        iptables -I FORWARD -i wt+ -j ACCEPT
+        iptables -I FORWARD -o wt+ -j ACCEPT
+
+        # NAT outgoing traffic from Netbird clients to internet
+        iptables -t nat -I POSTROUTING -s 100.64.0.0/10 -o $(${pkgs.iproute2}/bin/ip route | ${pkgs.gawk}/bin/awk '{print $5}' | ${pkgs.coreutils}/bin/head -n1) -j MASQUERADE
+      '';
+      extraStopCommands = ''
+        # Clean up NAT rules for Netbird
+        iptables -D FORWARD -i wt+ -j ACCEPT 2>/dev/null || true
+        iptables -D FORWARD -o wt+ -j ACCEPT 2>/dev/null || true
+        iptables -t nat -D POSTROUTING -s 100.64.0.0/10 -o $(${pkgs.iproute2}/bin/ip route | ${pkgs.gawk}/bin/awk '{print $5}' | ${pkgs.coreutils}/bin/head -n1) -j MASQUERADE 2>/dev/null || true
+      '';
     };
   };
 
@@ -103,6 +143,7 @@ in
       };
       "filen/webdav/user" = { };
       "filen/webdav/password" = { };
+      "netbird/setup-key" = { };
     };
   };
 
@@ -288,6 +329,7 @@ in
       "restic/nixnas/healthcheck" = { };
       "restic/nixnas/ntfy" = { };
       "backrest/nixnas/password" = { };
+      "netbird/setup-key" = { };
     };
     templates = {
       "rclone.conf" = {
