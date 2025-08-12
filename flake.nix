@@ -8,9 +8,36 @@
     ];
     extra-substituters = [
       "https://nix-community.cachix.org"
+      "https://hyprland.cachix.org"
+      "https://devenv.cachix.org"
+      "https://nixpkgs-wayland.cachix.org"
+      "https://mic92.cachix.org"
+      "https://walker.cachix.org"
+      "https://nix-gaming.cachix.org"
+      "https://numtide.cachix.org"
+      "https://tweag-nickel.cachix.org"
+    ];
+    trusted-substituters = [
+      "https://nix-community.cachix.org"
+      "https://hyprland.cachix.org"
+      "https://devenv.cachix.org"
+      "https://nixpkgs-wayland.cachix.org"
+      "https://mic92.cachix.org"
+      "https://walker.cachix.org"
+      "https://nix-gaming.cachix.org"
+      "https://numtide.cachix.org"
+      "https://tweag-nickel.cachix.org"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      "mic92.cachix.org-1:gi8IhgiT3CYZnJsaW7fxznzTkMUOn1RY4GmXdT/nXYQ="
+      "walker.cachix.org-1:fG8q+uAaMqhsMxWjwvk0IMb4mFPFLqHjuvfwQxE4oJM="
+      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
+      "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
+      "tweag-nickel.cachix.org-1:GIthuiK4LRgnW64ALYEoioVUQBWs0jexyoYVeLDBwRA="
     ];
   };
 
