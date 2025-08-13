@@ -576,6 +576,19 @@
         "type": "github"
       }
     },
+    "man-cert": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1744354982,
+        "narHash": "sha256-RjreZUdeWCXN+WNJSrntrRWGChJNRAaFDCAEOGUZW8U=",
+        "path": "/etc/nixos/man-cert.crt",
+        "type": "path"
+      },
+      "original": {
+        "path": "/etc/nixos/man-cert.crt",
+        "type": "path"
+      }
+    },
     "mnw": {
       "locked": {
         "lastModified": 1748710831,
@@ -908,6 +921,7 @@
         "home-manager-unstable": "home-manager-unstable",
         "hyprland": "hyprland",
         "impermanence": "impermanence",
+        "man-cert": "man-cert",
         "nix-on-droid": "nix-on-droid",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_3",

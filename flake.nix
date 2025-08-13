@@ -89,6 +89,10 @@
       url = "github:abenz1267/walker";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
+    man-cert = {
+      url = "path:/etc/nixos/man-cert.crt";
+      flake = false;
+    };
 
     # Home Manager
     home-manager = {
