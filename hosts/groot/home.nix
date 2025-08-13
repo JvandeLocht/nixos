@@ -73,6 +73,7 @@ in
         (writeShellScriptBin "freecad-x11" ''
           GDK_BACKEND=x11 QT_QPA_PLATFORM=xcb ${freecad}/bin/freecad "$@"
         '')
+        freecad
         inputs.zen-browser.packages."${system}".default # beta
         spotube
         makemkv
