@@ -42,17 +42,11 @@ in
   services.homelab.telegraf.enable = true;
   networking.enable = true;
 
-  # Enable Netbird VPN with exit node functionality
-  services.netbird = {
+  # Enable Tailscale VPN with subnet routing and exit node functionality
+  services.tailscale = {
     enable = true;
-    tunnels.wt0 = {
-      port = 51820;
-      environment = {
-        NB_MANAGEMENT_URL = "https://api.netbird.io";
-        NB_SETUP_KEY_FILE = config.sops.secrets."netbird/setup-key".path;
-        NB_LOG_LEVEL = "info";
-      };
-    };
+    useRoutingFeatures = "both"; # Enable subnet routing and exit node
+    authKeyFile = config.sops.secrets."tailscale/auth-key".path;
   };
 
   programs.nh = {
@@ -119,18 +113,18 @@ in
       extraCommands = ''
         iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns
 
-        # Enable NAT for Netbird exit node functionality
-        # Allow forwarding from Netbird interfaces to the internet
-        iptables -I FORWARD -i wt+ -j ACCEPT
-        iptables -I FORWARD -o wt+ -j ACCEPT
+        # Enable NAT for Tailscale exit node functionality  
+        # Allow forwarding from Tailscale interface to the internet
+        iptables -I FORWARD -i tailscale0 -j ACCEPT
+        iptables -I FORWARD -o tailscale0 -j ACCEPT
 
-        # NAT outgoing traffic from Netbird clients to internet
+        # NAT outgoing traffic from Tailscale clients to internet
         iptables -t nat -I POSTROUTING -s 100.64.0.0/10 -o $(${pkgs.iproute2}/bin/ip route | ${pkgs.gawk}/bin/awk '{print $5}' | ${pkgs.coreutils}/bin/head -n1) -j MASQUERADE
       '';
       extraStopCommands = ''
-        # Clean up NAT rules for Netbird
-        iptables -D FORWARD -i wt+ -j ACCEPT 2>/dev/null || true
-        iptables -D FORWARD -o wt+ -j ACCEPT 2>/dev/null || true
+        # Clean up NAT rules for Tailscale
+        iptables -D FORWARD -i tailscale0 -j ACCEPT 2>/dev/null || true
+        iptables -D FORWARD -o tailscale0 -j ACCEPT 2>/dev/null || true
         iptables -t nat -D POSTROUTING -s 100.64.0.0/10 -o $(${pkgs.iproute2}/bin/ip route | ${pkgs.gawk}/bin/awk '{print $5}' | ${pkgs.coreutils}/bin/head -n1) -j MASQUERADE 2>/dev/null || true
       '';
     };
@@ -143,7 +137,7 @@ in
       };
       "filen/webdav/user" = { };
       "filen/webdav/password" = { };
-      "netbird/setup-key" = { };
+      "tailscale/auth-key" = { };
     };
   };
 
@@ -329,7 +323,7 @@ in
       "restic/nixnas/healthcheck" = { };
       "restic/nixnas/ntfy" = { };
       "backrest/nixnas/password" = { };
-      "netbird/setup-key" = { };
+      "tailscale/auth-key" = { };
     };
     templates = {
       "rclone.conf" = {
