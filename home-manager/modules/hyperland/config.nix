@@ -261,7 +261,7 @@
     bind = $mainMod, V, togglefloating,
     bind = SUPER, F, fullscreen
     # bind = $mainMod, R, exec, ulauncher-toggle
-    bind = $mainMod, R, exec, ${pkgs.walker}/bin/walker
+    bind = $mainMod, R, exec, walker
     bind = $mainMod, P, pseudo, # dwindle
     bind = $mainMod, J, togglesplit, # dwindle
 

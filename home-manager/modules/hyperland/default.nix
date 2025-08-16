@@ -29,7 +29,24 @@
     gtkThemes.enable = true;
     hyprlock.enable = true;
     hypridle.enable = true;
-    walker.enable = true;
+    services.walker = {
+      enable = true;
+      settings = {
+        list = {
+          height = 200;
+        };
+        websearch = {
+          prefix = "?";
+          entries = [
+            {
+              name = "DuckDuckGo";
+              url = "https://duckduckgo.com/?q=%TERM%";
+            }
+          ];
+        };
+        switcher.prefix = "/";
+      };
+    };
     services = {
       swaync.enable = true;
       hyprpolkitagent.enable = true;
