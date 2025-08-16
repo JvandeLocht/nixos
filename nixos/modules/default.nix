@@ -6,6 +6,7 @@
     ./filen-webdav.nix
     ./gaming.nix
     ./gnome.nix
+    ./harmonia.nix
     ./hyprland.nix
     ./locale_keymap.nix
     ./networking.nix

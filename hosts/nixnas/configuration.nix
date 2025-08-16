@@ -35,7 +35,7 @@ in
   # gnome.enable = true;
   nvidia.enable = false;
   gaming.enable = false;
-  attic.enable = true;
+  harmonia.enable = true;
   copyparty.enable = true;
   printing.enable = true;
   sops-config.enable = true;
