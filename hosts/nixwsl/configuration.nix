@@ -25,10 +25,10 @@
   wsl.enable = true;
   wsl.defaultUser = "jan";
   # age.identityPaths = [ "${config.users.users.jan.home}/.ssh/id_ed25519" ];
-  # Load host-specific certificate from flake input
-  security.pki.certificates = [
-    (builtins.readFile inputs.man-cert)
-  ];
+  # Load host-specific certificate from file
+  # security.pki.certificates = [
+  #   (builtins.readFile ./man-cert.crt)
+  # ];
   networking = {
     hostName = "nixwsl"; # Define your hostname.
   };
