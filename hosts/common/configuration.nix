@@ -29,7 +29,7 @@ in
         powertop
         protonmail-bridge
         smartmontools
-        nvtopPackages.nvidia
+        # nvtopPackages.nvidia
         pika-backup
         borgbackup
         rclone
@@ -40,13 +40,13 @@ in
         immich-cli
         gnome-disk-utility
         glances
-        attic-client
-        attic-server
+        # attic-client
+        # attic-server
       ]
       ++ (with inputs; [
       ])
       ++ (with unstable; [
-        proton-pass
+        # proton-pass
       ]);
     # Set default editor to vim
     variables = {
@@ -55,7 +55,7 @@ in
     };
   };
 
-  networking.enable = true;
+  # networking.enable = true;
   users.defaultUserShell = pkgs.zsh;
 
   programs = {

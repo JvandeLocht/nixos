@@ -178,6 +178,14 @@
             ];
           };
 
+          hetzner = mkNixosConfig {
+            system = "x86_64-linux";
+            hostname = "hetzner";
+            username = "jan";
+            extraModules = [
+            ];
+          };
+
           nixwsl = mkNixosConfig {
             system = "x86_64-linux";
             hostname = "nixwsl";
