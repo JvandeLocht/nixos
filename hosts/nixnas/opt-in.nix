@@ -20,6 +20,7 @@
       "/var/lib/samba"
       "/var/lib/cups"
       "/var/spool/cups"
+      "/var/lib/acme"
       {
         directory = "/var/lib/colord";
         user = "colord";
