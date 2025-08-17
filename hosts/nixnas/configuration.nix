@@ -119,13 +119,22 @@ in
         iptables -I FORWARD -o tailscale0 -j ACCEPT
 
         # NAT outgoing traffic from Tailscale clients to internet
-        iptables -t nat -I POSTROUTING -s 100.64.0.0/10 -o $(${pkgs.iproute2}/bin/ip route | ${pkgs.gawk}/bin/awk '{print $5}' | ${pkgs.coreutils}/bin/head -n1) -j MASQUERADE
+        # Get the default interface more reliably
+        DEFAULT_IFACE=$(${pkgs.iproute2}/bin/ip route show default | ${pkgs.gawk}/bin/awk '/default/ { print $5; exit }' | ${pkgs.coreutils}/bin/head -n1)
+        if [ -n "$DEFAULT_IFACE" ]; then
+          iptables -t nat -I POSTROUTING -s 100.64.0.0/10 -o "$DEFAULT_IFACE" -j MASQUERADE
+        fi
       '';
       extraStopCommands = ''
         # Clean up NAT rules for Tailscale
         iptables -D FORWARD -i tailscale0 -j ACCEPT 2>/dev/null || true
         iptables -D FORWARD -o tailscale0 -j ACCEPT 2>/dev/null || true
-        iptables -t nat -D POSTROUTING -s 100.64.0.0/10 -o $(${pkgs.iproute2}/bin/ip route | ${pkgs.gawk}/bin/awk '{print $5}' | ${pkgs.coreutils}/bin/head -n1) -j MASQUERADE 2>/dev/null || true
+        
+        # Clean up MASQUERADE rule more reliably
+        DEFAULT_IFACE=$(${pkgs.iproute2}/bin/ip route show default | ${pkgs.gawk}/bin/awk '/default/ { print $5; exit }' | ${pkgs.coreutils}/bin/head -n1)
+        if [ -n "$DEFAULT_IFACE" ]; then
+          iptables -t nat -D POSTROUTING -s 100.64.0.0/10 -o "$DEFAULT_IFACE" -j MASQUERADE 2>/dev/null || true
+        fi
       '';
     };
   };
@@ -300,7 +309,7 @@ in
     ];
     trusted-users = [ "jan" ]; # Add your own username to the trusted list
     auto-optimise-store = true;
-    max-jobs = "auto";
+    max-jobs = 1;
     builders-use-substitutes = true;
   };
 
