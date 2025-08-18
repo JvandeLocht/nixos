@@ -26,6 +26,9 @@ in
         jan-nixnas = {
           neededForUsers = true;
         };
+        jan-hetzner = {
+          neededForUsers = true;
+        };
       };
       defaultSopsFile = ../../secrets/secrets.yaml;
     };
