@@ -33,11 +33,11 @@
 
   users = {
     # groups.samba = {};
+    mutableUsers = false;
     users = {
       "jan" = {
         isNormalUser = true;
-        hashedPasswordFile = config.sops.secrets.jan-nixnas.path;
-        # initialHashedPassword = "$y$j9T$2DyEjQxPoIjTkt8zCoWl.0$3mHxH.fqkCgu53xa0vannyu4Cue3Q7xL4CrUhMxREKC"; # Password.123
+        hashedPasswordFile = config.sops.secrets.jan-hetzner.path;
         home = "/home/jan";
         extraGroups = [
           "wheel"
