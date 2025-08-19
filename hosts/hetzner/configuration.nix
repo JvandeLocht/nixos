@@ -3,14 +3,20 @@
   inputs,
   config,
   ...
-}: let
+}:
+let
   domain = "headscale.vandelocht.uk";
-in {
+in
+{
   imports = [
     ./hardware-configuration.nix
     ./networking.nix # generated at runtime by nixos-infect
     ../common/configuration.nix
   ];
+
+  podman = {
+    enable = true;
+  };
 
   acme-cloudflare.enable = true;
   services.resolved.enable = true;
@@ -25,7 +31,10 @@ in {
         server_url = "https://${domain}";
         dns = {
           base_domain = "vpn.internal";
-          nameservers.global = ["1.1.1.1" "9.9.9.9"];
+          nameservers.global = [
+            "1.1.1.1"
+            "9.9.9.9"
+          ];
           magic_dns = true;
           override_local_dns = false;
         };
@@ -47,7 +56,7 @@ in {
     };
   };
 
-  environment.systemPackages = [config.services.headscale.package];
+  environment.systemPackages = [ config.services.headscale.package ];
 
   locale.enable = true;
   sops-config.enable = true;
@@ -64,7 +73,7 @@ in {
       "nix-command"
       "flakes"
     ];
-    trusted-users = ["jan"]; # Add your own username to the trusted list
+    trusted-users = [ "jan" ]; # Add your own username to the trusted list
     auto-optimise-store = true;
     max-jobs = 1;
     builders-use-substitutes = true;
