@@ -26,7 +26,7 @@ in {
         dns = {
           base_domain = "vpn.internal";
           nameservers.global = ["1.1.1.1" "9.9.9.9"];
-          magic_dns = false;
+          magic_dns = true;
         };
       };
     };
