@@ -3,12 +3,50 @@
   inputs,
   config,
   ...
-}: {
+}: let
+  domain = "headscale.vandelocht.uk";
+in {
   imports = [
     ./hardware-configuration.nix
     ./networking.nix # generated at runtime by nixos-infect
     ../common/configuration.nix
   ];
+
+  acme-cloudflare.enable = true;
+  services.resolved.enable = true;
+  services = {
+    headscale = {
+      enable = true;
+      address = "0.0.0.0";
+      port = 8080;
+
+      settings = {
+        logtail.enabled = false;
+        server_url = "https://${domain}";
+        dns = {
+          base_domain = "vpn.internal";
+          nameservers.global = ["1.1.1.1" "9.9.9.9"];
+          magic_dns = false;
+        };
+      };
+    };
+
+    nginx = {
+      enable = true;
+      recommendedTlsSettings = true;
+      virtualHosts.${domain} = {
+        useACMEHost = "vandelocht.uk";
+        forceSSL = true;
+
+        locations."/" = {
+          proxyPass = "http://localhost:${toString config.services.headscale.port}";
+          proxyWebsockets = true;
+        };
+      };
+    };
+  };
+
+  environment.systemPackages = [config.services.headscale.package];
 
   locale.enable = true;
   sops-config.enable = true;
@@ -48,15 +86,6 @@
       };
     };
   };
-
-  environment.systemPackages =
-    (with pkgs; [
-      # nixvim
-      spice
-      tmux
-    ])
-    ++ (with inputs; [
-      ]);
 
   boot.tmp.cleanOnBoot = true;
   zramSwap.enable = true;
