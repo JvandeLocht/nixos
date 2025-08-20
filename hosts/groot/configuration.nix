@@ -27,6 +27,7 @@ in
   hyprland.enable = true;
   locale.enable = true;
   nvidia.enable = true;
+  networking.enable = true;
   power.enable = true;
   printing.enable = true;
   services.enable = true;

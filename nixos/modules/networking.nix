@@ -3,7 +3,8 @@
   lib,
   config,
   ...
-}: {
+}:
+{
   options.networking = {
     enable = lib.mkEnableOption "Set up networking and SSH";
   };
