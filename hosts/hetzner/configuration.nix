@@ -45,7 +45,7 @@ in
     nginx = {
       enable = true;
       recommendedTlsSettings = true;
-      
+
       # WebSocket upgrade mapping for proper proxying
       appendHttpConfig = ''
         map $http_upgrade $connection_upgrade {
@@ -53,7 +53,7 @@ in
           "" close;
         }
       '';
-      
+
       virtualHosts.${domain} = {
         useACMEHost = "vandelocht.uk";
         forceSSL = true;
@@ -127,22 +127,22 @@ in
     enable = true;
     allowedTCPPortRanges = [
       {
-        from = 8080;
-        to = 8080;
+        from = 80;
+        to = 80;
       }
       {
-        from = 8090;
-        to = 8090;
+        from = 443;
+        to = 443;
       }
     ];
     allowedUDPPortRanges = [
       {
-        from = 8080;
-        to = 8080;
+        from = 80;
+        to = 80;
       }
       {
-        from = 8090;
-        to = 8090;
+        from = 443;
+        to = 443;
       }
     ];
   };
