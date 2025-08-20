@@ -13,6 +13,7 @@
     exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
     exec-once = ${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage
     exec-once = ${pkgs.asusctl}/bin/rog-control-center
+    exec-once = ${pkgs.trayscale}/bin/trayscale --no-window
 
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
