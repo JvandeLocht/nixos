@@ -52,6 +52,16 @@ in
           default upgrade;
           "" close;
         }
+        
+        # Global DNS resolver for oauth2-proxy connections
+        resolver 1.1.1.1 1.0.0.1 valid=300s;
+        resolver_timeout 5s;
+        
+        # Increase buffer sizes for large headers from oauth2-proxy
+        proxy_buffer_size 16k;
+        proxy_buffers 8 16k;
+        proxy_busy_buffers_size 32k;
+        large_client_header_buffers 8 32k;
       '';
 
       virtualHosts.${domain} = {
@@ -61,15 +71,27 @@ in
         locations."/" = {
           proxyPass = "http://localhost:${toString config.services.headscale.port}";
           proxyWebsockets = true;
+          extraConfig = ''
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $connection_upgrade;
+            proxy_set_header Host $server_name;
+            proxy_redirect http:// https://;
+            proxy_buffering off;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            add_header Strict-Transport-Security "max-age=15552000; includeSubDomains" always;
+          '';
         };
         locations."/admin" = {
           proxyPass = "http://127.0.0.1:8090";
           proxyWebsockets = true;
           extraConfig = ''
-            # oauth2-proxy authentication
+            # oauth2-proxy authentication with improved error handling
             auth_request /oauth2/auth;
             error_page 401 = @oauth2_signin;
             error_page 403 = @oauth2_signin;
+            error_page 502 = @oauth2_signin;
             
             # Pass authentication headers
             auth_request_set $auth_user $upstream_http_x_auth_request_user;
@@ -87,10 +109,11 @@ in
           proxyPass = "http://127.0.0.1:8090/admin/";
           proxyWebsockets = true;
           extraConfig = ''
-            # oauth2-proxy authentication
+            # oauth2-proxy authentication with improved error handling
             auth_request /oauth2/auth;
             error_page 401 = @oauth2_signin;
             error_page 403 = @oauth2_signin;
+            error_page 502 = @oauth2_signin;
             
             # Pass authentication headers
             auth_request_set $auth_user $upstream_http_x_auth_request_user;
@@ -104,14 +127,14 @@ in
             proxy_redirect http://127.0.0.1:8090/ /admin/;
           '';
         };
-        
+
         # Named location for oauth2 signin redirect
         locations."@oauth2_signin" = {
           extraConfig = ''
             return 302 https://oauth2proxy.vandelocht.uk/oauth2/start?rd=$scheme://$server_name$request_uri;
           '';
         };
-        
+
         # oauth2-proxy auth endpoint with improved connectivity
         locations."/oauth2/auth" = {
           proxyPass = "https://oauth2proxy.vandelocht.uk/oauth2/auth";
@@ -126,22 +149,29 @@ in
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_set_header Host oauth2proxy.vandelocht.uk;
             
+            # Pass cookies for authentication
+            proxy_pass_request_headers on;
+
             # SSL configuration
             proxy_ssl_verify off;
             proxy_ssl_server_name on;
             proxy_ssl_name oauth2proxy.vandelocht.uk;
-            
+
             # Connection settings
             proxy_connect_timeout 10s;
             proxy_send_timeout 10s;
             proxy_read_timeout 10s;
             
-            # DNS resolution
-            resolver 1.1.1.1 1.0.0.1 valid=300s;
-            resolver_timeout 5s;
+            # Buffer settings for large headers
+            proxy_buffer_size 32k;
+            proxy_buffers 8 32k;
+            proxy_busy_buffers_size 64k;
+            
+            # Ignore client abort
+            proxy_ignore_client_abort on;
           '';
         };
-        
+
         # oauth2-proxy callback endpoint (for post-auth redirects)
         locations."/oauth2/callback" = {
           proxyPass = "https://oauth2proxy.vandelocht.uk/oauth2/callback";
@@ -150,20 +180,16 @@ in
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_set_header Host oauth2proxy.vandelocht.uk;
-            
+
             # SSL configuration
             proxy_ssl_verify off;
             proxy_ssl_server_name on;
             proxy_ssl_name oauth2proxy.vandelocht.uk;
-            
+
             # Connection settings
             proxy_connect_timeout 10s;
             proxy_send_timeout 10s;
             proxy_read_timeout 10s;
-            
-            # DNS resolution
-            resolver 1.1.1.1 1.0.0.1 valid=300s;
-            resolver_timeout 5s;
           '';
         };
       };
