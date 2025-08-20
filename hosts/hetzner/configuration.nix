@@ -66,6 +66,19 @@ in
           proxyPass = "http://127.0.0.1:8090";
           proxyWebsockets = true;
           extraConfig = ''
+            # oauth2-proxy authentication
+            auth_request /oauth2/auth;
+            error_page 401 = @oauth2_signin;
+            error_page 403 = @oauth2_signin;
+            
+            # Pass authentication headers
+            auth_request_set $auth_user $upstream_http_x_auth_request_user;
+            auth_request_set $auth_email $upstream_http_x_auth_request_email;
+            auth_request_set $auth_groups $upstream_http_x_auth_request_groups;
+            proxy_set_header X-Auth-Request-User $auth_user;
+            proxy_set_header X-Auth-Request-Email $auth_email;
+            proxy_set_header X-Auth-Request-Groups $auth_groups;
+            
             proxy_redirect http:// https://;
             proxy_redirect http://127.0.0.1:8090/ /admin/;
           '';
@@ -74,8 +87,83 @@ in
           proxyPass = "http://127.0.0.1:8090/admin/";
           proxyWebsockets = true;
           extraConfig = ''
+            # oauth2-proxy authentication
+            auth_request /oauth2/auth;
+            error_page 401 = @oauth2_signin;
+            error_page 403 = @oauth2_signin;
+            
+            # Pass authentication headers
+            auth_request_set $auth_user $upstream_http_x_auth_request_user;
+            auth_request_set $auth_email $upstream_http_x_auth_request_email;
+            auth_request_set $auth_groups $upstream_http_x_auth_request_groups;
+            proxy_set_header X-Auth-Request-User $auth_user;
+            proxy_set_header X-Auth-Request-Email $auth_email;
+            proxy_set_header X-Auth-Request-Groups $auth_groups;
+            
             proxy_redirect http:// https://;
             proxy_redirect http://127.0.0.1:8090/ /admin/;
+          '';
+        };
+        
+        # Named location for oauth2 signin redirect
+        locations."@oauth2_signin" = {
+          extraConfig = ''
+            return 302 https://oauth2proxy.vandelocht.uk/oauth2/start?rd=$scheme://$server_name$request_uri;
+          '';
+        };
+        
+        # oauth2-proxy auth endpoint with improved connectivity
+        locations."/oauth2/auth" = {
+          proxyPass = "https://oauth2proxy.vandelocht.uk/oauth2/auth";
+          extraConfig = ''
+            internal;
+            proxy_pass_request_body off;
+            proxy_set_header Content-Length "";
+            proxy_set_header X-Original-URI $request_uri;
+            proxy_set_header X-Original-Method $request_method;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Host oauth2proxy.vandelocht.uk;
+            
+            # SSL configuration
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name oauth2proxy.vandelocht.uk;
+            
+            # Connection settings
+            proxy_connect_timeout 10s;
+            proxy_send_timeout 10s;
+            proxy_read_timeout 10s;
+            
+            # DNS resolution
+            resolver 1.1.1.1 1.0.0.1 valid=300s;
+            resolver_timeout 5s;
+          '';
+        };
+        
+        # oauth2-proxy callback endpoint (for post-auth redirects)
+        locations."/oauth2/callback" = {
+          proxyPass = "https://oauth2proxy.vandelocht.uk/oauth2/callback";
+          extraConfig = ''
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Host oauth2proxy.vandelocht.uk;
+            
+            # SSL configuration
+            proxy_ssl_verify off;
+            proxy_ssl_server_name on;
+            proxy_ssl_name oauth2proxy.vandelocht.uk;
+            
+            # Connection settings
+            proxy_connect_timeout 10s;
+            proxy_send_timeout 10s;
+            proxy_read_timeout 10s;
+            
+            # DNS resolution
+            resolver 1.1.1.1 1.0.0.1 valid=300s;
+            resolver_timeout 5s;
           '';
         };
       };
