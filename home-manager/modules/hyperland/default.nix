@@ -53,31 +53,6 @@
     };
 
     systemd.user.services = {
-      # hideFilen = { Unit = {
-      #     Description = "hide filen";
-      #     After = "filen.service";
-      #   };
-      #   Service = {
-      #     Restart = "never";
-      #     ExecStartPre = "${pkgs.toybox}/bin/sleep 5";
-      #
-      #     ExecStart = "${pkgs.hyprland}/bin/hyprctl dispatch togglespecialworkspace Filen";
-      #   };
-      #   Install = { WantedBy = [ "graphical-session.target" ]; };
-      # };
-      # hideNotify = {
-      #   Unit = {
-      #     Description = "hide notify";
-      #     After = "notify.service";
-      #   };
-      #   Service = {
-      #     Restart = "never";
-      #     ExecStartPre = "${pkgs.toybox}/bin/sleep 9";
-      #
-      #     ExecStart = "${pkgs.hyprland}/bin/hyprctl dispatch togglespecialworkspace Notify";
-      #   };
-      #   Install = { WantedBy = [ "graphical-session.target" ]; };
-      # };
     };
 
     home.packages = with pkgs; [

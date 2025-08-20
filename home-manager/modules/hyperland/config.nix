@@ -11,7 +11,7 @@
     exec-once = hyprctl setcursor catppuccin-mocha-sapphire-cursors 15
     exec-once = hyprpaper & nm-applet
     exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
-    exec-once = ${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage
+    exec-once = ${pkgs.filen-desktop}/bin/filen-desktop
     exec-once = ${pkgs.asusctl}/bin/rog-control-center
     exec-once = ${pkgs.trayscale}/bin/trayscale --no-window
 
