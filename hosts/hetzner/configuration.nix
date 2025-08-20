@@ -45,6 +45,15 @@ in
     nginx = {
       enable = true;
       recommendedTlsSettings = true;
+      
+      # WebSocket upgrade mapping for proper proxying
+      appendHttpConfig = ''
+        map $http_upgrade $connection_upgrade {
+          default upgrade;
+          "" close;
+        }
+      '';
+      
       virtualHosts.${domain} = {
         useACMEHost = "vandelocht.uk";
         forceSSL = true;
@@ -53,15 +62,22 @@ in
           proxyPass = "http://localhost:${toString config.services.headscale.port}";
           proxyWebsockets = true;
         };
-        locations."/admin".extraConfig = ''
-          proxy_pass http://127.0.0.1:8090;
-          proxy_set_header Host $host;
-          proxy_redirect http:// https://;
-          proxy_http_version 1.1;
-          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-          proxy_set_header Upgrade $http_upgrade;
-          proxy_set_header Connection $connection_upgrade;
-        '';
+        locations."/admin" = {
+          proxyPass = "http://127.0.0.1:8090";
+          proxyWebsockets = true;
+          extraConfig = ''
+            proxy_redirect http:// https://;
+            proxy_redirect http://127.0.0.1:8090/ /admin/;
+          '';
+        };
+        locations."/admin/" = {
+          proxyPass = "http://127.0.0.1:8090/admin/";
+          proxyWebsockets = true;
+          extraConfig = ''
+            proxy_redirect http:// https://;
+            proxy_redirect http://127.0.0.1:8090/ /admin/;
+          '';
+        };
       };
     };
   };
@@ -137,10 +153,10 @@ in
   networking.domain = "";
   services.openssh.enable = true;
   users.users.root.openssh.authorizedKeys.keys = [
-    ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJn9cBaz3tYq1veuROlicKBNW4ArJTJ3lEk10+SN+x7V jan@vandelocht.uk''
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJn9cBaz3tYq1veuROlicKBNW4ArJTJ3lEk10+SN+x7V jan@vandelocht.uk"
   ];
   users.users.jan.openssh.authorizedKeys.keys = [
-    ''ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJn9cBaz3tYq1veuROlicKBNW4ArJTJ3lEk10+SN+x7V jan@vandelocht.uk''
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJn9cBaz3tYq1veuROlicKBNW4ArJTJ3lEk10+SN+x7V jan@vandelocht.uk"
   ];
   system.stateVersion = "23.11";
 }
