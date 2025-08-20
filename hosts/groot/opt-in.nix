@@ -6,6 +6,8 @@
       "/var/log"
       "/var/lib/bluetooth"
       "/var/lib/cups"
+      "/var/lib/tailscale"
+      "/var/cache/tailscale"
       "/var/spool/cups"
       "/var/lib/nixos"
       "/var/lib/libvirt"
@@ -28,7 +30,9 @@
       "/etc/machine-id"
       {
         file = "/var/keys/secret_file";
-        parentDirectory = {mode = "u=rwx,g=,o=";};
+        parentDirectory = {
+          mode = "u=rwx,g=,o=";
+        };
       }
     ];
   };

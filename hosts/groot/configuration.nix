@@ -131,6 +131,9 @@ in
   };
   # Enable the X11 windowing system.
   services = {
+    tailscale = {
+      enable = true;
+    };
     backrest = {
       enable = true;
       bindAddress = "127.0.0.1"; # or "0.0.0.0" for the second snippet
