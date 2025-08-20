@@ -27,9 +27,7 @@ in
         evtest
         gnugrep
         powertop
-        protonmail-bridge
         smartmontools
-        # nvtopPackages.nvidia
         pika-backup
         borgbackup
         rclone
@@ -40,13 +38,10 @@ in
         immich-cli
         gnome-disk-utility
         glances
-        # attic-client
-        # attic-server
       ]
       ++ (with inputs; [
       ])
       ++ (with unstable; [
-        # proton-pass
       ]);
     # Set default editor to vim
     variables = {
@@ -59,10 +54,7 @@ in
   users.defaultUserShell = pkgs.zsh;
 
   programs = {
-    bash.blesh.enable = true;
-    fish.enable = true;
     zsh.enable = true;
-    kdeconnect.enable = true;
     partition-manager.enable = true;
   };
 
@@ -83,10 +75,5 @@ in
 
   nix = {
     optimise.automatic = true;
-    # gc = {
-    #   automatic = true;
-    #   dates = "weekly";
-    #   options = "--delete-older-than 30d";
-    # };
   };
 }

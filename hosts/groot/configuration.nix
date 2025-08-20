@@ -17,12 +17,6 @@ in
     ./opt-in.nix
   ];
 
-  #enable custom modules
-  podman = {
-    enable = true;
-    nvidia.enable = false;
-  };
-  virtSupport.enable = true;
   gaming.enable = true;
   hyprland.enable = true;
   locale.enable = true;
@@ -33,10 +27,8 @@ in
   services.enable = true;
   sops-config.enable = true;
   soundConfig.enable = true;
-  specialisationConfig.enable = false;
 
   environment.systemPackages = [ pkgs.cifs-utils ];
-
   sops = {
     secrets = {
       "smb/nixnas/username" = { };
@@ -139,11 +131,6 @@ in
   };
   # Enable the X11 windowing system.
   services = {
-    ollama = {
-      enable = true;
-      acceleration = "cuda";
-    };
-    nextjs-ollama-llm-ui.enable = true;
     backrest = {
       enable = true;
       bindAddress = "127.0.0.1"; # or "0.0.0.0" for the second snippet

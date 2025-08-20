@@ -17,12 +17,10 @@ in
 
   zsh.enable = true;
   yazi.enable = true;
-  lf.enable = true;
   emacs.enable = true;
   tmux.enable = true;
   firefox.enable = true;
   alacritty.enable = true;
-  foot.enable = true;
   kitty.enable = true;
   home = {
     username = "jan";
@@ -31,27 +29,18 @@ in
     packages =
       (with pkgs; [
         bitwarden-desktop
-        (blackbox-terminal.override { sixelSupport = true; })
-        chafa
+        chafa # terminal graphics
         prusa-slicer
-        protonmail-desktop
-        # nextcloud-client
         jameica
         spacenavd
         libreoffice-qt
-        # remmina
-        solaar
+        solaar # logitech gear
         AusweisApp2
         antimicrox
-        # octaveFull
-        # super-slicer-latest
         waydroid
         freetube
-        webcord
         evince # pdf viewer
         thunderbird
-        # qownnotes
-        joplin-desktop
         obs-studio
         vlc
         zoom-us
@@ -62,13 +51,9 @@ in
         element-desktop
         zathura
         pdf4qt
-        dbeaver-bin
         brave
         ungoogled-chromium
-        # mullvad-browser
         mediawriter
-        peazip
-        # freecad
 
         (writeShellScriptBin "freecad-x11" ''
           GDK_BACKEND=x11 QT_QPA_PLATFORM=xcb ${freecad}/bin/freecad "$@"
@@ -76,7 +61,6 @@ in
         freecad
         inputs.zen-browser.packages."${system}".default # beta
         spotube
-        makemkv
         claude-code
 
         golden-cheetah
@@ -84,30 +68,13 @@ in
         rclone
         python313
         notify-client
+        bitwarden-cli
       ])
       ++ (with stable; [
-        bitwarden-cli
       ]);
   };
 
   systemd.user.services = {
-    protonmail-bridge = {
-      Unit = {
-        Description = "Protonmail Bridge";
-      };
-      Service = {
-        Restart = "always";
-        ExecStart = "${pkgs.protonmail-bridge}/bin/protonmail-bridge --no-window --noninteractive";
-        Environment = [
-          "PATH=${pkgs.gnome-keyring}/bin:${pkgs.pass}/bin"
-          "PASSWORD_STORE_DIR=/home/jan/.local/share/password-store"
-        ];
-      };
-      Install = {
-        WantedBy = [ "graphical-session.target" ];
-      };
-    };
-
     keyboard_light = {
       Unit = {
         Description = "Set keyboard light to 1";
@@ -168,26 +135,6 @@ in
         WantedBy = [ "graphical-session.target" ];
       };
     };
-    # notify = {
-    #   Unit = {
-    #     Description = "start notify";
-    #   };
-    #   Service = {
-    #     Restart = "always";
-    #     ExecStart = "${pkgs.notify-client}/bin/notify";
-    #   };
-    #   Install = { WantedBy = [ "graphical-session.target" ]; };
-    # };
-    # rog-control = {
-    #   Unit = {
-    #     Description = "start rog-control";
-    #   };
-    #   Service = {
-    #     Restart = "always";
-    #     ExecStart = "${pkgs.asusctl}/bin/rog-control-center";
-    #   };
-    #   Install = { WantedBy = [ "graphical-session.target" ]; };
-    # };
   };
 
   # This value determines the home Manager release that your
