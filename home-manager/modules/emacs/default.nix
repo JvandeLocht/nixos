@@ -52,8 +52,6 @@
         nixfmt-rfc-style
         lazygit
         tinymist
-        nerd-fonts.fira-code
-        nerd-fonts.fira-mono
         fira-sans
         emacs-all-the-icons-fonts
         fontconfig

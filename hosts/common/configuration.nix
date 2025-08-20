@@ -62,10 +62,15 @@ in
     fontDir.enable = true;
     packages = with pkgs; [
       fira-code
+      fira-sans
       cantarell-fonts
       notonoto
       meslo-lgs-nf
       vistafonts
+      nerd-fonts.fantasque-sans-mono
+      nerd-fonts.fira-code
+      nerd-fonts.fira-mono
+      fira-code-symbols
     ];
     # ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
   };
