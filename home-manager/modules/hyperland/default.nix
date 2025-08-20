@@ -90,12 +90,8 @@
       swaynotificationcenter
       wlogout
       networkmanagerapplet
-      libsForQt5.kdeconnect-kde
       iio-hyprland
-      fractal # Matrix client
-      qimgv # image viewer
       jq
-      ulauncher
       zip
       udiskie
     ];
