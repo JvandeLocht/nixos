@@ -6,16 +6,11 @@
 }:
 {
   wayland.windowManager.hyprland.extraConfig = ''
-    exec-once = {pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
     exec-once = waybar
     exec-once = ${pkgs.libsForQt5.plasma-workspace}/bin/xembedsniproxy
     exec-once = hyprctl setcursor catppuccin-mocha-sapphire-cursors 15
     exec-once = hyprpaper & kdeconnect-indicator & nm-applet
-    # exec=gnome-keyring-daemon -sd
     exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
-    # exec-once = ${pkgs.ulauncher}/bin/ulauncher --hide-window
-    # exec-once=${pkgs.walker}/bin/walker --gapplication-service
-    exec-once = ${pkgs.udiskie}/bin/udiskie -t
     exec-once = ${pkgs.appimage-run}/bin/appimage-run /home/jan/AppImage/filen_x86_64.AppImage
     exec-once = ${pkgs.asusctl}/bin/rog-control-center
 
