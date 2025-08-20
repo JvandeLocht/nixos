@@ -16,6 +16,7 @@ in
 
   podman = {
     enable = true;
+    headscale-admin.enable = true;
   };
 
   acme-cloudflare.enable = true;
@@ -52,6 +53,15 @@ in
           proxyPass = "http://localhost:${toString config.services.headscale.port}";
           proxyWebsockets = true;
         };
+        locations."/admin".extraConfig = ''
+          proxy_pass http://127.0.0.1:8090;
+          proxy_set_header Host $host;
+          proxy_redirect http:// https://;
+          proxy_http_version 1.1;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection $connection_upgrade;
+        '';
       };
     };
   };
@@ -95,6 +105,30 @@ in
         linger = true;
       };
     };
+  };
+
+  networking.firewall = {
+    enable = true;
+    allowedTCPPortRanges = [
+      {
+        from = 8080;
+        to = 8080;
+      }
+      {
+        from = 8090;
+        to = 8090;
+      }
+    ];
+    allowedUDPPortRanges = [
+      {
+        from = 8080;
+        to = 8080;
+      }
+      {
+        from = 8090;
+        to = 8090;
+      }
+    ];
   };
 
   boot.tmp.cleanOnBoot = true;
