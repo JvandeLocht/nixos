@@ -16,7 +16,6 @@
     ./power.nix
     ./printing.nix
     ./services.nix
-    ./sops.nix
     ./sound.nix
     ./virtualization
     ./podman

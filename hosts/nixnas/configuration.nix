@@ -13,6 +13,7 @@
     ./hardware-configuration.nix
     ../common/configuration.nix
     ./opt-in.nix
+    ./sops.nix
   ];
   services.printing = {
     listenAddresses = [ "*:631" ];
@@ -35,7 +36,6 @@
   harmonia.enable = true;
   copyparty.enable = true;
   printing.enable = true;
-  sops-config.enable = true;
   services.homelab.telegraf.enable = true;
   networking.enable = true;
   zfs-impermanence = {
@@ -108,7 +108,7 @@
         # Clean up NAT rules for Tailscale
         iptables -D FORWARD -i tailscale0 -j ACCEPT 2>/dev/null || true
         iptables -D FORWARD -o tailscale0 -j ACCEPT 2>/dev/null || true
-        
+
         # Clean up MASQUERADE rule more reliably
         DEFAULT_IFACE=$(${pkgs.iproute2}/bin/ip route show default | ${pkgs.gawk}/bin/awk '/default/ { print $5; exit }' | ${pkgs.coreutils}/bin/head -n1)
         if [ -n "$DEFAULT_IFACE" ]; then

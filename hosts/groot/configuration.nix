@@ -12,6 +12,7 @@
     ./hardware-configuration.nix # Include the results of the hardware scan.
     ../common/configuration.nix
     ./opt-in.nix
+    ./sops.nix
   ];
 
   gaming.enable = true;
@@ -22,7 +23,6 @@
   power.enable = true;
   printing.enable = true;
   services.enable = true;
-  sops-config.enable = true;
   soundConfig.enable = true;
   zfs-impermanence = {
     enable = true;
@@ -71,7 +71,6 @@
   networking = {
     hostName = "groot"; # Define your hostname.
   };
-
 
   hardware = {
     # Enable Accelerometer

@@ -40,6 +40,8 @@ in
         immich-cli
         gnome-disk-utility
         glances
+        sops
+        age
       ]
       ++ (with inputs; [
       ])

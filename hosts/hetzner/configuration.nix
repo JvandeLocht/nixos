@@ -12,6 +12,7 @@ in
     ./hardware-configuration.nix
     ./networking.nix # generated at runtime by nixos-infect
     ../common/configuration.nix
+    ./sops.nix
   ];
 
   podman = {
@@ -52,11 +53,11 @@ in
           default upgrade;
           "" close;
         }
-        
+
         # Global DNS resolver for oauth2-proxy connections
         resolver 1.1.1.1 1.0.0.1 valid=300s;
         resolver_timeout 5s;
-        
+
         # Increase buffer sizes for large headers from oauth2-proxy
         proxy_buffer_size 16k;
         proxy_buffers 8 16k;
@@ -92,7 +93,7 @@ in
             error_page 401 = @oauth2_signin;
             error_page 403 = @oauth2_signin;
             error_page 502 = @oauth2_signin;
-            
+
             # Pass authentication headers
             auth_request_set $auth_user $upstream_http_x_auth_request_user;
             auth_request_set $auth_email $upstream_http_x_auth_request_email;
@@ -100,7 +101,7 @@ in
             proxy_set_header X-Auth-Request-User $auth_user;
             proxy_set_header X-Auth-Request-Email $auth_email;
             proxy_set_header X-Auth-Request-Groups $auth_groups;
-            
+
             proxy_redirect http:// https://;
             proxy_redirect http://127.0.0.1:8090/ /admin/;
           '';
@@ -114,7 +115,7 @@ in
             error_page 401 = @oauth2_signin;
             error_page 403 = @oauth2_signin;
             error_page 502 = @oauth2_signin;
-            
+
             # Pass authentication headers
             auth_request_set $auth_user $upstream_http_x_auth_request_user;
             auth_request_set $auth_email $upstream_http_x_auth_request_email;
@@ -122,7 +123,7 @@ in
             proxy_set_header X-Auth-Request-User $auth_user;
             proxy_set_header X-Auth-Request-Email $auth_email;
             proxy_set_header X-Auth-Request-Groups $auth_groups;
-            
+
             proxy_redirect http:// https://;
             proxy_redirect http://127.0.0.1:8090/ /admin/;
           '';
@@ -148,7 +149,7 @@ in
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_set_header Host oauth2proxy.vandelocht.uk;
-            
+
             # Pass cookies for authentication
             proxy_pass_request_headers on;
 
@@ -161,12 +162,12 @@ in
             proxy_connect_timeout 10s;
             proxy_send_timeout 10s;
             proxy_read_timeout 10s;
-            
+
             # Buffer settings for large headers
             proxy_buffer_size 32k;
             proxy_buffers 8 32k;
             proxy_busy_buffers_size 64k;
-            
+
             # Ignore client abort
             proxy_ignore_client_abort on;
           '';
@@ -199,7 +200,6 @@ in
   environment.systemPackages = [ config.services.headscale.package ];
 
   locale.enable = true;
-  sops-config.enable = true;
 
   programs.nh = {
     enable = true;
