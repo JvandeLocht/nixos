@@ -302,16 +302,7 @@ in
       };
     };
   };
-  nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    trusted-users = [ "jan" ]; # Add your own username to the trusted list
-    auto-optimise-store = true;
-    max-jobs = 1;
-    builders-use-substitutes = true;
-  };
+  nix-settings.maxJobs = 1;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget

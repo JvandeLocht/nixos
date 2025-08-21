@@ -11,16 +11,10 @@
   ...
 }:
 {
-  nix.settings = {
-    experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-    trusted-users = [ "jan" ]; # Add your own username to the trusted list
-    auto-optimise-store = true;
-    max-jobs = "auto";
-    builders-use-substitutes = true;
-  };
+  imports = [
+    ../common/configuration.nix
+  ];
+
   users.defaultUserShell = pkgs.zsh;
   wsl.enable = true;
   wsl.defaultUser = "jan";

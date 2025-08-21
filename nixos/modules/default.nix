@@ -11,6 +11,7 @@
     ./hyprland.nix
     ./locale_keymap.nix
     ./networking.nix
+    ./nix-settings.nix
     ./nvidia.nix
     ./power.nix
     ./printing.nix

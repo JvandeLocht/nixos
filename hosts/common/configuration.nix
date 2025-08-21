@@ -16,6 +16,8 @@ in
     ../../nixos/modules
   ];
 
+  nix-settings.enable = true;
+
   environment = {
     systemPackages =
       with pkgs;
