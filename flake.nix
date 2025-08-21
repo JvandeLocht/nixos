@@ -18,31 +18,8 @@
       "https://tweag-nickel.cachix.org"
       "https://cache.lan.vandelocht.uk/"
     ];
-    trusted-substituters = [
-      "https://cache.nixos.org/"
-      "https://nix-community.cachix.org"
-      "https://hyprland.cachix.org"
-      "https://devenv.cachix.org"
-      "https://nixpkgs-wayland.cachix.org"
-      "https://mic92.cachix.org"
-      "https://nix-gaming.cachix.org"
-      "https://numtide.cachix.org"
-      "https://tweag-nickel.cachix.org"
-      "https://cache.lan.vandelocht.uk/"
-    ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-      "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
-      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
-      "mic92.cachix.org-1:gi8IhgiT3CYZnJsaW7fxznzTkMUOn1RY4GmXdT/nXYQ="
-      "nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="
-      "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
-      "tweag-nickel.cachix.org-1:GIthuiK4LRgnW64ALYEoioVUQBWs0jexyoYVeLDBwRA="
-      "cache.lan.vandelocht.uk:uY5NlU5/9D6UTirWyuY8WTI+oEucGbSINnQfe6xrQbM="
-    ];
-    extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
       "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
@@ -228,7 +205,8 @@
             system = "aarch64-linux";
             overlays = [
               nix-on-droid.overlays.default
-            ] ++ commonOverlays;
+            ]
+            ++ commonOverlays;
           };
           home-manager-path = home-manager.outPath;
           extraSpecialArgs = specialArgs;
