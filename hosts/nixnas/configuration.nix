@@ -48,6 +48,7 @@
     enable = true;
     useRoutingFeatures = "both"; # Enable subnet routing and exit node
     authKeyFile = config.sops.secrets."tailscale/auth-key".path;
+    authKeyParameters.baseURL = "headscale.vandelocht.uk";
   };
 
   programs.nh = {
