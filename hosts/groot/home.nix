@@ -21,6 +21,7 @@ in
   tmux.enable = true;
   firefox.enable = true;
   alacritty.enable = true;
+  ghostty.enable = true;
   kitty.enable = true;
   home = {
     username = "jan";

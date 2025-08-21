@@ -13,6 +13,7 @@
     ./fish.nix
     ./gtk.nix
     ./gnome.nix
+    ./ghostty.nix
     ./hyprlock.nix
     ./hypridle.nix
     ./kitty.nix
