@@ -33,7 +33,6 @@
   # gnome.enable = true;
   nvidia.enable = false;
   gaming.enable = false;
-  harmonia.enable = true;
   copyparty.enable = true;
   printing.enable = true;
   services.homelab.telegraf.enable = true;
