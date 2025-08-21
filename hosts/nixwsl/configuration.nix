@@ -26,41 +26,6 @@
   networking = {
     hostName = "nixwsl"; # Define your hostname.
   };
-  programs = {
-    zsh.enable = true;
-  };
-  environment = {
-    systemPackages =
-      with pkgs;
-      [
-        curl
-        powertop
-        rclone
-        restic
-      ]
-      ++ (with inputs; [
-      ])
-      ++ (with unstable; [
-        # proton-pass
-      ]);
-    # Set default editor to vim
-    variables = {
-      EDITOR = "nvim";
-      RESTIC_PROGRESS_FPS = "1";
-    };
-  };
-
-  fonts = {
-    fontDir.enable = true;
-    packages = with pkgs; [
-      cantarell-fonts
-      notonoto
-      vistafonts
-      nerd-fonts.fira-code
-      nerd-fonts.fira-mono
-      nerd-fonts.meslo-lg
-    ];
-  };
   nixpkgs.config.allowUnfree = true;
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It's perfectly fine and recommended to leave
