@@ -14,6 +14,7 @@
     exec-once = ${pkgs.filen-desktop}/bin/filen-desktop
     exec-once = ${pkgs.asusctl}/bin/rog-control-center
     exec-once = ${pkgs.trayscale}/bin/trayscale --no-window
+    exec-once = ${pkgs.udiskie}/bin/udiskie -t
 
 
     # See https://wiki.hyprland.org/Configuring/Monitors/

@@ -68,7 +68,6 @@
       iio-hyprland
       jq
       zip
-      udiskie
     ];
   };
 }

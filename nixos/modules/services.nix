@@ -22,6 +22,7 @@
       gnome.sushi.enable = true;
       smartd.enable = true;
       fwupd.enable = true;
+      udisks2.enable = true;
       # spacenavd = {
       #   enable = true;
       #   enableUserService = true;
