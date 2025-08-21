@@ -1,9 +1,14 @@
 keys:
   # Replace with your actual age public key after running: age-keygen -o /persist/sops/age/keys.txt
   - &groot age1es2p8zvt5l6mexc9wwmjt2va2f2twes0yxjwp8m9nxpa8mq65s5se2axhn
+  - &hetzner age1w92kqpjmcghg5yjjnkwn0g8nfylghpwqjzh3fwa3ewdefrlzachshnu3hg
 
 creation_rules:
   - path_regex: secrets/secrets-groot.yaml
     key_groups:
       - age:
           - *groot
+  - path_regex: secrets/secrets-hetzner.yaml
+    key_groups:
+      - age:
+          - *hetzner
