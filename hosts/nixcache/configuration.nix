@@ -8,9 +8,6 @@
   inputs,
   ...
 }:
-let
-  zfsUtils = import ../../lib/zfs.nix { inherit lib pkgs config; };
-in
 {
   imports = [
     ./hardware-configuration.nix
@@ -20,6 +17,10 @@ in
   locale.enable = true;
   sops-config.enable = true;
   harmonia.enable = true;
+  zfs-impermanence = {
+    enable = true;
+    hostId = "3901c199";
+  };
 
   programs.nh = {
     enable = true;
@@ -28,32 +29,9 @@ in
     flake = "/home/jan/.setup";
   };
 
-  boot = {
-    # Note this might jump back and forth as kernels are added or removed.
-    kernelPackages = zfsUtils.getLatestZfsKernel;
-    # Bootloader.
-    loader = {
-      grub = {
-        enable = true;
-        zfsSupport = true;
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-        mirroredBoots = [
-          {
-            devices = [ "nodev" ];
-            path = "/boot";
-          }
-        ];
-      };
-    };
-    initrd.postMountCommands = lib.mkAfter ''
-      zfs rollback -r rpool/local/root@blank
-    '';
-  };
 
   networking = {
     hostName = "nixcache"; # Define your hostname.
-    hostId = "3901c199";
     networkmanager.enable = true;
     firewall = {
       allowPing = true;
@@ -63,7 +41,6 @@ in
 
   services = {
     openssh.enable = true;
-    zfs.autoScrub.enable = true;
     gvfs.enable = true;
     udisks2.enable = true;
     spice-vdagentd.enable = true;

@@ -8,9 +8,6 @@
   inputs,
   ...
 }:
-let
-  zfsUtils = import ../../lib/zfs.nix { inherit lib pkgs config; };
-in
 {
   imports = [
     ./hardware-configuration.nix
@@ -41,6 +38,10 @@ in
   sops-config.enable = true;
   services.homelab.telegraf.enable = true;
   networking.enable = true;
+  zfs-impermanence = {
+    enable = true;
+    hostId = "3901c199";
+  };
 
   # Enable Tailscale VPN with subnet routing and exit node functionality
   services.tailscale = {
@@ -72,36 +73,14 @@ in
   #  };
 
   boot = {
-    # Note this might jump back and forth as kernels are added or removed.
-    kernelPackages = zfsUtils.getLatestZfsKernel;
     kernel.sysctl = {
       "net.ipv4.ip_forward" = 1;
       "net.ipv6.conf.all.forwarding" = 1;
     };
-
-    # Bootloader.
-    loader = {
-      grub = {
-        enable = true;
-        zfsSupport = true;
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-        mirroredBoots = [
-          {
-            devices = [ "nodev" ];
-            path = "/boot";
-          }
-        ];
-      };
-    };
-    initrd.postMountCommands = lib.mkAfter ''
-      zfs rollback -r rpool/local/root@blank
-    '';
   };
 
   networking = {
     hostName = "nixnas"; # Define your hostname.
-    hostId = "3901c199";
     networkmanager.enable = true;
     firewall = {
       allowPing = true;
@@ -253,7 +232,6 @@ in
     avahi.enable = true;
 
     openssh.enable = true;
-    zfs.autoScrub.enable = true;
     gvfs.enable = true;
     udisks2.enable = true;
     spice-vdagentd.enable = false;

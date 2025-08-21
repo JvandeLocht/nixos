@@ -7,9 +7,6 @@
   lib,
   ...
 }:
-let
-  zfsUtils = import ../../lib/zfs.nix { inherit lib pkgs config; };
-in
 {
   imports = [
     ./hardware-configuration.nix # Include the results of the hardware scan.
@@ -27,6 +24,10 @@ in
   services.enable = true;
   sops-config.enable = true;
   soundConfig.enable = true;
+  zfs-impermanence = {
+    enable = true;
+    hostId = "e4f8879e";
+  };
 
   environment.systemPackages = [ pkgs.cifs-utils ];
   sops = {
@@ -57,29 +58,6 @@ in
   };
 
   boot = {
-    # Bootloader.
-    loader = {
-      grub = {
-        enable = true;
-        zfsSupport = true;
-        efiSupport = true;
-        efiInstallAsRemovable = true;
-        mirroredBoots = [
-          {
-            devices = [ "nodev" ];
-            path = "/boot";
-          }
-        ];
-      };
-    };
-    initrd.postMountCommands = lib.mkAfter ''
-      zfs rollback -r rpool/local/root@blank
-    '';
-    zfs.requestEncryptionCredentials = true;
-    # Note this might jump back and forth as kernels are added or removed.
-    kernelPackages = zfsUtils.getLatestZfsKernel;
-    # kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    kernelParams = [ "nohibernate" ];
     kernelPatches = [
       {
         name = "amd-tablet-sfh";
@@ -91,7 +69,6 @@ in
   };
 
   networking = {
-    hostId = "e4f8879e";
     hostName = "groot"; # Define your hostname.
   };
 
@@ -141,7 +118,6 @@ in
         user = "jan";
       };
     };
-    zfs.autoScrub.enable = true;
     udev.extraRules = ''
       ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/backlight/%k/brightness"
       ACTION=="add", SUBSYSTEM=="backlight", KERNEL=="amdgpu_bl1", MODE="0666", RUN+="${pkgs.coreutils}/bin/chmod a+w /sys/class/leds/asus::kbd_backlight/brightness"
