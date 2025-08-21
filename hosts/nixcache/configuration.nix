@@ -18,10 +18,6 @@ in
     ./opt-in.nix
   ];
   locale.enable = true;
-  # gnome.enable = true;
-  nvidia.enable = false;
-  gaming.enable = false;
-  printing.enable = true;
   sops-config.enable = true;
   harmonia.enable = true;
 
@@ -74,15 +70,8 @@ in
     spice-autorandr.enable = true;
     spice-webdavd.enable = true;
     qemuGuest.enable = true;
-    # backrest = {
-    #   enable = true;
-    #   bindAddress = "0.0.0.0";
-    #   port = 9898;
-    #   configSecret = "backrest-nixnas";
-    # };
   };
 
-  # security.sudo.wheelNeedsPassword = false;
   users = {
     # groups.samba = {};
     users = {
@@ -99,17 +88,6 @@ in
       };
     };
   };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages =
-    (with pkgs; [
-      # nixvim
-      spice
-      tmux
-    ])
-    ++ (with inputs; [
-    ]);
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.

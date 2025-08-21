@@ -29,12 +29,6 @@ in
   home = {
     username = "jan";
     homeDirectory = "/home/jan";
-    packages =
-      (with pkgs; [
-        appimage-run
-      ])
-      ++ (with unstable; [
-      ]);
   };
   # Packages that should be installed to the user profile.
 
