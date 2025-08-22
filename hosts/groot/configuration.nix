@@ -158,6 +158,12 @@
             ];
             repository = "s3:http://192.168.178.58:9000/groot-restic";
             progressFps = 0.001;
+            pruneOpts = [
+              "--keep-daily 3"
+              "--keep-weekly 5"
+              "--keep-monthly 5"
+              "--keep-yearly 5"
+            ];
             extraBackupArgs = [ "--verbose" ];
             backupPrepareCommand = ''
               ${notifyScript} "Restic Backup" "Starting backup to remote repository..."
