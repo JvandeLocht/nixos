@@ -154,6 +154,8 @@
               "/persist/var/lib/systemd"
             ];
             repository = "s3:http://192.168.178.58:9000/groot-restic";
+            progressFps = 0.001;
+            extraBackupArgs = [ "--verbose" ];
             backupPrepareCommand = ''
               ${notifyScript} "Restic Backup" "Starting backup to remote repository..."
             '';
