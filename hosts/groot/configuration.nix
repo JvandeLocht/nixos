@@ -171,6 +171,9 @@
             backupCleanupCommand = ''
               if [ $? -eq 0 ]; then
                 ${notifyScript} "Restic Backup" "Backup completed successfully at $(${pkgs.coreutils}/bin/date)"
+                ${pkgs.curl}/bin/curl -fsS --retry 3 $(${pkgs.busybox}/bin/cat ${
+                  config.sops.secrets."restic/groot/healthcheck".path
+                })
               else
                 ${notifyScript} -u critical "Restic Backup" "Backup failed at $(${pkgs.coreutils}/bin/date)"
               fi
