@@ -232,19 +232,90 @@
     avahi.enable = true;
 
     openssh.enable = true;
+    restic = {
+      backups = {
+        system = {
+          passwordFile = "${config.sops.secrets."restic/nixnas/password".path}";
+          environmentFile = "${config.sops.templates.restic-env.path}";
+          initialize = true;
+          timerConfig = {
+            OnCalendar = "*-*-* 22:00:00";
+            Persistent = true;
+          };
+          paths = [
+            "/home/jan"
+            "/persist"
+          ];
+          exclude = [
+            "/var/cache"
+            "/home/*/.cache"
+            "/home/*/.local/share"
+            "/home/*/Bilder"
+            "/persist/var/lib/ollama"
+            "/persist/var/lib/libvirt"
+            "/persist/var/lib/containers"
+            "/persist/var/lib/systemd"
+          ];
+          repository = "s3:http://192.168.178.58:9000/nixnas-restic";
+          progressFps = 0.001;
+          pruneOpts = [
+            "--keep-daily 1"
+            "--keep-weekly 1"
+            "--keep-monthly 1"
+            "--keep-yearly 1"
+          ];
+          extraBackupArgs = [ "--verbose" ];
+          backupPrepareCommand = ''
+            ${pkgs.curl}/bin/curl -d "Restic Backup: Starting system backup..." $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
+          '';
+          backupCleanupCommand = ''
+            if [ $? -eq 0 ]; then
+              ${pkgs.curl}/bin/curl -d "Restic Backup: System backup completed successfully at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
+              ${pkgs.curl}/bin/curl -fsS --retry 3 $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/healthcheck".path})
+            else
+              ${pkgs.curl}/bin/curl -d "Restic Backup: System backup failed at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
+            fi
+          '';
+        };
+        apps = {
+          passwordFile = "${config.sops.secrets."restic/nixnas/password".path}";
+          environmentFile = "${config.sops.templates.restic-env.path}";
+          initialize = true;
+          timerConfig = {
+            OnCalendar = "Sun *-*-* 00:00:00";
+            Persistent = true;
+          };
+          paths = [
+            "/tank/k8s-csi"
+          ];
+          repository = "s3:http://192.168.178.58:9000/nixnas-restic";
+          progressFps = 0.001;
+          pruneOpts = [
+            "--keep-last 1"
+          ];
+          extraBackupArgs = [ "--verbose" ];
+          backupPrepareCommand = ''
+            ${pkgs.curl}/bin/curl -d "Restic Backup: Starting apps backup..." $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
+          '';
+          backupCleanupCommand = ''
+            if [ $? -eq 0 ]; then
+              ${pkgs.curl}/bin/curl -d "Restic Backup: Apps backup completed successfully at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
+              ${pkgs.curl}/bin/curl -m 10 --retry 5 $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/healthcheck".path})
+            else
+              ${pkgs.curl}/bin/curl -d "Restic Backup: Apps backup failed at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
+            fi
+          '';
+        };
+      };
+    };
     gvfs.enable = true;
     udisks2.enable = true;
     spice-vdagentd.enable = false;
     spice-autorandr.enable = false;
     spice-webdavd.enable = false;
     qemuGuest.enable = false;
-    # backrest = {
-    #   enable = true;
-    #   bindAddress = "0.0.0.0";
-    #   port = 9898;
-    #   configSecret = "backrest-nixnas";
-    # };
   };
+
 
   # security.sudo.wheelNeedsPassword = false;
   users = {
@@ -300,7 +371,6 @@
       "restic/nixnas/password" = { };
       "restic/nixnas/healthcheck" = { };
       "restic/nixnas/ntfy" = { };
-      "backrest/nixnas/password" = { };
       "tailscale/auth-key" = { };
     };
     templates = {
@@ -315,151 +385,10 @@
           pass = ${config.sops.placeholder."filen/webdav/password"}
         '';
       };
-      backrest-nixnas = {
-        path = "/root/.config/backrest/config.json";
+      restic-env = {
         content = ''
-          {
-            "modno": 11,
-            "version": 3,
-            "instance": "nixnas",
-            "repos": [
-              {
-                "id": "nixnas",
-                "uri": "rclone:filen:Backups/restic/nixnas",
-                "password": "${config.sops.placeholder."restic/nixnas/password"}",
-                "prunePolicy": {
-                  "schedule": {
-                    "maxFrequencyDays": 30,
-                    "clock": "CLOCK_LAST_RUN_TIME"
-                  },
-                  "maxUnusedPercent": 10
-                },
-                "checkPolicy": {
-                  "schedule": {
-                    "maxFrequencyDays": 30,
-                    "clock": "CLOCK_LAST_RUN_TIME"
-                  },
-                  "readDataSubsetPercent": 10
-                },
-                "autoUnlock": true,
-                "commandPrefix": {}
-              }
-            ],
-            "plans": [
-              {
-                "id": "apps",
-                "repo": "nixnas",
-                "paths": [
-                  "/tank/k8s-csi"
-                ],
-                "schedule": {
-                  "cron": "0 0 * * 0",
-                  "clock": "CLOCK_LOCAL"
-                },
-                "retention": {
-                  "policyKeepLastN": 1
-                },
-                "hooks": [
-                  {
-                    "conditions": [
-                      "CONDITION_SNAPSHOT_START"
-                    ],
-                    "actionCommand": {
-                      "command": "curl -d {{ .ShellEscape .Summary }} ${
-                        config.sops.placeholder."restic/nixnas/ntfy"
-                      }"
-                    }
-                  },
-                  {
-                    "conditions": [
-                      "CONDITION_SNAPSHOT_END"
-                    ],
-                    "actionCommand": {
-                      "command": "curl -d {{ .ShellEscape .Summary }} ${
-                        config.sops.placeholder."restic/nixnas/ntfy"
-                      }"
-                    }
-                  },
-                  {
-                    "conditions": [
-                      "CONDITION_SNAPSHOT_SUCCESS"
-                    ],
-                    "actionCommand": {
-                      "command": "curl -m 10 --retry 5 ${config.sops.placeholder."restic/nixnas/healthcheck"}"
-                    }
-                  }
-                ]
-              },
-              {
-                "id": "backup",
-                "repo": "nixnas",
-                "paths": [
-                  "/home/jan",
-                  "/persist"
-                ],
-                "excludes": [
-                  "/var/cache",
-                  "/home/*/.cache",
-                  "/home/*/.local/share",
-                  "/home/*/Bilder",
-                  "/persist/var/lib/ollama",
-                  "/persist/var/lib/libvirt",
-                  "/persist/var/lib/containers",
-                  "/persist/var/lib/systemd"
-                ],
-                "schedule": {
-                  "cron": "0 22 * * *",
-                  "clock": "CLOCK_LOCAL"
-                },
-                "retention": {
-                  "policyTimeBucketed": {
-                    "daily": 1,
-                    "weekly": 1,
-                    "monthly": 1,
-                    "yearly": 1
-                  }
-                },
-                "hooks": [
-                  {
-                    "conditions": [
-                      "CONDITION_SNAPSHOT_SUCCESS"
-                    ],
-                    "actionCommand": {
-                      "command": "curl -fsS --retry 3 ${config.sops.placeholder."restic/nixnas/healthcheck"}"
-                    }
-                  },
-                  {
-                    "conditions": [
-                      "CONDITION_SNAPSHOT_END"
-                    ],
-                    "actionCommand": {
-                      "command": "curl -d {{ .ShellEscape .Summary }} ${
-                        config.sops.placeholder."restic/nixnas/ntfy"
-                      }"
-                    }
-                  },
-                  {
-                    "conditions": [
-                      "CONDITION_SNAPSHOT_START"
-                    ],
-                    "actionCommand": {
-                      "command": "curl -d {{ .ShellEscape .Summary }} ${
-                        config.sops.placeholder."restic/nixnas/ntfy"
-                      }"
-                    }
-                  }
-                ]
-              }
-            ],
-            "auth": {
-              "users": [
-                {
-                  "name": "jan",
-                  "passwordBcrypt": "${config.sops.placeholder."backrest/nixnas/password"}"
-                }
-              ]
-            }
-          }
+          AWS_ACCESS_KEY_ID=${config.sops.placeholder."minio/accessKey"}
+          AWS_SECRET_ACCESS_KEY=${config.sops.placeholder."minio/secretKey"}
         '';
       };
     };
