@@ -35,6 +35,8 @@
       "smb/nixnas/username" = { };
       "smb/nixnas/domain" = { };
       "smb/nixnas/password" = { };
+      "minio/accessKey" = { };
+      "minio/secretKey" = { };
     };
     templates = {
       smb-secret = {
@@ -42,6 +44,12 @@
           username=${config.sops.placeholder."smb/nixnas/username"}
           domain=${config.sops.placeholder."smb/nixnas/domain"}
           password=${config.sops.placeholder."smb/nixnas/password"}
+        '';
+      };
+      restic-env = {
+        content = ''
+          AWS_ACCESS_KEY_ID=${config.sops.placeholder."minio/accessKey"}
+          AWS_SECRET_ACCESS_KEY=${config.sops.placeholder."minio/secretKey"}
         '';
       };
     };
@@ -106,6 +114,29 @@
       port = 9898;
       # configSecret = "backrest-groot"; # or "backrest-nixnas" for the second snippet
       additionalPath = with pkgs; [ mako ];
+    };
+    restic = {
+      backups = {
+        remotebackup = {
+          passwordFile = "${config.sops.secrets."restic/groot/password".path}";
+          environmentFile = "${config.sops.templates.restic-env.path}";
+          initialize = true;
+          paths = [
+            "/persist"
+          ];
+          exclude = [
+            "/var/cache"
+            "/home/*/.cache"
+            "/home/*/.local/share"
+            "/home/*/Bilder"
+            "/persist/var/lib/ollama"
+            "/persist/var/lib/libvirt"
+            "/persist/var/lib/containers"
+            "/persist/var/lib/systemd"
+          ];
+          repository = "s3:http://192.168.178.58:9000/groot-restic";
+        };
+      };
     };
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
