@@ -39,6 +39,9 @@
       "smb/nixnas/password" = { };
       "minio/accessKey" = { };
       "minio/secretKey" = { };
+      "restic/groot/password" = { };
+      "restic/groot/healthcheck" = { };
+      "restic/groot/ntfy" = { };
     };
     templates = {
       smb-secret = {
@@ -109,13 +112,6 @@
   services = {
     tailscale = {
       enable = true;
-    };
-    backrest = {
-      enable = true;
-      bindAddress = "127.0.0.1"; # or "0.0.0.0" for the second snippet
-      port = 9898;
-      # configSecret = "backrest-groot"; # or "backrest-nixnas" for the second snippet
-      additionalPath = with pkgs; [ mako ];
     };
     restic =
       let
@@ -203,133 +199,6 @@
     "electron-27.3.11"
     "libsoup-2.74.3"
   ];
-
-  sops = {
-    secrets = {
-      "filen/webdav/user" = { };
-      "filen/webdav/password" = { };
-      "restic/groot/password" = { };
-      "restic/groot/healthcheck" = { };
-      "restic/groot/ntfy" = { };
-      "backrest/groot/password" = { };
-    };
-    templates = {
-      "rclone.conf" = {
-        path = "/root/.config/rclone/rclone.conf";
-        content = ''
-          [filen]
-          type = webdav
-          url = http://192.168.178.152:9090
-          vendor = other
-          user = ${config.sops.placeholder."filen/webdav/user"}
-          pass = ${config.sops.placeholder."filen/webdav/password"}
-        '';
-      };
-      backrest-groot = {
-        path = "/root/.config/backrest/config.json";
-        content = ''
-          {
-            "modno": 4,
-            "version": 3,
-            "instance": "groot",
-            "repos": [
-              {
-                "id": "groot",
-                "uri": "rclone:filen:Backups/restic/groot",
-                "password": "${config.sops.placeholder."restic/groot/password"}",
-                "prunePolicy": {
-                  "schedule": {
-                    "maxFrequencyDays": 30,
-                    "clock": "CLOCK_LAST_RUN_TIME"
-                  },
-                  "maxUnusedPercent": 10
-                },
-                "checkPolicy": {
-                  "schedule": {
-                    "maxFrequencyDays": 30,
-                    "clock": "CLOCK_LAST_RUN_TIME"
-                  },
-                  "readDataSubsetPercent": 10
-                },
-                "autoUnlock": true,
-                "commandPrefix": {}
-              }
-            ],
-            "plans": [
-              {
-                "id": "backup",
-                "repo": "groot",
-                "paths": [
-                  "/home/jan",
-                  "/persist"
-                ],
-                "excludes": [
-                  "/var/cache",
-                  "/home/*/.cache",
-                  "/home/*/.local/share",
-                  "/home/*/Bilder",
-                  "/persist/var/lib/ollama",
-                  "/persist/var/lib/libvirt",
-                  "/persist/var/lib/containers",
-                  "/persist/var/lib/systemd"
-                ],
-                "schedule": {
-                  "maxFrequencyDays": 1,
-                  "clock": "CLOCK_LAST_RUN_TIME"
-                },
-                "retention": {
-                  "policyTimeBucketed": {
-                    "daily": 1,
-                    "weekly": 1,
-                    "monthly": 1,
-                    "yearly": 1
-                  }
-                },
-                "hooks": [
-                  {
-                    "conditions": [
-                      "CONDITION_SNAPSHOT_SUCCESS"
-                    ],
-                    "actionCommand": {
-                      "command": "curl -fsS --retry 3 ${config.sops.placeholder."restic/groot/healthcheck"}"
-                    }
-                  },
-                  {
-                    "conditions": [
-                      "CONDITION_SNAPSHOT_END"
-                    ],
-                    "actionCommand": {
-                      "command": "curl -d {{ .ShellEscape .Summary }} ${
-                        config.sops.placeholder."restic/groot/ntfy"
-                      }"
-                    }
-                  },
-                  {
-                    "conditions": [
-                      "CONDITION_SNAPSHOT_START"
-                    ],
-                    "actionCommand": {
-                      "command": "curl -d {{ .ShellEscape .Summary }} ${
-                        config.sops.placeholder."restic/groot/ntfy"
-                      }"
-                    }
-                  }
-                ]
-              }
-            ],
-            "auth": {
-              "users": [
-                {
-                  "name": "jan",
-                  "passwordBcrypt": "${config.sops.placeholder."backrest/groot/password"}"
-                }
-              ]
-            }
-          }
-        '';
-      };
-    };
-  };
 
   # This value determines the NixOS rele se from which the default
   # settings for stateful data, like file locations and database versions
