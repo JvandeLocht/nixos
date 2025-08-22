@@ -142,12 +142,15 @@
             initialize = true;
             paths = [
               "/persist"
+              "/home/jan"
             ];
             exclude = [
               "/var/cache"
               "/home/*/.cache"
               "/home/*/.local/share"
               "/home/*/Bilder"
+              "/home/*/.ollama"
+              "/home/*/BackupK8sCSI"
               "/persist/var/lib/ollama"
               "/persist/var/lib/libvirt"
               "/persist/var/lib/containers"
