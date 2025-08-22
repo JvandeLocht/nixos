@@ -29,7 +29,9 @@
     hostId = "e4f8879e";
   };
 
-  environment.systemPackages = [ pkgs.cifs-utils ];
+  environment.systemPackages = [
+    pkgs.cifs-utils
+  ];
   sops = {
     secrets = {
       "smb/nixnas/username" = { };
@@ -115,29 +117,56 @@
       # configSecret = "backrest-groot"; # or "backrest-nixnas" for the second snippet
       additionalPath = with pkgs; [ mako ];
     };
-    restic = {
-      backups = {
-        remotebackup = {
-          passwordFile = "${config.sops.secrets."restic/groot/password".path}";
-          environmentFile = "${config.sops.templates.restic-env.path}";
-          initialize = true;
-          paths = [
-            "/persist"
-          ];
-          exclude = [
-            "/var/cache"
-            "/home/*/.cache"
-            "/home/*/.local/share"
-            "/home/*/Bilder"
-            "/persist/var/lib/ollama"
-            "/persist/var/lib/libvirt"
-            "/persist/var/lib/containers"
-            "/persist/var/lib/systemd"
-          ];
-          repository = "s3:http://192.168.178.58:9000/groot-restic";
+    restic =
+      let
+        notifyScript = pkgs.writeShellScript "restic-notify" ''
+          USERNAME=$(${pkgs.coreutils}/bin/who | ${pkgs.coreutils}/bin/head -1 | ${pkgs.gawk}/bin/awk '{print $1}' || echo "")
+          if [ -n "$USERNAME" ]; then
+            USER_UID=$(${pkgs.coreutils}/bin/id -u "$USERNAME" 2>/dev/null || echo "")
+            if [ -n "$USER_UID" ]; then
+              DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$USER_UID/bus"
+              USER_DISPLAY=":0"
+              ${pkgs.sudo}/bin/sudo -u "$USERNAME" \
+                DISPLAY="$USER_DISPLAY" \
+                DBUS_SESSION_BUS_ADDRESS="$DBUS_SESSION_BUS_ADDRESS" \
+                ${pkgs.libnotify}/bin/notify-send "$@" 2>/dev/null || true
+            fi
+          fi
+        '';
+      in
+      {
+        backups = {
+          remotebackup = {
+            passwordFile = "${config.sops.secrets."restic/groot/password".path}";
+            environmentFile = "${config.sops.templates.restic-env.path}";
+            initialize = true;
+            paths = [
+              "/persist"
+            ];
+            exclude = [
+              "/var/cache"
+              "/home/*/.cache"
+              "/home/*/.local/share"
+              "/home/*/Bilder"
+              "/persist/var/lib/ollama"
+              "/persist/var/lib/libvirt"
+              "/persist/var/lib/containers"
+              "/persist/var/lib/systemd"
+            ];
+            repository = "s3:http://192.168.178.58:9000/groot-restic";
+            backupPrepareCommand = ''
+              ${notifyScript} "Restic Backup" "Starting backup to remote repository..."
+            '';
+            backupCleanupCommand = ''
+              if [ $? -eq 0 ]; then
+                ${notifyScript} "Restic Backup" "Backup completed successfully at $(${pkgs.coreutils}/bin/date)"
+              else
+                ${notifyScript} -u critical "Restic Backup" "Backup failed at $(${pkgs.coreutils}/bin/date)"
+              fi
+            '';
+          };
         };
       };
-    };
     # Enable touchpad support (enabled default in most desktopManager).
     libinput.enable = true;
     displayManager = {
