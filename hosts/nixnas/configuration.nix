@@ -33,6 +33,7 @@
   nvidia.enable = false;
   gaming.enable = false;
   copyparty.enable = true;
+  filen-webdav.enable = true;
   printing.enable = true;
   services.homelab.telegraf.enable = true;
   networking.enable = true;
