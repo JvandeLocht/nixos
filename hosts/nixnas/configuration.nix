@@ -14,14 +14,6 @@
     ./opt-in.nix
     ./sops.nix
   ];
-  services.printing = {
-    listenAddresses = ["*:631"];
-    openFirewall = true;
-    allowFrom = ["all"];
-    browsing = true;
-    defaultShared = true;
-  };
-
   podman = {
     enable = true;
     minio.enable = true;
@@ -29,12 +21,8 @@
   };
 
   locale.enable = true;
-  # gnome.enable = true;
-  nvidia.enable = false;
-  gaming.enable = false;
   copyparty.enable = true;
   filen-webdav.enable = true;
-  printing.enable = true;
   services.homelab.telegraf.enable = true;
   networking.enable = true;
   zfs-impermanence = {
@@ -56,21 +44,6 @@
     clean.extraArgs = "--keep-since 4d --keep 3";
     flake = "/home/jan/.setup";
   };
-
-  #  systemd.services = {
-  #    tank-usb-mount = {
-  #      enable = true;
-  #      after = [ "network.target" ];
-  #      wantedBy = [ "default.target" ];
-  #      description = "Import zfs pool tank";
-  #      serviceConfig = {
-  #        Type = "simple";
-  #        Restart = "on-failure";
-  #        RestartSec = 30;
-  #        ExecStart = "${pkgs.zfs}/bin/zpool import tank";
-  #      };
-  #    };
-  #  };
 
   boot = {
     kernel.sysctl = {
@@ -129,17 +102,6 @@
   };
 
   services = {
-    # Enable touchpad support (enabled default in most desktopManager).
-    libinput.enable = true;
-    displayManager = {
-      defaultSession = "gnome";
-      # Enable automatic login for the user.
-      autoLogin = {
-        enable = true;
-        user = "jan";
-      };
-    };
-
     samba = {
       # The users must still get created and get a smbpasswd
       # sudo smbpasswd -a User
@@ -301,10 +263,6 @@
     };
     gvfs.enable = true;
     udisks2.enable = true;
-    spice-vdagentd.enable = false;
-    spice-autorandr.enable = false;
-    spice-webdavd.enable = false;
-    qemuGuest.enable = false;
   };
 
   # security.sudo.wheelNeedsPassword = false;
@@ -342,17 +300,6 @@
     };
   };
   nix-settings.maxJobs = 1;
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  environment.systemPackages =
-    (with pkgs; [
-      # nixvim
-      spice
-      tmux
-    ])
-    ++ (with inputs; [
-      ]);
 
   sops = {
     secrets = {

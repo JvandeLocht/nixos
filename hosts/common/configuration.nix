@@ -5,13 +5,11 @@
   pkgs,
   inputs,
   ...
-}:
-let
+}: let
   unstable = import inputs.nixpkgs-unstable {
     localSystem = pkgs.system;
   };
-in
-{
+in {
   imports = [
     ../../nixos/modules
   ];
@@ -19,8 +17,7 @@ in
   nix-settings.enable = true;
 
   environment = {
-    systemPackages =
-      with pkgs;
+    systemPackages = with pkgs;
       [
         git
         neovim
@@ -42,11 +39,12 @@ in
         glances
         sops
         age
+        tmux
       ]
       ++ (with inputs; [
-      ])
+        ])
       ++ (with unstable; [
-      ]);
+        ]);
     # Set default editor to vim
     variables = {
       EDITOR = "nvim";
