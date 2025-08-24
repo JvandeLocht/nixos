@@ -7,8 +7,7 @@
   pkgs,
   inputs,
   ...
-}:
-{
+}: {
   imports = [
     ./hardware-configuration.nix
     ../common/configuration.nix
@@ -16,9 +15,9 @@
     ./sops.nix
   ];
   services.printing = {
-    listenAddresses = [ "*:631" ];
+    listenAddresses = ["*:631"];
     openFirewall = true;
-    allowFrom = [ "all" ];
+    allowFrom = ["all"];
     browsing = true;
     defaultShared = true;
   };
@@ -92,7 +91,7 @@
       extraCommands = ''
         iptables -t raw -A OUTPUT -p udp -m udp --dport 137 -j CT --helper netbios-ns
 
-        # Enable NAT for Tailscale exit node functionality  
+        # Enable NAT for Tailscale exit node functionality
         # Allow forwarding from Tailscale interface to the internet
         iptables -I FORWARD -i tailscale0 -j ACCEPT
         iptables -I FORWARD -o tailscale0 -j ACCEPT
@@ -121,11 +120,10 @@
   sops = {
     secrets = {
       "filen/.filen-cli-auth-config" = {
-        path = "/persist/filen/.filen-cli-auth-config";
       };
-      "filen/webdav/user" = { };
-      "filen/webdav/password" = { };
-      "tailscale/auth-key" = { };
+      "filen/webdav/user" = {};
+      "filen/webdav/password" = {};
+      "tailscale/auth-key" = {};
     };
   };
 
@@ -139,14 +137,6 @@
         enable = true;
         user = "jan";
       };
-    };
-
-    filen-webdav = {
-      enable = true;
-      port = 9090;
-      dataDir = "/persist/filen";
-      wUserFile = config.sops.secrets."filen/webdav/user".path;
-      wPasswordFile = config.sops.secrets."filen/webdav/password".path;
     };
 
     samba = {
@@ -264,7 +254,7 @@
             "--keep-monthly 1"
             "--keep-yearly 1"
           ];
-          extraBackupArgs = [ "--verbose" ];
+          extraBackupArgs = ["--verbose"];
           backupPrepareCommand = ''
             ${pkgs.curl}/bin/curl -d "Restic Backup: Starting system backup..." $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
           '';
@@ -293,7 +283,7 @@
           pruneOpts = [
             "--keep-last 1"
           ];
-          extraBackupArgs = [ "--verbose" ];
+          extraBackupArgs = ["--verbose"];
           backupPrepareCommand = ''
             ${pkgs.curl}/bin/curl -d "Restic Backup: Starting apps backup..." $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
           '';
@@ -315,7 +305,6 @@
     spice-webdavd.enable = false;
     qemuGuest.enable = false;
   };
-
 
   # security.sudo.wheelNeedsPassword = false;
   users = {
@@ -362,16 +351,16 @@
       tmux
     ])
     ++ (with inputs; [
-    ]);
+      ]);
 
   sops = {
     secrets = {
-      "filen/webdav/user" = { };
-      "filen/webdav/password" = { };
-      "restic/nixnas/password" = { };
-      "restic/nixnas/healthcheck" = { };
-      "restic/nixnas/ntfy" = { };
-      "tailscale/auth-key" = { };
+      "filen/webdav/user" = {};
+      "filen/webdav/password" = {};
+      "restic/nixnas/password" = {};
+      "restic/nixnas/healthcheck" = {};
+      "restic/nixnas/ntfy" = {};
+      "tailscale/auth-key" = {};
     };
     templates = {
       "rclone.conf" = {

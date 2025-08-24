@@ -4,7 +4,6 @@
     ./acme.nix
     ./backrest.nix
     ./copyparty.nix
-    ./filen-webdav.nix
     ./gaming.nix
     ./gnome.nix
     ./harmonia.nix
