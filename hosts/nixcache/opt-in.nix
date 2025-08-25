@@ -12,6 +12,7 @@
       "/var/lib/systemd/coredump"
       "/etc/NetworkManager/system-connections"
       "/etc/ssh"
+      "/var/lib/acme"
       {
         directory = "/var/lib/colord";
         user = "colord";
