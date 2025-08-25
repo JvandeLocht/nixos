@@ -3,6 +3,7 @@ keys:
   - &groot age1es2p8zvt5l6mexc9wwmjt2va2f2twes0yxjwp8m9nxpa8mq65s5se2axhn
   - &hetzner age1w92kqpjmcghg5yjjnkwn0g8nfylghpwqjzh3fwa3ewdefrlzachshnu3hg
   - &nixnas age1jzdal4kurqzrawf5vwhrhhp6cak08mfu5stjvlqw5hsal0hpae7qg5r00d
+  - &nixcache age1w6z5kkt6uzcuc9qssc6luaqy86h82llhdq3d7a0u7n82sewxsqeqdwsaxp
 
 creation_rules:
   - path_regex: secrets/secrets-groot.yaml
@@ -17,3 +18,7 @@ creation_rules:
     key_groups:
       - age:
           - *nixnas
+  - path_regex: secrets/secrets-nixcache.yaml
+    key_groups:
+      - age:
+          - *nixcache

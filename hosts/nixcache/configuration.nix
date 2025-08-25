@@ -13,9 +13,9 @@
     ./hardware-configuration.nix
     ../common/configuration.nix
     ./opt-in.nix
+    ./sops.nix
   ];
   locale.enable = true;
-  sops-config.enable = true;
   harmonia.enable = true;
   zfs-impermanence = {
     enable = true;
@@ -28,7 +28,6 @@
     clean.extraArgs = "--keep-since 4d --keep 3";
     flake = "/home/jan/.setup";
   };
-
 
   networking = {
     hostName = "nixcache"; # Define your hostname.
@@ -54,7 +53,7 @@
     users = {
       "jan" = {
         isNormalUser = true;
-        hashedPasswordFile = config.sops.secrets.jan-nixnas.path;
+        hashedPasswordFile = config.sops.secrets.jan-nixcache.path;
         home = "/home/jan";
         extraGroups = [
           "wheel"
