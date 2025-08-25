@@ -321,6 +321,13 @@
           vendor = other
           user = ${config.sops.placeholder."filen/webdav/user"}
           pass = ${config.sops.placeholder."filen/webdav/password-hashed"}
+
+          [MinIO]
+          type = s3
+          provider = Minio
+          access_key_id = ${config.sops.placeholder."minio/accessKey"}
+          secret_access_key = ${config.sops.placeholder."minio/secretKey"}
+          endpoint = http://192.168.178.58:9000
         '';
       };
       restic-env = {
