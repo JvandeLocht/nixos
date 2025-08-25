@@ -3,13 +3,12 @@
   lib,
   pkgs,
   ...
-}:
-{
+}: {
   options.filen-webdav = {
     enable = lib.mkEnableOption "Enable Filen WebDAV service";
     port = lib.mkOption {
       type = lib.types.port;
-      default = 9090;
+      default = 9123;
       description = "Port for the WebDAV server";
     };
     hostname = lib.mkOption {
@@ -50,7 +49,7 @@
     };
 
     # Open firewall port
-    networking.firewall.allowedTCPPorts = [ config.filen-webdav.port ];
+    networking.firewall.allowedTCPPorts = [config.filen-webdav.port];
 
     # Create directories and setup auth config
     system.activationScripts = {
@@ -61,16 +60,16 @@
           chown -R filen:filen /var/lib/filen/.config
           chmod 600 /var/lib/filen/.config/filen-cli/.filen-cli-auth-config
         '';
-        deps = [ "setupSecrets" ];
+        deps = ["setupSecrets"];
       };
     };
 
     # SystemD service for Filen WebDAV
     systemd.services.filen-webdav = {
       description = "Filen WebDAV Server";
-      after = [ "network.target" "sops-nix.service" ];
-      wantedBy = [ "multi-user.target" ];
-      wants = [ "sops-nix.service" ];
+      after = ["network.target" "sops-nix.service"];
+      wantedBy = ["multi-user.target"];
+      wants = ["sops-nix.service"];
 
       serviceConfig = {
         Type = "simple";
@@ -79,7 +78,7 @@
         Restart = "always";
         RestartSec = 10;
         WorkingDirectory = "/var/lib/filen";
-        
+
         # Environment variables
         Environment = [
           "HOME=/var/lib/filen"
@@ -91,8 +90,8 @@
         PrivateTmp = true;
         ProtectSystem = "strict";
         ProtectHome = true;
-        ReadWritePaths = [ "/var/lib/filen" ];
-        
+        ReadWritePaths = ["/var/lib/filen"];
+
         # Load WebDAV credentials from SOPS secrets
         LoadCredential = [
           "webdav-user:${config.sops.secrets."filen/webdav/user".path}"
@@ -103,7 +102,7 @@
       script = ''
         WEBDAV_USER=$(cat $CREDENTIALS_DIRECTORY/webdav-user)
         WEBDAV_PASSWORD=$(cat $CREDENTIALS_DIRECTORY/webdav-password)
-        
+
         exec ${pkgs.filen-cli}/bin/filen webdav \
           --w-user "$WEBDAV_USER" \
           --w-password "$WEBDAV_PASSWORD" \
@@ -113,3 +112,4 @@
     };
   };
 }
+
