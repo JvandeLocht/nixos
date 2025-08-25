@@ -10,15 +10,8 @@
       "/var/lib/containers/storage"
       "/var/cache/restic-backups-nixnas"
       "/var/lib/systemd/coredump"
-      "/var/lib/ollama/models"
-      "/var/lib/minio"
       "/etc/NetworkManager/system-connections"
       "/etc/ssh"
-      "/etc/samba"
-      "/var/lib/samba"
-      "/var/lib/cups"
-      "/var/spool/cups"
-      "/var/lib/acme"
       {
         directory = "/var/lib/colord";
         user = "colord";
