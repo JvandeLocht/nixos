@@ -305,6 +305,7 @@
     secrets = {
       "filen/webdav/user" = {};
       "filen/webdav/password" = {};
+      "filen/webdav/password-hashed" = {};
       "restic/nixnas/password" = {};
       "restic/nixnas/healthcheck" = {};
       "restic/nixnas/ntfy" = {};
@@ -314,12 +315,12 @@
       "rclone.conf" = {
         path = "/root/.config/rclone/rclone.conf";
         content = ''
-          [filen]
+          [Filen]
           type = webdav
-          url = http://192.168.178.152:9090
+          url = http://127.0.0.1:${builtins.toString config.filen-webdav.port}
           vendor = other
           user = ${config.sops.placeholder."filen/webdav/user"}
-          pass = ${config.sops.placeholder."filen/webdav/password"}
+          pass = ${config.sops.placeholder."filen/webdav/password-hashed"}
         '';
       };
       restic-env = {
