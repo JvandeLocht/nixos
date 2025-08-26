@@ -64,6 +64,8 @@ in
         spotube
         claude-code
 
+        huami-token
+
         golden-cheetah
         rclone-browser
         rclone
