@@ -1,2 +1,6 @@
-{pkgs ? import <nixpkgs> {}}: pkgs.callPackage ./iio-hyprland.nix {}
+{
+  pkgs ? import <nixpkgs> { },
+}:
+{
   huami-token = pkgs.callPackage ./huami-token.nix { };
+}
