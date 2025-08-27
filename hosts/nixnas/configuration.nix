@@ -7,12 +7,14 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     ./hardware-configuration.nix
     ../common/configuration.nix
     ./opt-in.nix
     ./sops.nix
+    ../../lib/systemd.nix
   ];
   podman = {
     enable = true;
@@ -28,6 +30,29 @@
   zfs-impermanence = {
     enable = true;
     hostId = "3901c199";
+  };
+
+  systemdTimers = {
+    rclone-backup-groot-restic = {
+      command = "${pkgs.rclone}/bin/rclone sync MinIO:groot-restic Filen:Backups/restic/groot --progress --stats-one-line --stats 30s --retries 3 --low-level-retries 10";
+      timer = "daily";
+    };
+    rclone-backup-nixnas-restic = {
+      command = "${pkgs.rclone}/bin/rclone sync MinIO:nixnas-restic Filen:Backups/restic/nixnas --progress --stats-one-line --stats 30s --retries 3 --low-level-retries 10";
+      timer = "daily";
+    };
+    rclone-seedvault = {
+      command = "${pkgs.rclone}/bin/rclone sync MinIO:seedvault Filen:Backups/seedvault --progress --stats-one-line --stats 30s --retries 3 --low-level-retries 10";
+      timer = "daily";
+    };
+    rclone-velero = {
+      command = "${pkgs.rclone}/bin/rclone sync MinIO:velero Filen:Backups/velero --progress --stats-one-line --stats 30s --retries 3 --low-level-retries 10";
+      timer = "daily";
+    };
+    rclone-matrix-media = {
+      command = "${pkgs.rclone}/bin/rclone sync MinIO:matrix-media Filen:Backups/matrix-media --progress --stats-one-line --stats 30s --retries 3 --low-level-retries 10";
+      timer = "daily";
+    };
   };
 
   # Enable Tailscale VPN with subnet routing and exit node functionality
@@ -95,9 +120,9 @@
     secrets = {
       "filen/.filen-cli-auth-config" = {
       };
-      "filen/webdav/user" = {};
-      "filen/webdav/password" = {};
-      "tailscale/auth-key" = {};
+      "filen/webdav/user" = { };
+      "filen/webdav/password" = { };
+      "tailscale/auth-key" = { };
     };
   };
 
@@ -217,16 +242,24 @@
             "--keep-monthly 1"
             "--keep-yearly 1"
           ];
-          extraBackupArgs = ["--verbose"];
+          extraBackupArgs = [ "--verbose" ];
           backupPrepareCommand = ''
-            ${pkgs.curl}/bin/curl -d "Restic Backup: Starting system backup..." $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
+            ${pkgs.curl}/bin/curl -d "Restic Backup: Starting system backup..." $(${pkgs.busybox}/bin/cat ${
+              config.sops.secrets."restic/nixnas/ntfy".path
+            })
           '';
           backupCleanupCommand = ''
             if [ $? -eq 0 ]; then
-              ${pkgs.curl}/bin/curl -d "Restic Backup: System backup completed successfully at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
-              ${pkgs.curl}/bin/curl -fsS --retry 3 $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/healthcheck".path})
+              ${pkgs.curl}/bin/curl -d "Restic Backup: System backup completed successfully at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
+                config.sops.secrets."restic/nixnas/ntfy".path
+              })
+              ${pkgs.curl}/bin/curl -fsS --retry 3 $(${pkgs.busybox}/bin/cat ${
+                config.sops.secrets."restic/nixnas/healthcheck".path
+              })
             else
-              ${pkgs.curl}/bin/curl -d "Restic Backup: System backup failed at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
+              ${pkgs.curl}/bin/curl -d "Restic Backup: System backup failed at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
+                config.sops.secrets."restic/nixnas/ntfy".path
+              })
             fi
           '';
         };
@@ -246,16 +279,24 @@
           pruneOpts = [
             "--keep-last 1"
           ];
-          extraBackupArgs = ["--verbose"];
+          extraBackupArgs = [ "--verbose" ];
           backupPrepareCommand = ''
-            ${pkgs.curl}/bin/curl -d "Restic Backup: Starting apps backup..." $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
+            ${pkgs.curl}/bin/curl -d "Restic Backup: Starting apps backup..." $(${pkgs.busybox}/bin/cat ${
+              config.sops.secrets."restic/nixnas/ntfy".path
+            })
           '';
           backupCleanupCommand = ''
             if [ $? -eq 0 ]; then
-              ${pkgs.curl}/bin/curl -d "Restic Backup: Apps backup completed successfully at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
-              ${pkgs.curl}/bin/curl -m 10 --retry 5 $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/healthcheck".path})
+              ${pkgs.curl}/bin/curl -d "Restic Backup: Apps backup completed successfully at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
+                config.sops.secrets."restic/nixnas/ntfy".path
+              })
+              ${pkgs.curl}/bin/curl -m 10 --retry 5 $(${pkgs.busybox}/bin/cat ${
+                config.sops.secrets."restic/nixnas/healthcheck".path
+              })
             else
-              ${pkgs.curl}/bin/curl -d "Restic Backup: Apps backup failed at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${config.sops.secrets."restic/nixnas/ntfy".path})
+              ${pkgs.curl}/bin/curl -d "Restic Backup: Apps backup failed at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
+                config.sops.secrets."restic/nixnas/ntfy".path
+              })
             fi
           '';
         };
@@ -303,13 +344,13 @@
 
   sops = {
     secrets = {
-      "filen/webdav/user" = {};
-      "filen/webdav/password" = {};
-      "filen/webdav/password-hashed" = {};
-      "restic/nixnas/password" = {};
-      "restic/nixnas/healthcheck" = {};
-      "restic/nixnas/ntfy" = {};
-      "tailscale/auth-key" = {};
+      "filen/webdav/user" = { };
+      "filen/webdav/password" = { };
+      "filen/webdav/password-hashed" = { };
+      "restic/nixnas/password" = { };
+      "restic/nixnas/healthcheck" = { };
+      "restic/nixnas/ntfy" = { };
+      "tailscale/auth-key" = { };
     };
     templates = {
       "rclone.conf" = {
