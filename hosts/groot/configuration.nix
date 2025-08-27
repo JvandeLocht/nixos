@@ -30,27 +30,6 @@
     hostId = "e4f8879e";
   };
 
-  systemdTimers = {
-    # Interval-based timer (runs every 5 minutes)
-    hello-world = {
-      command = "${pkgs.coreutils}/bin/echo 'Hello World'";
-      timer = "5m";
-    };
-
-    # # Calendar-based timer (runs daily)
-    # rclone-backup = {
-    #   command = "${pkgs.rclone}/bin/rclone sync /home remote:backup";
-    #   timer = "daily";
-    #   user = "backup";  # Optional: run as specific user
-    # };
-
-    # # Custom calendar spec (every 10 minutes)
-    # log-cleanup = {
-    #   command = "${pkgs.findutils}/bin/find /var/log -name '*.old' -delete";
-    #   timer = "*:0/10";
-    # };
-  };
-
   environment.systemPackages = [
     pkgs.cifs-utils
   ];
