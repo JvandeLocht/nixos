@@ -73,7 +73,7 @@
     };
     fcitx-virtual-keyboard-adapter = {
       url = "github:horriblename/fcitx-virtualkeyboard-adapter";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     copyparty.url = "github:9001/copyparty";
 
