@@ -30,8 +30,8 @@
     hostId = "e4f8879e";
   };
 
-  environment.systemPackages = [
-    pkgs.cifs-utils
+  environment.systemPackages = with pkgs; [
+    cifs-utils
   ];
   sops = {
     secrets = {
@@ -137,6 +137,10 @@
             passwordFile = "${config.sops.secrets."restic/groot/password".path}";
             environmentFile = "${config.sops.templates.restic-env.path}";
             initialize = true;
+            timerConfig = {
+              OnCalendar = "hourly";
+              Persistent = true;
+            };
             paths = [
               "/persist"
               "/home/jan"
