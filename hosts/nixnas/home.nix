@@ -33,6 +33,8 @@ in
       (with pkgs; [
         appimage-run
         claude-code
+
+        huami-token
       ])
       ++ (with unstable; [
       ]);
