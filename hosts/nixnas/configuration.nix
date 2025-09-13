@@ -22,6 +22,10 @@
     proxmox-backup-server.enable = true;
   };
 
+  environment.systemPackages = [
+    pkgs.lsscsi
+  ];
+
   locale.enable = true;
   copyparty.enable = true;
   filen-webdav.enable = true;
