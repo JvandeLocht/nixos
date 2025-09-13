@@ -48,7 +48,7 @@
       };
     };
     services = {
-      swaync.enable = true;
+      # swaync.enable = true;
       hyprpolkitagent.enable = true;
     };
 
