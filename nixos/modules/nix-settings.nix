@@ -2,8 +2,7 @@
   lib,
   config,
   ...
-}:
-{
+}: {
   options.nix-settings = {
     enable = lib.mkEnableOption "Common nix settings";
     maxJobs = lib.mkOption {
@@ -19,10 +18,12 @@
         "nix-command"
         "flakes"
       ];
-      trusted-users = [ "jan" ];
+      download-buffer-size = 500000000;
+      trusted-users = ["jan"];
       auto-optimise-store = true;
       max-jobs = config.nix-settings.maxJobs;
       builders-use-substitutes = true;
     };
   };
 }
+
