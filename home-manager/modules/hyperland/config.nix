@@ -6,9 +6,9 @@
 }:
 {
   wayland.windowManager.hyprland.extraConfig = ''
+    exec-once = ${pkgs.swaynotificationcenter}/bin/swaync
     exec-once = waybar
     exec-once = ${pkgs.kdePackages.plasma-workspace}/bin/xembedsniproxy
-    exec-once = ${pkgs.swaynotificationcenter}/bin/swaync
     exec-once = hyprctl setcursor catppuccin-mocha-sapphire-cursors 15
     exec-once = hyprpaper & nm-applet
     exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
