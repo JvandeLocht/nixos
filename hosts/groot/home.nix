@@ -42,6 +42,7 @@ in
         freetube
         evince # pdf viewer
         thunderbird
+        claws-mail
         obs-studio
         vlc
         zoom-us
