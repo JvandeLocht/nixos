@@ -3,8 +3,7 @@
   pkgs,
   lib,
   ...
-}:
-{
+}: {
   wayland.windowManager.hyprland.extraConfig = ''
     exec-once = ${pkgs.swaynotificationcenter}/bin/swaync
     exec-once = waybar
@@ -100,8 +99,9 @@
     }
 
     gestures {
-      workspace_swipe = on
-      workspace_swipe_cancel_ratio = 0.15
+      workspace = on
+    #   workspace_swipe_cancel_ratio = 0.15
+    gesture = 3, horizontal, workspace
     }
 
     # Asus pen
@@ -113,50 +113,50 @@
     }
 
 
-    plugin {
-      touch_gestures {
-        # default sensitivity is probably too low on tablet screens,
-        # I recommend turning it up to 4.0
-        sensitivity = 10.0
-
-        # must be >= 3
-        workspace_swipe_fingers = 3
-
-        # resize windows by long-pressing on window borders and gaps.
-        # If general:resize_on_border is enabled, general:extend_border_grab_area is used for floating
-        # windows
-        resize_on_border_long_press = true
-
-        # swipe up from bottom edge
-        hyprgrass-bind = , edge:d:u, exec, ${pkgs.writeScript "wvkbd-skript" ''
-          #!/usr/bin/env bash
-            if ${pkgs.toybox}/bin/pgrep -x 'wvkbd-mobintl' > /dev/null; then
-              ${pkgs.killall}/bin/killall wvkbd-mobintl
-            else
-              ${pkgs.wvkbd}/bin/wvkbd-mobintl -L 300
-            fi
-        ''}
-
-        # swipe down with 4 fingers
-        hyprgrass-bind = , swipe:4:d, killactive
-
-        # swipe down with 3 fingers
-        hyprgrass-bind = , swipe:3:d, exec, wlogout
-
-        # Audio swipe up and down from left edge
-        hyprgrass-bind = , edge:l:u, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%+
-        hyprgrass-bind = , edge:l:d, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%-
-
-        # Brightness swipe up and down from right edge
-        hyprgrass-bind = , edge:r:u, exec, brightnessctl set +5%
-        hyprgrass-bind = , edge:r:d, exec, brightnessctl set 5%-
-
-        # tap with 3 fingers
-        hyprgrass-bind = , tap:3, exec, ulauncher-toggle
-
-        hyprgrass-bindm = , longpress:2, movewindow
-      }
-    }
+    # plugin {
+    #   touch_gestures {
+    #     # default sensitivity is probably too low on tablet screens,
+    #     # I recommend turning it up to 4.0
+    #     sensitivity = 10.0
+    #
+    #     # must be >= 3
+    #     workspace_swipe_fingers = 3
+    #
+    #     # resize windows by long-pressing on window borders and gaps.
+    #     # If general:resize_on_border is enabled, general:extend_border_grab_area is used for floating
+    #     # windows
+    #     resize_on_border_long_press = true
+    #
+    #     # swipe up from bottom edge
+    #     hyprgrass-bind = , edge:d:u, exec, ${pkgs.writeScript "wvkbd-skript" ''
+      #       #!/usr/bin/env bash
+      #         if ${pkgs.toybox}/bin/pgrep -x 'wvkbd-mobintl' > /dev/null; then
+      #           ${pkgs.killall}/bin/killall wvkbd-mobintl
+      #         else
+      #           ${pkgs.wvkbd}/bin/wvkbd-mobintl -L 300
+      #         fi
+      #     ''}
+    #
+    #     # swipe down with 4 fingers
+    #     hyprgrass-bind = , swipe:4:d, killactive
+    #
+    #     # swipe down with 3 fingers
+    #     hyprgrass-bind = , swipe:3:d, exec, wlogout
+    #
+    #     # Audio swipe up and down from left edge
+    #     hyprgrass-bind = , edge:l:u, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%+
+    #     hyprgrass-bind = , edge:l:d, exec, wpctl set-volume -l "1.0" @DEFAULT_AUDIO_SINK@ 6%-
+    #
+    #     # Brightness swipe up and down from right edge
+    #     hyprgrass-bind = , edge:r:u, exec, brightnessctl set +5%
+    #     hyprgrass-bind = , edge:r:d, exec, brightnessctl set 5%-
+    #
+    #     # tap with 3 fingers
+    #     hyprgrass-bind = , tap:3, exec, ulauncher-toggle
+    #
+    #     hyprgrass-bindm = , longpress:2, movewindow
+    #   }
+    # }
 
     # Example windowrule v1
     # windowrule = float, ^(kitty)$

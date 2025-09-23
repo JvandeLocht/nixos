@@ -21,7 +21,7 @@
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
-      plugins = with pkgs.hyprlandPlugins; [ hyprgrass ];
+      # plugins = with pkgs.hyprlandPlugins; [ hyprgrass ]; # hyprgrass temporarily disabled due to API incompatibility
     };
 
     waybar.enable = true;
