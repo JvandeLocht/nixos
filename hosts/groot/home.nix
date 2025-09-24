@@ -3,13 +3,11 @@
   pkgs,
   inputs,
   ...
-}:
-let
+}: let
   stable = import inputs.nixpkgs {
     localSystem = pkgs.system;
   };
-in
-{
+in {
   imports = [
     ../common/home.nix
     ../../home-manager/modules
@@ -65,8 +63,6 @@ in
         spotube
         claude-code
 
-        huami-token
-
         golden-cheetah
         rclone-browser
         rclone
@@ -75,7 +71,7 @@ in
         bitwarden-cli
       ])
       ++ (with stable; [
-      ]);
+        ]);
   };
 
   systemd.user.services = {
@@ -88,7 +84,7 @@ in
         ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='asus::kbd_backlight' set 1";
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = ["graphical-session.target"];
       };
     };
     keyboard_color = {
@@ -100,7 +96,7 @@ in
         ExecStart = "${pkgs.asusctl}/bin/asusctl led-mode static -c 00ff00";
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = ["graphical-session.target"];
       };
     };
     charge_limit = {
@@ -112,7 +108,7 @@ in
         ExecStart = "${pkgs.asusctl}/bin/asusctl -c 80";
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = ["graphical-session.target"];
       };
     };
     backlight = {
@@ -124,7 +120,7 @@ in
         ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='amdgpu_bl2' set 15";
       };
       Install = {
-        WantedBy = [ "graphical-session.target" ];
+        WantedBy = ["graphical-session.target"];
       };
     };
   };
