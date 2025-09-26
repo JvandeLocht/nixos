@@ -22,6 +22,7 @@
     ./swaylock.nix
     ./wezterm.nix
     ./wofi.nix
+    ./pass.nix
     ./zsh.nix
     ./yazi.nix
     ./foot.nix

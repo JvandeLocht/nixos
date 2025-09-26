@@ -3,11 +3,13 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   stable = import inputs.nixpkgs {
     localSystem = pkgs.system;
   };
-in {
+in
+{
   imports = [
     ../common/home.nix
     ../../home-manager/modules
@@ -21,6 +23,7 @@ in {
   alacritty.enable = true;
   ghostty.enable = true;
   kitty.enable = true;
+  pass.enable = true;
   home = {
     username = "jan";
     homeDirectory = "/home/jan";
@@ -71,7 +74,7 @@ in {
         bitwarden-cli
       ])
       ++ (with stable; [
-        ]);
+      ]);
   };
 
   systemd.user.services = {
@@ -84,7 +87,7 @@ in {
         ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='asus::kbd_backlight' set 1";
       };
       Install = {
-        WantedBy = ["graphical-session.target"];
+        WantedBy = [ "graphical-session.target" ];
       };
     };
     keyboard_color = {
@@ -96,7 +99,7 @@ in {
         ExecStart = "${pkgs.asusctl}/bin/asusctl led-mode static -c 00ff00";
       };
       Install = {
-        WantedBy = ["graphical-session.target"];
+        WantedBy = [ "graphical-session.target" ];
       };
     };
     charge_limit = {
@@ -108,7 +111,7 @@ in {
         ExecStart = "${pkgs.asusctl}/bin/asusctl -c 80";
       };
       Install = {
-        WantedBy = ["graphical-session.target"];
+        WantedBy = [ "graphical-session.target" ];
       };
     };
     backlight = {
@@ -120,7 +123,7 @@ in {
         ExecStart = "${pkgs.brightnessctl}/bin/brightnessctl --device='amdgpu_bl2' set 15";
       };
       Install = {
-        WantedBy = ["graphical-session.target"];
+        WantedBy = [ "graphical-session.target" ];
       };
     };
   };
@@ -137,4 +140,5 @@ in {
 
   # Let home Manager install and manage itself.
   programs.home-manager.enable = true;
+
 }
