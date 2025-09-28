@@ -23,9 +23,9 @@ in {
 
     # kubernetes
     kubectl
-    talosctl
+    pkgs-unstable.talosctl
     kubernetes-helm
-    k9s
+    pkgs-unstable.k9s
     fluxcd
     yq-go
     kustomize
