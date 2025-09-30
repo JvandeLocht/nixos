@@ -33,8 +33,8 @@
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
     $mainMod = ALT
 
-    # Power
-    env = AQ_DRM_DEVICES,/dev/dri/card2:/dev/dri/card1
+    # Power - Dynamic GPU detection via script
+    exec-once = ${pkgs.gpu-drm-devices}
 
     # For all categories, see https://wiki.hyprland.org/Configuring/Variables/
     input {
