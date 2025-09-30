@@ -27,6 +27,11 @@
         enable = true;
         package = pkgs.rofi-pass-wayland;
         stores = [ "~/.password-store" ];
+        extraConfig = ''
+          URL_field='URL'
+          USERNAME_field='Username'
+          AUTOTYPE_field='autotype'
+        '';
       };
     };
 
