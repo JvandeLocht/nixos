@@ -7,14 +7,22 @@
   pkgs,
   inputs,
   ...
-}:
-{
+}: {
   imports = [
     ./hardware-configuration.nix
     ../common/configuration.nix
     ./opt-in.nix
     ./sops.nix
+    ../../lib/systemd.nix
   ];
+
+  systemdTimers = {
+    build-groot = {
+      command = ''${pkgs.busybox}/bin/su jan -c "cd /home/jan/.setup && ${pkgs.nix}/bin/nix flake update && ${pkgs.nix}/bin/nix build .#nixosConfigurations.groot.config.system.build.toplevel"'';
+      timer = "daily";
+    };
+  };
+
   locale.enable = true;
   harmonia.enable = true;
   zfs-impermanence = {
