@@ -24,6 +24,7 @@ in
   ghostty.enable = true;
   kitty.enable = true;
   pass.enable = true;
+  rofi.enable = true;
   home = {
     username = "jan";
     homeDirectory = "/home/jan";

@@ -23,6 +23,7 @@
     ./wezterm.nix
     ./wofi.nix
     ./pass.nix
+    ./rofi.nix
     ./zsh.nix
     ./yazi.nix
     ./foot.nix
