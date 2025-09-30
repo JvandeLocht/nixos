@@ -3,17 +3,22 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   options = {
-    rofi.enable =
-      lib.mkEnableOption "enables rofi application launcher";
+    rofi.enable = lib.mkEnableOption "enables rofi application launcher";
   };
 
   config = lib.mkIf config.rofi.enable {
     programs.rofi = {
       enable = true;
-      modes = [ "drun" "run" "ssh" ];
+      modes = [
+        "drun"
+        "run"
+        "ssh"
+      ];
       location = "center";
+      theme = "android_notification";
       extraConfig = {
         show-icons = true;
         icon-theme = "Adwaita";
