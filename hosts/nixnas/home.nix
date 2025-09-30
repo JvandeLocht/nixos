@@ -4,13 +4,11 @@
   pkgs,
   osConfig,
   ...
-}:
-let
+}: let
   unstable = import inputs.nixpkgs-unstable {
     localSystem = pkgs.system;
   };
-in
-{
+in {
   imports = [
     ../common/home.nix
     ../../home-manager/modules/emacs
@@ -18,6 +16,7 @@ in
     ../../home-manager/modules/zsh.nix
     ../../home-manager/modules/yazi.nix
     ../../home-manager/modules/lf
+    ../../home-manager/modules/pass.nix
   ];
 
   tmux.enable = true;
@@ -25,6 +24,7 @@ in
   zsh.enable = true;
   yazi.enable = true;
   lf.enable = true;
+  pass.enable = true;
 
   home = {
     username = "jan";
@@ -37,7 +37,7 @@ in
         huami-token
       ])
       ++ (with unstable; [
-      ]);
+        ]);
   };
   # Packages that should be installed to the user profile.
 
