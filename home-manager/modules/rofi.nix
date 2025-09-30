@@ -14,6 +14,10 @@
       enable = true;
       modes = [ "drun" "run" "ssh" ];
       location = "center";
+      extraConfig = {
+        show-icons = true;
+        icon-theme = "Adwaita";
+      };
     };
   };
 }
