@@ -3,7 +3,8 @@
   pkgs,
   lib,
   ...
-}: {
+}:
+{
   wayland.windowManager.hyprland.extraConfig = ''
     exec-once = ${pkgs.swaynotificationcenter}/bin/swaync
     exec-once = waybar
@@ -257,8 +258,8 @@
     bind = $mainMod, V, togglefloating,
     bind = SUPER, F, fullscreen
     # bind = $mainMod, R, exec, ulauncher-toggle
-    bind = $mainMod, R, exec, walker
-    bind = $mainMod, P, pseudo, # dwindle
+    bind = $mainMod, R, exec, rofi -show
+    bind = $mainMod, P, exec, rofi-pass
     bind = $mainMod, J, togglesplit, # dwindle
 
     # Move focus with mainMod + arrow keys
