@@ -7,8 +7,7 @@
   pkgs,
   inputs,
   ...
-}:
-{
+}: {
   imports = [
     ./hardware-configuration.nix
     ../common/configuration.nix
@@ -25,6 +24,27 @@
   environment.systemPackages = [
     pkgs.lsscsi
   ];
+
+  services.garage = {
+    enable = true;
+    package = pkgs.garage;
+    settings = {
+      data_dir = [
+        {
+          capacity = "2T";
+          path = "/tank/apps/garage/data";
+        }
+      ];
+      rpc_bind_addr = "[::]:3901";
+      rpc_secret_file = "${config.sops.secrets."garage/rpc-secret".path}";
+      replication_factor = 1;
+      consistency_mode = "consistent";
+      s3_api = {
+        api_bind_addr = "[::]:3900";
+        s3_region = "garage";
+      };
+    };
+  };
 
   locale.enable = true;
   copyparty.enable = true;
@@ -124,9 +144,13 @@
     secrets = {
       "filen/.filen-cli-auth-config" = {
       };
-      "filen/webdav/user" = { };
-      "filen/webdav/password" = { };
-      "tailscale/auth-key" = { };
+      "filen/webdav/user" = {};
+      "filen/webdav/password" = {};
+      "tailscale/auth-key" = {};
+      "garage/rpc-secret" = {
+        owner = "garage";
+        group = "garage";
+      };
     };
   };
 
@@ -246,7 +270,7 @@
             "--keep-monthly 1"
             "--keep-yearly 1"
           ];
-          extraBackupArgs = [ "--verbose" ];
+          extraBackupArgs = ["--verbose"];
           backupPrepareCommand = ''
             ${pkgs.curl}/bin/curl -d "Restic Backup: Starting system backup..." $(${pkgs.busybox}/bin/cat ${
               config.sops.secrets."restic/nixnas/ntfy".path
@@ -255,15 +279,15 @@
           backupCleanupCommand = ''
             if [ $? -eq 0 ]; then
               ${pkgs.curl}/bin/curl -d "Restic Backup: System backup completed successfully at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
-                config.sops.secrets."restic/nixnas/ntfy".path
-              })
+              config.sops.secrets."restic/nixnas/ntfy".path
+            })
               ${pkgs.curl}/bin/curl -fsS --retry 3 $(${pkgs.busybox}/bin/cat ${
-                config.sops.secrets."restic/nixnas/healthcheck".path
-              })
+              config.sops.secrets."restic/nixnas/healthcheck".path
+            })
             else
               ${pkgs.curl}/bin/curl -d "Restic Backup: System backup failed at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
-                config.sops.secrets."restic/nixnas/ntfy".path
-              })
+              config.sops.secrets."restic/nixnas/ntfy".path
+            })
             fi
           '';
         };
@@ -283,7 +307,7 @@
           pruneOpts = [
             "--keep-last 1"
           ];
-          extraBackupArgs = [ "--verbose" ];
+          extraBackupArgs = ["--verbose"];
           backupPrepareCommand = ''
             ${pkgs.curl}/bin/curl -d "Restic Backup: Starting apps backup..." $(${pkgs.busybox}/bin/cat ${
               config.sops.secrets."restic/nixnas/ntfy".path
@@ -292,15 +316,15 @@
           backupCleanupCommand = ''
             if [ $? -eq 0 ]; then
               ${pkgs.curl}/bin/curl -d "Restic Backup: Apps backup completed successfully at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
-                config.sops.secrets."restic/nixnas/ntfy".path
-              })
+              config.sops.secrets."restic/nixnas/ntfy".path
+            })
               ${pkgs.curl}/bin/curl -m 10 --retry 5 $(${pkgs.busybox}/bin/cat ${
-                config.sops.secrets."restic/nixnas/healthcheck".path
-              })
+              config.sops.secrets."restic/nixnas/healthcheck".path
+            })
             else
               ${pkgs.curl}/bin/curl -d "Restic Backup: Apps backup failed at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
-                config.sops.secrets."restic/nixnas/ntfy".path
-              })
+              config.sops.secrets."restic/nixnas/ntfy".path
+            })
             fi
           '';
         };
@@ -312,7 +336,7 @@
 
   # security.sudo.wheelNeedsPassword = false;
   users = {
-    # groups.samba = {};
+    groups.garage = {};
     users = {
       "jan" = {
         isNormalUser = true;
@@ -342,19 +366,23 @@
         isSystemUser = true;
         group = "users";
       };
+      "garage" = {
+        isSystemUser = true;
+        group = "garage";
+      };
     };
   };
   nix-settings.maxJobs = 1;
 
   sops = {
     secrets = {
-      "filen/webdav/user" = { };
-      "filen/webdav/password" = { };
-      "filen/webdav/password-hashed" = { };
-      "restic/nixnas/password" = { };
-      "restic/nixnas/healthcheck" = { };
-      "restic/nixnas/ntfy" = { };
-      "tailscale/auth-key" = { };
+      "filen/webdav/user" = {};
+      "filen/webdav/password" = {};
+      "filen/webdav/password-hashed" = {};
+      "restic/nixnas/password" = {};
+      "restic/nixnas/healthcheck" = {};
+      "restic/nixnas/ntfy" = {};
+      "tailscale/auth-key" = {};
     };
     templates = {
       "rclone.conf" = {
