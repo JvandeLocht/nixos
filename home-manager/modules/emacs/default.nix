@@ -64,6 +64,12 @@
         vips # dirvish image preview
         nodePackages_latest.prettier # code formatting with apheleia
         st
+        # C++ development tools
+        clang-tools # provides clangd LSP server
+        cmake
+        cmake-language-server # LSP for CMakeLists.txt
+        gdb # debugger
+        lldb # alternative debugger
       ]
       ++ (with python312Packages; [
         pyflakes

@@ -177,3 +177,45 @@
 (map! :leader
       :prefix "t"
       :desc "Treemacs" "t" #'treemacs)
+
+;; C++ Development Configuration
+(after! cc-mode
+  ;; Set C++ indentation style
+  (setq c-default-style "linux"
+        c-basic-offset 4)
+
+  ;; Auto-format on save for C/C++ files
+  (add-hook 'c-mode-hook
+            (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil t)))
+  (add-hook 'c++-mode-hook
+            (lambda () (add-hook 'before-save-hook 'lsp-format-buffer nil t)))
+
+  ;; Modern C++ standards
+  (setq c-c++-default-mode-for-headers 'c++-mode)  ; Treat .h files as C++
+
+  ;; C++ specific keybindings
+  (map! :map c++-mode-map
+        :localleader
+        :desc "Compile" "c" #'compile
+        :desc "Recompile" "C" #'recompile
+        :desc "Switch header/source" "a" #'ff-find-other-file))
+
+;; LSP configuration for C++
+(after! lsp-mode
+  ;; Configure clangd for C++
+  (setq lsp-clients-clangd-args
+        '("--background-index"
+          "--clang-tidy"
+          "--completion-style=detailed"
+          "--header-insertion=never"
+          "--header-insertion-decorators=0"
+          "-j=4"
+          "--pch-storage=memory"))
+
+  ;; Performance tuning
+  (setq lsp-idle-delay 0.5
+        lsp-log-io nil))
+
+;; CMake integration
+(after! cmake-mode
+  (add-hook 'cmake-mode-hook #'lsp!))
