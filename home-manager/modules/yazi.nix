@@ -17,6 +17,11 @@
       settings = {
         mgr = {
           show_hidden = true;
+          mouse_events = [
+            "click"
+            "scroll"
+            "drag"
+          ];
         };
         preview = {
           max_width = 1000;
@@ -89,6 +94,16 @@
             on = [ "M" ];
             desc = "mount with mount";
           }
+          {
+            run = ''shell -- ripdrag --no-click --and-exit --icon-size 64 --target --all "$@" | while read filepath; do cp -nR "$filepath" .; done'';
+            on = [ "<S-d>" ];
+            desc = "Drag-n-drop files (no overwrite)";
+          }
+          {
+            run = ''shell -- ripdrag --no-click --and-exit --icon-size 64 --target --all "$@" | while read filepath; do cp -fR "$filepath" .; done'';
+            on = [ "<C-S-d>" ];
+            desc = "Drag-n-drop files (with overwrite)";
+          }
         ];
       };
       plugins = {
@@ -104,6 +119,7 @@
       ouch
       rich-cli
       udisks
+      ripdrag
     ];
   };
 }
