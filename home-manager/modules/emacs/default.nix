@@ -85,5 +85,19 @@
       icon = "${config.home.homeDirectory}/.setup/img/doom.png";
     };
     xdg.configFile."emacs".source = inputs.doomemacs;
+
+    # Automatically sync Doom after home-manager activation
+    home.activation.doomSync = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      if [ -d "${config.xdg.configHome}/emacs" ] && [ -f "${config.xdg.configHome}/emacs/bin/doom" ]; then
+        export DOOMDIR="${config.home.homeDirectory}/.setup/home-manager/modules/emacs/doom"
+        export EMACSDIR="${config.xdg.configHome}/emacs"
+        export DOOMLOCALDIR="${config.xdg.dataHome}/doom"
+        export DOOMPROFILELOADFILE="${config.xdg.stateHome}/doom-profiles-load.el"
+        $DRY_RUN_CMD ${config.xdg.configHome}/emacs/bin/doom sync -e || {
+          echo "Warning: Doom sync failed, you may need to run 'doom sync' manually"
+          exit 0
+        }
+      fi
+    '';
   };
 }
