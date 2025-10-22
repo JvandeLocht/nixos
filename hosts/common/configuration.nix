@@ -5,11 +5,13 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   unstable = import inputs.nixpkgs-unstable {
     localSystem = pkgs.system;
   };
-in {
+in
+{
   imports = [
     ../../nixos/modules
   ];
@@ -17,7 +19,8 @@ in {
   nix-settings.enable = true;
 
   environment = {
-    systemPackages = with pkgs;
+    systemPackages =
+      with pkgs;
       [
         git
         neovim
@@ -42,9 +45,9 @@ in {
         tmux
       ]
       ++ (with inputs; [
-        ])
+      ])
       ++ (with unstable; [
-        ]);
+      ]);
     # Set default editor to vim
     variables = {
       EDITOR = "nvim";
@@ -73,6 +76,7 @@ in {
       nerd-fonts.fira-code
       nerd-fonts.fira-mono
       fira-code-symbols
+      llvmPackages_20.libcxxClang
     ];
     # ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
   };
