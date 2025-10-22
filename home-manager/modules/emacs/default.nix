@@ -85,6 +85,7 @@
       icon = "${config.home.homeDirectory}/.setup/img/doom.png";
     };
     xdg.configFile."emacs".source = inputs.doomemacs;
+    xdg.configFile."clangd/config.yaml".source = ./clangd-config.yaml;
 
   };
 }

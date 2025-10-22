@@ -1,0 +1,7 @@
+CompileFlags:
+  Add:
+    - "-std=c++20"
+    - "-Wall"
+    - "-Wextra"
+  Remove:
+    - "-W*"  # Strip all other warning-related flags to avoid conflicts
