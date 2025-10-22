@@ -30,7 +30,6 @@
           ns = "nh os switch";
           t = "tmux";
           v = "nvim";
-          sp = "ssh root@192.168.178.40";
           doom = "${config.xdg.configHome}/emacs/bin/doom";
           lg = "lazygit";
           e = "emacs -nw";

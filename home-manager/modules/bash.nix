@@ -3,7 +3,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   options.bash = {
     enable = lib.mkEnableOption "Custom Bash configuration";
   };
@@ -25,8 +26,6 @@
         ngt = "sudo nixos-rebuild test --log-format internal-json -v --flake ~/.setup#gnome_laptop &| nom --json";
         j = "z";
         t = "zellij";
-        sj = "ssh jan@192.168.178.40";
-        sa = "ssh ae@192.168.178.40";
       };
     };
   };

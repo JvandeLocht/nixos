@@ -3,7 +3,8 @@
   config,
   pkgs,
   ...
-}: {
+}:
+{
   options.fish = {
     enable = lib.mkEnableOption "Custom Fish shell configuration";
   };
@@ -35,7 +36,6 @@
         j = "z";
         k = "kubectl";
         t = "zellij";
-        st = "ssh admin@192.168.178.40";
       };
     };
   };

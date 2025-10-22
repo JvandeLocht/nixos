@@ -1,8 +1,10 @@
-{ config
-, lib
-, pkgs
-, ...
-}: {
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+{
   # Read the changelog before changing this value
   home.stateVersion = "23.11";
 
@@ -29,7 +31,6 @@
         k = "kubectl";
         t = "zellij";
         v = "nvim";
-        st = "ssh admin@192.168.178.40";
       };
       oh-my-zsh = {
         enable = true;
