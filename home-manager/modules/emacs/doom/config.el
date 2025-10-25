@@ -219,3 +219,9 @@
 ;; CMake integration
 (after! cmake-mode
   (add-hook 'cmake-mode-hook #'lsp!))
+
+(use-package! direnv
+  :config
+  (direnv-mode)
+  ;; Optional: update environment when switching projects
+  (add-hook 'projectile-after-switch-project-hook #'direnv-update-environment))

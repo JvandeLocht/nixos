@@ -14,6 +14,11 @@
   };
 
   config = lib.mkIf config.emacs.enable {
+    programs.direnv = {
+      enable = true;
+      enableZshIntegration = true; # or enableBashIntegration
+      nix-direnv.enable = true;
+    };
     programs.emacs = {
       enable = true;
       package = config.emacs.package;
@@ -70,6 +75,7 @@
         cmake-language-server # LSP for CMakeLists.txt
         gdb # debugger
         lldb # alternative debugger
+        direnv
       ]
       ++ (with python312Packages; [
         pyflakes
