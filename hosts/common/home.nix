@@ -7,8 +7,12 @@
   programs = {
     git = {
       enable = true;
-      userName = "Jan van de Locht";
-      userEmail = "jan@vandelocht.uk";
+      settings = {
+        user = {
+          name = "Jan van de Locht";
+          email = "jan@vandelocht.uk";
+        };
+      };
     };
     nh = {
       enable = true;
