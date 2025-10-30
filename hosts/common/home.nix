@@ -39,33 +39,11 @@
       p7zip
 
       # CLI
-      typst
-      pandoc
-      yq-go
-      kubeconform
-      kustomize
-      talosctl
-      kubectl
-      kubernetes-helm
-      k9s
-      fluxcd
-      kompose
-      # nixvim
-      nvf
-      minio-client
-      velero
-      opencode
-
       sops
       age
 
-      abduco # Allows programs to be run independently from its controlling terminal
       neofetch
       lazygit
-      evtest # test Input Events (for example LidSwitch)
-      usbutils
-      android-tools
-      auto-cpufreq
       sshfs
       tree # Display filetree
       htop

@@ -13,7 +13,6 @@ in
 {
   imports = [
     ../common/home.nix
-    ../../home-manager/modules/emacs
     ../../home-manager/modules/tmux.nix
     ../../home-manager/modules/zsh.nix
     ../../home-manager/modules/yazi.nix
@@ -21,7 +20,6 @@ in
   ];
 
   tmux.enable = true;
-  emacs.enable = true;
   zsh.enable = true;
   yazi.enable = true;
   lf.enable = true;
@@ -32,7 +30,7 @@ in
     packages =
       (with pkgs; [
         appimage-run
-        claude-code
+        vim
       ])
       ++ (with unstable; [
       ]);

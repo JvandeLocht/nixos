@@ -57,7 +57,9 @@ in
         pdf4qt
         brave
         ungoogled-chromium
-        mediawriter
+        mediaw
+        gnome-disk-utility
+        iter
 
         (writeShellScriptBin "freecad-x11" ''
           GDK_BACKEND=x11 QT_QPA_PLATFORM=xcb ${freecad}/bin/freecad "$@"
@@ -73,6 +75,27 @@ in
         python313
         notify-client
         bitwarden-cli
+
+        typst
+        pandoc
+        yq-go
+        kubeconform
+        kustomize
+        talosctl
+        kubectl
+        kubernetes-helm
+        k9s
+        fluxcd
+        kompose
+        nvf
+        minio-client
+        velero
+        opencode
+
+        evtest # test Input Events (for example LidSwitch)
+        usbutils
+        android-tools
+        auto-cpufreq
       ])
       ++ (with stable; [
       ]);

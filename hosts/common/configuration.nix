@@ -26,19 +26,15 @@ in
         neovim
         wget
         curl
-        evtest
         gnugrep
         powertop
         smartmontools
-        pika-backup
-        borgbackup
         rclone
         restic
         zellij
         backrest
         filen-cli
         immich-cli
-        gnome-disk-utility
         glances
         sops
         age
