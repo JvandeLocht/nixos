@@ -57,9 +57,8 @@ in
         pdf4qt
         brave
         ungoogled-chromium
-        mediaw
+        mediawriter
         gnome-disk-utility
-        iter
 
         (writeShellScriptBin "freecad-x11" ''
           GDK_BACKEND=x11 QT_QPA_PLATFORM=xcb ${freecad}/bin/freecad "$@"
