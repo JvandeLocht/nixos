@@ -38,7 +38,7 @@ in
         spacenavd
         libreoffice-qt
         solaar # logitech gear
-        AusweisApp2
+        ausweisapp
         antimicrox
         waydroid
         freetube
@@ -50,7 +50,7 @@ in
         zoom-us
         signal-desktop
         xournalpp
-        onlyoffice-bin
+        onlyoffice-desktopeditors
         appimage-run
         element-desktop
         zathura

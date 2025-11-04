@@ -67,7 +67,7 @@ in
       cantarell-fonts
       notonoto
       meslo-lgs-nf
-      vistafonts
+      vista-fonts
       nerd-fonts.fantasque-sans-mono
       nerd-fonts.fira-code
       nerd-fonts.fira-mono
