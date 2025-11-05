@@ -60,6 +60,7 @@ in
         mediawriter
         gnome-disk-utility
         makemkv
+        handbrake
 
         (writeShellScriptBin "freecad-x11" ''
           GDK_BACKEND=x11 QT_QPA_PLATFORM=xcb ${freecad}/bin/freecad "$@"
