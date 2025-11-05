@@ -52,15 +52,11 @@
     {
       environment.persistence.${persistPath} = {
         hideMounts = true;
-        directories =
-          lib.lists.unique (
-            [
-              # Base system directories
-            ]
-            ++ baseSystemDirectories
-            ++ baseSystemDirectoriesWithPerms
-            ++ extraDirectories
-          );
+        directories = lib.lists.unique (
+          baseSystemDirectories
+          ++ baseSystemDirectoriesWithPerms
+          ++ extraDirectories
+        );
         files = if includeBaseFiles then baseSystemFiles ++ extraFiles else extraFiles;
       };
 
