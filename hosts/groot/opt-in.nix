@@ -1,43 +1,17 @@
-{
-  environment.persistence."/persist" = {
-    hideMounts = true;
-    directories = [
-      "/root/.local/share/nix"
-      "/var/log"
-      "/var/lib/bluetooth"
-      "/var/lib/cups"
-      "/var/lib/tailscale"
-      "/var/cache/tailscale"
-      "/var/spool/cups"
-      "/var/lib/nixos"
-      "/var/lib/libvirt"
-      "/var/cache/libvirt"
-      "/var/cache/restic-backups-groot"
-      "/var/cache/restic-backups-remotebackup"
-      "/var/lib/containers/storage"
-      "/var/lib/systemd/coredump"
-      "/etc/NetworkManager/system-connections"
-      "/etc/asusd"
-      "/etc/ssh"
-      {
-        directory = "/var/lib/colord";
-        user = "colord";
-        group = "colord";
-        mode = "u=rwx,g=rx,o=";
-      }
-    ];
-    files = [
-      "/etc/machine-id"
-      {
-        file = "/var/keys/secret_file";
-        parentDirectory = {
-          mode = "u=rwx,g=,o=";
-        };
-      }
-    ];
-  };
-  security.sudo.extraConfig = ''
-    # rollback results in sudo lectures after each reboot
-    Defaults lecture = never
-  '';
+{ lib, ... }:
+
+let
+  persistenceLib = import ../../lib/persistence.nix { inherit lib; };
+in
+persistenceLib.mkPersistenceConfig {
+  extraDirectories = [
+    "/var/lib/bluetooth"
+    "/var/lib/cups"
+    "/var/lib/tailscale"
+    "/var/cache/tailscale"
+    "/var/spool/cups"
+    "/var/cache/restic-backups-groot"
+    "/var/cache/restic-backups-remotebackup"
+    "/etc/asusd"
+  ];
 }
