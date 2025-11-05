@@ -59,6 +59,7 @@ in
         ungoogled-chromium
         mediawriter
         gnome-disk-utility
+        makemkv
 
         (writeShellScriptBin "freecad-x11" ''
           GDK_BACKEND=x11 QT_QPA_PLATFORM=xcb ${freecad}/bin/freecad "$@"
