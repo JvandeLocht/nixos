@@ -7,7 +7,8 @@
   pkgs,
   inputs,
   ...
-}: {
+}:
+{
   imports = [
     ./hardware-configuration.nix
     ../common/configuration.nix
@@ -24,6 +25,12 @@
   environment.systemPackages = [
     pkgs.lsscsi
   ];
+
+  services.jellyfin = {
+    enable = true;
+    dataDir = "/tank/apps/jellyfin";
+    openFirewall = true;
+  };
 
   services.garage = {
     enable = true;
@@ -144,9 +151,9 @@
     secrets = {
       "filen/.filen-cli-auth-config" = {
       };
-      "filen/webdav/user" = {};
-      "filen/webdav/password" = {};
-      "tailscale/auth-key" = {};
+      "filen/webdav/user" = { };
+      "filen/webdav/password" = { };
+      "tailscale/auth-key" = { };
       "garage/rpc-secret" = {
         owner = "garage";
         group = "garage";
@@ -270,7 +277,7 @@
             "--keep-monthly 1"
             "--keep-yearly 1"
           ];
-          extraBackupArgs = ["--verbose"];
+          extraBackupArgs = [ "--verbose" ];
           backupPrepareCommand = ''
             ${pkgs.curl}/bin/curl -d "Restic Backup: Starting system backup..." $(${pkgs.busybox}/bin/cat ${
               config.sops.secrets."restic/nixnas/ntfy".path
@@ -279,15 +286,15 @@
           backupCleanupCommand = ''
             if [ $? -eq 0 ]; then
               ${pkgs.curl}/bin/curl -d "Restic Backup: System backup completed successfully at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
-              config.sops.secrets."restic/nixnas/ntfy".path
-            })
+                config.sops.secrets."restic/nixnas/ntfy".path
+              })
               ${pkgs.curl}/bin/curl -fsS --retry 3 $(${pkgs.busybox}/bin/cat ${
-              config.sops.secrets."restic/nixnas/healthcheck".path
-            })
+                config.sops.secrets."restic/nixnas/healthcheck".path
+              })
             else
               ${pkgs.curl}/bin/curl -d "Restic Backup: System backup failed at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
-              config.sops.secrets."restic/nixnas/ntfy".path
-            })
+                config.sops.secrets."restic/nixnas/ntfy".path
+              })
             fi
           '';
         };
@@ -307,7 +314,7 @@
           pruneOpts = [
             "--keep-last 1"
           ];
-          extraBackupArgs = ["--verbose"];
+          extraBackupArgs = [ "--verbose" ];
           backupPrepareCommand = ''
             ${pkgs.curl}/bin/curl -d "Restic Backup: Starting apps backup..." $(${pkgs.busybox}/bin/cat ${
               config.sops.secrets."restic/nixnas/ntfy".path
@@ -316,15 +323,15 @@
           backupCleanupCommand = ''
             if [ $? -eq 0 ]; then
               ${pkgs.curl}/bin/curl -d "Restic Backup: Apps backup completed successfully at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
-              config.sops.secrets."restic/nixnas/ntfy".path
-            })
+                config.sops.secrets."restic/nixnas/ntfy".path
+              })
               ${pkgs.curl}/bin/curl -m 10 --retry 5 $(${pkgs.busybox}/bin/cat ${
-              config.sops.secrets."restic/nixnas/healthcheck".path
-            })
+                config.sops.secrets."restic/nixnas/healthcheck".path
+              })
             else
               ${pkgs.curl}/bin/curl -d "Restic Backup: Apps backup failed at $(${pkgs.coreutils}/bin/date)" $(${pkgs.busybox}/bin/cat ${
-              config.sops.secrets."restic/nixnas/ntfy".path
-            })
+                config.sops.secrets."restic/nixnas/ntfy".path
+              })
             fi
           '';
         };
@@ -336,7 +343,7 @@
 
   # security.sudo.wheelNeedsPassword = false;
   users = {
-    groups.garage = {};
+    groups.garage = { };
     users = {
       "jan" = {
         isNormalUser = true;
@@ -362,6 +369,13 @@
         isSystemUser = true;
         group = "users";
       };
+      "jellyfin" = {
+        isSystemUser = true;
+        group = "jellyfin";
+        extraGroups = [
+          "users"
+        ];
+      };
       "ha" = {
         isSystemUser = true;
         group = "users";
@@ -376,13 +390,13 @@
 
   sops = {
     secrets = {
-      "filen/webdav/user" = {};
-      "filen/webdav/password" = {};
-      "filen/webdav/password-hashed" = {};
-      "restic/nixnas/password" = {};
-      "restic/nixnas/healthcheck" = {};
-      "restic/nixnas/ntfy" = {};
-      "tailscale/auth-key" = {};
+      "filen/webdav/user" = { };
+      "filen/webdav/password" = { };
+      "filen/webdav/password-hashed" = { };
+      "restic/nixnas/password" = { };
+      "restic/nixnas/healthcheck" = { };
+      "restic/nixnas/ntfy" = { };
+      "tailscale/auth-key" = { };
     };
     templates = {
       "rclone.conf" = {
