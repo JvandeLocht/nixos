@@ -32,6 +32,20 @@
     openFirewall = true;
   };
 
+  services.immich = {
+    enable = true;
+    port = 2283;
+    host = "0.0.0.0";
+    openFirewall = true;
+    mediaLocation = "/tank/apps/immich";
+    accelerationDevices = [ "/dev/dri/renderD128" ];
+  };
+  users.users.immich.extraGroups = [
+    "video"
+    "render"
+  ];
+  hardware.graphics.enable = true;
+
   services.garage = {
     enable = true;
     package = pkgs.garage;
