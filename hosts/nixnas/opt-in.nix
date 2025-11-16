@@ -5,6 +5,8 @@
       "/root/.local/share/nix"
       "/var/log"
       "/var/lib/nixos"
+      "/var/lib/postgresql"
+      "/var/lib/redis-immich"
       "/var/lib/tailscale"
       "/var/cache/tailscale"
       "/var/lib/libvirt"
