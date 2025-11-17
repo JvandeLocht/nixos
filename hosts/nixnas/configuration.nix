@@ -46,11 +46,6 @@
     "render"
   ];
   hardware.graphics.enable = true;
-  sops = {
-    secrets = {
-      "cloudflare-acme" = { };
-    };
-  };
 
   services.garage = {
     enable = true;
