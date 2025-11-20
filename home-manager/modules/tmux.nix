@@ -6,7 +6,7 @@
   ...
 }: let
   stable = import inputs.nixpkgs {
-    localSystem = pkgs.system;
+    localSystem = pkgs.stdenv.hostPlatform.system;
   };
 in {
   options = {

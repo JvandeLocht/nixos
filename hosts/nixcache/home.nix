@@ -7,7 +7,7 @@
 }:
 let
   unstable = import inputs.nixpkgs-unstable {
-    localSystem = pkgs.system;
+    localSystem = pkgs.stdenv.hostPlatform.system;
   };
 in
 {

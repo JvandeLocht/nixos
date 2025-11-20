@@ -15,7 +15,7 @@
       inputMethod = {
         enable = true;
         type = "fcitx5";
-        fcitx5.addons = [ inputs.fcitx-virtual-keyboard-adapter.packages.${pkgs.system}.default ];
+        fcitx5.addons = [ inputs.fcitx-virtual-keyboard-adapter.packages.${pkgs.stdenv.hostPlatform.system}.default ];
       };
     };
 

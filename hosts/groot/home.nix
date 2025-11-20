@@ -6,7 +6,7 @@
 }:
 let
   stable = import inputs.nixpkgs {
-    localSystem = pkgs.system;
+    localSystem = pkgs.stdenv.hostPlatform.system;
   };
 in
 {
@@ -66,7 +66,7 @@ in
           GDK_BACKEND=x11 QT_QPA_PLATFORM=xcb ${freecad}/bin/freecad "$@"
         '')
         freecad
-        inputs.zen-browser.packages."${system}".default # beta
+        inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default # beta
         spotube
         claude-code
 

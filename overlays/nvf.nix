@@ -1,3 +1,3 @@
 inputs: final: prev: {
-  nvf = inputs.nvf.packages.${prev.system}.default;
+  nvf = inputs.nvf.packages.${prev.stdenv.hostPlatform.system}.default;
 }
