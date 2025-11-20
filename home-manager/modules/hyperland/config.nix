@@ -189,27 +189,44 @@
     # Lockscreen
     bind = $mainMod, l, exec, hyprlock
 
-    # Laptop lid
-    # bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-1, 2560x1600, 1280x1440,1.25"
-    bindl=,switch:on:Lid Switch,exec,${pkgs.writeScript "desktop-mode" ''
+    # Laptop lid - close
+    bindl=,switch:on:Lid Switch,exec,${pkgs.writeScript "lid-close" ''
       #!/usr/bin/env bash
-      count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
-      if  [ $count = 1 ]; then
-        # hyprlock
+
+      # Find the internal eDP display (could be eDP-1 or eDP-2)
+      edp_display=$(${pkgs.hyprland}/bin/hyprctl monitors all | ${pkgs.gnugrep}/bin/grep -oP 'Monitor \K(eDP-[0-9]+)' | head -n1)
+
+      # Count external displays (DP- but not eDP-)
+      external_count=$(${pkgs.hyprland}/bin/hyprctl monitors | ${pkgs.gnugrep}/bin/grep -oP 'Monitor \K(DP-[0-9]+)' | wc -l)
+
+      if [ "$external_count" -eq 0 ]; then
+        # No external displays, suspend
         systemctl suspend
       else
-        hyprctl keyword monitor "eDP-2, disable"
+        # External displays connected, disable internal
+        if [ -n "$edp_display" ]; then
+          ${pkgs.hyprland}/bin/hyprctl keyword monitor "$edp_display, disable"
+        fi
       fi
     ''}
 
-    # bindl=,switch:off:Lid Switch,exec,hyprctl keyword monitor "eDP-1, disable"
-    bindl=,switch:off:Lid Switch,exec,${pkgs.writeScript "desktop-mode" ''
+    # Laptop lid - open
+    bindl=,switch:off:Lid Switch,exec,${pkgs.writeScript "lid-open" ''
       #!/usr/bin/env bash
-      count=$(${pkgs.hyprland}/bin/hyprctl monitors | grep -c "DP")
-      if  [ $count = 1 ]; then
-        echo "lid opened"
+
+      # Find the internal eDP display
+      edp_display=$(${pkgs.hyprland}/bin/hyprctl monitors all | ${pkgs.gnugrep}/bin/grep -oP 'Monitor \K(eDP-[0-9]+)' | head -n1)
+
+      # Count external displays
+      external_count=$(${pkgs.hyprland}/bin/hyprctl monitors | ${pkgs.gnugrep}/bin/grep -oP 'Monitor \K(DP-[0-9]+)' | wc -l)
+
+      if [ "$external_count" -eq 0 ]; then
+        echo "lid opened - no external displays"
       else
-        hyprctl keyword monitor "eDP-2, 2560x1600, 1280x1440,1.25"
+        # External displays connected, re-enable internal
+        if [ -n "$edp_display" ]; then
+          ${pkgs.hyprland}/bin/hyprctl keyword monitor "$edp_display, 2560x1600, 1280x1440, 1.25"
+        fi
       fi
     ''}
 
