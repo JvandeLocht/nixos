@@ -35,9 +35,9 @@
   ];
   sops = {
     secrets = {
-      "smb/nixnas/username" = { };
-      "smb/nixnas/domain" = { };
-      "smb/nixnas/password" = { };
+      "smb/truenas/username" = { };
+      "smb/truenas/domain" = { };
+      "smb/truenas/password" = { };
       "minio/accessKey" = { };
       "minio/secretKey" = { };
       "restic/groot/password" = { };
@@ -47,9 +47,9 @@
     templates = {
       smb-secret = {
         content = ''
-          username=${config.sops.placeholder."smb/nixnas/username"}
-          domain=${config.sops.placeholder."smb/nixnas/domain"}
-          password=${config.sops.placeholder."smb/nixnas/password"}
+          username=${config.sops.placeholder."smb/truenas/username"}
+          domain=${config.sops.placeholder."smb/truenas/domain"}
+          password=${config.sops.placeholder."smb/truenas/password"}
         '';
       };
       restic-env = {
@@ -61,7 +61,7 @@
     };
   };
   fileSystems."/mnt/share" = {
-    device = "//192.168.178.58/tank";
+    device = "//192.168.178.58/jan";
     fsType = "cifs";
     options =
       let
