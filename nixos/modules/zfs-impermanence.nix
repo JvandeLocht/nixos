@@ -37,7 +37,8 @@ in
     # Boot configuration with ZFS support
     boot = {
       # Use latest ZFS-compatible kernel
-      kernelPackages = zfsUtils.getLatestZfsKernel;
+      kernelPackages = pkgs.linuxPackages_cachyos-lts;
+      zfs.package = pkgs.zfs_cachyos;
       
       # Bootloader with ZFS support
       loader.grub = {
