@@ -151,6 +151,7 @@
               "/home/*/.cache"
               "/home/*/.local/share"
               "/home/*/Bilder"
+              "/home/*/Games"
               "/home/*/.ollama"
               "/persist/var/lib/ollama"
               "/persist/var/lib/libvirt"
