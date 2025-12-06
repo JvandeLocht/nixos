@@ -12,6 +12,7 @@
     ./locale_keymap.nix
     ./networking.nix
     ./nix-settings.nix
+    ./niri.nix
     ./nvidia.nix
     ./power.nix
     ./printing.nix

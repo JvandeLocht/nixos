@@ -16,6 +16,7 @@
     ../../lib/systemd.nix
   ];
 
+  specialisationConfig.enable = true;
   gaming.enable = true;
   hyprland.enable = true;
   locale.enable = true;
