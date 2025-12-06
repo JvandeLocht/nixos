@@ -21,7 +21,10 @@
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
-      plugins = with pkgs.hyprlandPlugins; [ hyprgrass ]; # hyprgrass temporarily disabled due to API incompatibility
+      plugins = with pkgs.hyprlandPlugins; [
+        hyprgrass
+        hyprscrolling
+      ];
     };
 
     waybar.enable = true;
@@ -65,7 +68,6 @@
       swaynotificationcenter
       wlogout
       networkmanagerapplet
-      iio-hyprland
       jq
       zip
     ];

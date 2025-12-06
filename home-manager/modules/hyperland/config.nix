@@ -63,7 +63,7 @@
         col.inactive_border = rgba(595959aa)
         resize_on_border = true
         allow_tearing = true
-        layout = dwindle
+        layout = scrolling
     }
 
     decoration {
@@ -115,6 +115,10 @@
 
 
     plugin {
+      hyprscrolling {
+          column_width = 0.7
+          fullscreen_on_one_column = true
+      }
       touch_gestures {
         # default sensitivity is probably too low on tablet screens,
         # I recommend turning it up to 4.0
@@ -326,5 +330,12 @@
     # Wlogout
     bind = $mainMod, e, exec, wlogout
 
+    # Hyprscrolling
+    bind = $mainMod, period, layoutmsg, colresize +conf
+    bind = $mainMod, comma, layoutmsg, colresize -conf
+    bind = $mainMod SHIFT, period, layoutmsg, movewindowto r
+    bind = $mainMod SHIFT, comma, layoutmsg, movewindowto l
+    bind = $mainMod SHIFT, up, layoutmsg, movewindowto u
+    bind = $mainMod SHIFT, down, layoutmsg, movewindowto d
   '';
 }
