@@ -39,8 +39,8 @@
       "smb/truenas/username" = { };
       "smb/truenas/domain" = { };
       "smb/truenas/password" = { };
-      "minio/accessKey" = { };
-      "minio/secretKey" = { };
+      "garage/keyID" = { };
+      "garage/secretKey" = { };
       "restic/groot/password" = { };
       "restic/groot/healthcheck" = { };
       "restic/groot/ntfy" = { };
@@ -55,8 +55,8 @@
       };
       restic-env = {
         content = ''
-          AWS_ACCESS_KEY_ID=${config.sops.placeholder."minio/accessKey"}
-          AWS_SECRET_ACCESS_KEY=${config.sops.placeholder."minio/secretKey"}
+          AWS_ACCESS_KEY_ID=${config.sops.placeholder."garage/keyID"}
+          AWS_SECRET_ACCESS_KEY=${config.sops.placeholder."garage/secretKey"}
         '';
       };
     };
@@ -152,13 +152,12 @@
               "/home/*/.local/share"
               "/home/*/Bilder"
               "/home/*/.ollama"
-              "/home/*/BackupK8sCSI"
               "/persist/var/lib/ollama"
               "/persist/var/lib/libvirt"
               "/persist/var/lib/containers"
               "/persist/var/lib/systemd"
             ];
-            repository = "s3:http://192.168.178.58:9000/groot-restic";
+            repository = "s3:http://192.168.178.58:30188/groot-restic";
             progressFps = 0.001;
             pruneOpts = [
               "--keep-daily 3"
