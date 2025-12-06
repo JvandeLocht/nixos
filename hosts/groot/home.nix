@@ -38,7 +38,6 @@ in
         spacenavd
         libreoffice-qt
         solaar # logitech gear
-        ausweisapp
         antimicrox
         waydroid
         freetube
@@ -57,7 +56,6 @@ in
         pdf4qt
         brave
         ungoogled-chromium
-        mediawriter
         gnome-disk-utility
         makemkv
         handbrake
@@ -67,30 +65,16 @@ in
         '')
         freecad
         inputs.zen-browser.packages."${pkgs.stdenv.hostPlatform.system}".default # beta
-        spotube
         claude-code
 
-        golden-cheetah
-        rclone-browser
         rclone
         python313
         notify-client
-        bitwarden-cli
 
         typst
         pandoc
-        yq-go
-        kubeconform
-        kustomize
-        talosctl
-        kubectl
-        kubernetes-helm
-        k9s
-        fluxcd
-        kompose
         nvf
         minio-client
-        velero
         opencode
 
         evtest # test Input Events (for example LidSwitch)
