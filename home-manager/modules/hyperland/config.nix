@@ -15,6 +15,7 @@
     exec-once = ${pkgs.filen-desktop}/bin/filen-desktop
     exec-once = ${pkgs.asusctl}/bin/rog-control-center
     exec-once = ${pkgs.udiskie}/bin/udiskie -t
+    exec-once = ${pkgs.iio-hyprland}/bin/iio-hyprland
 
 
     # See https://wiki.hyprland.org/Configuring/Monitors/
