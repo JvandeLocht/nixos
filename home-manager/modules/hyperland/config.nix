@@ -14,7 +14,6 @@
     exec-once = ${pkgs.brightnessctl}/bin/brightnessctl set 5
     exec-once = ${pkgs.filen-desktop}/bin/filen-desktop
     exec-once = ${pkgs.asusctl}/bin/rog-control-center
-    exec-once = ${pkgs.trayscale}/bin/trayscale --no-window
     exec-once = ${pkgs.udiskie}/bin/udiskie -t
 
 
