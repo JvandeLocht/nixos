@@ -280,7 +280,7 @@
     bind = SUPER, F, fullscreen
     # bind = $mainMod, R, exec, ulauncher-toggle
     bind = $mainMod, R, exec, rofi -show
-    bind = $mainMod, P, exec, rofi-pass
+    bind = $mainMod, P, exec, ${pkgs.wofi-pass}/bin/wofi-pass -t
     bind = $mainMod, J, togglesplit, # dwindle
 
     # Move focus with mainMod + arrow keys
