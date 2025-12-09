@@ -32,6 +32,7 @@
 
     # See https://wiki.hyprland.org/Configuring/Keywords/ for more
     $mainMod = ALT
+    $secondMod = SUPER
 
     # Power - Dynamic GPU detection via script
     exec-once = ${pkgs.gpu-drm-devices}
@@ -331,6 +332,8 @@
     bind = $mainMod, e, exec, wlogout
 
     # Hyprscrolling
+    bind = $seconsecond, period, layoutmsg, move +col
+    bind = $seconsecond, comma, layoutmsg, move -col
     bind = $mainMod, period, layoutmsg, colresize +conf
     bind = $mainMod, comma, layoutmsg, colresize -conf
     bind = $mainMod SHIFT, period, layoutmsg, movewindowto r
