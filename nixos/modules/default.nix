@@ -2,7 +2,6 @@
   imports = [
     ./attic.nix
     ./acme.nix
-    ./backrest.nix
     ./gaming.nix
     ./gnome.nix
     ./harmonia.nix
