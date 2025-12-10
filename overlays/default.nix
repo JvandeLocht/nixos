@@ -1,5 +1,4 @@
 inputs: [
-  (import ./nvf.nix inputs)
   (import ./emacs.nix inputs)
   (import ./freecad.nix inputs)
   (import ./handbrake.nix inputs)

@@ -74,7 +74,6 @@ in
 
         typst
         pandoc
-        nvf
         minio-client
         opencode
 

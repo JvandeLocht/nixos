@@ -4,12 +4,14 @@
   pkgs,
   inputs,
   ...
-}: let
+}:
+let
   pkgs-unstable = import inputs.nixpkgs-unstable {
     system = pkgs.stdenv.hostPlatform.system;
     config.allowUnfree = true;
   };
-in {
+in
+{
   # Simply install just the packages
   environment.packages = with pkgs; [
     # claude-code from unstable
@@ -18,7 +20,6 @@ in {
     git
     ##vim # or some other editor, e.g. nano or neovim
     nano
-    nvf
     typst
 
     # kubernetes
@@ -83,12 +84,13 @@ in {
     # termux-wallpaper
   ];
   user.shell = "${pkgs.zsh}/bin/zsh";
-  terminal.font = let
-    fontPackage = pkgs.nerdfonts.override {
-      fonts = ["UbuntuMono"];
-    };
-    fontPath = "/share/fonts/truetype/NerdFonts/UbuntuMonoNerdFont-Regular.ttf";
-  in
+  terminal.font =
+    let
+      fontPackage = pkgs.nerdfonts.override {
+        fonts = [ "UbuntuMono" ];
+      };
+      fontPath = "/share/fonts/truetype/NerdFonts/UbuntuMonoNerdFont-Regular.ttf";
+    in
     fontPackage + fontPath;
 
   # Backup etc files instead of failing to activate generation if a file already exists in /etc

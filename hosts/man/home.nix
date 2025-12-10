@@ -42,7 +42,6 @@
   fonts.fontconfig.enable = true;
 
   home.packages = with pkgs; [
-    nvf
     typst
     htop
 

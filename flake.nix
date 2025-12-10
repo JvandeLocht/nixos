@@ -63,10 +63,6 @@
     };
 
     # User configurations
-    nvf = {
-      url = "github:JvandeLocht/nvf-config";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
     zen-browser = {
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
@@ -104,7 +100,6 @@
       home-manager,
       home-manager-unstable,
       impermanence,
-      nvf,
       sops-nix,
       nix-on-droid,
       copyparty,

@@ -1,4 +1,5 @@
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   imports = [
     # ../../home-manager/modules
   ];
@@ -50,7 +51,6 @@
       # fluxcd
       # kompose
       # nixvim
-      # nvf
       # minio-client
       # velero
       # opencode

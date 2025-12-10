@@ -65,7 +65,6 @@
   environment = {
     shellAliases = {
       get-config = "git clone https://github.com/JvandeLocht/nixos";
-      v = "nix run github:JvandeLocht/nvf-config#";
     };
     interactiveShellInit = ''
       echo "Available aliases:"
