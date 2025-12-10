@@ -82,13 +82,6 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-
-    # Nix-on-Droid
-    nix-on-droid = {
-      url = "github:nix-community/nix-on-droid";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
   };
 
   outputs =
@@ -101,7 +94,6 @@
       home-manager-unstable,
       impermanence,
       sops-nix,
-      nix-on-droid,
       copyparty,
       ...
     }:
@@ -192,19 +184,6 @@
               { nixpkgs.overlays = commonOverlays; }
             ];
           };
-        };
-
-        nixOnDroidConfigurations.default = nix-on-droid.lib.nixOnDroidConfiguration {
-          modules = [ ./hosts/nixdroid/nix-on-droid.nix ];
-          pkgs = import nixpkgs {
-            system = "aarch64-linux";
-            overlays = [
-              nix-on-droid.overlays.default
-            ]
-            ++ commonOverlays;
-          };
-          home-manager-path = home-manager.outPath;
-          extraSpecialArgs = specialArgs;
         };
       }
     );
