@@ -17,7 +17,6 @@
       "https://numtide.cachix.org"
       "https://tweag-nickel.cachix.org"
       "https://cache.lan.vandelocht.uk/"
-      "https://chaotic-nyx.cachix.org/"
     ];
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
@@ -30,7 +29,6 @@
       "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
       "tweag-nickel.cachix.org-1:GIthuiK4LRgnW64ALYEoioVUQBWs0jexyoYVeLDBwRA="
       "cache.lan.vandelocht.uk:uY5NlU5/9D6UTirWyuY8WTI+oEucGbSINnQfe6xrQbM="
-      "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
     ];
   };
 
@@ -63,8 +61,6 @@
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
-     
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
     # User configurations
     nvf = {
@@ -112,7 +108,6 @@
       sops-nix,
       nix-on-droid,
       copyparty,
-      chaotic,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -157,9 +152,6 @@
             username = "jan";
             extraOverlays = [
               (import ./overlays/wvkbd.nix inputs)
-            ];
-            extraModules = [
-	    chaotic.nixosModules.default
             ];
           };
 
