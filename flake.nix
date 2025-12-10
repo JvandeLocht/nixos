@@ -173,18 +173,6 @@
             extraModules = [ inputs.nixos-wsl.nixosModules.default ];
           };
         };
-
-        homeConfigurations = {
-          default = self.homeConfigurations.jan;
-          jan = home-manager-unstable.lib.homeManagerConfiguration {
-            pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux;
-            extraSpecialArgs = specialArgs;
-            modules = [
-              ./hosts/man/home.nix
-              { nixpkgs.overlays = commonOverlays; }
-            ];
-          };
-        };
       }
     );
 }
