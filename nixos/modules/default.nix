@@ -17,7 +17,6 @@
     ./virtualization
     ./podman
     ./specialisation.nix
-    ./telegraf.nix
     ./zfs-impermanence.nix
   ];
 }
