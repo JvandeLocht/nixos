@@ -333,8 +333,8 @@
     bind = $mainMod, e, exec, wlogout
 
     # Hyprscrolling
-    bind = $seconsecond, period, layoutmsg, move +col
-    bind = $seconsecond, comma, layoutmsg, move -col
+    bind = $secondMod, period, layoutmsg, move +col
+    bind = $secondMod, comma, layoutmsg, move -col
     bind = $mainMod, period, layoutmsg, colresize +conf
     bind = $mainMod, comma, layoutmsg, colresize -conf
     bind = $mainMod SHIFT, period, layoutmsg, movewindowto r
