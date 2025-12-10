@@ -112,7 +112,7 @@
   };
   # Enable the X11 windowing system.
   services = {
-    tailscale = {
+    netbird = {
       enable = true;
     };
     restic =
