@@ -12,7 +12,7 @@ in
 {
   imports = [
     ../common/home.nix
-    ../../home-manager/modules
+    ../../modules/home-manager
   ];
 
   zsh.enable = true;

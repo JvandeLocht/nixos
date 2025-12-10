@@ -4,18 +4,20 @@
   pkgs,
   osConfig,
   ...
-}: let
+}:
+let
   unstable = import inputs.nixpkgs-unstable {
     localSystem = pkgs.stdenv.hostPlatform.system;
   };
-in {
+in
+{
   imports = [
     ../common/home.nix
-    # ../../home-manager/modules/emacs
-    ../../home-manager/modules/tmux.nix
-    ../../home-manager/modules/zsh.nix
-    ../../home-manager/modules/yazi.nix
-    ../../home-manager/modules/lf
+    # ../../modules/home-manager/emacs
+    ../../modules/home-manager/tmux.nix
+    ../../modules/home-manager/zsh.nix
+    ../../modules/home-manager/yazi.nix
+    ../../modules/home-manager/lf
   ];
 
   tmux.enable = true;
@@ -34,7 +36,7 @@ in {
         vim
       ])
       ++ (with unstable; [
-        ]);
+      ]);
   };
   # Packages that should be installed to the user profile.
 

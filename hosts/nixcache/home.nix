@@ -13,11 +13,11 @@ in
 {
   imports = [
     ../common/home.nix
-    ../../home-manager/modules/emacs
-    ../../home-manager/modules/tmux.nix
-    ../../home-manager/modules/zsh.nix
-    ../../home-manager/modules/yazi.nix
-    ../../home-manager/modules/lf
+    ../../modules/home-manager/emacs
+    ../../modules/home-manager/tmux.nix
+    ../../modules/home-manager/zsh.nix
+    ../../modules/home-manager/yazi.nix
+    ../../modules/home-manager/lf
   ];
 
   tmux.enable = true;

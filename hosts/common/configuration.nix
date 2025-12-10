@@ -13,7 +13,7 @@ let
 in
 {
   imports = [
-    ../../nixos/modules
+    ../../modules/nixos
   ];
 
   nix-settings.enable = true;
