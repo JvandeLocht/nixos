@@ -1,6 +1,5 @@
 {
   imports = [
-    ./attic.nix
     ./acme.nix
     ./gaming.nix
     ./gnome.nix
