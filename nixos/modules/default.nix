@@ -3,7 +3,6 @@
     ./attic.nix
     ./acme.nix
     ./backrest.nix
-    ./filen-webdav.nix
     ./gaming.nix
     ./gnome.nix
     ./harmonia.nix
