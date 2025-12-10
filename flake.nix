@@ -142,14 +142,6 @@
             ];
           };
 
-          nixnas = mkNixosConfig {
-            system = "x86_64-linux";
-            hostname = "nixnas";
-            username = "jan";
-            extraModules = [
-            ];
-          };
-
           nixcache = mkNixosConfig {
             system = "x86_64-linux";
             hostname = "nixcache";
