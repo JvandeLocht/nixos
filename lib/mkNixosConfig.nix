@@ -1,7 +1,6 @@
 {
   inputs,
   impermanence,
-  copyparty,
   sops-nix,
   home-manager-unstable,
   commonOverlays,
@@ -33,15 +32,6 @@ inputs.nixpkgs-unstable.lib.nixosSystem {
     impermanence.nixosModules.impermanence
     home-manager-unstable.nixosModules.home-manager
     sops-nix.nixosModules.sops
-    # load the copyparty NixOS module
-    copyparty.nixosModules.default
-    (
-      { pkgs, ... }:
-      {
-        # add the copyparty overlay to expose the package to the module
-        nixpkgs.overlays = [ copyparty.overlays.default ];
-      }
-    )
     {
       home-manager = {
         useGlobalPkgs = true;

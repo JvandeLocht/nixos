@@ -71,7 +71,6 @@
       url = "github:horriblename/fcitx-virtualkeyboard-adapter";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    copyparty.url = "github:9001/copyparty";
 
     # Home Manager
     home-manager = {
@@ -94,7 +93,6 @@
       home-manager-unstable,
       impermanence,
       sops-nix,
-      copyparty,
       ...
     }:
     flake-utils.lib.eachDefaultSystem (
@@ -123,7 +121,6 @@
           inherit
             inputs
             impermanence
-            copyparty
             sops-nix
             home-manager-unstable
             commonOverlays
